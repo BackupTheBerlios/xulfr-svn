@@ -1,0 +1,182 @@
+
+
+<p>XUL possède des éléments qui sont similaires aux champs de formulaires du HTML.</p>
+
+<h2>Les champs de saisie de texte</h2>
+
+<p>Le HTML possède une balise <code class="tag">input</code> pouvant être
+utilisée comme champ de saisie de texte. XUL possède un élément similaire,
+<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a>,
+utilisé comme champ de saisie de texte.
+Sans aucun attribut, l'élément
+<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a> crée une
+boîte dans laquelle l'utilisateur peut entrer du texte. Les boîtes de texte
+acceptent plusieurs attributs similaires à la balise <code class="tag">input</code>
+de l'HTML. En voici quelques uns&nbsp;:</p>
+
+<dl>
+<dt><code class="attribut">id</code></dt>
+<dd>Un identifiant unique permettant d'identifier la boîte de texte.</dd>
+
+<dt><code class="attribut">class</code></dt>
+<dd>La classe du style de la boîte de texte.</dd>
+
+<dt><code class="attribut">value</code></dt>
+<dd>Si vous voulez donner une valeur par défaut à la boîte de texte,
+renseignez l'attribut <code class="attribut">value</code>.</dd>
+
+<dt><code class="attribut">disabled</code></dt>
+<dd>Mettez la valeur <var>true</var> pour empêcher l'insertion de texte.</dd>
+
+<dt><code class="attribut">type</code></dt>
+<dd>Vous pouvez renseigner cet attribut avec la valeur spéciale
+<var>password</var> pour créer une boîte de texte dans laquelle
+tout ce qui est saisi est caché. Il est utilisé habituellement pour les champs de saisie
+de mot de passe.</dd>
+
+<dt><code class="attribut">maxlength</code></dt>
+<dd>Le nombre maximum de caractères que l'on peut saisir dans la boîte de texte.</dd>
+
+</dl>
+
+<p class="note">
+Notez que, tandis qu'en HTML différentes sortes de champs peuvent être créées avec
+l'élément <code class="tag">input</code>, il y a un élément différent pour
+chaque type de champs en XUL. L'exemple suivant montre quelques boîtes de texte&nbsp;:</p>
+
+<p>Exemple 2.4.1&nbsp;:
+<a href="exemples/ex_inputs_1.xul.txt">Source</a>
+<a href="exemples/ex_inputs_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;"
+>Voir</a></p>
+
+<pre><code>&lt;label control="some-text" value="Entrez du texte"/&gt;
+&lt;textbox id="some-text"/&gt;
+&lt;label control="some-password" value="Entrez un mot de passe"/&gt;
+&lt;textbox id="some-password" type="password" maxlength="8"/&gt;
+</code></pre>
+
+<p>Les exemples de boîtes de texte ci-dessus créent des champs de saisie qui ne
+peuvent être utilisés que pour la saisie d'une seule ligne de texte. Le HTML possède aussi
+un élément <code class="tag">textarea</code> pour créer une zone de saisie plus grande.
+Dans XUL, vous pouvez utiliser l'élément
+<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a> de la même fa&ccedil;on -- deux éléments
+distincts ne sont pas nécessaires. Si vous mettez l'attribut
+<code class="attribut">multiline</code> à la valeur <var>true</var>,
+le champ de saisie de texte affichera plusieurs lignes.</p>
+
+<p>Par exemple&nbsp;:</p>
+
+<p>Exemple 2.4.2&nbsp;:
+<a href="exemples/ex_inputs_2.xul.txt">Source</a>
+<a onclick="window.open(this.href,'xulex','chrome,resizable'); return false;"
+href="exemples/ex_inputs_2.xul">Voir</a></p>
+
+<pre><code>&lt;textbox multiline="true"
+           value="Voici du texte qui pourrait s'étaler sur plusieurs lignes."/&gt;</code></pre>
+
+<p>Comme avec la balise <code class="tag">textarea</code> du HTML, vous pouvez
+utiliser les attributs <code class="attribut">rows</code> et
+<code class="attribut">cols</code> pour définir la taille. Ils vous permettent d'ajuster
+le nombre de lignes et de colonnes de caractères à afficher.</p>
+
+<div class="task">
+<p>Maintenant, ajoutons un champ de saisie de recherche à la boîte de
+dialogue de recherche de fichiers. Nous allons utiliser l'élément
+<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a>.</p>
+
+<code><pre><strong>&lt;label value="Chercher :" control="find-text"/&gt;
+&lt;textbox id="find-text"/&gt;</strong>
+
+&lt;button id="find-button" label="Rechercher"/&gt;</pre></code>
+
+<p>Ajoutez ces lignes avant les boutons que nous avons créés dans la section précédente.
+Si vous ouvrez cette fenêtre, vous verrez quelque chose ressemblant à 
+l'image ci-dessous.</p>
+
+<p><img alt="" src="images/inputs1.png"  class="screenshot-right" />
+Notez que l'étiquette et le champ de saisie de texte sont maintenant apparus dans
+la fenêtre. La boîte de texte est complètement fonctionnelle et vous pouvez taper
+et sélectionner du texte dedans. Notez aussi que l'attribut
+<code class="attribut">control</code> a été utilisé. Ainsi, le champ de saisie est
+sélectionnée lorsque l'on clique sur son libellé.</p>
+</div>
+
+<h2>Les cases à cocher et les boutons radio</h2>
+
+<p> Deux éléments supplémentaires sont utilisés pour la création de cases à cocher
+et de boutons radio. Ce sont des variantes de boutons simples. La case à cocher
+est utilisée pour les options qui peuvent être activées ou désactivées. Les boutons
+radio peuvent être utilisés dans un but similaire quand il y a un ensemble de
+boutons où un seul d'entre eux peut-être sélectionné à la fois.</p>
+
+<p>Vous pouvez employer la plupart des attributs des boutons avec les cases à
+cocher et les boutons radio. L'exemple ci-dessous montre des cases à cocher et
+boutons radio simples.</p>
+   
+
+<code><pre>&lt;checkbox id="case-sensitive" checked="true" label="Sensible à la casse"/&gt;
+&lt;radio id="orange" label="Orange"/&gt;
+&lt;radio id="violet" selected="true" label="Violet"/&gt;
+&lt;radio id="yellow" label="Jaune"/&gt;</pre></code>
+
+<p>La première ligne crée une simple case à cocher. Quand 
+  l'utilisateur clique sur la case à cocher, son état coché et décoché s'inverse. 
+  L'attribut <code class="attribut">checked</code> peut 
+  être utilisé pour indiquer l'état par défaut. Il
+  vous faudra l'initialiser soit à <var>true</var>, soit
+  à <var>false</var>. L'attribut <code class="attribut">label</code>
+  peut être utilisé pour ajouter un libellé qui apparaitra
+  à côté de la boîte à cocher. Pour les boutons
+  radio, vous utiliserez l'attribut <code class="attribut">selected</code> à la
+  place de l'attribut <code class="attribut">checked</code>. Initialisez
+  le à <var>true</var> pour avoir un bouton radio sélectionné
+  par défaut, ou ne le mettez pas pour les autres boutons radio.</p>
+
+<p>Pour grouper des boutons radio, vous avez besoin d'utiliser l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>. 
+Un seul bouton radio peut-être
+sélectionné dans un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>.
+Cliquer sur l'un deux désélectionnera tous les autres du même groupe. C'est ce que démontre
+l'exemple suivant.</p>
+
+
+<p>Exemple 2.4.3:
+<a href="exemples/ex_inputs_3.xul.txt">Source</a>
+<a onclick="window.open(this.href,'xulex','chrome,resizable'); return false;"
+href="exemples/ex_inputs_3.xul">Voir</a></p>
+
+<code><pre>&lt;radiogroup&gt;
+  &lt;radio id="orange" label="Orange"/&gt;
+  &lt;radio id="violet" selected="true" label="Violet"/&gt;
+  &lt;radio id="Jaune" label="Jaune"/&gt;
+&lt;/radiogroup&gt;</pre></code>
+
+<p>
+Comme pour les boutons, les cases à cocher et les boutons radio sont constitués 
+d'un libellé et d'une image, où l'image change en fonction de l'état coché ou décoché. 
+Les cases à cocher ont certains attributs communs aux boutons&nbsp;:
+</p>
+
+<dl>
+  <dt><code class="attribut">label</code></dt>
+  <dd>Le libellé de la case à cocher ou du bouton radio.</dd>
+  <dt><code class="attribut">disabled</code></dt>
+  <dd>Mettez la valeur à <var>true</var> ou à <var>false</var>
+   pour désactiver ou activer la case à cocher ou le bouton radio.
+  </dd>
+  <dt><code class="attribut">accesskey</code></dt>
+  <dd>La touche clavier pouvant être utilisée comme raccourci pour sélectionner l'élément.
+    La lettre spécifiée est habituellement soulignée dans le libellé.
+  </dd>
+</dl>
+
+<hr />
+
+<p>Dans la prochaine section, nous allons voir quelques éléments pour la création de
+boîtes de listes.</p>
+
+
+<p>L'exemple de recherche de fichier jusqu'à maintenant&nbsp;:
+<a href="exemples/findfile/findfile-inputs.xul.txt">Source</a>
+<a onclick="window.open(this.href,'xulff','chrome,resizable'); return false;" href="exemples/findfile/findfile-inputs.xul">Voir</a></p>
+

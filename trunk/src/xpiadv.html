@@ -1,0 +1,80 @@
+
+    <p>Cette section décrit quelques spécificités supplémentaires
+      des programmes d'installation.</p>
+
+    <h2>Manipulation de fichiers lors de l'installation</h2>
+
+    <p>La section précédente décrivait un programme d'installation
+      simple. Vous pouvez souhaiter réaliser quelques opérations
+      plus élaborées pendant l'installation. Par exemple, vous voulez
+      installer un paquetage seulement si certaines conditions sont réunies,
+      comme d'avoir une librairie particuli&egrave;re installée.</p>
+    <p>En complément de l'objet <code>Install</code>, l'objet <code>File</code>
+      est également disponible pendant le script d'installation. Il fournit
+      quelques fonctions qui peuvent être employées pour examiner
+      et modifier des fichiers sur le disque. Vous pouvez les utiliser pour déplacer,
+      copier ou effacer des fichiers avant o&ugrave; apr&egrave;s que les fichiers
+      du paquetage soient installés. Par exemple, vous voulez peut être
+      faire une sauvegarde de quelques fichiers d'abord.</p>
+    <p>Le code ci dessous fera une copie du fichier &quot;/bin/grep&quot; dans
+      le répertoire &quot;/main&quot;.</p>
+    <pre><code>var binFolder=getFolder(&quot;file:///&quot;,&quot;bin&quot;);
+var grep=getFolder(binFolder,&quot;grep&quot;);
+
+var mainFolder=getFolder(&quot;file:///&quot;,&quot;main&quot;);
+
+File.copy(grep,mainFolder);</code></pre>
+    <p>La premi&egrave;re ligne va renseigner un pointeur sur le répertoire
+      <var>/bin</var>. Le texte <var>file:///</var> est une cha&icirc;ne de caract&egrave;res
+      spéciale qui correspond &agrave; la racine du syst&egrave;me de fichiers.
+      A partir de ce pointeur, nous récupérons le fichier <var>grep</var>
+      qui se trouve dans le répertoire <var>bin</var>. Si ce fichier n'existe
+      pas, une erreur sera signalée au processus d'installation. Ensuite,
+      nous pointons sur le répertoire <var>main</var>, toujours &agrave;
+      partir de la racine du syst&egrave;me de fichiers. Finalement, nous appelons
+      la fonction <var>File.copy</var> qui copie le fichier source vers
+      sa destination.</p>
+    <p>Des fonctions existent également pour déplacer, renommer
+      et exécuter des fichiers. Ainsi, vous pouvez déplacer des
+      fichiers qui peuvent se trouver en conflit avec votre paquetage.</p>
+
+    <h2>Interception des erreurs</h2>
+    <p>Vous voulez certainement intercepter d'éventuelles erreurs proprement.
+      Cela peut se produire si un fichier ou un répertoire ne peut pas
+      être trouvé, si la capacité du disque n'est pas suffisant
+      ou pour toutes autres raisons.</p>
+    <p>Il vous suffit d'appeler la fonction <code>getLastError</code> pour
+      déterminer si une erreur a été rencontrée. Si
+      elle renvoie <var>SUCCESS</var>, aucune erreur ne s'est produite. Autrement,
+      elle renvoie un nombre qui indique le code d'erreur. Vous pouvez appeler
+      cette fonction en tout point de votre script d'installation pour déterminer
+      si une erreur est survenue lors de la derni&egrave;re opération effectuée.</p>
+    <p>Si une erreur se produit, vous voulez s&ucirc;rement interrompre l'installation.
+      Vous pouvez également vouloir afficher un message d'erreur pour l'utilisateur.
+      Par exemple, vous pourriez mettre le script suivant &agrave; la fin de votre
+      script d'installation&nbsp;:</p>
+    <pre><code>if (getLastError() == SUCCESS){
+   performInstall();
+}
+else {
+   cancelInstall();
+}</code></pre>
+    <p>Les codes d'erreur susceptibles d'être renvoyés par la fonction
+      <code>getLastError</code> sont listés dans le fichier source
+      de Mozilla <a href="http://lxr.mozilla.org/mozilla/source/xpinstall/src/nsInstall.h">nsInstall.h</a>.
+      Pendant l'installation, un suivi d'événements contenant les
+      opérations réalisées est créé. Il contiendra
+      également toutes les erreurs qui se sont produites. Ces événements
+      peuvent être trouvés dans le fichier 'install.log' dans le
+      répertoire d'installation de Mozilla. Un bloc de texte sera ajouté
+      &agrave; ce fichier &agrave; chaque installation effectuée.</p>
+    <p>La fonction <code>logComment</code> peut être utilisée
+      pour écrire un texte dans ce fichier d'événements.
+      Elle nécessite un seul argument qui est le contenu du texte.</p>
+
+      <hr />
+
+    <p>Le Tutoriel XUL est terminé.
+    </p>
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window
+  id="example-window"
+  title="Mammifères du zoo"
+  xmlns:ANIMALS="http://www.some-fictitious-zoo.com/rdf#"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<button label="Cliquez ici pour voir les mammifères du zoo" type="menu"
+        datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals">
+  <template>
+    <rule ANIMALS:specimens="0"></rule>
+    <rule>
+      <menupopup>
+        <menuitem uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+      </menupopup>
+    </rule>
+  </template>
+</button>
+
+</window>
+

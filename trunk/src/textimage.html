@@ -1,0 +1,125 @@
+
+
+<p>Cette section décrit la façon d'ajouter des libellés et des images dans
+une fenêtre. <!--En complément, nous allons regarder comment inclure des élements
+dans des groupes.--></p>
+
+<h2>Éléments de texte</h2>
+
+<p>Vous ne pouvez pas écrire du texte directement dans un fichier XUL
+sans la placer entre des balises, et espérer qu'il s'affiche.</p>
+<p>La façon la plus basique pour inclure du texte dans une fenêtre
+est d'utiliser l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code>. Voici un exemple&nbsp;:</p>
+
+<p>Exemple 2.3.1&nbsp;:
+   <a href="exemples/ex_textimage_1.xul.txt">Source</a>
+   <a href="exemples/ex_textimage_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+
+<pre><code>&lt;label value="ceci est du texte"/&gt;</code></pre>
+
+<p>L'attribut <code class="attribut">value</code> peut être utilisé
+pour spécifier le texte que vous voulez afficher. Le texte ne sera
+pas coupé, et donc apparaîtra sur une seule ligne. C'est adapté
+pour de courtes sections de textes.</p>
+
+<p>Pour les textes plus long, vous pouvez placer le contenu à l'intérieur
+de balises <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code> ouvrantes et fermantes.
+Contrairement au texte spécifié avec l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> 
+et l'attribut <code class="attribut">value</code>, 
+le texte sera coupé en plusieurs lignes si nécessaire.
+Comme en HTML, les sauts de lignes et les espaces en trop seront
+regroupés en un seul espace. Plus tard nous allons voir comment
+définir la taille des éléments, et donc nous pourrons voir
+le découpage.</p>
+
+<p>Exemple 2.3.2&nbsp;:
+   <a href="exemples/ex_textimage_2.xul.txt">Source</a>
+   <a href="exemples/ex_textimage_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+
+<pre><code>&lt;description&gt;
+  Cette longue section de texte est affichée.
+&lt;/description&gt;</code></pre>
+
+<p>Intrinsèquement, les deux éléments 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> et 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code> 
+sont les mêmes, ce qui signifie que les éléments 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> peuvent 
+avoir du texte tronqué si celui-ci est placé à l'intérieur de balises, et que les éléments 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code> 
+peuvent avoir un attribut <code class="attribut">value</code>. Les éléments 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> sont 
+généralement utilisés pour des libellés, tels que ceux des champs de saisie. L'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code> 
+est généralement employé pour d'autres textes descriptifs tels qu'une information placée en 
+haut d'une boîte de dialogue. Par convention, vous devriez suivre ces règles.</p>
+
+<p>Vous pouvez utiliser l'attribut
+<code class="attribut">control</code> pour indiquer à quel contrôle
+il est associé. Quand l'utilisateur cliquera sur le libellé, le contrôle
+aura le focus. Spécifiez la valeur de l'attribut
+<code class="attribut">control</code> avec l'
+<code class="attribut">id</code> de l'élement qui aura le focus.</p>
+
+<p>Exemple 2.3.3&nbsp;:
+   <a href="exemples/ex_textimage_3.xul.txt">Source</a>
+   <a href="exemples/ex_textimage_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+
+<pre><code>&lt;label value="Cliquez ici" control="open-button" /&gt;
+&lt;button id="open-button" label="Ouvrir"/&gt;
+</code></pre>
+
+
+<p>Dans l'exemple du dessus, en cliquant sur le libellé,
+le focus sera mis sur le bouton.</p>
+
+<h2>Les images</h2>
+
+<p>Comme en HTML, XUL a un élement pour afficher des images à l'intérieur
+d'une fenêtre. Cet élement est nommé naturellement
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/image">image</a></code>. Notez
+que le nom de la balise est différent de celle en HTML (<code>image</code> au lieu
+de <code>img</code>). Vous pouvez utiliser l'attribut <code class="attribut">src</code>
+pour indiquer l'URL de l'image. L'exemple suivant le montre&nbsp;:</p>
+
+<pre><code>&lt;image src="images/banner.jpg" /&gt;</code></pre>
+
+
+<p>Bien que vous puissiez utiliser cette syntaxe, il est préférable d'utiliser
+une feuille de style pour spécifier une URL. Une section ultérieure vous décrirera comment 
+<a href="style.html">utiliser des feuilles de styles</a>, mais l'exemple ci-dessous vous 
+permettra d'appréhender le sujet. Vous pouvez utiliser le style CSS <code>list-style-image</code> 
+pour définir l'URL de l'image. Voici des exemples&nbsp;:</p>
+
+<pre><code>XUL :
+&lt;image id="image1"/&gt;
+&lt;image id="search"/&gt;
+
+Feuille CSS :
+#image1 {
+   list-style-image : url(chrome://findfile/skin/banner.jpg);
+}
+#search {
+   list-style-image: url(chrome://findfile/skin/images/search.jpg);
+}
+</code></pre>
+
+
+<p>Ces images proviennent du répertoire chrome, dans le thème du paquetage findfile.
+Parce que les images varient selon les thèmes, vous devriez normalement
+mettre les images dans le répertoire skin.</p>
+<hr />
+
+<p>Dans la section suivante, nous apprendrons comment ajouter des contrôles
+de saisie à une fenêtre.</p>
+
+
+
+
+
+
+

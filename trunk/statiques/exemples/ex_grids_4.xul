@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 4.4.4"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<grid flex="1">
+   <columns>
+     <column flex="5"/>
+     <column/>
+     <column/>
+   </columns>
+   <rows>
+     <row flex="10">
+       <button label="Cerise"/>
+       <button label="Citron"/>
+       <button label="Raisin"/>
+   </row>
+     <row flex="1">
+       <button label="Fraise"/>
+       <button label="Framboise"/>
+       <button label="Pêche"/>
+     </row>
+   </rows>
+</grid>
+
+</window>

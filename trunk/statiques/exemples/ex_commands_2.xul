@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 6.5.2"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<command id="cmd_openhelp" oncommand="alert('Aide');"/>
+<button label="Aide" command="cmd_openhelp"/>
+<button label="Plus d'aide" command="cmd_openhelp"/>
+
+<button label="Désactiver"
+        oncommand="document.getElementById('cmd_openhelp').setAttribute('disabled','true');"/>
+<button label="Activer"
+        oncommand="document.getElementById('cmd_openhelp').removeAttribute('disabled');"/>
+
+
+</window>
+

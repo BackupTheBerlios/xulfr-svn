@@ -1,0 +1,249 @@
+
+<p>
+XUL fournit un moyen de créer des listes tabulaires ou hiérarchiques en utilisant les arbres.
+</p>
+
+<h2>L'élément <code class="tag">tree</code></h2>
+
+<p>
+Un des élément les plus complexe de XUL est l'arbre. Comme une boîte de liste, un arbre  peut
+être utilisé pour une liste d'éléments. L'élément tree peut aussi être utilisé pour créer
+des tables ou des  listes hiérarchiques. Par exemple, la liste de messages d'une application
+de courriels, ou la fenêtre d'édition de favoris dans Mozilla peut être créée avec un arbre.
+</p>
+
+<p>
+L'arbre partage plusieurs fonctionnalités avec les boîtes de liste. Les deux peuvent être
+utilisés pour créer des tables de données multi-lignes et multi-colonnes, et tous deux
+peuvent avoir des entêtes de colonnes. L'arbre peut aussi contenir des lignes imbriquées,
+ce que ne peuvent pas faire les boîtes de liste. Mais les boîtes de liste peuvent contenir
+tout type de contenu, tandis que les arbres peuvent uniquement contenir du texte et des images.
+La boîte de liste a été prévue pour être une alternative plus légère aux arbres pour les cas
+les plus simple, par conséquent préférez les quand vous le pouvez.
+</p>
+
+<p>
+Il y a plusieurs manières de créer le contenu d'un arbre. La plus simple est de mettre les
+items de l'arbre directement avec l'arbre. Nous nous intéresserons à cette méthode dans cette
+section. L'autre méthode, qui est en fait plus commune et intéressante vous autorise à créer
+le contenu de l'arbre depuis une source de données. Cela signifie que l'arbre peut être
+rempli avec des informations provenant de la liste de favoris de l'utilisateur, d'un dictionnaire
+stocké sur un disque, du résultat d'une recherche, ou d'un bon nombre d'autres sources.
+Les arbres peuvent aussi être rempli avec un script. Nous verrons ces deux méthodes dans une
+section ultérieure.
+</p>
+
+<p>
+Les arbres peuvent être créés avec un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code>,
+qui est décrit dans les sections suivantes. Des éléments reliés sont utilisés pour spécifier les
+colonnes et les lignes. De manière similaire aux menus, les éléments sont inclus les uns
+dans les autres. Les éléments qui construisent un arbre sont décrits ensuite :
+</p>
+
+<dl>
+   <dt><code class="tag">tree</code></dt>
+   <dd>Ceci est l'élément racine de l'arbre. Le contenu de l'arbre va dedans.</dd>
+
+   <dt><code class="tag">treecols</code></dt>
+   <dd>Cet élément est un conteneur d'éléments
+   <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>.</dd>
+
+   <dt><code class="tag">treecol</code></dt>
+   <dd>Ceci est utilisé pour déclarer une colonne de l'arbre. En le mettant dedans vous pouvez
+   spécifier des informations sur la manière de trier les données dans la colonne et si
+   l'utilisateur peut changer la taille de celle-ci. Vous devriez toujours placer un attribut
+   <code class="attribut">id</code> sur une colonne.</dd>
+
+   <dt><code class="tag">treechildren</code></dt>
+   <dd>Ceci contient la partie principale de l'arbre où va chaque ligne de données. </dd>
+
+   <dt><code class="tag">treeitem</code></dt>
+   <dd>Ceci contient une ligne et tous ses descendants. Cet élément peut aussi servir d'élément
+   que l'utilisateur pourra sélectionner. Tout, à l'intérieur, pourra être sélectionné
+   comme une unité. Ceci pourra se répercuter sur la ligne entière pour que celle-ci puisse
+   être sélectionnable comme un tout.</dd>
+
+   <dt><code class="tag">treerow</code></dt>
+   <dd>Une seule ligne dans l'arbre, qui pourra être placée dans un élément
+   <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code>.</dd>
+
+   <dt><code class="tag">treecell</code></dt>
+   <dd>Une seule cellule dans un arbre, cet élément doit aller dans un élément
+   <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code>.</dd>
+</dl>
+
+<p>
+Commençons par regarder comment créer une simple table multi-colonnes. Ceci pourrait être utilisé
+pour une liste de courriels. Il pourrait y avoir plusieurs colonnes, comme expediteur, sujet et date.
+</p>
+
+<p>
+Premièrement, la table est encadrée par un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code>.
+Ceci déclare un élément qui est utilisé comme une table ou un arbre. Dans le cas présent nous l'utiliserons
+comme une table.
+</p>
+
+<p>
+Il y a deux parties dans la syntaxe de l'arbre. La première partie est utilisée pour déclarer
+le contenu de l'arbre. Comme les tables HTML, les données sont organisées en lignes. Les données
+de la table sont crées en plaçant une seule ligne ou une ligne de données dans un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>.
+La seconde partie est utilisée pour spécifier quelles colonnes vous souhaitez avoir dans
+l'arbre, avec l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>.
+Ceci rappelle comment les boîte de liste et les grilles sont créées. Vous pouvez spécifier combien
+de lignes vous voulez voir apparaître dans un arbre en précisant l'attribut
+<code class="attribut">row</code> sur l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code>. Cet attribut spécifie
+quelle hauteur doit faire l'arbre dans l'interface utilisateur, pas combien de ligne de données il y a.
+Si il y a plus de lignes de données dans l'arbre, une barre de défilement apparaîtra pour permettre à
+l'utilisateur de voir les autres. Si vous ne spécifiez pas l'attribut <code class="attribut">row</code>,
+la valeur par défaut est <var>0</var>, ce qui signifie qu'aucune ligne n'apparaîtra.
+Dans ce cas, vous devriez rendre l'arbre flexible. Si votre arbre est flexible, il ne
+nécessitera pas d'attribut <code class="attribut">row</code> car il s'adaptera pour remplir
+l'espace disponible.
+</p>
+
+<p>
+Vous pouvez placer autant de colonnes que vous le souhaitez dans un arbre. Comme avec les boîtes
+de liste, une ligne d'entêtes apparaîtra avec les libellés des colonnes. Un menu déroulant
+apparaîtra en haut a droite de l'arbre, que l'utilisateur pourra utiliser pour afficher et cacher
+chaque colonne individuellement.
+</p>
+
+<p>
+Chaque colonne est créée avec l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>.
+Vous pouvez préciser le libellé d'entête en utilisant l'attribut <code class="attribut">label</code>.
+Vous pouvez aussi vouloir faire une colonne flexible si l'arbre est flexible, ainsi les colonnes
+s'étirent en même temps que l'arbre. Toutes les colonnes devraient être placées dans un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecols">treecols</a></code>.
+</p>
+
+<p>
+Le corps de l'arbre est créé avec quatre éléments. L'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code> contient
+toutes les lignes. Dans le corps il y a les lignes, qui peuvent à leur tour contenir d'autres
+lignes. Les arbres avec des lignes imbriquées sont décrits dans la prochaine section. Pour
+un arbre plus simple, chaque ligne est créée avec les éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code> et
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code>. Le premier est
+utilisé pour une ligne et ses lignes filles et le dernier pour une ligne simple.
+</p>
+
+<p>
+À l'intérieur des lignes, vous pourrez mettre des cellules d'arbre. Ceci est créé en utilisant
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecell">treecell</a></code>. Vous
+pouvez préciser le texte pour la cellule en utilisant l'attribut <code class="attribut">label</code>.
+Le premier <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecell">treecell</a></code> d'une
+ligne détermine le contenu qui apparaîtra dans la première colonne, le second
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecell">treecell</a></code> détermine le
+contenu qui apparaîtra dans la seconde colonne, et ainsi de suite.
+</p>
+
+<p>
+L'exemple qui suit montre un arbre créé avec cette syntaxe.
+</p>
+
+<p>
+Exemple 6.3.1: <a href="exemples/ex_6_3_1.xul.txt">Source</a>
+<a href="exemples/ex_6_3_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+
+<pre><code>
+&lt;tree flex="1"&gt;
+ &lt;treecols&gt;
+    &lt;treecol id="expediteur" label="Expéditeur" flex="1"/&gt;
+    &lt;treecol id="sujet" label="Sujet" flex="2"/&gt;
+  &lt;/treecols&gt;
+
+  &lt;treechildren&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="joe@somewhere.com"/&gt;
+        &lt;treecell label="Plans top secret"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="mel@whereever.com"/&gt;
+        &lt;treecell label="Allons manger"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+  &lt;/treechildren&gt;
+&lt;/tree&gt;
+</code></pre>
+
+<p><img src="images/trees1.png" alt="capture d'écran montrant l'exemple 6.3.1" class="screenshot-right" />
+Comme on peut le voir dans l'image, l'arbre à été créé avec deux lignes de données.
+</p>
+
+<p>
+Cet arbre a deux colonnes, la seconde prendra plus de place que la première. On met
+habituellement des colonnes flexibles. Vous pouvez aussi préciser la largeur avec la
+propriété CSS <code>width</code>. Vous devriez inclure le même nombre d'éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code> qu'il n'y a
+de colonnes dans l'arbre. Dans le cas contraire des comportements étranges peuvent survenir.
+</p>
+
+<p>La ligne d'en-têtes est créée automatiquement. Le bouton dans le coin droit peut être utilisé
+pour afficher ou masquer les colonnes. Vous pouvez préciser un attribut
+<code class="attribut">hidecolumnpicker</code> sur l'arbre et lui donner la valeur <var>true</var>
+si vous souhaitez cacher ce bouton. Assurez vous d'avoir donné un attribut
+<code class="attribut">id</code> sur chaque colonne, sinon les actions d'affichage et de masquage
+de colonne ne fonctionneront pas.
+</p>
+
+<p>
+L'utilisateur peut sélectionner les items de l'arbre en cliquant sur eux avec la souris, ou en
+les mettant en valeur avec le clavier. L'utilisateur peut sélectionner plusieurs items en
+gardant les touches <kbd>Shift</kbd> ou <kbd>Control</kbd> appuyées et en cliquant sur d'autres
+items. Pour empecher la sélection multiple, précisez un attribut <code class="attribut">seltype</code>
+sur l'arbre, en lui donnant la valeur <var>single</var>. Avec ça, l'utilisateur ne pourra
+sélectionner qu'une ligne à la fois.
+</p>
+
+<h2>Exemple d'arbre</h2>
+
+<div class="task">
+<p>
+Ajoutons un arbre à la fenêtre de recherche de fichiers à l'endroit où le résultat de la recherche
+devra apparaître. Le code suivant devra être ajouté à la place de l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>.
+</p>
+<p> <a href="exemples/findfile/findfile-trees.xul.txt">Source</a>
+   <a href="exemples/findfile/findfile-trees.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+   </p>
+<pre><code>
+&lt;tree flex="1"&gt;
+  &lt;treecols&gt;
+    &lt;treecol id="nom" label="Nom de fichier" flex="1"/&gt;
+    &lt;treecol id="chemin" label="Chemin" flex="2"/&gt;
+    &lt;treecol id="taille" label="Taille" flex="1"/&gt;
+  &lt;/treecols&gt;
+
+  &lt;treechildren&gt;
+   &lt;treeitem&gt;
+     &lt;treerow&gt;
+       &lt;treecell label="mozilla"/&gt;
+       &lt;treecell label="/usr/local"/&gt;
+       &lt;treecell label="2520 octets"/&gt;
+     &lt;/treerow&gt;
+   &lt;/treeitem&gt;
+  &lt;/treechildren&gt;
+&lt;/tree&gt;
+
+&lt;splitter collapse="before" resizeafter="grow"/&gt;
+</code></pre>
+
+<p>
+Nous avons ajouté un arbre avec trois colonnes pour le nom, le chemin et la taille des fichiers.
+La seconde colonne apparaîtra deux fois plus large grâce à la flexibilité en largeur. Une ligne a
+été ajoutée pour montrer à quoi la table devrait ressembler avec une ligne. Dans une implémentation
+réelle, la ligne devrait être ajoutée par un script pendant que la recherche s'exécute.
+</p>
+</div>
+<hr />
+
+<p>Dans la suite, nous apprendrons comment créer des arbres plus avancés.</p>
+
+
+

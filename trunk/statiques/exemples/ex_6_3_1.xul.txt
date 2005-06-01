@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 6.3.1"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<tree flex="1">
+  <treecols>
+    <treecol id="expediteur" label="Expéditeur" flex="1"/>
+    <treecol id="sujet" label="Sujet" flex="2"/>
+  </treecols>
+
+  <treechildren>
+    <treeitem>
+      <treerow>
+        <treecell label="joe@somewhere.com"/>
+        <treecell label="Plans top secrets"/>
+      </treerow>
+    </treeitem>
+    <treeitem>
+      <treerow>
+        <treecell label="mel@whereever.com"/>
+        <treecell label="Allons manger"/>
+      </treerow>
+    </treeitem>
+  </treechildren>
+</tree>
+
+
+</window>

@@ -1,0 +1,139 @@
+
+
+<p>Une application XUL aura souvent besoin d'afficher des boîtes de dialogues. Cette
+section décrit comment on peut les construire.</p>
+
+<h2>Créer une boîte de dialogue</h2>
+
+<p>La fonction open est utilisée pour ouvrir une fenêtre. Une fonction
+apparentée est <code>openDialog</code>. Cette fonction a plusieurs grandes
+différences. Elle affiche une boîte de dialogue au lieu d'une fenêtre, ce qui
+implique qu'elle demande quelque chose à l'utilisateur. Elle peut avoir des
+différences subtiles dans sa manière de fonctionner et d'apparaître à
+l'utilisateur. Ces différences varient sur chaque plate-forme.</p>
+
+<p>De plus, la fonction <code>openDialog</code> peut prendre des arguments
+additionnels en plus des trois premiers. Ces arguments sont passés à la nouvelle
+boîte de dialogue et placés dans un tableau stocké dans la propriété <code
+class="attribut">arguments</code> de la nouvelle fenêtre. Vous pouvez passer
+autant d'arguments que nécessaire. C'est un moyen pratique de fournir des
+valeurs par défaut aux champs de la boîte de dialogue.</p>
+
+<pre><code>
+
+var somefile=document.getElementById('enterfile').value;
+
+window.openDialog("chrome://findfile/content/showdetails.xul","showmore",
+                  "chrome",somefile);
+
+</code></pre>
+
+<p>Dans cet exemple la boîte de dialogue <var>showdetails.xul</var> sera
+affichée.  Un argument lui sera fourni, <var>somefile</var>, issu de la valeur
+d'un élément d'id <var>enterfile</var>. Dans un script utilisé par la boîte de
+dialogue, nous pouvons alors faire référence à l'argument en utilisant la
+propriété <code class="attribut">arguments</code> de la fenêtre. Par exemple&nbsp;:</p>
+
+<pre><code>
+
+var fl=window.arguments[0];
+
+document.getElementById('thefile').value=fl;
+
+</code></pre>
+
+<p>C'est un moyen efficace de passer des valeurs à la nouvelle fenêtre. Vous
+pouvez renvoyer des valeurs de la fenêtre ouverte vers la fenêtre originelle de
+deux manières. La première, vous pouvez utiliser la propriété <code
+class="attribut">window.opener</code> qui contient la fenêtre qui a ouvert la
+boîte de dialogue. La seconde, vous pouvez passer une fonction ou un objet en
+argument, puis appeler la fonction ou modifier l'objet dans la boîte de dialogue
+ouverte.</p>
+
+<h2>L'élément dialog</h2>
+
+<p>L'élément <code class="tag"><a
+href="http://www.xulfr.org/wiki/Reference/Xul/dialog">dialog</a></code> doit
+être utilisé à la place de l'élément <code class="tag"><a
+href="http://www.xulfr.org/wiki/Reference/Xul/window">window</a></code> à la
+création d'une boîte de dialogue. Il offre la possibilité utile de construire
+jusqu'à quatre boutons au bas de la boîte de dialogue, pour OK, Annuler, etc..
+Vous n'avez pas besoin d'inclure le XUL pour chaque bouton mais vous devez
+fournir le code à exécuter quand l'utilisateur presse chaque bouton. Ce
+mécanisme est nécessaire car les différentes plates-formes ont un ordre spécifique
+d'apparition des boutons.</p>
+
+<p>Exemple 11.2.1 :
+<a href="exemples/ex_dialogs_1.xul.txt">Source</a>
+<a href="exemples/ex_dialogs_1.xul"
+onclick="window.open(this.href,'xulex','chrome,resizable'); return
+false;">Voir</a></p>
+
+<pre><code>
+
+&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?&gt;
+
+&lt;dialog id="donothing" title="Ne fait rien"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept,cancel"
+        ondialogaccept="return doOK();"
+        ondialogcancel="return doCancel();"&gt;
+
+&lt;script&gt;
+function doOK()
+{
+  alert("Vous avez appuyé sur OK !");
+  return true;
+}
+
+function doCancel()
+{
+  alert("Vous avez appuyé sur Annuler !");
+  return true;
+}
+&lt;/script&gt;
+
+&lt;description value="Veuillez sélectionner un bouton"/&gt;
+
+&lt;/dialog&gt;
+
+</code></pre>
+
+<p>Vous pouvez placer tous les éléments que vous souhaitez dans une boîte de
+dialogue. L'élément <code class="tag"><a
+href="http://www.xulfr.org/wiki/Reference/Xul/dialog">dialog</a></code> a des
+attributs additionnels que les fenêtres n'ont pas. L'attribut <code
+class="attribut">buttons</code> est
+utilisé pour spécifier quels boutons doivent apparaître dans la boîte de
+dialogue. Les valeurs suivantes peuvent être utilisées, séparées par des
+virgules&nbsp;:</p>
+
+<ul>
+<li><var>accept</var> - un bouton OK</li>
+<li><var>cancel</var> - un bouton Annuler</li>
+<li><var>help</var> - un bouton Aide</li>
+<li><var>disclosure</var> - un bouton d'information, utilisé pour montrer plus
+d'informations.</li>
+</ul>
+
+<p>Vous pouvez faire exécuter du code à l'appui des boutons en utilisant les
+attributs <code class="attribut">ondialogaccept</code>, <code
+class="attribut">ondialogcancel</code>, <code class="attribut">ondialoghelp
+</code> et <code class="attribut">ondialogdisclosure</code>. Si vous essayez
+l'exemple ci-dessus, vous remarquerez que la fonction <code>doOK</code> est
+appelée quand le bouton OK est pressé et la fonction <code>doCancel</code> quand
+le bouton Annuler est pressé.</p>
+
+<p>Les deux fonctions <code>doOK</code> et <code>doCancel</code> renvoient
+<var>true</var>, ce qui indique que la boîte de dialogue doit être fermée. Si
+<var>false</var> était renvoyé, la boîte de dialogue resterait ouverte. Cela
+pourrait être utilisé dans le cas où une valeur invalide serait entrée dans un
+champ de la boîte de dialogue.</p>
+<hr />
+
+<p>Dans la prochaine section, nous allons voir comment ouvrir des boîtes de
+dialogue de sélection de fichiers.</p>
+
+

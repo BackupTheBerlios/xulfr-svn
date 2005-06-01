@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Des choses"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<tree flex="1">
+  <treecols>
+      <treecol id="utilite" label="choses" primary="true" flex="1" />
+  </treecols>
+
+  <treechildren>
+    <treeitem container="true" open="true">
+      <treerow>
+        <treecell label="Mes possessions favorites"/>
+      </treerow>
+
+      <treechildren>
+        <treeitem>
+          <treerow>
+            <treecell label="Gouttes de pluie sur les roses"/>
+          </treerow>
+        </treeitem>
+        <treeitem>
+          <treerow>
+            <treecell label="Moufles tièdes en laine"/>
+          </treerow>
+        </treeitem>
+        <treeitem>
+          <treerow>
+            <treecell label="Papier d'emballage marron"/>
+          </treerow>
+        </treeitem>
+      </treechildren>
+    </treeitem>
+    
+    <treeitem container="true" open="false">
+      <treerow>
+        <treecell label="Les choses que je déteste"/>
+      </treerow>
+
+      <treechildren>
+        <treeitem>
+          <treerow>
+            <treecell label="Le téléphone portable"/>
+          </treerow>
+        </treeitem>
+      </treechildren>
+    </treeitem>
+    
+    <treeitem container="true" open="true">
+      <treerow>
+        <treecell label="Des choses pour lesquelles je n'ai pas d'opinion"/>
+      </treerow>
+
+      <treechildren>
+        <treeitem>
+          <treerow>
+            <treecell label="La sacralisation d'Elvis"/>
+          </treerow>
+        </treeitem>
+        <treeitem>
+          <treerow>
+            <treecell label="Les outils de ramonage"/>
+          </treerow>
+        </treeitem>
+      </treechildren>
+    
+    </treeitem>
+  </treechildren>
+</tree>
+</window>

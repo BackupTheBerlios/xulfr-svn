@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 9.2.2"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<vbox datasources="rdf:bookmarks" ref="NC:BookmarksRoot" flex="1">
+  <template>
+    <vbox uri="rdf:*">
+      <button label="rdf:http://home.netscape.com/NC-rdf#Name"/>
+      <label value="rdf:http://home.netscape.com/NC-rdf#URL"/>
+    </vbox>
+  </template>
+</vbox>
+
+
+</window>
+

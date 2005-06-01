@@ -1,0 +1,458 @@
+diff -uN xultu/test.html /main/xultu/output/xultu/test.html
+--- xultu/test.html 2005-03-18 18:08:25.014317566 -0500
++++ /main/xultu/output/xultu/test.html  1969-12-31 19:00:00.000000000 -0500
+@@ -1,4 +0,0 @@
+-<html>
+-Test
+-</html>
+-
+diff -uN xultu/trees.html /main/xultu/output/xultu/trees.html
+--- xultu/trees.html    2005-03-18 18:08:25.793135296 -0500
++++ /main/xultu/output/xultu/trees.html 2005-03-18 18:12:06.194547990 -0500
+@@ -2,7 +2,7 @@
+
+   $pagebase="<a href='http://www.xulplanet.com/tutorials/'>Tutorials</a> &gt; " .
+     "<a href='http://www.xulplanet.com/tutorials/xultu/'>XUL Tutorial</a>";
+-  $pagetitle="6.3 - Trees";
++  $pagetitle="8.1 - Trees";
+   $customsidebar = "xultu-sidebar.php";
+
+
+@@ -13,11 +13,11 @@
+
+ <div class="navlinks-pnc">
+
+-  <a class="prevlink" title="6.2 - More Listbox Features"
+-     href="morelists.html">Previous</a>
++  <a class="prevlink" title="7.6 - XPCOM Examples"
++     href="xpcomex.html">Previous</a>
+
+
+-  <a class="nextlink" title="6.4 - More Tree Features"
++  <a class="nextlink" title="8.2 - More Tree Features"
+      href="advtrees.html">Next</a>
+
+ </div>
+@@ -30,63 +30,187 @@
+ XUL provides a way to create tabular or hierarchical lists using a tree.
+ </P>
+
+-<H3>The Tree Elements</H3>
++<H3>The Tree</H3>
+
+ <P>
+-One of the more complex elements in XUL is the tree. Like a listbox. a tree may
+-be used for creating lists of items. The tree element may also used for creating
+-hierarchical lists and tables. For example, the list of messages in a mail
+-application, or the Edit Bookmarks window in Mozilla can be created using a tree.
++One of the more complex elements in XUL is the tree. A tree may be used to display
++rows of text in columns. It can be used with rows either in a flat list or arranged
++into a hierarchy. A tree also allows the user to rearrange, resize and hide individual
++columns. Some examples of trees include the list of messages in a mail application, or
++the Bookmarks window in Mozilla.
+ </P>
+
+ <P>
+-The tree has many of the same features as the listbox. Both can be used to create
+-tables of data with multiple rows and columns, and both may contain column headers.
+-The tree also supports nested rows, whereas the listbox does not. However, listboxes
+-may contain any type of content, whereas trees may only contain text and images.
+-The listbox is intended to be a lightweight alternative to the tree, for simpler
+-cases, so use it instead when you can.
++In some ways, a tree has some similarities with the <A CLASS="tag" HREF="/references/elemref/ref_listbox.html">listbox</A>.
++Both can be used to create tables of data with multiple rows and columns, and both may
++contain column headers. The tree also supports nested rows, whereas the listbox does
++not. However, listboxes may contain any type of content, whereas trees may only contain
++text and images.
+ </P>
+
+-<P>
+-There are several ways that the contents of a tree can be created. The simplest is
+-by putting tree items directly within the tree element. We'll look at this method
+-in this section. The other method, which is actually more common and useful allows
+-you to create the tree contents from a data source. This means that the tree can be
+-filled with information from the user's bookmark list, from a directory on disk,
+-or from the results of a search, or a number of other places. Trees may also be
+-populated with a script. We'll see these latter two methods in later sections.
++<P>
++A tree consists of two parts, the set of columns, and the tree body. The set of columns
++is defined by a number of <A CLASS="tag" HREF="/references/elemref/ref_treecol.html">treecol</A> elements, one for each
++column. Each column will appear as a header at the top of the tree. The second part, the
++tree body, contains the data to appear in the tree and is created with a
++<A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> tag.
++</P>
++
++<P>
++The tree is unique in that the body of the tree consists only of a single widget which
++draws all of the data in the tree. This contrasts with the listbox, where individual
++<A CLASS="tag" HREF="/references/elemref/ref_listitem.html">listitem</A> and <A CLASS="tag" HREF="/references/elemref/ref_listcell.html">listcell</A> tags are used
++to specify the rows in the listbox. In a tree, all of the data to be displayed is
++supplied by a separate object, called a tree view. When it comes time to display a
++cell, the tree widget will call out to this tree view to determine what to display,
++which in turn will be drawn by the tree. The tree is smart enough to only ask for
++information from the view for those rows that need to be displayed. This allows the
++view to be optimized such that it only needs to load the data for displayed content.
++For instance, a tree might have thousands of rows, yet most of them will be scrolled
++off the border of the tree, hidden from view. This means that the tree is scalable to
++any number rows without any performance problems. Of course, this is independant of
++the performance of the view object itself.
++</P>
++
++<P>
++A tree view is an object which implements the
++<A HREF="http://xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">nsITreeView</A>
++interface. This interface contains thirty properties and functions which you may
++implement. These functions will be called by the tree as necessary to retrieve data
++and state about the tree. For instance, the getCellText function will be called to get
++the label for a particular cell in the tree.
++</P>
++
++<P>
++An advantage of using a view is that it allows the view to store the data in a manner
++which is more suitable for the data, or to load the data on demand as rows are
++displayed. This allows more flexibility when using trees.
+ </P>
+
+ <P>
++Naturally, having to implement a tree view with thirty or so properties and methods for
++every tree can be very cumbersome, especially for simple trees. Fortunately, XUL
++provides a couple of built-in view implementations which do most of the hard work for
++you. For most trees, especially when you first start to use trees, you will use one
++of these built-in types. However, you can create a view entirely from scratch if
++necessary. If you do, you might store the data in an array or JavaScript data
++structure, or load the data from an XML file.
++</P>
++
++<P>
++Since the entire body of the tree is a single widget, you can't change the style of
++individual rows or cells in the normal way. This is because there are no elements that
++display the individual cells, like there is with the listbox. Instead, all drawing
++is done by the tree body using data supplied by the view. This is an important point
++and many XUL developers have trouble understanding this aspect. To modify the
++appearance of a tree cell, the view must instead associate a set of keywords for a row
++and cell. A special CSS syntax is used which styles components of the tree body with
++those keywords. In a sense, it is somewhat like using CSS classes. Tree styling will be
++discussed in detail in a later section.
++</P>
++
++<H3>Tree Elements</H3>
++
++<P>
+ Trees can be created with the <A CLASS="tag" HREF="/references/elemref/ref_tree.html">tree</A> element, which is
+-decribed in the following sections. Related elements are used to specify columns
+-and rows. Much like menus, each element is nested inside each other. The elements
+-that make up a tree are described briefly below:
++described in the following sections. There are also two elements used to define the
++columns to be displayed in the tree.
+ </P>
+
+ <UL>
+   <LI><DIV CLASS="tag">tree</DIV>
+-      This is the outer element of a tree. The content of the tree goes in here.
++      This is the outer element of a tree.
+   </LI>
+   <LI><DIV CLASS="tag">treecols</DIV>
+-      This element is a placeholder for <A CLASS="tag" HREF="/references/elemref/ref_treecol.html">treecol</A>
++      This element is a placeholder for a set of <A CLASS="tag" HREF="/references/elemref/ref_treecol.html">treecol</A>
+       elements.
+   </LI>
+   <LI><DIV CLASS="tag">treecol</DIV>
+-      This is used to declare a column of the tree. By putting these in you
++      This is used to declare a column of the tree. By using this element, you
+       can specify additional information about how the data in the columns
+       are sorted and if the user can resize the columns. You should always
+-      place an <SPAN CLASS="attrib">id</SPAN> attribute on a column.
++      place an <SPAN CLASS="attrib">id</SPAN> attribute on a column, as Mozilla
++      uses the ids to identify the columns when rearranging and hiding them. This
++      is no longer required in Mozilla 1.8 and later, but it is still a good idea
++      to use ids on columns.
+   </LI>
+   <LI><DIV CLASS="tag">treechildren</DIV>
+-      This contains the main part of the tree where the individual rows of data go.
++      This contains the main body of the tree where the individual rows of data will
++      be displayed.
+   </LI>
++</UL>
++
++<P>
++Here is an example of a tree with two columns:
++</P>
++
++
++Example 8.1.1:
++<A HREF='examples/ex_trees_1.xul.txt'>Source</A>
++<A HREF="examples/ex_trees_1.xul" ONCLICK="window.open('examples/ex_trees_1.xul','xulex','chrome,resizable'); return false;">View</A>
++<DIV CLASS="example"><PRE>&lt;tree flex="1"&gt;
++  &lt;treecols&gt;
++    &lt;treecol id="nameColumn" label="Name" flex="1"/&gt;
++    &lt;treecol id="addressColumn" label="Address" flex="2"/&gt;
++  &lt;/treecols&gt;
++  &lt;treechildren/&gt;
++&lt;/tree&gt;</PRE></DIV>
++
++
++
++<P>
++First, the entire table is surrounded with a <A CLASS="tag" HREF="/references/elemref/ref_tree.html">tree</A>
++element. This declares an element that is used as a table or tree. As with HTML tables,
++the data in a tree is always organized into rows. The columns are specified using the
++<A CLASS="tag" HREF="/references/elemref/ref_treecols.html">treecols</A> tag.
++</P>
++
++<P>
++You may place as many columns as you wish in a tree. As with listboxes, a
++header row will appear with column labels. A drop-down menu will appear in the
++upper-right corner of the tree, which the user may use to show and hide individual
++columns. Each column is created with a <A CLASS="tag" HREF="/references/elemref/ref_treecol.html">treecol</A> element. You
++can set the header label using the <SPAN CLASS="attrib">label</SPAN> attribute. You
++may also want to make the columns flexible if your tree is flexible, so that the
++columns stretch as the tree does. In this example, the second column will be twice as
++wide as the first column. All of the columns should be placed directly inside a
++<A CLASS="tag" HREF="/references/elemref/ref_treecols.html">treecols</A> element.
++</P>
++
++<P>
++In this case we haven't specified a view to supply the tree's data, so we'll only
++see column headers and an empty tree body. You may have to resize the window to see
++anything since there isn't any data to display. Since the tree has been marked as
++flexible, the body will stretch to fit the available space. Making a tree flexible is
++quite commonly done, as it is often the case that the data in the tree is the most
++significant information displayed, so it makes sense to make the tree grow to fit.
++However, you may specify a specific number of rows to appear in a tree by setting the
++<SPAN CLASS="attrib">rows</span> attribute on the
++<A CLASS="tag" HREF="/references/elemref/ref_tree.html">tree</A> element. This attribute specifies how many rows are
++displayed in the user interface, not how many rows of data there are. The total number
++of rows is supplied by the tree view. If there are more rows of data in the tree, a
++scrollbar will appear to allow the user to see the rest of them. If you don't specify
++the <SPAN CLASS="attrib">rows</span> attribute, the default value is 0, which means
++that none of the rows will appear. In this case, you would make the tree flexible. If
++your tree is flexible, it doesn't need a <SPAN CLASS="attrib">rows</span> attribute
++since it will grow to fit the available space.
++</P>
++
++<H3>The Content Tree View</H3>
++
++<P>
++Having said that the data to be displayed in a tree comes from a view and not from XUL
++tags, there happens to be a built-in tree view which gets its data from XUL tags. This
++may be a bit confusing, but essentially, one of the built-in tree views uses a set of
++tags which can be used to specify information about the data in the tree. The following
++tags are used:
++</P>
++
++<UL>
+   <LI><DIV CLASS="tag">treeitem</DIV>
+       This contains a single top level row and all its descendants. This element
+-      also serves as the item which can be selected by the user. Everything inside
+-      here can be selected as a unit. This would go around the entire row so that
+-      the entire row is selectable as a whole.
++      also serves as the item which can be selected by the user. The treeitem tag
++      would go around the entire row so that it is selectable as a whole.
+   </LI>
+   <LI><DIV CLASS="tag">treerow</DIV>
+       A single row in the tree, which should be placed inside a
+@@ -99,77 +223,56 @@
+ </UL>
+
+ <P>
+-Let's start by looking at how to create a simple table with multiple columns.
+-This could be used to create a list of mail messages. There might be multiple
+-columns, such as sender, subject and date.
++Conveniently, these tags may be placed directly inside the
++<A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> tag, nested in the order above. The tags define
++the data to be displayed in the tree body. In this case, the tree uses the built-in
++tree view, called a content tree view, which uses the labels and values specified on
++these elements as the data for the tree. When the tree needs to display a row, the tree
++asks the content tree view for a cell's label by calling the view's getCellText
++function, which in turn gets the data from the label of the appropriate
++<A CLASS="tag" HREF="/references/elemref/ref_treecell.html">treecell</A>.
+ </P>
+
+ <P>
+-First, the entire table is surrounded with a <A CLASS="tag" HREF="/references/elemref/ref_tree.html">tree</A>
+-element. This declares an element that is used as a table or tree. In this case,
+-we'll use it like a table.
++However, the three elements listed above are not displayed directly. They are used
++only as the source for the data for the view. Thus, only a handful of attributes apply
++to the <A CLASS="tag" HREF="/references/elemref/ref_treeitem.html">treeitem</A> and related elements. For instance, you cannot
++change the appearance of the tree rows using the <SPAN CLASS="attrib">style</SPAN>
++attribute or with other CSS properties and the box related features such as flexibility
++and orientation cannot be used.
+ </P>
+
+ <P>
+-There are two parts to a tree's syntax. The first part is used to declare the
+-content of the tree. Like HTML tables, the data is organized into rows. The
+-table data is created by placing a single row or rows of data inside a
+-<A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> element. The second part is used to
+-specify what columns you want in a tree, using the
+-<A CLASS="tag" HREF="/references/elemref/ref_treecols.html">treecols</A> tag. This is much like how listboxes and the
+-grids are created. You can specify how many rows you want to appear in a tree by
+-setting the <SPAN CLASS="attrib">rows</span> attribute on the
+-<A CLASS="tag" HREF="/references/elemref/ref_tree.html">tree</A> element. This attribute specifies how tall the tree
+-appears in the user interface, not how many rows of data there are. If there are more
+-rows of data in the tree, a scrollbar will appear to allow the user to see the rest
+-of them. If you don't specify the <SPAN CLASS="attrib">rows</span> attribute, the
+-default value is 0, which means that none of the rows will appear. In this case, you
+-would make the tree flexible. If your tree is flexible, it doesn't need a
+-<SPAN CLASS="attrib">rows</span> attribute since it will grow to fit the available space.
++In fact, apart from some tree specific attributes, the only attributes that will have
++any effect will be the <SPAN CLASS="attrib">label</SPAN> attribute to set a text label
++for a cell and the <SPAN CLASS="attrib">src</SPAN> attribute to set an image. However,
++there are special ways of styling the tree and setting other features which we will
++see in later sections.
+ </P>
+
+ <P>
+-You may place as many columns as you wish in a tree. Like with listboxes, a
+-header row will appear with column labels. A drop-down menu will appear in the
+-upper-right corner of the tree, which the user may use to show and hide individual
+-columns.
++Also, events do not get sent to <A CLASS="tag" HREF="/references/elemref/ref_treeitem.html">treeitem</A> element and their
++children; instead they get sent to the <A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> element.
+ </P>
+
+ <P>
+-Each column is created with a <A CLASS="tag" HREF="/references/elemref/ref_treecol.html">treecol</A> element. You can
+-set the header label using the <SPAN CLASS="attrib">label</SPAN> attribute. You
+-may also want to make the columns flexible if your tree is flexible, so that the
+-columns stretch as the tree does. All of the columns should be placed directly
+-inside a <A CLASS="tag" HREF="/references/elemref/ref_treecols.html">treecols</A> element.
++That the treeitems are unlike other XUL elements is a common source of confusion for
++XUL developers. Essentially, the tree content view is a view where the data for the
++cells is supplied from tags placed inside the tree. Naturally, if you are using a
++different kind of view, the data will be supplied from another source, and there
++won't be any  <A CLASS="tag" HREF="/references/elemref/ref_treeitem.html">treeitem</A> elements at all.
+ </P>
+
+ <P>
+-The body of the tree is created using four elements. The
+-<A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> element surrounds all of the rows. Inside
+-the body are individual rows, which may in turn contain other rows. Trees
+-with nested rows are described in the next section. For a simpler tree, each row
+-is created with the <A CLASS="tag" HREF="/references/elemref/ref_treeitem.html">treeitem</A> and
+-<A CLASS="tag" HREF="/references/elemref/ref_treerow.html">treerow</A> elements. The former is used for a row and its
+-child rows and the latter is used for a single row.
++Let's start by looking at how to create a simple tree with multiple columns using the
++tree content view. This could be used to create a list of mail messages. There might be
++multiple columns, such as the sender and the subject.
+ </P>
+
+-<P>
+-Inside the rows, you will put individual tree cells. These are created using the
+-<A CLASS="tag" HREF="/references/elemref/ref_treecell.html">treecell</A> element. You can set the text for the cell
+-using the <SPAN CLASS="attrib">label</SPAN> attribute. The first
+-<A CLASS="tag" HREF="/references/elemref/ref_treecell.html">treecell</A> in a row determines the content that will
+-appear in the first column, the second <A CLASS="tag" HREF="/references/elemref/ref_treecell.html">treecell</A>
+-determines the content that will appear in the second column, and so on.
+-</P>
+
+-<P>
+-The sample below shows a tree created with the syntax so far.
+-</P>
+-
+-
+-Example 6.3.1:
+-<A HREF='examples/ex_6_3_1.xul.txt'>Source</A>
+-<A HREF="examples/ex_6_3_1.xul" ONCLICK="window.open('examples/ex_6_3_1.xul','xulex','chrome,resizable'); return false;">View</A>
++Example 8.1.2:
++<A HREF='examples/ex_trees_2.xul.txt'>Source</A>
++<A HREF="examples/ex_trees_2.xul" ONCLICK="window.open('examples/ex_trees_2.xul','xulex','chrome,resizable'); return false;">View</A>
+ <DIV CLASS="example"><PRE>&lt;tree flex="1"&gt;
+   &lt;treecols&gt;
+     &lt;treecol id="sender" label="Sender" flex="1"/&gt;
+@@ -201,10 +304,10 @@
+
+ <P>
+ This tree has two columns, the second of which will take up more space than
+-the first. You will usually make the columns flexible You can also supply widths
+-with the CSS <SPAN CLASS="attrib">width</SPAN> property. You should include the
++the first. You will usually make the columns flexible. You can also supply widths
++with the <SPAN CLASS="attrib">width</SPAN> attribute. You should include the
+ same number of <A CLASS="tag" HREF="/references/elemref/ref_treecol.html">treecol</A> elements as there are columns in
+-the tree. Otherwise strange things will happen.
++the tree. Otherwise strange things might happen.
+ </P>
+
+ <P>
+@@ -212,8 +315,31 @@
+ be used to hide and show the columns. You can place a
+ <SPAN CLASS="attrib">hidecolumnpicker</SPAN> attribute on the
+ tree and set it to <SPAN CLASS="aval">true</SPAN> if you would like to hide this
+-button. Make sure that you set an <SPAN CLASS="attrib">id</SPAN> attribute on each
+-column or the hiding and showing of columns will not work.
++button. If this button is hidden, the user will not be able to hide columns.
++</P>
++
++<P>
++Make sure that you set an <SPAN CLASS="attrib">id</SPAN> attribute on each
++column or the hiding and showing of columns will not work in all versions of Mozilla.
++</P>
++
++<P>
++The <A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> element surrounds all of the rows. Inside
++the body are individual rows, which may in turn contain other rows. For a simpler tree,
++each row is created with the <A CLASS="tag" HREF="/references/elemref/ref_treeitem.html">treeitem</A> and
++<A CLASS="tag" HREF="/references/elemref/ref_treerow.html">treerow</A> elements. The
++<A CLASS="tag" HREF="/references/elemref/ref_treerow.html">treerow</A> element surrounds all of the cells in a single row,
++while a <A CLASS="tag" HREF="/references/elemref/ref_treeitem.html">treeitem</A> element would surround a row and all of its
++children. Trees with nested rows are described in the next section.
++</P>
++
++<P>
++Inside the rows, you will put individual tree cells. These are created using the
++<A CLASS="tag" HREF="/references/elemref/ref_treecell.html">treecell</A> element. You can set the text for the cell
++using the <SPAN CLASS="attrib">label</SPAN> attribute. The first
++<A CLASS="tag" HREF="/references/elemref/ref_treecell.html">treecell</A> in a row determines the content that will
++appear in the first column, the second <A CLASS="tag" HREF="/references/elemref/ref_treecell.html">treecell</A>
++determines the content that will appear in the second column, and so on.
+ </P>
+
+ <P>
+@@ -231,8 +357,8 @@
+
+ <P>
+ Let's add a tree to the find files window where the results of the search
+-would be displayed. The following code should be added in place of the
+-iframe.
++would be displayed. The tree will use a content tree view. The following code
++should be added in place of the iframe.
+ </P>
+
+
+@@ -263,7 +389,8 @@
+ the file size. The second column will appear twice as wide due to the
+ larger flexibility. A single row has been added to demonstrate what the
+ table would look like with a row. In a real implementation, the rows
+-would be added by a script as the search was performed.
++would be added by a script as the search was performed, or a custom
++view would be created to hold the data.
+ </P>
+
+ </DIV>
+@@ -277,7 +404,8 @@
+ <P>
+
+ Examples:
+-  <A HREF='examples/ex_6_3_1.xul.txt'>6.3.1</A>
++  <A HREF='examples/ex_trees_1.xul.txt'>8.1.1</A>
++  <A HREF='examples/ex_trees_2.xul.txt'>8.1.2</A>
+ </P>
+ <P>Find files example so far:
+ <A HREF='examples/findfile/findfile-trees.xul.txt'>Source</A>
+@@ -285,11 +413,11 @@
+ </P>
+ <div class="navlinks-pnc">
+
+-  <a class="prevlink" title="6.2 - More Listbox Features"
+-     href="morelists.html">Previous</a>
++  <a class="prevlink" title="7.6 - XPCOM Examples"
++     href="xpcomex.html">Previous</a>
+
+
+-  <a class="nextlink" title="6.4 - More Tree Features"
++  <a class="nextlink" title="8.2 - More Tree Features"
+      href="advtrees.html">Next</a>
+
+ </div>
+

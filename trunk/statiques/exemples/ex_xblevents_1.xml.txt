@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:xbl="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<binding id="clipbox">
+  <content>
+    <xul:textbox/>
+  </content>
+  <implementation>
+    <field name="clipboard"/>
+  </implementation>
+  <handlers>
+    <handler event="keypress" key="x" modifiers="control"
+      action="this.clipboard=document.getAnonymousNodes(this)[0].value; document.getAnonymousNodes(this)[0].value='';"/>
+    <handler event="keypress" key="c" modifiers="control"
+      action="this.clipboard=document.getAnonymousNodes(this)[0].value;"/>
+    <handler event="keypress" key="v" modifiers="control"
+      action="document.getAnonymousNodes(this)[0].value=this.clipboard ? this.clipboard : '';"/>
+  </handlers>
+</binding>
+
+
+</bindings>

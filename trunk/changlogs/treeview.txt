@@ -1,0 +1,34 @@
+  <H3>Creating a Custom View</H3>
+
+ <P>
+-So far, we have seen two ways to specify the content of a tree. You may place
+-static rows and cells inside a tree, or you use an RDF datasource. The first
+-method works fine provided you have a small amount of data to present. Using
+-a datasource is suitable when one is available, either one provided with
+-Mozilla or one you create yourself. In some cases, you may want to store the
+-data is some other format, or perform computations on the data. XUL provides
+-a third method, which involves creating a custom view object with a script.
++So far, we have only been using the built-in content tree view. In this section,
++we will look at creating a custom view. This is necessary when the amount of data
++is large or arranged in a complex way. For instance, it just wouldn't be viable
++performance-wise to use treeitems when there are several thousand rows. You might
++also implement a custom view when you want to perform computations on the data
++to be displayed. Since the view can store and retrieve the data in the most suitable
++manner for the kind of data used, the tree can be used even when there are hundreds
++of thousands of rows to be displayed.
+ </P>
+
+ <P>
+-This method can be used to hold data for hundreds of thousands of rows which
+-the tree can display instantly. To do this, implement a tree just as before
+-but leave the <A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> element empty. The
+-following example shows this:
++To implement a custom view, you will need to create an object which implements the
++<A HREF="http://xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">nsITreeView</A>
++interface. You can create these objects in JavaScript, but you will need a separate
++object for each tree. Naturally, since a custom tree view is being used, the content
++tree view will not be used, so the treeitem, treerow, and treecell elements will have
++no purpose since the custom view will get its data from elsewhere. Thus, you can just
++leave the <A CLASS="tag" HREF="/references/elemref/ref_treechildren.html">treechildren</A> element empty. The following example
++shows this:
+ </P>
