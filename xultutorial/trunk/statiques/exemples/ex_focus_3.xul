@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="focus-example" title="Focus Example"
+        onload="init();"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function init()
+{
+  addEventListener("focus",setFocusedElement,true);
+}
+
+function setFocusedElement()
+{
+  var focused = document.commandDispatcher.focusedElement;
+  document.getElementById("focused").value = focused.tagName;
+}
+</script>
+
+<hbox>
+  <label control="username" value="User Name:"/>
+  <textbox id="username"/>
+</hbox>
+
+<button label="Hello"/>
+<checkbox label="Remember This Decision"/>
+
+<label id="focused" value="-No focus-"/>
+
+</window>
+

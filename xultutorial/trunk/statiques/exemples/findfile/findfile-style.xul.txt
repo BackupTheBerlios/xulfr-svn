@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml-stylesheet href="findfile.css" type="text/css"?>
+
+<window
+    id="findfile-window"
+    title="Recherche de fichiers"
+    persist="screenX screenY width height"
+    orient="horizontal"
+    onload="initSearchList()"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script src="findfile.js"/>
+
+<popupset>
+  <popup id="editpopup">
+    <menuitem label="Couper" accesskey="t"/>
+    <menuitem label="Copier" accesskey="c"/>
+    <menuitem label="Coller" accesskey="p" disabled="true"/>
+  </popup>
+</popupset>
+
+<keyset>
+  <key id="cut_cmd" modifiers="accel" key="X"/>
+  <key id="copy_cmd" modifiers="accel" key="C"/>
+  <key id="paste_cmd" modifiers="accel" key="V"/>
+  <key id="close_cmd" keycode="VK_ESCAPE" oncommand="window.close();"/>
+</keyset>
+
+<vbox flex="1">
+
+<toolbox>
+<menubar id="findfiles-menubar">
+  <menu id="file-menu" label="Fichier" accesskey="f">
+    <menupopup id="file-popup">
+      <menuitem label="Ouvrir une recherche..." accesskey="o"/>
+      <menuitem label="Sauvegarder la recherche..." accesskey="s"/>
+      <menuseparator/>
+      <menuitem label="Fermer" accesskey="c" key="close_cmd" oncommand="window.close();"/>
+    </menupopup>
+  </menu>
+  <menu id="edit-menu" label="Edit" accesskey="e">
+    <menupopup id="edit-popup">
+       <menuitem label="Couper" accesskey="u" key="cut_cmd"/>
+       <menuitem label="Copier" accesskey="c" key="copy_cmd"/>
+       <menuitem label="Coller" accesskey="l" key="paste_cmd" disabled="true"/>
+    </menupopup>
+  </menu>
+ </menubar>
+
+    <toolbar id="findfiles-toolbar">
+      <toolbarbutton id="opensearch" label="Ouvrir"/>
+      <toolbarbutton id="savesearch" label="Sauvegarder"/>
+    </toolbar>
+  </toolbox>
+
+<tabbox>
+  <tabs>
+    <tab label="Recherche" selected="true"/>
+    <tab label="Options"/>
+  </tabs>
+
+  <tabpanels>
+   <tabpanel id="searchpanel" orient="vertical" context="editpopup">
+
+  <description>
+     Entrez vos criteres de recherche et cliquez sur le bouton Rechercher pour commencer la recherche.
+  </description>
+
+<spacer class="titlespace"/>
+
+<groupbox orient="horizontal">
+  <caption label="Critères de Recherche"/>
+    <menulist id="searchtype">
+      <menupopup>
+        <menuitem label="Nom"/>
+        <menuitem label="Taille"/>
+        <menuitem label="Date de modification"/>
+      </menupopup>
+    </menulist>
+    <spacer class="springspace"/>
+    <menulist id="searchmode">
+      <menupopup>
+        <menuitem label="Est"/>
+        <menuitem label="N'est pas"/>
+      </menupopup>
+    </menulist>
+    <spacer class="springspace"/>
+
+    <menulist id="find-text" flex="1"
+              editable="true"
+              datasources="file:///mozilla/recents.rdf"
+              ref="urn:findfile:recent">
+      <template>
+        <menupopup>
+          <menuitem label="rdf:http://www.example.com/recent#Label" uri="rdf:*"/>
+        </menupopup>
+      </template>
+    </menulist>
+  </groupbox>
+</tabpanel>
+   <tabpanel id="optionspanel" orient="vertical">
+    <checkbox id="casecheck" label="Recherche sensible à la casse"/>
+    <checkbox id="wordscheck" label="Recherche sur le nom complet"/>
+   </tabpanel>
+
+ </tabpanels>
+</tabbox>
+
+<tree id="results" style="display: none;" flex="1">
+  <treecols>
+    <treecol id="name" label="Nome" flex="1"/>
+    <treecol id="location" label="Chemin" flex="2"/>
+    <treecol id="size" label="Taille" flex="1"/>
+  </treecols>
+
+  <treechildren>
+   <treeitem>
+     <treerow>
+       <treecell label="mozilla"/>
+       <treecell label="/usr/local"/>
+       <treecell label="2520 octets"/>
+     </treerow>
+   </treeitem>
+  </treechildren>
+</tree>
+ <splitter id="splitbar" resizeafter="grow" style="display:none;"/>
+
+  <spacer class="titlespace"/>
+
+  <hbox>
+    <progressmeter id="progmeter" value="50%" style="display: none;"/>
+    <spacer flex="1"/>
+    <button id="find-button" label="Recherche" default="true" oncommand="doFind();"/>
+    <button id="cancel-button" label="Annuler" oncommand="window.close();"/>
+  </hbox>
+
+</vbox>
+
+</window>
+

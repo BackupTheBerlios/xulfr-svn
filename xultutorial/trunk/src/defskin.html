@@ -1,0 +1,100 @@
+
+
+
+
+<p>Cette section décrit comment modifier le thème d'une fenêtre.</p>
+
+<h2>Les bases d'un thème</h2>
+
+<p>Un thème est un ensemble de feuilles de style, d'images et de comportements
+qui sont appliqués à un fichier XUL. En appliquant un thème différent, vous
+pouvez changer l'apparence d'une fenêtre sans changer ses fonctions. Mozilla
+fournit deux thèmes par défaut, Classic et Modern, et vous pouvez en télécharger
+d'autres. Le XUL pour les deux est le même, par contre les feuilles de style et
+les images utilisées sont différentes.</p>
+
+<p>Pour une simple personnalisation de l'apparence d'une fenêtre Mozilla, vous
+pouvez facilement changer les feuilles de style qui lui sont associées. Des
+changements plus importants peuvent être faits en créant un thème complètement
+nouveau. La fenêtre des préférences de Mozilla comporte un panneau pour changer
+le thème par défaut.</p>
+
+<p>Un thème est décrit en utilisant des CSS, ce qui vous permet de définir les
+couleurs, les bordures et les images utilisées pour dessiner des éléments. Les
+fichiers classic.jar et modern.jar contiennent les définitions des thèmes. Le
+répertoire "global" compris dans ces archives contient les définitions principales
+des styles concernant la manière d'afficher les différents éléments XUL. En
+changeant ces fichiers, vous pouvez changer l'apparence des applications
+XUL.</p>
+
+<p>Si vous placez un fichier appelé "userChrome.css" dans le répertoire "chrome"
+dans le répertoire de votre profil utilisateur, vous pouvez remplacer des
+paramètres sans changer les archives elles-mêmes. Ce répertoire devrait être
+créé quand vous créez un profil et quelques exemples placés ici. Le fichier
+"userContent.css" permet de personnaliser les pages Web, tandis que
+"userChrome.css" permet de personnaliser les fichiers chrome.</p>
+
+<p>Par exemple, en ajoutant ce qui suit à la fin de ce fichier, vous pouvez
+changer tous les éléments <code class="tag"><a
+href="http://www.xulfr.org/wiki/Reference/Xul/menubar">menubar</a></code> pour
+leur donner un fond rouge.</p>
+
+<pre><code>
+menubar {
+  background-color: red;
+}
+
+</code></pre>
+
+<p>Si vous ouvrez une fenêtre Mozilla après avoir effectué ce changement, les
+barres de menu seront rouges. Comme ce changement a été fait à la feuille de
+style utilisateur, il affecte toutes les fenêtres. Cela signifie que la barre de
+menu du navigateur, la barre de menu des marque-pages et même la barre de menu
+du dialogue de recherche de fichiers seront rouges.</p>
+
+<p>Pour que le changement n'affecte qu'une fenêtre, changez la feuille de style
+associée avec ce fichier XUL. Par exemple, pour ajouter une bordure rouge autour
+des commandes de menu dans la fenêtre du carnet d'adresses, ajoutez ce qui
+suit au fichier addressbook.css dans l'archive modern.jar ou classic.jar.</p>
+
+<pre><code>
+menuitem {
+  border: 1px solid red;
+}
+
+</code></pre>
+
+<p>Si vous regardez dans les archives de thème, vous remarquerez que chacune
+contient un certain nombre de feuilles de style et d'images. Les feuilles de
+style font référence aux images. Vous devriez éviter de faire directement
+référence aux images dans les fichiers XUL si vous voulez que votre contenu soit
+thémable, parce qu'un certain thème peut ne pas utiliser d'images et avoir
+besoin d'un design plus complexe. En faisant référence aux images avec les CSS,
+on peut facilement les enlever. Cela enlève aussi la dépendance sur les noms de
+fichier spécifiques des images.</p>
+
+<p>Vous pouvez attribuer des images à un bouton, une case à cocher et à d'autres
+éléments en utilisant la propriété <code
+class="attribut">list-style-image</code> comme suit :</p>
+
+<pre><code>
+checkbox {
+  list-style-image: url("chrome://findfile/skin/images/check-off.jpg");
+}
+
+checkbox[checked="true"] {
+  list-style-image: url("chrome://findfile/skin/images/check-on.jpg");
+}
+
+</code></pre>
+
+<p>Ce code change l'image associée à une case à cocher. Le premier style met une
+image pour une case à cocher à l'état normal et le second style pour une case à
+cocher cochée. Le modificateur 'checked=true' n'applique le style qu'aux
+éléments qui ont leur attribut <code class="attribut">checked</code> à <var>true</var>.</p>
+
+<hr/>
+
+<p>Dans la prochaine section, nous allons voir comment créer un nouveau
+thème.</p>
+

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:xbl="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<binding id="textboxwithhttp"
+         extends="chrome://global/content/bindings/textbox.xml#textbox">
+  <handlers>
+    <handler event="keypress" keycode="VK_F4">
+      this.value="http://www"+value;
+    </handler>
+  </handlers>
+</binding>
+
+
+</bindings>

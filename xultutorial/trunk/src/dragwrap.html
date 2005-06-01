@@ -1,0 +1,310 @@
+
+
+<p>Cette section décrit l'utilisation d'un conteneur JavaScript pour le glisser-déposer.</p>
+
+<h2>Le conteneur JavaScript Glisser-Déposer</h2>
+
+<p>Le conteneur JavaScript pour le glisser-déposer simplifie le processus en appelant toutes les
+interfaces XPCOM pour vous. Il fonctionne en fournissant un objet qui implémente les gestionnaires
+d'évènements. Tout ce que vous avez à faire est d'écrire quelques fonctions simples qui travaillent
+sur les données qui sont glissées.</p>
+
+<p>L'interface Glisser-déposer est stockée dans le paquetage "global", dans le fichier <code>chrome://global/content/nsDragAndDrop.js</code>. Vous pouvez inclure ce fichier dans votre
+fichier XUL avec la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/script">script</a></code> de la même manière que pour
+vos scripts. La bibliothèque dépend aussi d'autres scripts, que vous aurez également à inclure,
+habituellement au début de votre page XUL. Vous pouvez regarder le contenu de ces fichiers pour
+voir comment fonctionne le glisser-déposer au plus bas niveau.</p>
+
+<p>Notez que vous ne pouvez utiliser ces bibliothèques qu'à l'intérieur de fichiers XUL
+chargés avec un URL chrome.</p>
+
+
+<pre><code>&lt;script src="chrome://global/content/nsDragAndDrop.js"/&gt;
+&lt;script src="chrome://global/content/nsTransferable.js"/&gt;</code></pre>
+
+<p>Cette bibliothèque glisser-déposer crée un objet stocké dans la variable <code>nsDragAndDrop</code>.
+L'objet contient une série de fonctions, une pour chaque gestionnaire d'évènements (excepté
+pour <code>dragenter</code> où il n'y a rien de spécial à faire). Chacune de ces fonctions
+prend deux arguments : le premier est l'objet <code>event</code> et le deuxième est un
+objet observateur que vous créez. Vous aurez plus d'explications plus tard.</p>
+
+<p>
+L'exemple suivant est un exemple d'appel de l'objet <code>nsDragAndDrop</code>&nbsp;:
+</p>
+
+
+<pre><code>&lt;button label="Glissez moi" ondraggesture="nsDragAndDrop.startDrag(event,buttonObserver);" /&gt;</code></pre>
+
+<p>
+La fonction <code>startDrag</code> sera appelée quand le glisser-déposer débutera à partir du bouton.
+Le premier paramètre est l'objet <code>event</code>, disponible dans tous les gestionnaires d'évènements.
+Le second paramètre à cette fonction est l'observateur, que nous créerons bientôt.
+Dans cet exemple, nous ne faisons rien de spécial d'autre quand débute le glisser du bouton.
+Si nous voulions prendre aussi en compte les autres cas, nous pourrions appeler les autres
+fonctions, comme dans l'exemple suivant&nbsp;:</p>
+
+
+<pre><code>&lt;description value="Cliquez et glissez ce texte."
+    ondraggesture="nsDragAndDrop.startDrag(event,textObserver)"
+    ondragover="nsDragAndDrop.dragOver(event,textObserver)"
+    ondragexit="nsDragAndDrop.dragExit(event,textObserver)"
+    ondragdrop="nsDragAndDrop.drop(event,textObserver)"/></code></pre>
+
+<p>
+Comme mentionné plus haut, il n'y a rien à faire de spécial pendant l'évènement
+<code>dragenter</code>, aussi vous pouvez l'écrire vous même.
+</p>
+
+<p>
+Les fonctions sont implémentées par l'objet <code>nsDragAndDrop</code>, qui est déclaré
+dans le fichier <code>nsDragAndDrop.js</code>, inclus par l'une des balises
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/script">script</a></code>.
+Elles prennent en charge les évènements, les appels aux interfaces XPCOM, et passent une
+structure de donnée simple aux fonctions de l'objet observateur.</p>
+
+<p>L'observateur est un objet que vous déclarez vous-même. Dans les exemples ci-dessus, cet
+observateur est stocké dans les variables <code>buttonObserver</code> et <code>textObserver</code>.
+L'observateur est déclaré dans un script que vous devez inclure dans votre fichier XUL avec
+la balise <code class="tag">script</code>. Il doit avoir un certain nombre de propriétés, chacune
+s'occupant d'un aspect particulier du glisser-déposer. Cinq fonctions peuvent être définies.
+Vous avez juste à définir celle dont vous avez besoin.</p>
+
+<dl>
+    <dt><code>onDragStart (event , transferData, action)</code></dt>
+    <dd>Définissez cette fonction pour déclencher une action quand le glisser commence.
+    Elle prend trois arguments : l'objet <code>event</code> qui a été passé au
+    gestionnaire d'évènement; les données à transférer; le type d'action du glisser.
+    Cette fonction doit ajouter les données à transférer à l'objet <code>transferData</code>.</dd>
+
+    <dt><code>onDragOver (event, flavour, session)</code></dt>
+    <dd>Cette fonction doit être définie quand vous voulez que quelque chose arrive quand
+    le glisser passe au dessus de l'élément. Le premier argument est l'objet <code>event</code>,
+    le second est le type de donnée et le troisième est l'objet de session du glisser, qui fourni
+    plus de détails sur le glisser-déposer en cours. Vous devez définir cette fonction
+    pour les éléments qui autorisent la dépose de données "glissées" sur eux-même.</dd>
+
+    <dt><code>onDragExit (event, session)</code></dt>
+    <dd>Cette fonction doit être définie quand quelque chose arrive lorsque le glisser
+    quitte l'élément. Elle a deux arguments, l'objet <code>event</code> et la session
+    du glisser-déposer.</dd>
+
+    <dt><code>onDrop (event, dropData, session)</code></dt>
+    <dd>Cette fonction doit être définie quand vous voulez faire quelque chose lorsque
+    l'objet est déposé. Le premier argument est l'objet <code>event</code> et le
+    second est la donnée qui était glissée. Le troisième argument est la session du
+    glisser-déposer.</dd>
+
+    <dt><code>getSupportedFlavours ( )</code></dt>
+    <dd>Cette fonction doit retourner la liste des types de données que peut accepter
+    l'objet sur lequel on fait le glisser. Cette fonction ne
+    prend pas d'arguments. Elle est nécessaire car ainsi le conteneur peut
+    déterminer le meilleur type de donnée à passer aux autres fonctions.</dd>
+
+</dl>
+
+<p>
+Pour un observateur lié à un élément qui peut débuter un glisser-déposer, vous
+devriez définir au moins la fonction <code>onDragStart</code>. Pour les éléments
+qui peuvent recevoir des objets glissés, vous devriez définir <code>onDragOver</code>,
+<code>onDrop</code> et <code>getSupportedFlavours</code> (et si vous le voulez,
+<code>onDragExit</code>).
+</p>
+
+<p>
+Le type des données pouvant être glisser-déposer, est stocké comme un ensemble de type.
+Souvent, un objet glissé peut être disponible dans un certain nombre de type. Ce faisant,
+un élément cible peut accepter le type qu'il trouve le mieux adapté. Par exemple, un fichier
+peut être transmis dans deux types, le fichier lui même et son nom. Si le fichier est
+glissé et déposé sur un répertoire, le type fichier  sera utilisé. Si le fichier est
+glissé sur un champs de saisie, le type 'nom de fichier' sera utilisé. Le texte du nom du
+fichier est par conséquent utilisé quand les fichiers ne peuvent être déposés directement.
+</p>
+
+<p>
+Un type d'objet a un nom, qui est formaté comme un type MIME, comme <var>text/unicode</var>.
+À l'intérieur de la fonction <code>onDragStart</code>, vous spécifiez quels types
+sont disponibles pour l'item en cours de glisser-déposer. Pour faire cela, ajoutez les
+données et les types à l'objet <code>transferData</code>, qui est le second argument de
+<code>onDragStart</code>.</p>
+
+<p>
+L'exemple ci-après devrait vous aider. La fonction <code>onDragStart</code> ajoute
+des données à l'objet <code>transferData</code>.
+</p>
+
+
+<pre><code>var textObserver = {
+  onDragStart: function (evt , transferData, action){
+    var htmlText="&lt;strong&gt;Cabbage&lt;/strong&gt;";
+    var plainText="Cabbage";
+
+    transferData.data=new TransferData();
+    transferData.data.addDataForFlavour("text/html",htmlText);
+    transferData.data.addDataForFlavour("text/unicode",plainText);
+  }
+};
+</code></pre>
+
+
+
+<p>Ici, un observateur a été déclaré et stocké dans la variable <code>textObserver</code>.
+Il a une propriété appelée <code>onDragStart</code> (En JavaScript, les propriétés peuvent
+être déclarées avec la syntaxe <code>nom : valeur</code>).
+Cette propriété est une fonction qui définit les données qui seront transférées.
+</p>
+
+<p>
+Une fois appelé, il commence le glisser-déposer pour la chaîne <var>Cabbage</var>. Bien sûr,
+vous voudriez calculer cette valeur à partir de l'élément sur lequel on a cliqué.
+Cet élément est disponible dans la propriété <code>target</code> de l'objet <code>event</code>.
+Cet objet <code>event</code> est passé en premier argument à <code>onDragStart</code>.
+</p>
+
+<p>
+Nous créons un objet <code>transferData</code> qui peut être utilisé pour contenir
+toutes les données à transférer. Nous ajoutons deux données à celles-ci. La première
+est une chaîne de texte HTML et la seconde est une chaîne de texte brut.
+Si l'utilisateur dépose sur une zone qui accepte le HTML (comme la fenêtre d'édition HTML
+de Mozilla), le type HTML sera utilisé et le texte apparaîtra en gras. Sinon, la
+version texte brut sera utilisée à la place.
+</p>
+
+<p>
+En général vous devrez fournir une version texte de la donnée, ainsi de nombreuses
+applications pourront l'accepter. L'ordre dans lequel vous définissez les types
+devra s'établir de la meilleure correspondance vers la moins bonne. Dans le cas ci-dessus, le type HTML
+(<var>text/html</var>) vient en premier, et le type texte (<var>text/unicode</var>) en second.
+</p>
+
+<p>
+L'exemple ci-dessous montre comment spécifier les données à transférer à partir
+de l'attribut <code class="attribut">label</code> de l'élément. Dans ce cas, nous
+fournissons la donnée dans un seul type.
+</p>
+
+
+<pre><code>var textObserver = {
+  onDragStart: function (evt){
+    var txt=evt.target.getAttribute("label");
+
+    transferData.data=new TransferData();
+    transferData.data.addDataForFlavour("text/unicode",txt);
+  }
+}</code></pre>
+
+<p>
+Cela peut être utile lors de l'implémentation du glisser-déposer pour les cellules d'un arbre.
+Vous pouvez utiliser la valeur d'une cellule, ou d'une ressource du fichier RDF si l'arbre
+est construit à partir d'un gabarit, comme valeur pour le glisser-déposer.
+Si vous la stockez dans une chaîne, n'importe quel objet acceptant les chaînes pour
+un glisser-déposer, peut récupérer cette valeur.
+</p>
+
+<p>
+Vous aurez besoin d'ajouter un observateur à chaque élément qui peuvent soit démarrer
+une action glisser-déposer, soit accepter des objets glissés. Vous pouvez réutiliser
+le même observateur sur plusieurs éléments. Pour un élément qui démarre un
+glisser-déposer, <code>onDragStart</code> est juste ce qu'il faut à implémenter.
+</p>
+
+<p>
+Pour un élément sur lequel on peut déposer, l'observateur aura besoin d'implémenter
+au moins les fonctions <code>getSupportedFlavours</code>, <code>onDragOver</code> et
+<code>onDrop</code>. Certains éléments pourraient être capable d'initier un glisser et
+d'accepter un déposer. Dans ce cas, <code>onDragStart</code> sera aussi nécessaire.
+</p>
+
+<p>
+La fonction <code>getSupportedFlavours</code> doit retourner une liste de type
+que peut accepter pour une dépose l'élément sur lequel le glisser-déposer s'effectue.
+Une vue d'un répertoire de système de fichier  pourrait accepter des fichiers et peut-être du texte,
+mais ne devrait pas accepter du texte HTML. Ci-dessous, nous définissons la fonction
+ <code>getSupportedFlavours</code>. Nous n'autorisons qu'un seul type ici.</p>
+
+<pre><code>var textObserver = {
+  getSupportedFlavours : function () {
+    var flavours = new FlavourSet();
+    flavours.appendFlavour("text/unicode");
+    return flavours;
+  }
+}</code></pre>
+
+
+
+<p>
+La liste de type de donnée contient un seul type, qui est <var>text/unicode</var>.
+L'objet <code>FlavourSet</code> peut être utilisé pour contenir une liste de type.
+Dans certains cas, vous devez aussi fournir une interface XPCOM. Par exemple,
+pour les fichiers&nbsp;:
+</p>
+
+<pre><code>var textObserver = {
+  getSupportedFlavours : function () {
+    var flavours = new FlavourSet();
+    flavours.appendFlavour("application/x-moz-file","nsIFile");
+    flavours.appendFlavour("text/unicode");
+    return flavours;
+  }
+}</code></pre>
+
+
+<p>
+La fonction <code>onDragOver</code> définit ce qui arrive lorsqu'un objet est
+glissé au dessus. Vous pourriez alors changer l'apparence des éléments qui sont
+survolés. Dans la plupart des cas, la fonction ne fait rien. Cependant elle doit être
+définie pour les éléments qui acceptent des données glissées.
+</p>
+
+<p>
+Ensuite, la fonction <code>onDrop</code> doit être créée. Son second argument
+est l'objet de transfert de données qui contient les données transférées. Avant
+d'appeler <code>onDrop</code>, le conteneur aura appelé <code>getSupportedFlavours</code>
+pour déterminer le meilleur type de donnée à déposer, aussi l'objet de transfert
+ne contient que les données du meilleur type déterminé.
+</p>
+
+<p>
+L'objet de transfert a deux propriétés&nbsp;: <code>data</code> qui contient la donnée
+et <code>flavour</code> qui contient le type de la donnée. Une fois que vous avez
+la donnée, vous pouvez l'ajouter à l'élément de n'importe quelle façon. Par exemple,
+vous pourriez modifier la valeur d'un champs de saisie.
+</p>
+
+<pre><code>var textObserver = {
+  onDrop : function (evt, transferData, session) {
+    event.target.setAttribute("value",transferData.data);
+  }
+}</code></pre>
+
+<p>
+Le système de type utilisé permet à de multiples objets de types variés
+d'être glisser-déposer, et permet également à des formes alternatives de donnée
+de l'être. Le tableau suivant décrit quelques types de données que vous pourriez
+utiliser. Vous pouvez aussi définir votre propre type si nécessaire.
+</p>
+
+<table border="1">
+<tr>
+<td>text/unicode</td>
+<td>Text data</td>
+
+</tr>
+<tr>
+<td>text/html</td>
+<td>données HTML</td>
+</tr>
+<tr>
+<td>application/x-moz-url</td>
+<td>un URL</td>
+</tr>
+<tr>
+<td>application/x-moz-file</td>
+<td>Un fichier local</td>
+
+</tr>
+</table>
+
+<hr />
+<p> Dans la prochaine section, nous regarderons un exemple utilisant le glisser-déposer.
+</p>
+

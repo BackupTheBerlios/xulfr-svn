@@ -1,0 +1,161 @@
+
+
+
+<p>Dans cette section, nous verrons comment les attributs peuvent être hérités.</p>
+
+<h2>Attributs hérités</h2>
+
+<p>XBL nous permet de construire des éléments d'interface utilisateurs composites tout en cachant leur implémentation réelle.
+Cependant, avec les particularités mentionnées jusque là, le contenu anonyme est toujours crée de la même façon.
+Il serait utile d'ajouter des attributs aux éléments extérieurs, qui modifient les éléments intérieurs.
+Par exemple&nbsp;:</p>
+
+<pre><code><b>XUL:</b>
+
+&lt;searchbox/&gt;
+
+<b>XBL:</b>
+
+&lt;binding id="searchBinding"&gt;
+  &lt;content&gt;
+    &lt;xul:textbox/&gt;
+    &lt;xul:button label="Rechercher"/&gt;
+  &lt;/content&gt;
+&lt;/binding&gt;</code></pre>
+
+<p>Dans cet exemple, l'attribut <code class="attribut">label</code> est placé directement sur l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>.
+Le problème avec cette technique est que le libellé sera le même à chaque fois que la liaison sera utilisée.
+Dans ce cas, il serait préférable si l'attribut pouvait être plutôt spécifié sur la balise
+<code class="tag">searchbox</code>.
+XBL fournit un attribut <code class="attribut">inherits</code> qui peut être utilisé pour hériter des
+attributs de l'élément extérieur.
+Il devra être placé sur l'élément qui héritera de ces attributs, dans notre cas sur
+le bouton. Sa valeur devra être initialisée par une liste des noms des attributs à hériter,
+séparés par des virgules.</p>
+
+<pre><code>&lt;xul:textbox xbl:inherits="flex"/&gt;
+&lt;xul:button xbl:inherits="label"/&gt;</code></pre>
+
+<p>Lorsque le contenu est généré, <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code> obtient l'attribut <code
+class="attribut">flex</code> à partir de <code class="tag">searchbox</code> et <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code> obtient l'attribut
+<code class="attribut">label</code> à partir de <code class="tag">searchbox</code>. Ceci permet à
+la flexibilité de la balise <code class="tag">textbox</code> et au libellé de <code class="tag">button</code>
+d'être différent à chaque utilisation de la liaison. En plus,
+changer la valeur des attributs de la balise <code class="tag">searchbox</code> avec un script mettra aussi à jour
+la balise <code class="tag">textbox</code> et la balise <code class="tag">button</code>. Vous pouvez ajouter
+un attribut <code class="attribut">inherits</code> sur autant d'éléments que vous le souhaitez,
+pour hériter de n'importe quel nombre d'attributs.</p>
+
+
+<p>Remarquez comment l'attribut <code class="attribut">inherits</code> a été placé dans l'espace de
+nom XBL, en utilisant le préfixe <var>xbl:</var>. L'espace de nom devrait être déclaré quelque part avant,
+généralement dans l'élément <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/bindings">bindings</a></code>, comme dans
+l'exemple suivant&nbsp;:</p>
+
+
+<pre><code>&lt;bindings xmlns:xbl="http://www.mozilla.org/xbl"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;xbl:binding id="buttonBinding"&gt;
+  &lt;xbl:content&gt;
+    &lt;xul:button label="OK" xbl:inherits="label"/&gt;
+  &lt;/xbl:content&gt;
+&lt;/xbl:binding&gt;</code></pre>
+
+
+<p>Dans cette exemple, le bouton hérite de l'attribut <code class="attribut">label</code>, mais cet
+attribut a aussi une valeur assignée directement dans le XBL.
+Cette technique est utilisée pour définir une valeur par défaut si l'attribut n'est pas présent.
+Ce bouton héritera son attribut <code class="attribut">label</code> de l'élément extérieur.
+Cependant, si aucun <code class="attribut">label</code> n'est présent, la valeur
+<var>OK</var> par défaut lui sera donnée.</p>
+
+<p>Il peut arriver que deux éléments générés aient besoin d'hériter d'un attribut qui a le même nom.
+Par exemple, pour créer un champs de saisie avec un libellé, contenant donc
+un élément <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code>
+et un élément <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>,
+l'élément <code class="tag">label</code> aura besoin d'hériter son texte à partir de l'attribut
+<code class="attribut">value</code> et
+l'élément <code class="tag">textbox</code> aura aussi besoin d'hériter de sa valeur par défaut à partir de
+l'attribut  <code class="attribut">value</code>. Pour résoudre ceci, nous aurons besoin
+d'utiliser un attribut différent et le faire pointer sur le bon. L'exemple suivant montre comment il faut faire&nbsp;:</p>
+
+
+<pre><code><b>XUL:</b>
+
+&lt;box class="textboxlibelle" title="Entrer du texte:" value="OK"/&gt;
+
+<b>CSS:</b>
+
+box.textboxlibelle {
+    -moz-binding: url('chrome://example/skin/example.xml#labeledtextbox');
+}
+
+<b>XBL:</b>
+
+&lt;binding id="textboxlibelle "&gt;
+  &lt;content&gt;
+    &lt;xul:label xbl:inherits="value=title"/&gt;
+    &lt;xul:textbox xbl:inherits="value"/&gt;
+  &lt;/content&gt;
+&lt;/binding&gt;</code></pre>
+
+
+
+
+<p>Le <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code> hérite
+directement de l'attribut <code class="attribut">value</code>.
+Pour initialiser l'attribut <code class="attribut">value</code> du libellé, nous aurons besoin
+d'utiliser un nom différent d'attribut et le faire pointer vers le vrai attribut.
+L'attribut <code class="attribut">inherits</code> sur la balise <code class="tag">label</code> obtient
+son attribut <code class="attribut">title</code> à partir de l'élément extérieur et le fait pointer vers
+l'attribut <code class="attribut">value</code> de l'élément <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code>.
+La syntaxe &lt;attribut intérieur&gt;=&lt;attribut extérieur&gt;  est utilisée
+pour pointer un attribut vers un autre. Voici un autre exemple&nbsp;:</p>
+
+<pre><code><b>XUL:</b>
+
+&lt;box class="okannuler" oktitle="OK" canceltitle="Annuler" image="happy.png"/&gt;
+
+<b>CSS:</b>
+
+box.okannuler {
+    -moz-binding: url('chrome://example/skin/example.xml#okcancel');
+}
+
+<b>XBL:</b>
+
+&lt;binding id="okannuler"&gt;
+  &lt;content&gt;
+    &lt;xul:button xbl:inherits="label=oktitle,image"/&gt;
+    &lt;xul:button xbl:inherits="label=canceltitle"/&gt;
+  &lt;/content&gt;
+&lt;/binding&gt;</code></pre>
+
+
+
+<p>La valeur de l'attribut <code class="attribute">oktitle</code> est projetée vers l'attribut
+<code class="attribute">label</code> du premier bouton. L'attribut <code class="attribute">canceltitle</code>
+est projeté vers l'attribut <code class="attribute">label</code> du second bouton. Le premier bouton hérite
+aussi de l'attribut <code class="attribute">image</code>. Le résultat est le suivant&nbsp;:</p>
+
+<pre><code>&lt;box class="okannuler" oktitle="OK" canceltitle="Annuler" image="happy.png"&gt;
+  &lt;button label="OK" image="happy.png"/&gt;
+  &lt;button label="Annuler"/&gt;
+&lt;/box&gt;</code></pre>
+
+<p>Remarquez que les attributs sont dupliqués dans le contenu intérieur (anonyme). Changer les
+attributs de la boîte avec la classe <var>okannuler</var> changera automatiquement
+les valeurs des boutons.
+Vous avez probablement aussi remarqué que nous avons crée nos propres noms d'attribut. Ceci est
+valide en XUL.</p>
+
+<hr />
+<p> Dans la section suivante, nous regarderons l'ajout de propriétés, méthodes et événements
+à une liaison.</p>
+

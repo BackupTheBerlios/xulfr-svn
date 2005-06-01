@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window
+    id="findfile-window"
+    title="Recherche de fichiers"
+    orient="horizontal" align="start"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <button id="find-button" label="Rechercher"/>
+  <button id="cancel-button" label="Annuler"/>
+
+</window>
+

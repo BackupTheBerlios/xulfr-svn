@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 6.4.2"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<tree enableColumnDrag="true" flex="1">
+  <treecols>
+    <treecol id="runner" label="Coureur" flex="2" persist="width ordinal hidden"/>
+    <splitter class="tree-splitter"/>
+    <treecol id="city" label="Ville" flex="2" persist="width ordinal hidden"/>
+    <splitter class="tree-splitter"/>
+    <treecol id="starttime" label="Heure de départ" flex="1" persist="width ordinal hidden"/>
+    <splitter class="tree-splitter"/>
+    <treecol id="endtime" label="Heure d'arrivée" flex="1" persist="width ordinal hidden"/>
+  </treecols>
+
+  <treechildren>
+    <treeitem>
+      <treerow>
+        <treecell label="Joshua Granville"/>
+        <treecell label="Vancouver"/>
+        <treecell label="7:06:00"/>
+        <treecell label="9:10:26"/>
+      </treerow>
+    </treeitem>
+    <treeitem>
+      <treerow>
+        <treecell label="Robert Valhalla"/>
+        <treecell label="Seattle"/>
+        <treecell label="7:08:00"/>
+        <treecell label="9:15:51"/>
+      </treerow>
+    </treeitem>
+  </treechildren>
+</tree>
+
+
+</window>
+

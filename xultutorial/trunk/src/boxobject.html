@@ -1,0 +1,134 @@
+
+<p>Cette section décrit l’objet boîte qui contient des informations relatives à l’affichage et à la mise en page concernant une boîte XUL aussi bien que des détails sur la mise en page XUL.</p>
+
+<h2>À propos de la mise en page XUL</h2>
+
+<p>Mozilla divise son fonctionnement en deux séries d’arbres, l’arbre du contenu et l’arbre de mise en page. L’arbre de contenu stocke les noeuds trouvés tels quels dans le code source. L’arbre de mise en page contient un arbre différent des noeuds pour chaque composant individuel pouvant être affiché. L’arbre de mise en page contient la structure d’affichage des noeuds. Il n’y a pas forcément de relation un à un entre le contenu et la mise en page des noeuds. Certains noeuds de contenu peuvent avoir plusieurs objets de mise en page, par exemple, chaque ligne d’un paragraphe a un objet de mise en page séparé. Réciproquement, certains noeuds de contenu n’ont aucun objet de mise en page. Par exemple, l’élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> n’a aucun objet de mise en page puisqu’il n’est jamais affiché. De même, tout élément qui aurait été masqué n’aura non plus aucun objet de mise en page.</p>
+
+<p><acronym title="Document Object Model">DOM</acronym> est généralement utilisé pour récupérer et modifier des informations concernant le contenu ou la structure d’un document. Il est relativement simple de déterminer quelle sorte de noeud de l’arbre sera créée pour un élément donné. Un élément XUL, par exemple, aura un type de noeud de contenu <code>XULElement</code>.</p>
+
+<p>Les objets de mise en page qui seront créés sont déterminés de manière plus complexe. Diverses parties d’information sont utilisées telles que le nom de la balise, les attributs d’un élément, diverses propriétés CSS, les éléments et les objets de mise en page autour de l’élément, et les liaisons <acronym title="eXtensible Binding Language">XBL</acronym> associées avec un élément (les XBL seront décrites dans une section ultérieure). À moins que vous ne changiez le style d’un élément, la plupart des éléments XUL utilisent habituellement l’objet de boîte de mise en page ou un de ses sous-types. Souvenez vous que tous les éléments XUL sont des types de boîtes, et que les boîtes sont la base de l’affichage de tous les éléments XUL. Toutefois, Il y a un certain nombre de sous-types, environ 25 ou plus, pour des éléments XUL spécifiques. Certains de ces sous-types, tels que les piles ou les boîtes de liste ont besoin d’une mise en page plus complexe qu’une simple boîte, tandis que d’autres, tels que les boutons, ne sont utilisés que pour ajouter une gestion supplémentaire des évènements pour la souris et le clavier.</p>
+
+<p>L’objet de mise en page associé avec un élément peut être enlevé pour créer un objet de type complètement différent juste en changeant la propriété <code>display</code> CSS. Par exemple, l’affectation de la valeur <var>block</var> à la propriété <code>display</code> d’un élément bouton va effacer l’objet de mise en page et créer un objet <var>block</var> à la place. Naturellement, ce changement modifiera l’apparence et les fonctionnalités de cet élément.</p>
+
+<p>Il n’est pas nécessaire de connaître les détails de la construction des objets de mise en page, mais il est quand même utile d’avoir la connaissance de comment est décrit la mise en page XUL pour aborder un développement avancé sous XUL.</p>
+
+<h2>Les objets de boîte</h2>
+
+<p>Les objets de mise en page ne peuvent pas être manipulés par les développeurs. Ils font partie des composants internes à la mise en page XUL. Toutefois, XUL fournit quelques objets d’aide, appelés objets de boîte, qui fournissent quelques informations concernant la mise en page. Comme leurs noms l’indiquent, ils sont disponibles pour tous éléments de type boîte.</p>
+
+<p>Il y a plusieurs sous-types d’objet boîte, bien que seul un couple d’entre eux est généralement employé. Les autres ont des fonctions qui sont plus accessibles par des méthodes liées directement sur l’élément, car ces types sont généralement seulement utilisés avec un élément particulier. L’objet de boîte, ou l’interface <code class="tag">BoxObject</code>, toutefois, a un nombre de propriétés pouvant être utile pour le développement XUL.</p>
+
+<p>L’objet de boîte de base a deux fonctionnalités utiles. Premièrement, vous pouvez récupérez la position et les dimensions d’un élément XUL affiché, et deuxièmement, vous pouvez déterminer l’ordre d’affichage des éléments dans une boîte, au lieu de leurs ordres d’enregistrement dans le DOM.</p>
+
+<p>L’objet de boîte fournit quatre propriétés, <code>x</code>, <code>y</code>, <code>width</code> et <code>height</code>, pour déterminer la position et les dimensions d’un élément. Les coordonnées <code>x</code> et <code>y</code> sont relatives au coin haut et gauche du document dans la fenêtre (en excluant le bord de la fenêtre et son titre) et mesurées en pixels. Les propriétés <code>width</code> et <code>height</code> sont également mesurées en pixels et retournent la largeur et la hauteur d’un élément en incluant les styles CSS <code>padding</code> et <code>border</code>, s’ils existent.</p>
+
+<p>Les valeurs sont toujours la position et les dimensions correspondant à l’affichage en cours, donc ces valeurs peuvent être différentes si l’élément est déplacé ou redimensionné. Par exemple, un élément flexible changera de dimension et les dimensions de son objet de boîte seront mises à jour en conséquence. L’exemple suivant en est une illustration&nbsp;:</p>
+
+<p>Exemple 7.4.1&nbsp;: <a href="exemples/ex_boxobject_1.xul.txt">Source</a>
+ <a href="exemples/ex_boxobject_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+ </p>
+
+<pre><code>&lt;button label="Cliquez ici"
+        oncommand="alert('La largeur est ' + this.boxObject.width);"/&gt;</code></pre>
+
+<p>Vous pouvez utiliser les attributs <code class="attribut">width</code> et <code class="attribut">height</code> pour définir respectivement la largeur et la hauteur d’un élément. Normalement, ces attributs ne sont pas utilisés et l’élément ajuste ses dimensions pour s’adapter au contenu. Ainsi, ces attributs remplacent la dimension par défaut par celle spécifiée. Les propriétés <code>width</code> et <code>height</code> correspondantes peuvent être employées pour ajuster les dimensions d’un élément à tout moment, si vous souhaitez afficher un élément à une dimension spécifique. La récupération des valeurs de ces propriétés vous donnera les dimensions explicitement indiquées. Notez que ces propriétés renverront une chaîne vide si les attributs ou propriétés <code>width</code> et <code>height</code> n’ont pas encore été initialisées. Du coup, vous ne pouvez pas récupérer les dimensions actuelles avec ces propriétés&nbsp;; vous devrez utiliser les propriétés de l’objet de boîte à la place.</p>
+
+<p>Cela doit vous sembler un peu confus, mais la clef est de se souvenir que les propriétés <code>width</code> et <code>height</code> d’un élément retournent les dimensions qui ont été définies dans le XUL, tandis que les propriétés <code>width</code> et <code>height</code> de l’objet de boîte retournent les dimensions réelles actuelles.</p>
+
+<p>L’attribut <code class="attribut">hidden</code> cachera un élément de telle sorte qu’il ne sera pas affiché. Comme il n’est pas affiché, les quatre propriétés de position et de dimensions de l’objet de boîte auront une valeur <var>0</var>. Lorsqu’un élément est caché, il est supprimé de l’affichage et ses objets de mise en page sont effacés. Ainsi, comme il n’est affiché nul part, il n’aura pas de position ou dimensions.</p>
+
+<p>L’attribut <code class="attribut">collapsed</code> aura le même effet visuel sur cet élément pour l’utilisateur, excepté qu’il laisse l’élément sur l’écran et conserve les objets de mise en page intacts, mais en mettant ses dimensions à <var>0</var>. Il signifie que même si les éléments cachés et réduits ont une largeur et une hauteur de <var>0</var>, les éléments cachés auront une position <code>x</code> et <code>y</code> de <var>0</var> tandis que les éléments réduits conserveront leur position dans la fenêtre.</p>
+
+<p>Pour rechercher ou modifier les états <code class="attribut">hidden</code> ou <code class="attribut">collapsed</code>, utilisez leurs propriétés correspondantes comme dans l’exemple suivant.</p>
+
+<p>Exemple 7.4.2&nbsp;: <a href="exemples/ex_boxobject_2.xul.txt">Source</a>
+ <a href="exemples/ex_boxobject_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+ </p>
+
+<pre><code>&lt;script&gt;
+function showPositionAndSize()
+{
+  var labelbox = document.getElementById('thelabel').boxObject;
+
+  alert("La position est (" + labelbox.x + "," + labelbox.y +
+        ") et les dimensions sont (" + labelbox.width + "," +
+        labelbox.height + ")");
+}
+&lt;/script&gt;
+
+&lt;button label="Caché"
+        oncommand="document.getElementById('thelabel').hidden = true;"/&gt;
+&lt;button label="Montré"
+        oncommand="document.getElementById('thelabel').hidden = false;"/&gt;
+&lt;button label="Réduit"
+        oncommand="document.getElementById('thelabel').collapsed = true;"/&gt;
+&lt;button label="Non réduit"
+        oncommand="document.getElementById('thelabel').collapsed = false;"/&gt;
+&lt;button label="Montrer la position et les dimensions"
+        oncommand="showPositionAndSize();"/&gt;
+
+&lt;label id="thelabel" value="Je suis un libellé"/&gt;</code></pre>
+
+<p class="note">Notez que si vous cachez ou réduisez le libellé, il sera invisible. Vous devrez changer ses attributs <code class="attribut">hidden</code> ou <code>colapsed</code> pour le voir réapparaître.</p>
+
+<h2>Classement des éléments XUL</h2>
+
+<p>L’objet de boîte peut également être employé pour déterminer l’ordre d’affichage des éléments, qui peut ne pas être le même que dans la source. Souvenez vous que les propriétés DOM telles que <code>childNodes</code>, <code>firstChild</code> et <code>nextSibling</code> peuvent être utilisées pour parcourir l’arbre de document. L’objet de boîte permet de naviguer de façon similaire mais retourne les éléments dans leur ordre d’affichage.</p>
+
+<p>L’objet de boîte fournit plusieurs propriétés, <code>firstChild</code>, <code>lastChild</code>, <code>nextSibling</code>, <code>previousSibling</code> et <code>parentBox</code>. Leurs noms devraient vous expliquer d’eux même leur fonctionnement. Ces propriétés renvoient des éléments, par exemple, la propriété <code>firstChild</code> renvoie le premier élément enfant affiché. Il n’y a pas de propriété <code>childNodes</code> correspondante pour naviguer entre les boîtes&nbsp;; à la place, vous devez utiliser les propriétés <code>nextSibling</code> et <code>previousSibling</code> pour parcourir les frères et soeurs.</p>
+
+<p>À la différence de naviguer à travers l’arbre DOM, les éléments cachés ne sont pas inclus dans la navigation avec les objets de boîte. Donc, une boîte avec six enfants où les deux premiers sont cachés, la propriété <code>firstChild</code> renverra le troisième élément. Toutefois, les éléments réduits seront inclus car ils sont affichés même sans avoir de dimensions. Par exemple, la boîte soeur suivant le bouton 1 de l’exemple suivant sera le bouton 3, parce que le bouton 2 est caché. Mais la boîte soeur suivant le bouton 3 sera le bouton 4 qui n’est seulement réduit.</p>
+
+<p>Exemple 7.4.3&nbsp;: <a href="exemples/ex_boxobject_3.xul.txt">Source</a>
+ <a href="exemples/ex_boxobject_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+ </p>
+
+<pre><code>&lt;hbox&gt;
+  &lt;button label="Bouton 1"
+          oncommand="alert('Le suivant est : ' + this.boxObject.nextSibling.label);"/>
+  &lt;button label="Bouton 2" hidden="true"/>
+  &lt;button label="Bouton 3"
+          oncommand="alert('Le suivant est : ' + this.boxObject.nextSibling.label);"/>
+  &lt;button label="Bouton 4" collapsed="true"/>
+
+&lt;/hbox&gt;</code></pre>
+
+<p>Lorsqu’une boîte XUL est placée sur une fenêtre, les éléments sont ordonnés selon un certain nombre de propriétés, par exemple l’orientation, leur groupe ordinal et leur direction. L’orientation est communément modifiée en utilisant l’attribut <code class="attribut">orient</code>. Il existe également une propriété CSS -moz-box-orient correspondante qui peut être utilisée à la place, en fonction de la situation. Cet attribut a été expliqué dans une section précédente sur les boîtes.</p>
+
+<p>L’attribut ordinal d’un élément peut être placé pour spécifier un groupe ordonné d’éléments, ou vous pouvez utiliser la propriété CSS -moz-box-ordinal-group.</p>
+
+<p>Les éléments avec une valeur ordinale inférieure sont placés dans la boîte avant les éléments ayant une plus grande valeur ordinale. Par exemple, un élément avec une valeur ordinale de <var>2</var> sera placé avant un élément ayant une valeur ordinale de <var>3</var> ou plus mais après un élément ayant un ordinal de <var>1</var>. La valeur ordinale par défaut, si elle n’est pas définie, est de <var>1</var>. Elle signifie que si vous voulez modifier l’ordre d’affichage des éléments, vous aurez souvent besoin d’ajuster les ordinaux de plusieurs éléments.</p>
+
+<p>L’ajustement de l’ordinal d’un élément ne se fait pas aussi simplement par le placement des éléments dans un certain ordre dans la source. Il peut être utilisé pour réarranger les items plus tard sans ajuster le DOM. L’exemple suivant en est une démonstration.</p>
+
+<p>Exemple 7.4.4&nbsp;: <a href="exemples/ex_boxobject_4.xul.txt">Source</a>
+ <a href="exemples/ex_boxobject_4.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+ </p>
+
+<pre><code>&lt;hbox&gt;
+  &lt;button label="Un" oncommand="this.ordinal++;"/>
+  &lt;button label="Deux" oncommand="this.ordinal++;"/>
+  &lt;button label="Trois" oncommand="this.ordinal++;"/>
+&lt;/hbox&gt;</code></pre>
+
+<p>Si vous pressez le premier bouton, son ordinal augmentera de un, de <var>1</var> à <var>2</var>. Il apparaîtra à la fin de la ligne puisque les autres boutons ont un ordinal de <var>1</var>. Si vous pressez le second bouton, son ordinal sera augmenté de un et sera déplacé à la fin de la ligne. Les items de même ordinal apparaîtront dans le même ordre que dans la source. Si vous pressez une nouvelle fois le bouton libellé <var>Un</var>, son ordinal augmentera à <var>3</var> et il sera déplacé à la fin. Finalement, en pressant le bouton libellé <var>Trois</var> augmentera son ordinal à <var>2</var> et il apparaîtra entre les deux autres boutons.</p>
+
+<p>L’attribut final d’ordonnancement de boîte est l’attribut <code class="attribut">dir</code>, ou la propriété CSS -moz-box-direction. S’il est initialisé à <var>reverse</var>, tous les enfants dans la boîte sont affichés dans l’ordre inverse. Dans une boîte horizontale, les éléments seront affichés de la droite vers la gauche et dans une boîte verticale, les éléments seront affichés du bas vers le haut. Voici un exemple&nbsp;:</p>
+
+<p>Exemple 7.4.5&nbsp;: <a href="exemples/ex_boxobject_5.xul.txt">Source</a>
+ <a href="exemples/ex_boxobject_5.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+ </p>
+
+<pre><code>&lt;hbox dir="reverse"&gt;
+  &lt;button label="Gauche"/>
+  &lt;button label="Centre"/>
+  &lt;button label="Droite"/>
+&lt;/hbox&gt;</code></pre>
+
+<p>Parcourir les noeuds en utilisant l’ordonnancement des objets de boîte vous renverra les éléments dans leur ordre d’affichage en tenant compte des ajustements fait sur leur ordinaux. Ainsi, si vous changez l’ordinal d’un élément, celui-ci aura une position différente dans la boîte. Toutefois, le renversement de la direction n’affectera pas l’ordre de la boîte.</p>
+
+<hr />
+
+<p>Ensuite, nous verrons comment utiliser les objets XPCOM à partir de XUL et des scripts.</p>
+

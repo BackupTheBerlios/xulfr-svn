@@ -1,0 +1,124 @@
+body {
+   font-family: 'trebuchet ms', arial, sans-serif;
+   margin:0;
+   font-size:90%;
+}
+
+a img { border:0; }
+form {margin:0;}
+hr { background-color: darkgrey; border:0; }
+acronym { border-bottom: 1px dotted; }
+
+
+/* ======== bandeau ===== */
+#bandeau {
+   height:101px;
+   /*background-image: url(/images/xulfr_bandeau.jpg);*/
+   /*background-image: url(xulfr_bandeau.jpg);
+   background-repeat: no-repeat;
+   background-position: top center;
+   background-color: #0f6496;*/ /*#489dcd;*/
+}
+#bandeau p { margin:0; }
+
+#accessibilite {
+   position: absolute;
+     top: 100px;
+   right:0;
+   margin-top:-1em;
+   padding:0;
+}
+#accessibilite li { display:inline; padding-right:0.5em;}
+#accessibilite a { color:#fbab01; }
+
+
+/* ========= contenu principal ======= */
+
+
+#principal {}
+
+/*#contenu { margin-left: 14em; margin-right:1em;  }*/
+#contenu { margin-left: 1em; margin-right:1em;  }
+
+
+#contenu a { text-decoration: underline; color:#084668; }
+#contenu a:hover, #contenu a:focus { color:white; background-color:#0a5b87; text-decoration:none;}
+
+#contenu h1 {
+   font-size:1.5em;
+   border-bottom: 2px solid  #0a5b87;
+   letter-spacing:0.3em;
+   text-transform:uppercase;
+   color :#ffffff;
+   padding-left:1em;
+   background: #195a80 url(fond_eclair.jpg);
+}
+#contenu h1 a { color: #dddddd; text-decoration:none; text-transform:none;}
+#contenu h1 a:hover { color: #ffffff; background-color:transparent; text-decoration:underline;}
+
+#contenu h2 { color:#AF283A; border-bottom:1px solid #621620; }
+#contenu h3 { }
+#contenu h3:before { content: ">>"; color : #faaa02; font-weight:bold; }
+
+#contenu dt { font-weight:bold; margin-top:0.5em;}
+
+#contenu code { background-color: #FFFBEC; font-size:1.1em; }
+
+#contenu pre {
+   background-color: #FFFBEC;
+   overflow:auto;
+   margin:0.3em 0.8em;
+   border:1px inset;
+ }
+#contenu pre code { background-color: #FFFBEC;   font-size:1.1em; }
+#contenu pre strong { color:#ff0000; font-weight:normal;}
+
+
+#contenu .contenuinfo {border:1px grey dashed; background-color: #F2F5F9; padding:0.2em; margin-bottom:0.5em;}
+#contenu .contenuinfo p { margin:0;}
+#contenu ul.navlinks { text-align:right; font-size:1.1em;
+   background-color: #F2F5F9; margin:0;
+   height:1.3em;}
+#contenu ul.navlinks li { display:inline; float:right;  padding:0 1em 0 0;}
+#contenu .note {background-color: #FFFFDE; margin:0.8em 2em; border:1px solid black; padding: 0.5em;}
+
+#contenu .attribut {background-color:#CFFFE7; color:#21703E;}
+#contenu .attribut a {background-color:#CFFFE7; color:#21703E;}
+#contenu .attribut a:hover {background-color:#21703E; color:#CFFFE7;}
+
+#contenu .tag {background-color:#FFDEC9; color:#AC0D42;}
+#contenu .tag a {color:#AC0D42;}
+#contenu .tag a:hover {background-color:#AC0D42;color:#FFDEC9;}
+#contenu .tag:before { content:"<";}
+#contenu .tag:after { content:">";}
+
+#contenu .task {background-color: #F9FFEF; border-left:3px solid #1D588C;
+ padding:0.2em 0.2em 0.2em 0.4em; margin:1em 0; clear:both;}
+
+
+#contenu kbd { border:1px outset black; -moz-border-radius:5px; background-color: #D4D4D4; padding:0.1em;}
+#contenu var {background-color:#FDE776; color:#B75252; font-weight:normal;}
+#contenu var:before { content:"'";}
+#contenu var:after { content:"'";}
+
+#contenu img.screenshot, #contenu img.screenshot-left,#contenu img.screenshot-right { display:block; margin:0.5em;}
+#contenu img.screenshot-right {float:right; }
+#contenu img.screenshot-left {float:left;}
+
+/*#contenu ul.grosselistevaleur { list-style-type:none;}
+#contenu ul.grosselistevaleur li {  float:left; padding-right:1em;}
+*/
+#contenu table.listetouches td { vertical-align:top}
+
+#contenu table.donneestuto { border-collapse:collapse; border: 2px solid #0a5b87; }
+#contenu table.donneestuto td { vertical-align:top; border:1px solid #0a5b87; padding:0.3em; margin:0; }
+
+
+
+
+/* ========= pied de page ======== */
+
+#piedpage { margin-left:13em; margin-top:2em; text-align:center;}
+#piedpage p {margin:0;}
+#piedpage a { text-decoration: underline; color:#0a5b87; }
+#piedpage a:hover, #piedpage a:focus { color:white; background-color:#0a5b87; text-decoration:none;}
