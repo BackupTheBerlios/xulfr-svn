@@ -10,7 +10,7 @@
 <vbox flex="1">
 
   <description>
-    Entrez votre critère de recherche ci dessous et appuyer sur le bouton Chercher.
+    Entrez votre critère de recherche ci dessous et appuyer sur le bouton Rechercher.
   </description>
 
 <spacer style="height: 10px"/>
