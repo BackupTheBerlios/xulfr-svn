@@ -54,7 +54,7 @@ $article_list=array(
  'menuscroll' =>array('5.5 Menus défilants',                            array('Vincent S.'=> '13/04/2004'),'popups','events'),
 
     'events'=>array('6.1 Ajout de gestionnaires d\'évènements',            array('Durandal'=>'18/07/2004'),'menuscroll','advevents'),
-        'advevents'=>array('6.2 Plus sur les gestionnaires d\'évènements',     array(''=>''),'events','keyshort'),
+        'advevents'=>array('6.2 Plus sur les gestionnaires d\'évènements',     array('Alain B.'=>'17/04/2005'),'events','keyshort'),
  'keyshort'=>array('6.3 Raccourcis clavier',                            array('Chaddaï Fouché'=>'19/07/2004','Cyril Trumpler'=>'18/04/2005'),'advevents','focus'),
  'focus'=>array('6.4 Focus et Selection',                               array('Adrien Bustany'=>'19/07/2004', 'Cyril trumpler'=>'15/04/2005'),'keyshort','commands'),
     'commands'=>array('6.5 Commandes',                                     array('Laurent Jouanneau'=>'15/11/2004'),'focus','commandupdate'),
@@ -64,7 +64,7 @@ $article_list=array(
     'dom'=>array('7.1 Document Object Model',                              array('Chaddaï Fouché'=>'19/07/2004'),'broadob','dommodify'),
         'dommodify'=>array('7.2 Modification d\'une interface XUL',     array(''=>''),'dom','domlists'),
         'domlists'=>array('7.3 Manipulation de listes',                 array(''=>''),'dommodify','boxobject'),
-        'boxobject'=>array('7.4 Les objets boîtes',                     array(''=>''),'domlists','xpcom'),
+        'boxobject'=>array('7.4 Les objets boîtes',                     array('Alain B.'=>'06/05/2005'),'domlists','xpcom'),
     'xpcom'=>array('7.5 Interfaces XPCOM',                                 array('Maximilien'=>'24/07/2004'),'boxobject','xpcomex'),
     'xpcomex'=>array('7.6 Exemples XPCOM',                                 array('Maximilien'=>'24/07/2004'),'xpcom','clipboard'),
     'clipboard'=>array('7.7 Utilisation du presse-papiers',                array('Nadine Henry'=>'22/07/2004'),'xpcomex','dragdrop'),
