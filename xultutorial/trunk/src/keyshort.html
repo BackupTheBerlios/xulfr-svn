@@ -1,20 +1,18 @@
 
-
-
 <p>
-Vous pourriez utiliser les gestionnaires d'évènement clavier pour réagir aux touches pressées. Cependant,
-ce serait ennuyeux de le faire pour chaque bouton et item de menu.
+Pour réagir aux touches pressées, vous pourriez utiliser des gestionnaires d'évènements clavier, 
+mais il serait fastidieux de le faire pour chaque bouton ou chaque item de menu.
 </p>
 
 <h2>Créer un raccourci clavier</h2>
 
 <p>
 XUL fournit des méthodes par lesquelles vous pouvez définir des raccourcis clavier. Nous avons déjà
-vu dans la section sur les menus que nous pouvons définir un attribut appelé
-<code class="attribut">accesskey</code> qui spécifie quelle touche un utilisateur peut presser pour
+vu dans la section sur les menus que nous pouvions définir un attribut appelé
+<code class="attribut">accesskey</code> qui spécifie la touche à presser par l'utilisateur pour
 activer le menu ou l'item de menu. Dans l'exemple ci-dessous, le menu Fichier peut être sélectionné
-en pressant <kbd>Alt</kbd> et <kbd>F</kbd> (ou quelqu'autre combinaison de touches spécifique à une
-plateforme). Une fois le menu Fichier ouvert, l'item de menu Fermer peut être
+en pressant <kbd>Alt</kbd> et <kbd>F</kbd> (ou une autre combinaison de touches spécifique à une
+plate-forme). Une fois le menu Fichier ouvert, l'item de menu Fermer peut être
 sélectionné en pressant <kbd>F</kbd>.
 </p>
 
@@ -33,24 +31,24 @@ Exemple 6.3.1&nbsp;:
 
 <p>
 Vous pouvez aussi utiliser l'attribut <code class="attribut">accesskey</code> sur les
-boutons. Dans ce cas, quand la touche est pressé, le bouton est sélectionné.
+boutons. Dans ce cas, quand la touche est pressée, le bouton est sélectionné.
 </p>
 
 <p>
-Cependant, vous pourriez vouloir mettre en place des raccourcis clavier plus généraux. Par
-exemple, presser <kbd>Ctrl</kbd>+<kbd>C</kbd> pour copier du texte dans le presse-papier.
-Bien que de tels raccourcis puissent n'être pas toujours valide, ils vont usuellement
-fonctionner dès lors que la fenêtre est ouverte. Normalement, un raccourci sera
+Cependant, vous pourriez vouloir mettre en place des raccourcis clavier plus généraux, comme par
+exemple, la combinaison <kbd>Ctrl</kbd>+<kbd>C</kbd> pour copier du texte dans le presse-papiers.
+Bien que de tels raccourcis puissent ne pas être toujours valides, ils fonctionneront habituellement
+dès qu'une fenêtre est ouverte. Normalement, un raccourci sera
 autorisé à n'importe quel moment et vous pourrez vérifier via un script s'il doit faire
-quelque chose. Par exemple, copier du texte dans le presse-papier devrait marcher
+quelque chose. Par exemple, copier du texte dans le presse-papiers ne devrait fonctionner
 seulement quand du texte est sélectionné.
 </p>
 
 <p>
 XUL fournit un élément, <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>,
-qui vous permet de définir un raccourci clavier pour une fenêtre. Il a des attributs pour
-spécifier la touche qui doit être pressée et quelles touches de modification (comme Maj ou
-Ctrl) doivent l'accompagner. Un exemple&nbsp;:
+qui vous permet de définir un raccourci clavier pour une fenêtre. Il comprend des attributs pour
+définir la touche qui doit être pressée et quels modificateurs de touches (tels que shift pour <kbd>Maj</kdb> ou
+control pour <kbd>Ctrl</kbd>) doivent l'accompagner. Un exemple&nbsp;:
 </p>
 
 <pre><code>&lt;keyset&gt;
@@ -58,14 +56,14 @@ Ctrl) doivent l'accompagner. Un exemple&nbsp;:
 &lt;/keyset&gt;</code></pre>
 
 <p>
-Cette exemple définit un raccourci clavier qui est activé lorsque l'utilisateur presse
+Cet exemple définit un raccourci clavier qui s'active lorsque l'utilisateur presse
 les touches <kbd>Maj</kbd> et <kbd>R</kbd>. L'attribut <code class="attribut">key</code>
 (notez qu'il a le même nom que l'élément lui-même) peut être utilisé pour indiquer
 quelle touche doit être pressée, dans ce cas <kbd>R</kbd>. Vous pouvez ajouter n'importe
-quelle caractère dans cet attribut pour rajouter ce caractère aux touches requérant d'être
-pressées. Les touches de modification qui doivent être pressées sont indiquées par l'attribut
-<code class="attribut">modifiers</code>. C'est une liste de touches de modification séparées par
-des espaces, ces touches de modification se trouvant dans la liste ci-dessous :
+quels caractères à cet attribut selon les combinaisons de touches devant être pressées. 
+Les modificateurs de touches devant être pressés sont indiqués par l'attribut
+<code class="attribut">modifiers</code>. Il s'agit d'une liste de modificateurs séparée par 
+des espaces, et ils sont décrits ci-dessous&nbsp;:
 </p>
 
 <dl>
@@ -74,36 +72,36 @@ des espaces, ces touches de modification se trouvant dans la liste ci-dessous :
     <dt><var>control</var></dt>
     <dd>L'utilisateur doit presser la touche <kbd>Ctrl</kbd></dd>
     <dt><var>meta</var></dt>
-    <dd>L'utilisateur doit presser la touche <kbd>Meta</kbd>. C'est la touche
+    <dd>L'utilisateur doit presser la touche <kbd>Meta</kbd>. Il s'agit de la touche
         <kbd>Command</kbd> sous Macintosh.</dd>
     <dt><var>shift</var></dt>
     <dd>L'utilisateur doit presser la touche <kbd>Shift</kbd> (<kbd>Maj</kbd>)</dd>
     <dt><var>accel</var></dt>
     <dd>L'utilisateur doit presser la touche de raccourci spécifique
-        à sa plateforme.</dd>
+        à sa plate-forme.</dd>
 </dl>
 
 <p>
-Votre clavier n'aura pas forcément toutes ces touches, auquel cas elles seront
-transférés sur les touches de modification que vous possédez.
+Votre clavier n'a pas forcément toutes ces touches, dans ce cas, elles seront
+s'activeront par d'autres touches de modification que vous possédez.
 </p>
 
 <p>
 L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> doit être
 placé à l'intérieur d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/keyset">keyset</a></code>.
 Cet élément est destiné à contenir un ensemble d'éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>
-qui sert à grouper toutes les définitions de raccourcis dans un seul emplacement du fichier. Un élément
+servant à grouper toutes les définitions de raccourcis dans un seul emplacement du fichier. Un élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> à l'extérieur d'un élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/keyset">keyset</a></code> ne sera pas pris en compte.
 </p>
 
 <p>
-Généralement, chaque plateforme utilise une touche différente pour les raccourcis clavier. Par exemple,
+Généralement, chaque plate-forme utilise une touche différente pour les raccourcis clavier. Par exemple,
 Windows utilise la touche <kbd>Ctrl</kbd> tandis que Macintosh utilise la touche <kbd>Command</kbd>. Il
 serait peu commode de définir un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>
-séparé pour chaque plateforme. Heureusement, il y a une solution, la touche de modification <var>accel</var> se
-réfère à la touche de raccourci spécifique à la plateforme. Il marche exactement comme les autres
-touches de modification excepté qu'il change selon la plateforme.
+propre à chaque plate-forme. Heureusement, il y a une solution, le modificateur de touches <var>accel</var> se
+réfère à la touche de raccourci spécifique à la plate-forme. Il fonctionne exactement comme les autres
+modificateurs de touches excepté qu'il change selon la plate-forme.
 </p>
 
 <p>
@@ -127,8 +125,8 @@ pour des caractères imprimables. Un autre attribut, <code class="attribut">keyco
 
 <p>
 La valeur de l'attribut <code class="attribut">keycode</code> doit être un code spécial qui
-représente la touche que vous voulez. Une liste des touches est disponible ci-dessous.
-Toutes les touches ne sont pas disponibles sous toutes les plateformes.
+représente la touche souhaitée. Une liste de touches est disponible ci-dessous.
+Toutes les touches ne sont pas disponibles sur toutes les plate-formes.
 </p>
 
 <table class="listetouches">
@@ -278,7 +276,7 @@ Par exemple, pour créer un raccourci qui est activé quand l'utilisateur presse l
 &lt;/keyset&gt;</code></pre>
 
 <p>
-L'exemple ci-dessous montre quelques raccourcis clavier de plus&nbsp;:
+L'exemple ci-dessous montre quelques raccourcis clavier supplémentaires&nbsp;:
 </p>
 
 <pre><code>&lt;keyset&gt;
@@ -289,11 +287,11 @@ L'exemple ci-dessous montre quelques raccourcis clavier de plus&nbsp;:
 
 <p>
 Le premier raccourci est déclenché lorsque l'utilisateur presse la touche de raccourci
-spécifique à sa plateforme et <kbd>C</kbd>. Le second est invoqué quand l'utilisateur
+spécifique à sa plate-forme et <kbd>C</kbd>. Le second est invoqué quand l'utilisateur
 presse <kbd>F3</kbd>. Le troisième se déclenche sur une pression des touches
 <kbd>Ctrl</kbd>, <kbd>Alt</kbd> et <kbd>1</kbd>. Si vous voulez distinguer les touches
-de la partie centrale du clavier et les touches du pavé numérique, utiliser les touches
-<var>VK_NUMPAD</var> (telles que <var>VK_NUMPAD1</var>).
+de la partie centrale du clavier et les touches du pavé numérique, utilisez les touches
+VK_NUMPAD (telles que <var>VK_NUMPAD1</var>).
 </p>
 
 <h2>Utiliser les raccourcis clavier</h2>
@@ -301,7 +299,7 @@ de la partie centrale du clavier et les touches du pavé numérique, utiliser les 
 <p>
 Maintenant que nous savons comment définir les raccourcis clavier, nous allons découvrir
 comment les utiliser. Il y a deux manières. La première est la plus simple et requiert seulement
-que vous utilisiez le gestionnaire d'évènement clavier sur l'élément
+que vous utilisiez le gestionnaire d'évènements clavier sur l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>. Quand l'utilisateur
 presse la (ou les) touche(s), le script est invoqué. Voici un exemple&nbsp;:
 </p>
@@ -313,22 +311,22 @@ presse la (ou les) touche(s), le script est invoqué. Voici un exemple&nbsp;:
 <p>
 La fonction <code>DoCopy</code> sera appelée quand l'utilisateur pressera les
 touches spécifiées par l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>
-qui sont dans cet exemple les touches pour copier dans le presse-papier (telles que
+qui sont, dans cet exemple, les touches pour copier vers le presse-papiers (telles que
 <kbd>Ctrl</kbd>+<kbd>C</kbd>). Ceci fonctionnera tant que la fenêtre sera ouverte.
 La fonction <code>DoCopy</code> devrait vérifier si du texte est sélectionné et le copier
-dans le presse-papier si tel est le cas. Notez que les boîtes de textes intègrent déjà les
-raccourcis pour utiliser le presse-papier, de sorte que vous n'avez pas besoin de les
+dans le presse-papiers si tel est le cas. Notez que les champs de saisie intègrent déjà des
+raccourcis pour utiliser le presse-papiers, de sorte que vous n'avez pas besoin de les
 implémenter vous-même.
 </p>
 
 <p>
 Si vous assignez un raccourci à une commande qui existe déjà dans un menu, vous pouvez associer
 directement l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> avec
-la commande du menu. Pour faire ceci, ajoutez un attribut <code class="attribut">key</code> à
+la commande du menu. Pour cela, ajoutez un attribut <code class="attribut">key</code> à
 l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>.
 Donner lui comme valeur l'<code class="attribut">id</code> du raccourci que vous voulez lui
 associer.
-L'exemple ci-dessous montre cette méthode.
+L'exemple ci-dessous explique cette méthode.
 </p>
 
 <p>
@@ -351,25 +349,24 @@ Exemple 6.3.2&nbsp;:
 
 <p>
 L'attribut <code class="attribut">key</code> de l'item du menu, qui est ici <var>paste-key</var>,
-est égal à l'<code class="attribut">id</code> du raccourci défini. Vous pouvez utilisez ceci
-aussi bien pour définir des raccourcis supplémentaires que pour affecter des raccourcis clavier
-à n'importe quel nombre d'item de menu.
+est égal à l'<code class="attribut">id</code> du raccourci défini. Vous pouvez utilisez cette méthode
+pour définir des raccourcis supplémentaires à plusieurs items de menu.
 </p>
 
 <p>
-<img src="images/keyshort1.jpg" alt="capture d'écran de l'exemple 7.3.2" class="screenshot-left" />
-Vous noterez aussi dans cette image que du texte a été placé à côté de la commande <var>Coller</var>
-du menu pour indiquer que le raccourci <kbd>Ctrl</kbd>+<kbd>V</kbd> peut être pressé pour invoquer
-la commande du menu. Ceci est ajouté automatiquement pour vous sur la base des touches de modification de
+<img src="images/keyshort1.jpg" alt="capture d'écran de l'exemple 6.3.2" class="screenshot-left" />
+Vous noterez également dans cette image que du texte a été placé à côté de la commande <var>Coller</var>
+du menu pour indiquer le raccourci <kbd>Ctrl</kbd>+<kbd>V</kbd> pouvant être pressé pour invoquer
+la commande du menu. Cette indication est ajoutée automatiquement pour vous sur la base des touches de modification de
 l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>. Les raccourcis
 associés aux menus fonctionneront même si le menu n'est pas ouvert.
 </p>
 
 <p>
 Une fonctionnalité supplémentaire des définitions de raccourcis est que vous pouvez les
-désactivez facilement. Pour faire cela ajoutez un attribut <code class="attribut">disabled</code>
-à l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> et affectez lui
-la valeur <var>true</var>. Ceci désactive le raccourci clavier de façon à ce qu'il ne puisse
+désactivez facilement. Il vous suffit d'ajouter un attribut <code class="attribut">disabled</code>
+à l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> et lui affecter
+la valeur <var>true</var>. Cet attribut désactive le raccourci clavier de façon à ce qu'il ne puisse pas
 être invoqué. Il est utile de modifier l'attribut <code class="attribut">disabled</code> par
 le biais d'un script.
 </p>
@@ -415,56 +412,54 @@ onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir<
    &lt;/menu&gt;</code></pre>
 
 <p>
-Maintenant nous pouvons utiliser ces raccourcis pour activer les commandes. Evidemment les
-commandes du presse-papier ne font rien de toute façon puisque nous n'avons pas encore
-écrit ces scripts.
+Maintenant nous pouvons utiliser ces raccourcis pour activer les commandes. Évidemment les
+commandes du presse-papiers restent inactives puisque nous n'avons pas encore
+écrit leurs scripts.
 </p>
 </div>
 
 
-<h2>Evènement Clavier</h2>
+<h2>Évènement Clavier</h2>
 <p>
-Il y a 3 types d'évènements clavier qui peuvent être utilisés si les dispositifs principaux décrits
+Il y a trois types d'évènements clavier qui peuvent être utilisés si les dispositifs principaux décrits
 ci-dessus ne sont pas appropriés.
 </p>
 
 <dl>
     <dt><code>keypress</code></dt>
     <dd>
-        Appelé quand une touche est pressée puis relachée quand un élement a le focus (élément actif).
+        Appelé quand une touche est pressée puis relachée avec l'élement qui a le focus (élément actif).
         Vous pouvez l'utiliser pour controller les caractères saisis dans un champ.
     </dd>
     <dt><code>keydown</code></dt>
-    <dd> Appelé quand une touche est pressée quand un élément a le focus (élément actif). Remarquez
+    <dd> Appelé quand une touche est pressée avec l'élément qui a le focus (élément actif). Remarquez
          que l'évènement sera appelé aussitôt la touche enfoncée, même si elle n'a pas été encore
          relachée.
     </dd>
     <dt><code>keyup</code></dt>
-    <dd>Appelé quand une touche est relachée quand l'élément a le focus (élément actif).
+    <dd>Appelé quand une touche est relachée avec l'élément qui a le focus (élément actif).
     </dd>
 </dl>
 
 <p>
 Les évènements clavier sont envoyés seulement à l'élément qui a le focus.
-Typiquement, ceci inclut les champs texte, les boutons, les cases à cocher, et autres.
-Si aucun des éléments n'est actif, l'évènement sera dirigé vers le document XUL lui-meme.
-Dans ce cas, vous pouvez associer un scrutateur d'évènement à la balise
+Typiquement, ils incluent les champs de saisie, les boutons, les cases à cocher, et d'autres encore.
+Si aucun des éléments n'est actif, l'évènement sera dirigé vers le document XUL lui-même.
+Dans ce cas, vous pouvez associer un scrutateur d'évènements à la balise
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>.
-Cependant, si vous voulez réagir aux évènements de manière global, vous devriez utiliser un
+Cependant, si vous voulez réagir aux évènements de manière globale, vous devriez utiliser un
 raccourci clavier comme décrit plus haut.
 </p>
 
 <p>
-L'objet évènement a 2 propriétés qui définissent la touche préssée. La propriété <code>keyCode</code>
-contient le code de la touche et peut être comparé
-à une des constantes de la table des codes de touche vu plus tôt dans cette section.
+L'objet <code>event</code> a deux propriétés qui définissent la touche pressée. La propriété <code>keyCode</code>
+contient le code de la touche qui peut être comparé
+à une des constantes de la table des codes de touche vue plus tôt dans cette section.
 La propriété <code>charCode</code> est utilisée pour les caractères imprimables
-et contiendra le caractère de la touche pressée.
+et contient le caractère de la touche pressée.
 </p>
-
-
 
 <hr />
 
-<p>Dans la prochaine section, nous allons découvrir comment gérer le focus et les sélections.</p>
+<p>Dans la prochaine section, nous allons découvrir comment gérer le focus et la sélection.</p>
 
