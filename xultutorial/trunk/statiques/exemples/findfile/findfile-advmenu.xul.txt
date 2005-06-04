@@ -13,8 +13,8 @@
       <menubar id="findfiles-menubar">
          <menu id="file-menu" label="Fichier" accesskey="f">
             <menupopup id="file-popup">
-               <menuitem label="Ouvrir une Recherche..." accesskey="o"/>
-               <menuitem label="Enregistrer une Recherche..." accesskey="s"/>
+               <menuitem label="Ouvrir une recherche..." accesskey="o"/>
+               <menuitem label="Enregistrer une recherche..." accesskey="s"/>
                <menuseparator/>
                <menuitem label="Fermer" accesskey="f"/>
             </menupopup>
