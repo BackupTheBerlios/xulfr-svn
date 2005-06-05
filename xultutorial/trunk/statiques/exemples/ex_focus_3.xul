@@ -1,8 +1,7 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<window id="focus-example" title="Focus Example"
+<window id="focus-example" title="Exemple Focus"
         onload="init();"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
@@ -20,14 +19,14 @@ function setFocusedElement()
 </script>
 
 <hbox>
-  <label control="username" value="User Name:"/>
+  <label control="username" value="Nom d'utilisateur:"/>
   <textbox id="username"/>
 </hbox>
 
-<button label="Hello"/>
-<checkbox label="Remember This Decision"/>
+<button label="Bonjour"/>
+<checkbox label="Se souvenir de ce choix"/>
 
-<label id="focused" value="-No focus-"/>
+<label id="focused" value="-pas de focus-"/>
 
 </window>
 

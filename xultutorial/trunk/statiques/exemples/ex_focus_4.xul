@@ -1,13 +1,12 @@
-<?xml version="1.0"?>
-
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<window id="example-window" title="Example 7.4.4"
+<window id="example-window" title="Exemple 6.4.4"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-<label id="focused" style="-moz-user-focus: normal;"
-          onkeypress="alert('Label Focused');" value="Focus Me"/>
 
+<label id="focused" style="-moz-user-focus: normal;"
+          onkeypress="alert('Étiquette focalisée');" value="Focalise moi"/>
 
 </window>
 
