@@ -1,6 +1,4 @@
 
-
-
 <p>
 Une commande est une opération qui peut être invoquée.
 </p>
@@ -11,8 +9,8 @@ Une commande est une opération qui peut être invoquée.
 L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/command">command</a></code>
 est utilisé pour créer des commandes qui pourront être utilisées pour exécuter des opérations.
 Vous n'avez pas besoin d'utiliser les commandes si vous avez juste à appeler un script pour manipuler des choses.
-Cependant, une commande a l'avantage qu'elle peut être désactivée automatiquement quand c'est nécessaire,
-et peut être invoquée de l'extérieur sans avoir besoin de savoir les détails de son implémentation.
+Cependant, une commande a l'avantage de pouvoir être désactivée automatiquement quand c'est nécessaire,
+et de pouvoir être invoquée de l'extérieur sans avoir besoin de savoir les détails de son implémentation.
 Les commandes fournissent un moyen pour séparer de façon abstraite les opérations et le code.
 Elles deviennent très utiles pour les grosses applications.
 </p>
@@ -29,7 +27,7 @@ En utilisant les commandes, votre travail est simplifié.
 <p>
 Vous pouvez utiliser une commande pour n'importe quelle opération. Mozilla les utilise
 la plupart du temps pour les menus. De plus, les champs de saisie de texte et autres
-composants graphiques ont un nombre de commandes qu'ils supportent nativement, que vous pouvez donc invoquer.
+composants graphiques disposent de plusieurs commandes natives que vous pouvez donc invoquer.
 Vous devriez les utiliser quand les opérations dépendent de l'élément sélectionné.
 </p>
 
@@ -46,30 +44,27 @@ Un moyen simple d'utilisation des commandes est montré ci-après&nbsp;:
 <a href="exemples/ex_commands_1.xul.txt">Source</a>
 <a href="exemples/ex_commands_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>.</p>
 
-<pre><code>&lt;command id="cmd_openhelp" oncommand="alert('Help!');"/&gt;
-
-&lt;button label="Help" command="cmd_openhelp"/&gt;</code></pre>
-
-
+<pre><code>&lt;command id="cmd_openhelp" oncommand="alert('Aide !');"/&gt;
+&lt;button label="Aide" command="cmd_openhelp"/&gt;</code></pre>
 
 <p>
 Dans cet exemple, au lieu de placer l'attribut <code class="attribut">oncommand</code>
 sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>,
 nous le plaçons  sur un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/command">command</a></code>.
-Les deux sont alors liés en utilisant l'attribut <code class="attribut">command</code>, qui a la valeur de l'id de la commande.
+Les deux sont alors liés en utilisant l'attribut <code class="attribut">command</code> qui a la valeur de l'id de la commande.
 Ainsi quand le bouton est pressé, la commande est invoquée.
 </p>
 
 <p>
-Il y a deux avantages en utilisant cette approche. Premièrement, cela déplace toutes
-les opérations dans des commandes, qui peuvent être toutes regroupées ensemble
-dans une seule section de fichier XUL. Cela signifie que ce code est au même endroit, et n'est
+Il y a deux avantages en utilisant cette approche. Premièrement, Elle déplace toutes
+les opérations dans des commandes qui peuvent être toutes regroupées ensemble
+dans une seule section de fichier XUL. Elle signifie que le code est au même endroit, et n'est
 pas éparpillé dans tout le code de l'interface utilisateur. Le deuxième avantage est que
 différents boutons et autres éléments de l'interface graphique peuvent être rattachés à une même commande.
 Par exemple, vous pouvez avoir un item de menu, un bouton d'une barre de boutons et un raccourci clavier
 pour effectuer la même opération. Plutôt que de répéter le code trois fois, vous pouvez rattacher
-ces trois éléments à la même commande. Normalement, vous rattacherez seulement les éléments qui
-enverront un événement de commande.
+ces trois éléments à la même commande. Normalement, vous rattacherez seulement les éléments pouvant
+générer un événement de commande.
 </p>
 
 <p>
@@ -79,43 +74,35 @@ et les items de menus qui lui sont rattachés seront désactivés automatiquement.
 Si vous réactivez la commande, les boutons deviendront actifs de nouveau.
 </p>
 
-
 <p>Exemple 6.5.2&nbsp;:
 <a href="exemples/ex_commands_2.xul.txt">Source</a>
 <a href="exemples/ex_commands_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;command id="cmd_openhelp" oncommand="alert('Aide');"/&gt;
-
 &lt;button label="Aide" command="cmd_openhelp"/&gt;
 &lt;button label="Plus d'aide" command="cmd_openhelp"/&gt;
 
 &lt;button label="Désactiver"
         oncommand="document.getElementById('cmd_openhelp').setAttribute('disabled','true');"/&gt;
-
 &lt;button label="Activer"
         oncommand="document.getElementById('cmd_openhelp').removeAttribute('disabled');"/&gt;</code></pre>
 
-
-
 <p>
-Dans cet exemple, les deux boutons utilisent la même commande. Quand le bouton "désactiver" est pressé, la
+Dans cet exemple, les deux boutons utilisent la même commande. Quand le bouton "Désactiver" est pressé, la
 commande est désactivée en mettant son attribut <code class="attribut">disabled</code>, et les deux
 boutons seront aussi désactivés.
 </p>
 
 <p>
-Il est usuel de mettre un groupe de commandes à l'intérieur d'un élément
+Habituellement, un groupe de commandes se place à l'intérieur d'un élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/commandset">commandset</a></code>,
-prés du début du fichier XUL, comme ce qui suit&nbsp;:
+près du début du fichier XUL, comme dans l'exemple suivant&nbsp;:
 </p>
 
-
 <pre><code>&lt;commandset&gt;
-  &lt;command id="cmd_open" oncommand="alert('Open!');"/&gt;
-  &lt;command id="cmd_help" oncommand="alert('Help!');"/&gt;
+  &lt;command id="cmd_open" oncommand="alert('Ouvrir !');"/&gt;
+  &lt;command id="cmd_help" oncommand="alert('Aide !');"/&gt;
 &lt;/commandset&gt;</code></pre>
-
-
 
 <p>
 Une commande est invoquée quand l'utilisateur active le bouton ou les autres éléments
@@ -124,7 +111,6 @@ la méthode <code>doCommand</code>, que ce soit de l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/command">command</a></code>
 ou d'un élément rattaché à la commande comme un bouton.
 </p>
-
 
 <h2>Le répartiteur de commandes</h2>
 
@@ -145,27 +131,28 @@ est un type de contrôleur pour une commande.
 </p>
 
 <p>
-Le répartiteur de commandes localise un contrôleur en regardant l'élément sélectionné pour voir si il
+Le répartiteur de commandes localise un contrôleur en regardant l'élément sélectionné pour voir s'il
 a un contrôleur qui gère la commande. Les éléments XUL ont une propriété <code>controllers</code> qui
 est utilisée pour la vérification. Vous pouvez l'utiliser pour ajouter vos propres contrôleurs.
 Vous pourriez l'utiliser pour avoir une boîte de liste qui répond aux opérations de couper, copier et
 coller. Un exemple sera fourni plus tard.
-Par défaut, seules les boîtes de saisie (<code class="tag">textbox</code>) ont un contrôleur fonctionnel<!--qui
-fait quelque chose-->. Ce contrôleur gère aussi bien les opérations de presse-papiers, sélection, défaire et refaire
+Par défaut, seuls les champs de saisie (<code class="tag">textbox</code>) ont un contrôleur fonctionnel. 
+Ce contrôleur gère aussi bien les opérations de presse-papiers, sélection, défaire et refaire,
  que les opérations d'édition. Notez qu'un élément peut avoir plusieurs contrôleurs, qui
 seront alors tous pris en compte.
 </p>
 
 <p>
-Si l'élément courant sélectionné n'a pas le contrôleur attendu, la fenêtre sera alors vérifié.
-L'élément <code class="tag">window</code> a aussi une propriété <code>controllers</code> que vous
-pouvez modifier comme bon vous semble. Si le focus est à l'intérieur d'une frame, chaque frame parente
-est également vérifiée. Cela signifie que les commandes
-fonctionneront même si le focus est à l'intérieur d'une frame.
-Cela fonctionne bien pour un navigateur&nbsp;: les commandes d'édition invoquées
+Si l'élément courant sélectionné n'a pas le contrôleur attendu, la fenêtre sera alors vérifiée.
+L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code> 
+a aussi une propriété <code>controllers</code> que vous
+pouvez modifier comme bon vous semble. Si le focus est à l'intérieur d'un cadre frame, chaque cadre parent
+est également vérifié. Ainsi, les commandes
+fonctionneront même si le focus est à l'intérieur d'un cadre.
+Ce mécanisme fonctionne bien pour un navigateur&nbsp;; les commandes d'édition invoquées
 à partir du menu principal fonctionneront à l'intérieur de la zone de contenu.
 Notez que HTML a aussi un système de commandes et de contrôleur, bien que vous
-ne pouvez pas l'utiliser sur des pages Web non privilégiées. Mais vous pouvez
+ne pouvez pas l'utiliser sur des pages Web sans priviléges. Mais vous pouvez
 l'utiliser, par exemple, dans une extension du navigateur. Si la fenêtre
 ne fournit pas un contrôleur capable de gérer la commande, rien ne se passera.
 </p>
@@ -181,18 +168,18 @@ pour les commandes et pour récupérer et modifier le focus.
 <p>
 Vous pouvez implémenter vos propres contrôleurs pour répondre aux commandes. Vous pouvez
 tout aussi bien surcharger la gestion par défaut d'une commande en plaçant le contrôleur
-correctement. Un contrôleur doit implémenter quatre méthodes, qui sont listées ci-dessus&nbsp;:
+correctement. Un contrôleur doit implémenter quatre méthodes qui sont listées ci-dessous&nbsp;:
 </p>
 
 <dl>
     <dt><code>supportsCommand (command)</code></dt>
     <dd>Cette méthode doit renvoyer <var>true</var> si le contrôleur gère la commande.
     Si vous renvoyez <var>false</var>, la commande n'est pas gérée et le répartiteur
-de commande interrogera  un autre contrôleur. Un contrôleur peut gérer plusieurs commandes.</dd>
+    de commande interrogera un autre contrôleur. Un contrôleur peut gérer plusieurs commandes.</dd>
 
     <dt><code>isCommandEnabled (command)</code></dt>
-<dd>Cette méthode doit renvoyer <var>true</var> si la commande est activée,
-<var>false</var> sinon. Les boutons correspondants seront désactivés automatiquement.</dd>
+    <dd>Cette méthode doit renvoyer <var>true</var> si la commande est activée,
+    <var>false</var> sinon. Les boutons correspondants seront désactivés automatiquement.</dd>
 
     <dt><code>doCommand (command)</code></dt>
     <dd>exécute la commande. C'est ici que vous mettrez le code pour gérer la commande.</dd>
@@ -202,21 +189,24 @@ de commande interrogera  un autre contrôleur. Un contrôleur peut gérer plusieurs
 </dl>
 
 <p>
-Imaginons que nous voulions implémenter une boîte de liste (<code class="tag">listbox</code>)
-qui gère la commande "effacer" (<code>delete</code>). Quand un utilisateur sélectionne "effacer"
+Imaginons que nous voulions implémenter une boîte de liste 
+(<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code>)
+qui gère la commande "Supprimer". Quand un utilisateur sélectionne "Supprimer"
 dans le menu, la boîte de liste efface la ligne sélectionnée.
-Dans ce cas, vous avez juste à attacher un contrôleur à l'élément <code class="tag">listbox</code>
+Dans ce cas, vous avez juste à attacher un contrôleur à l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code>
 qui exécutera la méthode <code>doCommand</code>.
 </p>
 
 <p>
 Essayez d'ouvrir l'exemple qui suit dans une fenêtre du navigateur et sélectionnez des items
-de la liste. Vous noterez que la commande "effacer" du menu "édition" du navigateur est activée,
-et que la choisir effacera la ligne. L'exemple n'est cependant pas complet. Nous devrions nous assurer
+de la liste. Vous noterez que la commande "Supprimer" du menu "Edition" du navigateur est activée
+et qu'elle effacera la ligne sélectionnée. L'exemple n'est cependant pas complet. Nous devrions nous assurer
 que la sélection et le focus soient ajustés comme il faut après l'effacement.
 </p>
 
 <p>Exemple&nbsp;: <a href="exemples/commands.xul">voir</a></p>
+
 <pre><code>&lt;window id="controller-example" title="Exemple de contrôleur" onload="init();"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
 
@@ -244,51 +234,48 @@ function init()
 &lt;listbox id="theList"&gt;
   &lt;listitem label="Océan"/&gt;
   &lt;listitem label="Desert"/&gt;
-
   &lt;listitem label="Jungle"/&gt;
   &lt;listitem label="Marécage"/&gt;
 &lt;/listbox&gt;
 
 &lt;/window&gt;</code></pre>
 
-
-
 <p>
 Le contrôleur <code>listController</code> implémente les quatre fonctions
-décrites plus haut. La méthode <code>supportsCommand</code> renvoi
+décrites plus haut. La méthode <code>supportsCommand</code> renvoit
 <var>true</var> pour la commande <var>cmd_delete</var>, qui est le nom de
-la commande utilisé lorsque l'item de menu "Effacer" est sélectionnée.
+la commande utilisée lorsque l'item de menu "Supprimer" est sélectionné.
 Pour les autres commandes, <var>false</var> est renvoyé puisque le contrôleur
 ne gère aucune autre commande. Si vous voulez gérer plusieurs commandes,
-indiquez les ici, étant donné que vous utiliserez souvent un seul contrôleur
+indiquez les ici, dès lors que vous utiliserez souvent un seul contrôleur
 pour plusieurs commandes apparentées.
 </p>
 
 <p>
-La méthode <code>isCommandEnabled</code> renvoi
+La méthode <code>isCommandEnabled</code> renvoit
 <var>true</var> si la commande est activée. Dans le cas présent, nous vérifions
-si il y a un item sélectionné dans la liste et renvoyons <var>true</var>
-si il y en a un. Si il n'y a pas de sélection, <var>false</var> est renvoyé.
-Si vous effacez toutes les lignes dans l'exemple, la commande "effacer" deviendra
-inactive. Vous aurez à cliquer sur la liste pour mettre à jour le menu dans cet
+s'il y a un item sélectionné dans la liste et renvoyons <var>true</var>
+si c'est le cas. S'il n'y a pas de sélection, <var>false</var> est renvoyé.
+Si vous effacez toutes les lignes dans l'exemple, la commande "Supprimer" deviendra
+inactive. Vous devrez cliquer sur la liste pour mettre à jour le menu dans cet
 exemple simple.
 
-La méthode <code>doCommand</code> sera appelée lorsque l'item de menu "effacer" sera
-sélectionné, et cela provoquera l'effacement de la ligne sélectionnée dans la liste.
+La méthode <code>doCommand</code> sera appelée lorsque l'item de menu "Supprimer" sera
+sélectionné, et elle provoquera l'effacement de la ligne sélectionnée dans la liste.
 Rien ne se passera pour la méthode <code>onEvent</code>, aussi nous n'ajouterons pas
 de code pour celle-ci.
 </p>
 
 <p>
-Nous attachons le contrôleur à l'élément <code class="tag">listbox</code> en appelant
+Nous attachons le contrôleur à l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code> en appelant
 la méthode <code>appendController</code> des objets contrôleurs de la liste.
 L'objet <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIControllers.html">controller</a>
 a un certain nombre de méthodes qui peuvent être utilisées pour manipuler les contrôleurs.
 Par exemple, il y a aussi une méthode <code>insertControllersAt</code> qui insère un contrôleur
-dans un élément avant les autres. Cela peut être utile pour surcharger des commandes. Par exemple,
-le code suivant desactivera le collage du presse-papiers dans une zone de saisie.
+dans un élément avant les autres. Elle peut être utile pour surcharger des commandes. Par exemple,
+le code suivant desactivera le collage du presse-papiers dans un champ de saisie.
 </p>
-
 
 <pre><code>var tboxController = {
   supportsCommand : function(cmd){ return (cmd == "cmd_paste"); },
@@ -299,15 +286,13 @@ le code suivant desactivera le collage du presse-papiers dans une zone de saisie
 
 document.getElementById("tbox").controllers.insertControllerAt(0,tboxController);</code></pre>
 
-
-
 <p>
 Dans cet exemple, nous inserons le contrôleur à l'index <var>0</var>,
-c'est à dire avant tous les autres. Le nouveau contrôleur supporte la commande
-'cmd_paste' et indique qu'elle est désactivée. Le contrôleur par défaut de <code class="tag">textbox</code>
+c'est-à-dire avant tous les autres. Le nouveau contrôleur supporte la commande
+'cmd_paste' et indique qu'elle est désactivée. Le contrôleur par défaut de 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>
 ne sera jamais appelé parce que le répartiteur de commande trouve un contrôleur avant celui-ci, prenant
 en charge la commande en premier.
-
 </p>
 
 <hr />
