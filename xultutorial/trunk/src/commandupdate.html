@@ -1,6 +1,4 @@
 
-
-
 <p>
 Dans cette section, nous verrons comment mettre à jour des commandes.
 </p>
@@ -19,7 +17,7 @@ dans votre propre application.
 
 <p>
 Heureusement, le code spécial est assez simple. Tout ce que nous avons besoin de faire est d'obtenir
-le contrôleur demandé et d'appeler la commande. Une manière simple de le faire est la suivante :
+le contrôleur demandé et d'appeler la commande. Une manière simple de le faire est la suivante&nbsp;:
 </p>
 
 <pre><code>var controller = document.commandDispatcher.getControllerForCommand("cmd_paste");
@@ -44,7 +42,7 @@ commandes. En fait, c'est tellement commun que Mozilla inclue une bibliothèque q
 Si vous incluez le script 'chrome://global/content/globalOverlay.js' dans un fichier XUL, vous
 pouvez appeler la méthode <code class="attribut">goDoCommand</code> qui exécute la commande passée
 en argument. Le code pour cette fonction n'est long que de quelques lignes, ainsi vous pourriez
-l'inclure directement dans votre code si pour certaines raisons vous ne voudriez pas inclure la
+l'inclure directement dans votre code si pour certaines raisons vous ne souhaitez pas inclure la
 bibliothèque.
 </p>
 
@@ -74,15 +72,15 @@ pas. De plus, vous devrez considérer quand l'état pourrait changer et quand les 
 </p>
 
 <p>
-Par exemple, la commande "Coller" est valide lorsque la zone de texte a le focus et qu'il y a quelque
-chose dans le presse-papier à coller. La commande deviendra active chaque fois que la zone de texte
-aura le focus et lorsque le contenu du presse-papier changera. Un dispositif de mise à jour de
+Par exemple, la commande "Coller" est valide lorsque le champ de saisie de texte a le focus et qu'il y a quelque
+chose dans le presse-papiers à coller. La commande deviendra active chaque fois que le champ de saisie
+aura le focus et lorsque le contenu du presse-papiers changera. Un dispositif de mise à jour de
 contenu surveillera ces situations et le code qui active et désactive les commandes pourra être
 exécuté selon les besoins.
 </p>
 
 <p>
-Un simple dispositif de mise à jour de commandes ressemble à ceci :
+Un simple dispositif de mise à jour de commandes ressemble à ceci&nbsp;:
 </p>
 
 <pre><code>&lt;commandset id="updatePasteItem"
@@ -97,38 +95,37 @@ class="attribut">commandupdater</code>, qui devrait être déclaré à <var>true</va
 class="attribut">events</code> est utilisé pour lister les évènements que le dispositif de mise à
 jour de commandes surveille. Vous pouvez spécifier de multiples évènements en les séparant par des
 virgules. Dans l'exemple ci-dessus, le dispositif de mise à jour de commandes surveille les
-évènements de focus. Cela a pour effet de mettre à jour les commandes lorsqu'un élément reçoit le
+évènements de focus. Il a pour effet de mettre à jour les commandes lorsqu'un élément reçoit le
 focus.
 </p>
 
 <p>
 Lorsqu'un évènement de focus se produit, le code dans l'attribut <code
-class="attribut">oncommandupdate</code> est appelé. Dans l'exemple, la méthode <code>goUpdateCommand</code> qui
-est une fonction provenant du script globalOverlay.js décrit plus tôt est appelée. Elle va mettre à jour la
+class="attribut">oncommandupdate</code> est appelé. Dans l'exemple, la méthode <code>goUpdateCommand</code>, qui
+est une fonction provenant du script globalOverlay.js décrit plus tôt, est appelée. Elle va mettre à jour la
 commande et activer ou désactiver les items de boutons et de menus nécessaires. Le code qui est derrière est
 assez simple. Il appelle seulement le contrôleur nécessaire, appelle sa méthode <code>isCommandEnabled</code>,
 et enfin active ou désactive la commande. Si vous avez plusieurs commandes à mettre à jour, appelez la
 méthode <code>goUpdateCommand</code> une fois pour chaque commande.
 </p>
 
-<p>
+<p class="note">
 Notez que le dispositif de mise à jour de commandes recevra les notifications de tous les évènements
 de focus sur tous les éléments, même si d'autres gestionnaires d'évènements répondent à l'évènement.
 Essentiellement, un dispositif de mise à jour de commandes est comme un gestionnaire global
-d'évènement.
+d'évènements.
 </p>
 
 <p>
-Les dispositifs de mise à jour de commandes ont un nombre d'évènements qui peuvent répondre à ceux
-qui sont listés ci-dessous. Aussi est-il possible de créer le vôtre.
+Les dispositifs de mise à jour de commandes disposent de plusieurs évènements pouvant répondre à ceux
+qui sont listés ci-dessous. Il est également possible de créer le votre.
 </p>
 
 <ul>
-  <li><strong>focus</strong>: se produit lorsque l'élément qui a le focus change.</li>
-  <li><strong>select</strong>: se produit lorsque le texte sélectionné change.</li>
-
-  <li><strong>undo</strong>: se produit lorsque le tampon d'annulation change.</li>
-  <li><strong>clipboard</strong>: se produit lorsque le contenu du presse-papier change.</li>
+  <li><strong>focus</strong>&nbsp;: se produit lorsque l'élément qui a le focus change.</li>
+  <li><strong>select</strong>&nbsp;: se produit lorsque le texte sélectionné change.</li>
+  <li><strong>undo</strong>&nbsp;: se produit lorsque le tampon d'annulation change.</li>
+  <li><strong>clipboard</strong>&nbsp;: se produit lorsque le contenu du presse-papiers change.</li>
 </ul>
 
 <p>
@@ -141,7 +138,6 @@ dans le script 'chrome://communicator/content/utilityOverlay.js'.
             commandupdater="true"
             events="focus"
             oncommandupdate="goUpdateGlobalEditMenuItems()"/&gt;
-
 &lt;commandset id="selectEditMenuItems"
             commandupdater="true"
             events="select"
@@ -158,6 +154,6 @@ dans le script 'chrome://communicator/content/utilityOverlay.js'.
 <hr />
 
 <p>
-Prochainement, nous vous montrerons comment utiliser les observateurs.
+Ensuite, nous vous montrerons comment utiliser les observateurs.
 </p>
 
