@@ -2,10 +2,10 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<window id="example-window" title="Exemple 6.4.1"
+<window id="example-window" title="Exemple 8.2.1"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-<tree  rows="6">
+<tree rows="6">
   <treecols>
       <treecol id="firstname" label="Prénom" primary="true" flex="3"/>
       <treecol id="lastname" label="Nom" flex="7"/>
