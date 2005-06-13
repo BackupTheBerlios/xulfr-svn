@@ -1,16 +1,17 @@
 
-
+<p class="note">Attention, cette page est maintenue dans la version française, 
+mais elle a été enlevée par son auteur sur la version anglaise.</p>
 
 <p>
 Cette section indique comment implémenter des objets capables d'être déplacés, et lâchés sur
 d'autres objets.
 </p>
 
-<h2>L'interface</h2>
+<h2>L'interface glisser-déposer</h2>
 
 <p>
 De nombreuses interfaces graphiques permettent de glisser-déposer des objets. Il est par
-exemple possible de déplacer des fichiers d'un dossier à l'autre, ou de lâcher une icone sur
+exemple possible de déplacer des fichiers d'un dossier à l'autre, ou de lâcher une icône sur
 une fenêtre pour ouvrir le document qui lui correspond. Mozilla et XUL fournissent une panoplie
 d'évènements qui se déclenchent lorsque un utilisateur essaie de déplacer un objet.
 </p>
@@ -29,7 +30,7 @@ peut être déposé. Si l'objet ne supporte pas le glisser déposer, la session n'es
 L'utilisateur n'ayant en général qu'une souris, une seule session est active à un instant donné.
 </p>
 
-<p>
+<p class="note">
 Notez que la session peut être créée depuis Mozilla, mais aussi par d'autres applications. Le
 cas échéant, Mozilla s'occupe de traduire la session.
 </p>
@@ -49,11 +50,11 @@ intéressent.
       <dd>Appellé pour un élément survolé par le glisser. Si l'objet peut être lâché ici, vous le
       signalez à la session.</dd>
   <dt><code class="attribut">ondragenter</code></dt>
-      <dd>Appellé quand le glisser entre dans l'espace aérien de l'élément. Cela permet à l'élément
+      <dd>Appellé quand le glisser entre dans l'espace aérien de l'élément. Il permet à l'élément
       de changer d'apparence pour signifier à l'utilisateur qu'il peut lâcher ici.</dd>
   <dt><code class="attribut">ondragexit</code></dt>
-      <dd>Appellé quand le glisser cesse de survoler l'élément. Et également quand le glisser-déposer
-      s'achève. Cela permet ainsi de retablir l'apparence de l'élément ou de faire d'autres choses.
+      <dd>Appellé quand le glisser cesse de survoler l'élément, et également quand le glisser-déposer
+      s'achève. Il permet ainsi de retablir l'apparence de l'élément ou de faire d'autres choses.
       </dd>
   <dt><code class="attribut">ondragdrop</code></dt>
      <dd> Appellé quand le glisser-déposer s'achève sur l'élément. À ce moment là, l'utilisateur a déjà
@@ -68,7 +69,6 @@ direct des interfaces de glisser-déposer XPCOM. La seconde est de passer par un 
 qui vous décharge d'une partie du travail. Ce conteneur est inclus dans le paquet "toolkit" ou "global"
 de Mozilla.
 </p>
-
 
 <h2>Le glisser-déposer avec XPCOM</h2>
 
@@ -93,32 +93,32 @@ La fonction <code>invokeDragSession</code> prend quatre paramètres, décris ci-ap
 
 <dl>
   <dt><code>element</code></dt>
-     <dd> Une référence à l'élément à glisser-déposer. On l'obtient en accédant à la propriété
+     <dd>Une référence à l'élément à glisser-déposer. On l'obtient en accédant à la propriété
       <code>event.target</code> dans le gestionnaire d'évènement.</dd>
   <dt><code>transferableArray</code></dt>
-      <dd>Un tableau d'objets <code>nsITransferable</code>, un par élément glissé-déposé. On utilise un tableau
+      <dd>Un tableau d'objets <code>nsITransferable</code>, un par élément glisser-déposer. On utilise un tableau
       pour pouvoir déplacer plusieurs éléments d'un coup, comme un ensemble de fichiers.</dd>
   <dt><code>region</code></dt>
       <dd>Une région utilisée pour donner un retour à l'utilisateur. Mettre à <var>null</var> dans la
       majorité des cas.</dd>
   <dt><code>actions</code></dt>
-     <dd> Les actions utilisées par le glisser-déposer. Elles peuvent prendre l'une
+     <dd>Les actions utilisées par le glisser-déposer. Elles peuvent prendre l'une
      des valeurs de constantes suivantes, ou une combinaison de ces valeurs.
      L'action peut être changée pendant le glisser-déposer selon l'élément qui est survolé&nbsp;:
       <dl>
         <dt><code>nsIDragSession.DRAGDROP_ACTION_NONE</code></dt>
             <dd>Indique qu'aucune action de glisser-déposer n'est valide.</dd>
         <dt><code>nsIDragSession.DRAGDROP_ACTION_COPY</code></dt>
-            <dd>L'élément glissé-déposé peut être copié lors du lâcher.</dd>
+            <dd>L'élément glisser-déposer peut être copié lors du lâcher.</dd>
         <dt><code>nsIDragSession.DRAGDROP_ACTION_MOVE</code></dt>
             <dd>L'élément peut être déplacé lors du lâcher.</dd>
         <dt><code>nsIDragSession.DRAGDROP_ACTION_LINK</code></dt>
-           <dd> Un lien (raccourci ou alias) peut être créé là où a lieu le lâcher.</dd>
+           <dd>Un lien (raccourci ou alias) peut être créé là où a lieu le lâcher.</dd>
      </dl></dd>
 </dl>
 
 <p>
-L'interface <code>nsIDragService</code> fournit également la fonction <code>getCurrentSession</code>, qui peut
+L'interface <code>nsIDragService</code> fournit également la fonction <code>getCurrentSession</code> qui peut
 être appellée dans le contexte d'un des évènements de glisser-déposer pour accéder à, et modifier,
 l'état du glisser-déposer. Cette fonction renvoie un objet implémentant <code>nsIDragSession</code>.
 </p>
@@ -131,7 +131,7 @@ Elle expose les propriétés et méthodes suivantes&nbsp;:
 <dl>
   <dt><code>canDrop</code></dt>
       <dd>Affectez <var>true</var> à cette propriété si l'élément en dessous du curseur pourrait accepter
-      que l'élément glissé soit déposé, et <var>false</var> si ce n'est pas envisageable. Modifier
+      que l'élément glissé soit déposé, et <var>false</var> si ce n'est pas envisageable. Modifiez
       cette valeur dans le contexte d'évènements <code>ondragover</code> et <code>ondragenter</code>.</dd>
   <dt><code>dragAction</code></dt>
       <dd>Détermine l'action à entreprendre au lâcher, sous forme d'une combinaison des constantes
@@ -146,9 +146,11 @@ Elle expose les propriétés et méthodes suivantes&nbsp;:
   <dt><code>sourceNode</code></dt>
       <dd>Le noeud DOM où le glisser-déposer a commencé.</dd>
   <dt><code>isDataFlavorSupported(flavour)</code></dt>
-      <dd>Renvoie <var>true</var> si parmi les données déplacées on en trouve avec le type indiqué (flavour).</dd>
+      <dd>Renvoie <var>true</var> si la donnée déplacée contient un exemplaire dand le type (flavour) indiqué.</dd>
 </dl>
+
 <hr />
+
 <p>Dans la prochaîne section, nous verrons comment utiliser le conteneur Javascript pour le
 glisser-déposer.</p>
 
