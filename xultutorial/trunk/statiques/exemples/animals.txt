@@ -75,7 +75,7 @@
        </RDF:Description>
 
        <RDF:Description RDF:about="http://www.some-fictitious-zoo.com/mammals/aardvark" ANIMALS:specimens="2">
-         <ANIMALS:name>Aardvark</ANIMALS:name>
+         <ANIMALS:name>Oryctérope</ANIMALS:name>
          <ANIMALS:species>Orycteropus afer</ANIMALS:species>
        </RDF:Description>
 

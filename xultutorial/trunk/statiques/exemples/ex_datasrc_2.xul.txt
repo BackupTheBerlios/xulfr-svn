@@ -10,7 +10,7 @@
 
   <treecols>
     <treecol id="name" label="Nom" primary="true" flex="1"/>
-    <treecol id="species" label="Éspèces" flex="1"/>
+    <treecol id="species" label="Espèces" flex="1"/>
   </treecols>
 
   <template>
