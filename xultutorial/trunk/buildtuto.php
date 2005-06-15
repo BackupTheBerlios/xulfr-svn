@@ -63,7 +63,7 @@ $article_list=array(
 
     'dom'=>array('7.1 Document Object Model',                              array('Chaddaï Fouché'=>'19/07/2004'),'broadob','dommodify'),
         'dommodify'=>array('7.2 Modification d\'une interface XUL',     array(''=>''),'dom','domlists'),
-        'domlists'=>array('7.3 Manipulation de listes',                 array(''=>''),'dommodify','boxobject'),
+        'domlists'=>array('7.3 Manipulation de listes',                 array('Romain D.'=>'25/04/2005'),'dommodify','boxobject'),
         'boxobject'=>array('7.4 Les objets boîtes',                     array('Alain B.'=>'06/05/2005'),'domlists','xpcom'),
     'xpcom'=>array('7.5 Interfaces XPCOM',                                 array('Maximilien'=>'24/07/2004'),'boxobject','xpcomex'),
     'xpcomex'=>array('7.6 Exemples XPCOM',                                 array('Maximilien'=>'24/07/2004'),'xpcom','clipboard'),
@@ -77,7 +77,7 @@ $article_list=array(
  'advtrees' =>array('8.2 Autres caractéristiques des arbres',           array('Laurent Jouanneau'=> '24/06/2004', 'Gerard L.'=>'25/03/2005'),'trees','seltree'),
  'seltree'=>array('8.3 Selection dans les arbres',                      array('Medspx'=>'17/07/2004'),'advtrees','treeview'),
  'treeview'=>array('8.4 Vues d\'arbre personnalisées',                  array('Chaddaï Fouché'=>'20/07/2004'),'seltree','treeviewdet'),
-        'treeviewdet'=>array('8.5 Détails sur les vues d\'arbres',     array(''=>''),'treeview','treeboxobject'),
+        'treeviewdet'=>array('8.5 Détails sur les vues d\'arbres',     array('Romain D.'=>'03/05/2005'),'treeview','treeboxobject'),
         'treeboxobject'=>array('8.6 Les objets boîtes des arbres',     array('Alain B.'=>'15/06/2005'),'treeviewdet','intrordf'),
 
 
@@ -284,7 +284,7 @@ ob_clean();
 
     $page_url_from='src/'.$basename.'.html';
     //$page_url_to='builds/'.$basename.'.html';
-    $page_url_to='../../www/xulplanet/xultu_cvs/'.$basename.'.html';
+    $page_url_to='../../../../www/xulplanet/xultu_cvs/'.$basename.'.html';
     $file = implode('',file($page_url_from));
 
     if($basename == 'index'){

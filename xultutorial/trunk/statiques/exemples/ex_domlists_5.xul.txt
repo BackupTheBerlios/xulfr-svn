@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Example 7.3.5"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<button label="scrollToIndex"
+           oncommand="document.getElementById('thelist').scrollToIndex(4);"/>
+<button label="ensureIndexIsVisible"
+           oncommand="document.getElementById('thelist').ensureIndexIsVisible(4);"/>
+
+<listbox id="thelist" rows="5">
+  <listitem label="1"/>
+  <listitem label="2"/>
+  <listitem label="3"/>
+  <listitem label="4"/>
+  <listitem label="5"/>
+  <listitem label="6"/>
+  <listitem label="7"/>
+  <listitem label="8"/>
+  <listitem label="9"/>
+  <listitem label="10"/>
+  <listitem label="11"/>
+  <listitem label="12"/>
+</listbox>
+
+
+</window>
+
