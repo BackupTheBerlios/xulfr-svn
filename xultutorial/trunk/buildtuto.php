@@ -53,7 +53,7 @@ $article_list=array(
  'popups' =>array('5.4 Menus surgissants',                              array('Vincent S.'=> '01/04/2004'),'advmenu','menuscroll'),
  'menuscroll' =>array('5.5 Menus défilants',                            array('Vincent S.'=> '13/04/2004'),'popups','events'),
 
-    'events'=>array('6.1 Ajout de gestionnaires d\'évènements',            array('Durandal'=>'18/07/2004'),'menuscroll','advevents'),
+    'events'=>array('6.1 Ajout de gestionnaires d\'évènements',            array('Durandal'=>'18/07/2004', 'Julien Appert'=>'15/06/2005'),'menuscroll','advevents'),
         'advevents'=>array('6.2 Plus sur les gestionnaires d\'évènements',     array('Alain B.'=>'17/04/2005'),'events','keyshort'),
  'keyshort'=>array('6.3 Raccourcis clavier',                            array('Chaddaï Fouché'=>'19/07/2004','Cyril Trumpler'=>'18/04/2005'),'advevents','focus'),
  'focus'=>array('6.4 Focus et Selection',                               array('Adrien Bustany'=>'19/07/2004', 'Cyril trumpler'=>'15/04/2005'),'keyshort','commands'),
