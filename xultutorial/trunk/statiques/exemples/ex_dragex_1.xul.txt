@@ -22,7 +22,7 @@
         elem="button" ondraggesture="nsDragAndDrop.startDrag(event,listObserver)"/>
 <button label="Case à cocher"
         elem="checkbox" ondraggesture="nsDragAndDrop.startDrag(event,listObserver)"/>
-<button label="Zone de saisie"
+<button label="Champ de saisie"
         elem="textbox" ondraggesture="nsDragAndDrop.startDrag(event,listObserver)"/>
 </vbox>
 
