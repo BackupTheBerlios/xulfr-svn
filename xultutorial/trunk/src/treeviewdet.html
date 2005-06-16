@@ -3,8 +3,8 @@
 
 <h2>Créer une vue hiérarchique personnalisée</h2>
 
-<p>Dans la dernière section, nous avons créé une vue d'arbre simple qui était seulement
-implémentée par une quantité minimale de fonctionnalité. A présent, regardons quelques
+<p>Dans la dernière section, nous avons créé une vue d'arbre simple qui était
+implémentée avec seulement un minimum de fonctionnalité. A présent, regardons quelques
 fonctions supplémentaires que les vues peuvent implémenter. Ici, nous examinerons
 comment créer un ensemble hiérarchique d'items utilisant la vue. C'est un processus
 relativement astucieux qui  implique de garder une trace des items qui sont enfants et
@@ -13,48 +13,49 @@ relativement astucieux qui  implique de garder une trace des items qui sont enfa
 <p>Chaque ligne dans l'arbre possède un niveau d'imbrication. Les lignes les plus hautes
 ont un niveau 0, les enfants de ces lignes ont un niveau 1, leurs enfants le niveau 2
 et ainsi de suite. L'arbre interroge la vue pour chaque ligne en appelant sa méthode
-getLevel pour découvrir le niveau de cette ligne. La vue aura besoin de retourner 0 les
-lignes les plus à l'extérieur et les valeurs les plus élevées pour les lignes intérieures.
+<code>getLevel</code> pour connaître le niveau de cette ligne. La vue devra retourner 0
+pour les lignes les plus à l'extérieur et des valeurs plus élevées pour les lignes intérieures.
 L'arbre utilisera cette information pour déterminer la structure hiérarchique de ces
 lignes.</p>
 
-<p>En plus de la méthode getLevel, il y a la fonction hasNextSibling laquelle, pour une
-ligne donnée, devrait retourner true si il y a une autre ligne après au même niveau.
+<p>En plus de la méthode <code>getLevel</code>, il y a la fonction <code>hasNextSibling</code> laquelle,
+pour une ligne donnée, devrait retourner true si il y a une autre ligne après au même niveau.
 cette fonction est utilisée, spécifiquement, pour dessiner l'imbrication des lignes le
 long du côté de l'arbre.</p>
 
-<p>La méthode getParentIndex est supposée retourner la ligne parente d'une ligne donnée,
+<p>La méthode <code>getParentIndex</code> est supposée retourner la ligne parente d'une ligne donnée,
 c'est à dire, la ligne précédente avec une valeur d'imbrication inférieure. Toutes ces
-méthodes doivent être implémentées par la vue pour l'enfant pour être proprement
-manipulées.</p>
+méthodes doivent être implémentées par la vue pour que les enfants soient proprement
+manipulés.</p>
 
-<p>Il y a également trois fonctions, isContainer, isContainerEmpty et isContainerOpen
-qui sont utilisées pour manipuler un item parent dans l'arbre. Naturellement, la méthode
-isContainer devrait retourner true si une ligne est un conteneur et peut contenir des
-enfants. La méthode isContainerEmpty devrait renvoyer true si une ligne est un conteneur
-vide, par exemple, un répertoire sans fichiers à l'intérieur. La vue est requise pour
-garder une trace des items qui sont ouverts ou fermés, la méthode isContainerOpen est
-donc utilisée pour déterminer cela. L'arbre apellera cette méthode pour déterminer quels
-conteneurs sont ouverts et lesquels sont fermés. Notez que l'arbre n'appellera ni
-isContainerEmpty ni isContainerOpen pour les lignes qui ne sont pas conteneurs ceci en se
-basant sur la valeur de retour de la méthode isContainer.</p>
+<p>Il y a également trois fonctions, <code>isContainer</code>, <code>isContainerEmpty</code> et
+<code>isContainerOpen</code>  qui sont utilisées pour manipuler un item parent dans l'arbre.
+Naturellement, la méthode <code>isContainer</code> devrait retourner <var>true</var> si une ligne
+est un conteneur et peut contenir des enfants. La méthode <code>isContainerEmpty</code> devrait
+renvoyer true si une ligne est un conteneur vide, par exemple, un répertoire sans fichiers
+à l'intérieur. La vue est requise pour garder une trace des items qui sont ouverts ou fermés,
+la méthode <code>isContainerOpen</code> est donc utilisée pour déterminer cela. L'arbre appellera
+cette méthode pour déterminer quels conteneurs sont ouverts et lesquels sont fermés. Notez que
+l'arbre n'appellera ni <code>isContainerEmpty</code>, ni <code>isContainerOpen</code> pour les lignes
+qui ne sont pas conteneurs ceci en se basant sur la valeur de retour de la méthode
+<code>isContainer</code>.</p>
 
-<p>Un conteneur peut être affiché différemment d'un non-conteneur. Par exemple, un
+<p>Un conteneur peut être affiché différemment qu'un non-conteneur. Par exemple, un
 conteneur peut avoir un icone de dossier devant lui. Une feuille de style peut être
 utilisé pour styler des items en se basant sur diverses propriétés telles que si une
-ligne est ouverte. Ceci est décrit dans une prochaine section. Un conteneur non vide
-apparaitra avec un  "twisty" (NdT chap 9.2: petit '+' ou '-' permettant de développer
+ligne est ouverte. Ceci est décrit dans <a href="treestyle.html">une prochaine section</a>.
+Un conteneur non vide apparaitra avec un  "twisty" (NdT: petit '+' ou '-' permettant de développer
 et replier l'arborescence) à côté avec lequel l'utilisateur peut ouvrir ou fermer la
-ligne pour voir les items enfant. Les conteneurs vides n'auront pas de twisty, mais
+ligne pour voir les items enfants. Les conteneurs vides n'auront pas de twisty, mais
 seront toujours considérés comme des conteneurs.</p>
 
 <p>Quand l'utilisateur clique sur le twisty pour ouvrir une ligne, l'arbre appellera
-la méthode de vue toggleOpenState. La vue devrait mettre en oeuvre les opérations
-nécessaires pour rapporter les lignes enfants et mettre à jour l'arbre avec les nouvelles
+la méthode de vue <code>toggleOpenState</code>. La vue devrait mettre en oeuvre les opérations
+nécessaires pour intégrer les lignes enfants et mettre à jour l'arbre avec les nouvelles
 lignes.</p>
 
-<p>Ceci est un récapitulatif des méthodes nécessaires pour implémentr des vues
-hiérarchiques:</p>
+<p>Ceci est un récapitulatif des méthodes nécessaires pour implémenter des vues
+hiérarchiques&nbsp;:</p>
 
 <pre><code>getLevel(ligne)
 hasNextSibling(ligne, apresIndex)
@@ -64,13 +65,15 @@ isContainerEmpty(ligne)
 isContainerOpen(ligne)
 toggleOpenClose(ligne)</code></pre>
 
-<p>L'argument apresIndex de la fonction hasNextSibling est utilisée comme optimisation
-pour uniquement démarrer la recherche de la prochaine ligne soeur (ligne au même niveau)
-après ce point. Par exemple, l'appeleur peut déjà connaitre où la prochaine ligne soeur
-pourra être. Imaginez une situation où une ligne possède des sous-lignes et que ces
+<p>L'argument <code>apresIndex</code> de la fonction <code>hasNextSibling</code> est utilisée
+pour une raison d'optimisation, afin de démarrer la recherche à partir de la prochaine ligne soeur
+(ligne au même niveau) après ce point. Par exemple, l'appelant pourrait déjà connaitre où la prochaine
+ligne soeur pourrait être. Imaginez une situation où une ligne possède des sous-lignes et que ces
 sous-lignes aient des lignes enfants dont quelques unes sont ouvertes. Cela prendra du
-temps en implémentations pour déterminer quel est l'index de la prochaine ligne soeur
+temps dans une implémentation pour déterminer quel est l'index de la prochaine ligne soeur
 dans ce cas.</p>
+
+<!-- relu jusqu'ici -->
 
 <p>Regardons cela ensemble dans un exemple simple qui construit un arbre à partir d'un
 tableau. Nous examinerons ceci morceau par morceau.</p>
