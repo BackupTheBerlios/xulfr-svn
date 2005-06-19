@@ -61,7 +61,7 @@ $article_list=array(
     'commandupdate'=>array('6.6 Mise à jour de commandes',                 array('Nadine Henry'=>'20/07/04'),'commands','broadob'),
     'broadob'=>array('6.7 Broadcasters et Observateurs',                   array('BrainBooster'=>'20/07/2004'),'commandupdate','dom'),
 
-    'dom'=>array('7.1 Document Object Model',                              array('Chaddaï Fouché'=>'19/07/2004'),'broadob','dommodify'),
+    'dom'=>array('7.1 Document Object Model',                              array('Chaddaï Fouché'=>'19/07/2004', 'Julien Appert'=>'17/06/2005'),'broadob','dommodify'),
         'dommodify'=>array('7.2 Modification d\'une interface XUL',     array(''=>''),'dom','domlists'),
         'domlists'=>array('7.3 Manipulation de listes',                 array('Romain D.'=>'25/04/2005'),'dommodify','boxobject'),
         'boxobject'=>array('7.4 Les objets boîtes',                     array('Alain B.'=>'06/05/2005'),'domlists','xpcom'),
