@@ -1,0 +1,451 @@
+
+<p>Cette section décrit comment consulter des information contenu dans
+un datasource.</p>
+
+<h2>Méthodes d'interrogation</h2>
+
+<p>L'interface <a href="/references/xpcomref/ifaces/nsIRDFDataSource.html">nsIRDFDataSource</a>
+fournit un certain nombre de méthodes pour interroger un datasource
+RDF. Les deux datasources courants <code>in-memory-datasource</code>
+et <code>xml-datasource</code> implémentent toutes ces méthodes.
+Cependant, d'autres datasources peuvent ne pas implémenter tous les
+dispositifs. Si une méthode n'est pas appliquée par un datasource,
+une exception sera faites quand la méthode sera appelé. C'est vrai pour
+plusieurs des datasources intégrés à Mozilla, c.-à-d., ceux qui
+commencent par 'rdf:' cela sont fournit avec Mozilla. Ces méthodes sont
+toutes désimplementées quand elles ne sont pas nécessaires pour le
+produit.</p>
+
+<p>Puisque RDF stocke des triplets de données, vous pouvez interroger
+une partie du triplet pour certaines données. Par exemple, si vous avez
+le sujet et le prédicat du triplet, vous pouvez interroger le datasource
+pour les cibles qui sont présentes. De même, si vous avez le prédicat
+et la cible, vous pouvez rechercher les sujets.</p>
+
+<p>Les exemples de cette section utilisent l'exemple RDF de la famille
+de Karen <a href="rdfsyntax.html">d'une des sections précédentes</a>.
+La représentation du RDF/XML de ces données RDF est répétée ci-dessous.</p>
+
+<pre><code>
+&lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         xmlns:wordnet=&quot;http://xmlns.com/wordnet/1.6/&quot;
+         xmlns:people=&quot;http://www.xulplanet.com/rdf/people/&quot;&gt;
+
+&lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Karen&quot; people:name=&quot;Karen&quot;&gt;
+  &lt;people:children&gt;
+    &lt;rdf:Seq rdf:about=&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;&gt;
+      &lt;rdf:li&gt;
+        &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot; people:name=&quot;Sandra&quot;/&gt;
+      &lt;/rdf:li&gt;
+      &lt;rdf:li&gt;
+        &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot; people:name=&quot;Kevin&quot;/&gt;
+      &lt;/rdf:li&gt;
+      &lt;rdf:li&gt;
+        &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Jack&quot; people:name=&quot;Jack&quot;/&gt;
+      &lt;/rdf:li&gt;
+    &lt;/rdf:Seq&gt;
+  &lt;/people:children&gt;
+&lt;/wordnet:Person&gt;
+
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>une liste des méthodes d'interrogations disponibles pour tous les
+datasources RDF est énumérée ci-dessous. Le tableau présente les
+fonctions que vous appellerez connaissant certaines parties d'un
+triplet et que vous voulez une autre partie du triplet. Par exemple,
+la première ligne indique que si vous avez le sujet du triplet, et
+que vous voulez rechercher les prédicats qui précisent le sujet de
+cette ressource, employez la fonction <code
+class="attribut">ArcLabelsOut</code>.</p>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th colspan="3">Vous avez</th>
+      <th rowspan="2">Vous voulez</th>
+      <th rowspan="2">Méthode</th>
+    </tr>
+    <tr>
+      <th>Sujet</th>
+      <th>Prédicat</th>
+      <th>Cible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>X</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>Prédicat</td>
+      <td>ArcLabelsOut</td>
+    </tr>
+    <tr>
+      <td>X</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>Cible</td>
+      <td>ArcLabelsOut et GetTarget(s)</td>
+    </tr>
+    <tr>
+      <td>X</td>
+      <td>X</td>
+      <td>&nbsp;</td>
+      <td>Cible</td>
+      <td>GetTarget ou GetTargets</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>X</td>
+      <td>Prédicat</td>
+      <td>ArcLabelsIn</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>X</td>
+      <td>Sujet</td>
+      <td>ArcLabelsIn et GetSource(s)</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>X</td>
+      <td>X</td>
+      <td>Sujet</td>
+      <td>GetSource ou GetSources</td>
+    </tr>
+    <tr>
+      <td>X</td>
+      <td>X</td>
+      <td>&nbsp;</td>
+      <td>Existence de cible</td>
+      <td>hasArcOut</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>X</td>
+      <td>X</td>
+      <td>Existence de sujet</td>
+      <td>hasArcIn</td>
+    </tr>
+    <tr>
+      <td>X</td>
+      <td>X</td>
+      <td>X</td>
+      <td>Existence</td>
+      <td>HasAssertion</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<h2>Recherche Des Cibles</h2>
+
+<p>La méthode la plus généralement utilisée est <code
+class="attribut">GetTarget</code>. Cette méthode renverra une
+simple cible en donnant un sujet et un prédicat. Disons que nous
+voulons renvoyer le nom de la ressource Karen. L'URI de la
+ressource Karen est <code>http://www.xulplanet.com/rdf/people/Karen</code>.
+D'abord, nous obtenons cette ressource en utilisant le service RDF.</p>
+
+<pre><code>
+var rdfService = Components.classes[&quot;@mozilla.org/rdf/rdf-service;1&quot;].
+                   getService(Components.interfaces.nsIRDFService);
+
+var karen = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Karen&quot;);
+</code></pre>
+
+<p>Rappelez-vous que les ressources sont des objets globaux. Si Karen
+apparaît dans un autre datasource, les deux ressources seront le même
+objet. Ceci rend facile la combinaison de deux datasources ensemble.</p>
+
+<p>Après, nous employons la méthode <code class="attribut">GetTarget</code>
+pour rechercher le nom de Karen. Nous employons cette méthode parce que
+nous avons le sujet -- la ressource Karen que nous venons juste d'obtenir
+du service RDF ci-dessus -- et le prédicat qui est 'name'. Nous devrons
+qualifier le prédicat avec le namespace. Dans le RDF/XML ci-dessus, le
+préfixe <code>people</code> du namespace est employé, mais naturellement
+nous ne pouvons pas employer le préfixe en code puisqu'il est juste une
+sténographie XML. Nous devrons employer l'URI complète qui est
+<code>http://www.xulplanet.com/rdf/people/name</code>. Puisque le
+prédicat est également une ressource, nous le recherchons avec le
+service RDF exactement comme le sujet.</p>
+
+<pre><code>
+var name = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/name&quot;);
+
+var target = datasource.GetTarget(karen, name, true);
+</code></pre>
+
+<p>Il est passée à la méthode <code class="attribut">GetTarget</code>
+le sujet et le prédicat de la ressource. Elle renvoie la cible comme
+noeud RDF. La méthode renvoie toujours les objets qui implémente
+l'interface <a href="/references/xpcomref/ifaces/nsIRDFNode.html">nsIRDFNode</a>,
+jamais les interfaces de ressource ou de literal directement. Si vous
+voulez ces interfaces, vous devrez obtenir l'interface désirée en
+utilisant <code class="attribut">QueryInterface</code>. Dans le cas de
+Karen, nous supposerons que son nom est un literal et que nous voulons
+obtenir la valeur du nom. Notez que la valeur retournée n'est pas une
+chaîne de caractères. Aucune des interfaces d'interrogation de RDF ne
+fonctionne directement sur des chaînes de carctères.</p>
+
+<pre><code>
+var karensname;
+
+var target = datasource.GetTarget(karen, name, true);
+if (target instanceof Components.interfaces.nsIRDFLiteral){
+  karensname = target.Value;
+}
+</code></pre>
+
+<p>L'opérateur <code class="attribut">instanceof</code> vérifie si la
+valeur de la 'cible' est un literal RDF, et a également l'effet
+secondaire de remettre la valeur à l'interface si elle est bien un
+literal. Cette utilisation est également utile si la cible est placée
+dans une étape puisque nous faisons les deux obtenir et contrôler. Si
+la cible est nulle, il signifie que la cible n'existe pas. Dans cet
+exemple, la cible sera nulle si Karen n'a pas de nom indiqué. À
+l'intérieur du block if, la valeur du literal est recherchée comme
+chaîne de caractères en utilisant la propriété <code
+class="attribut">Value</code>.</p>
+
+<p>Vous avez peut-être noté que la méthode <code
+class="attribut">GetTarget</code> a un troisième argument qui est
+placé à true ci-dessus. Ceci est employé pour indiquer si vous voulez
+rechercher un triplet négatif au lieu de normal. C'est un dispositif
+spécial spécifique à Mozilla qui permet à un lien RDF d'être faux au
+lieu de vrai. Rappelez-vous que quand une information n'est pas fournie
+dans le datasource, il signifie que le datasource ne sait pas cette
+information, pas que l'information est blanche. Par exemple, si nous
+n'avions pas indiqué le nom de Karen dans le RDF/XML, cela signifie
+que le nom de Karen n'est pas connu par le datasource. Elle peut
+cependant tout de même avoir un nom.</p>
+
+<p>Un triplet négatif indique qu'un lien particulier n'est pas vrai.
+Par exemple, nous pourrions ajouter en lien que le nom de Karen n'est
+pas 'Tracy'. Notez qu'il n'y a aucune manière d'indiquer réellement
+ceci dans le RDF/XML, seulement en manoeuvrant directement le datasource.
+Cependant, des triplets négatifs devraient généralement être évités.
+Ils n'offrent pas vraiment beaucoup de valeur et habituellement ce genre
+d'informations sont mieux indiqué d'une autre manière.</p>
+
+<p>Cependant, si le troisième argument de la méthode <code
+class="attribut">GetTarget</code> est false, il renverra seulement des
+triplets négatifs. Cependant, pour presque tous les buts, true devrait
+être fourni pour cet argument.</p>
+
+<p>La méthode <code class="attribut">GetTarget</code> renverra seulement
+une des cibles qui existent dans le datasource. Si Karen avait plusieurs
+noms, seulement un d'eux serait retourné. La méthode relative <code
+class="attribut">GetTargets</code> renverra une liste de tous les noms.
+Vous devriez ne jamais compter sur l'ordre dans lequel les noms sont
+retournés, puisque les données RDF ne sont dans aucun ordre particulier.
+Bien que la méthode <code class="attribut">GetTarget</code> renverra
+probablement la même valeur à chaque appel successif, la valeur peut
+être différente chaque fois que votre application est parcourue.</p>
+
+<p>La méthode <code class="attribut">GetTargets</code> renverra une
+énumération qui est un objet qui peut être employé pour réitérer
+ensuite des résultats dans l'ordre.</p>
+
+<pre><code>
+var targets = datasource.GetTargets(karen, name, true);
+while (targets.hasMoreElements()){
+  var name = targets.getNext();
+  if (name instanceof Components.interfaces.nsIRDFLiteral){
+    alert(name.Value);
+  }
+}
+</code></pre>
+
+<p>L'énumération met en application l'interface
+<a href="/references/xpcomref/ifaces/nsISimpleEnumeration.html">nsISimpleEnumeration</a>
+et a deux fonctions, <code class="attribut">hasMoreElements</code>
+pour vérifier si tous les éléments ont bien été itérés, et
+<code class="attribut">getNext</code> pour obtenir le prochain
+élément dans l'ordre. La boucle ci-dessus itérera chaque nom qui
+existe. Un ordre doit encore être exécutée sur chaque résultat.
+Si le résultat n'existe pas, une énumération vide sera retournée,
+ce qui signifie que l'appel de <code class="attribut">hasMoreElements</code>
+renverra toujours faux. Notez que la valeur nulle n'est jamais
+retournée par la méthode <code class="attribut">GetTargets</code>.</p>
+
+<h2>Recherche des sujets</h2>
+
+<p>Il y a également deux méthodes <code class="attribut">GetSource</code>
+et <code class="attribut">GetSources</code> qui fonctionnent dans la
+direction opposée. Ceci signifie que nous pouvons obtenir la ressource
+de Karen en donnant son nom comme literal. En combinant les méthodes
+de récupération de cible et de source, nous pouvons naviguer n'importe
+où dans le graphique RDF.</p>
+
+<pre><code>
+var rdfService = Components.classes[&quot;@mozilla.org/rdf/rdf-service;1&quot;].
+                   getService(Components.interfaces.nsIRDFService);
+
+var karensname = rdfService.GetLiteral(&quot;Karen&quot;);
+var name = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/name&quot;);
+
+var subject= datasource.GetSource(name, karensname, true);
+</code></pre>
+
+<p>Ce code trouvera la ressource de Karen qui est
+<code>http://www.xulplanet.com/rdf/people/Karen</code>. Cela fonctionne
+pareillement aux méthodes de récupération de cible, excepté qu'elle va
+dans la direction inverse. En fournissant le nom de Karen, nous pouvons
+déterminer quelles ressources ont ce nom par l'intermédiaire du prédicat
+'name'. La méthode <code class="attribut">GetSource</code> prend la
+valeur du prédicat, de la cible et true comme arguments. Le prédicat
+est le premier argument à la différence de la méthode
+<code class="attribut">GetTarget</code> où c'est le deuxième argument.
+La méthode <code class="attribut">GetSource</code> renvoie toujours un
+objet de <a href="/references/xpcomref/ifaces/nsIRDFResource.html">nsIRDFResource</a>
+puisque les literals ne peuvent pas avoir de propriétés, ainsi vous pouvez
+employer les méthodes de <code>nsIRDFResource</code> directement sans
+obtenir le résultat.</p>
+
+<p>Il y a également une méthode <code class="attribut">GetSources</code>
+qui renverra une énumération de toutes les sources existantes. Ceci
+serait employé dans le cas où plusieurs personnes ont le nom Karen.</p>
+
+<h2>Interrogez les prédicats</h2>
+
+<p>Parfois vous voudrez déterminer quels prédicats sont spécifiés pour
+un noeud donné dans le datasource. Par exemple, prenez seulement la
+ressource Karen, vous voudriez découvrir quelles sont les propriétés
+qu'elle a. Dans l'exemple, Karen a trois propriétés, son nom, son type
+et ses enfants. Le nom a la valeur <code>Karen</code>. Le type est
+<code>http://xmlns.com/wordnet/1.6/Person</code>. La propriété 'enfants'
+est une ressource <code>http://www.xulplanet.com/rdf/people/KarensKids</code>.
+ Il est possible que d'autres propriétés puissent aussi bien être ajoutées
+ plus tard.</p>
+
+<p>Si vous voulez déterminer quelles propriétés une ressource a, employez
+la méthode de datasource <code class="attribut">GetArcsOut</code>. Il
+renvoie une énumération de tous les prédicats qui précisent une ressource.
+Si cette méthode est appelée pour la ressource Karen, l'énumération
+contiendra trois valeurs.</p>
+
+<pre><code>
+var karen = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Karen&quot;);
+
+var targets = datasource.ArcLabelsOut(karen);
+while (targets.hasMoreElements()){
+  var predicate = targets.getNext();
+  if (predicate instanceof Components.interfaces.nsIRDFResource){
+    alert(predicate.Value);
+  }
+}
+</code></pre>
+
+<p>L'énumération renvoie trois ressources de prédicat, pas les valeurs
+des prédicats. Ainsi les valeurs retournées seraient des ressources avec
+les valeurs <code>http://www.xulplanet.com/rdf/people/name</code>,
+<code>http://www.xulplanet.com/rdf/people/children</code>, et
+<code>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</code>. Rappelez-vous
+que le RDF est non-ordonnée ainsi les résultats ne seront pas retourné
+dans un ordre particulier. L'énumération renvoie toujours les objets
+génériques de nsISupports, ainsi vous devrez obtenir les résultats
+retournés par la méthode <code class="attribut">getNext</code>. Dans le
+cas des énumérations créées par la méthode <code
+class="attribut">ArcLabelsOut</code>, les valeurs seront toujours
+des nsIRDFResources, puisque les prédicats sont toujours des
+ressources.</p>
+
+<p>Une fois que vous avez la ressource du prédicat, vous pouvez la
+fournir comme argument à <code class="attribut">GetTarget</code> pour
+obtenir la valeur du prédicat pour cette ressource. Par exemple, le
+code suivant obtiendra la valeur des prédicats trouvés.</p>
+
+<pre><code>
+var karen = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Karen&quot;);
+
+var targets = datasource.ArcLabelsOut(karen);
+while (targets.hasMoreElements()){
+  var predicate = targets.getNext();
+  if (predicate instanceof Components.interfaces.nsIRDFResource){
+    var target = datasource.GetTarget(karen, predicate, true);
+
+    if (target instanceof Components.interfaces.nsIRDFResource){
+      alert(&quot;Resource is: &quot; + target.Value);
+    }
+    else if (target instanceof Components.interfaces.nsIRDFLiteral){
+      alert(&quot;Literal is: &quot; + target.Value);
+    }
+  }
+}
+</code></pre>
+
+<p>Dans ce cas-ci, nous devons vérifier les deux interfaces
+<code>nsIRDFResource</code> et <code>nsIRDFLiteral</code> après
+l'appel à <code class="attribut">GetTarget</code>, puisque un des
+résultats, le nom, sera un literal, alors que les deux autres, le
+type et les enfants, sont des ressources, et nous ne savons pas
+l'ordre dans lequel ils seront retournés. C'est une bonne idée de
+faire ce contrôle de toute façon à moins que vous soyez absolument sûr
+du genre du noeud qui sera retourné.</p>
+
+<p>Notez que si deux prédicats 'name' précisent une ressource, par
+exemple, si Karen a deux noms, seulement un prédicat 'name' sera retourné
+dans l'énumération. Les énumérations ne contiendront jamais de duplications.
+Dans ce cas-ci, vous devrez employer la méthode
+<code class="attribut">GetTargets</code> pour rechercher les valeurs.</p>
+
+<p>La méthode <code class="attribut">ArcLabelsIn</code> est semblable
+à la méthode d'<code class="attribut">ArcLabelsOut</code> mais fonctionne
+dans la direction inverse. Par exemple, à partir du literal 'Karen',
+nous pourrions déterminer quels prédicats sont employés pour se diriger
+à la valeur. Dans l'exemple, seulement une valeur sera retournée dans
+l'énumération, le prédicat 'name'. Mais imaginez que quelqu'un est le
+nom 'April'. Ceci serait employé pour indiquer le nom de quelqu'un,
+mais pourrait également être employé ailleurs dans le datasource pour
+indiquer le mois de quelque chose en employant un prédicat 'month'.
+Dans cette situation, les deux attributs seront retournés, quoiqu'ils ne
+fassent pas partie de la même ressource.  C'est ce dispositif qui rend
+la navigation dans le graphique RDF tout à fait puissante.</p>
+
+<h2>Interrogation sur l'existence</h2>
+
+<p>Trois méthodes additionnelles au datasource vous permettent de vérifier
+l'existence des données dans le RDF. La méthode <code
+class="attribut">hasArcOut</code> peut être employée pour vérifier si
+un noeud a un certain prédicat le précisant. Cette méthode est semblable
+à la méthode de <code class="attribut">GetTarget</code> sauf qu'elle ne
+renvoie pas la cible réelle, seulement un booléen indiquant si le prédicat
+existe ou pas. Cette méthode pourrait être plus efficace pour quelques
+datasources. Par exemple, nous pourrions vérifier si Karen a un nom ou
+pas en employant le code suivant:</p>
+
+<pre><code>
+var karen = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Karen&quot;);
+var name = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/name&quot;);
+
+var hasName = datasource.hasArcOut(karen, name);
+</code></pre>
+
+<p>Le résultat de la méthode <code class="attribut">hasArcOut</code> sera
+vrai ou faux. Dans cet exemple, le résultat sera vrai. Il y a également la
+méthode relative <code class="attribut">hasArcIn</code> pour vérifier
+l'existence d'un prédicat se dirigeant vers l'intérieur d'un noeud. Notez
+que ces deux méthodes commencent par une lettre minuscule ce qui n'est
+pas vraie pour d'autres méthodes de datasource.</p>
+
+<p>La méthode <code class="attribut">HasAssertion</code> peut être employée
+pour vérifier un triplet dans le datasource en donnant chacun des trois
+parties du triplet. Ceci vous permettrait de vérifier si Karen a un nom
+spécifique. Cette méthode renverra vrai si le triplet existe, et faux
+sinon.</p>
+
+<p>En conclusion, les datasources fournissent une méthode <code
+class="attribut">GetAllResources</code> qui renverra une énumération de
+toutes les ressources qui sont employées comme sujets dans le datasource.
+Dans l'exemple, cinq valeurs seront retournées. Il n'y a aucune méthode
+équivalente pour renvoyer tous les literals. Pour faire ceci, vous devrez
+réitérer chaque ressource en utilisant <code
+class="attribut">GetAllResources</code>, appelez <code
+class="attribut">ArcLabelsOut</code> sur chaque ressource, et puis
+appelez <code class="attribut">GetTargets</code> pour obtenir chaque
+cible.  Ceci réitère efficacement pour toutes les données du datasource.</p>
+
+

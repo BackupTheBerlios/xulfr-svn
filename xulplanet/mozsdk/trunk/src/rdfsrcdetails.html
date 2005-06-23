@@ -1,0 +1,350 @@
+
+<p>Cette section entre dans le détail de certains des datasources de base fournis
+par Mozilla.</p>
+
+<h2>Datasources de base</h2>
+
+<p>Comme décrit dans la section précédente, Mozilla fournit trois formes de
+datasource de base. Ces datasources de base sont le
+<code>in-memory-datasource</code>, le <code>xml-datasource</code> et
+le <code>composite-datasource</code>. Ceux-ci sont décrits plus en détail
+ci-dessous. En outre, divers datasources sont fournis qui sont utilisés pour
+stocker des types particuliers de données. Par exemple, Mozilla fournit des
+datasources pour les signets (bookmarks), l'historique, les moteurs de recherche
+installés, les dossiers et ainsi de suite. Certains de ces datasources ne sont
+que des empaquetages des trois types de base. Par exemple, le datasource des
+signets est un emballage autour d'un <code>in-memory-datasource</code>. Quand
+on modifie les signets, il finit réellement par appeler le
+<code>in-memory-datasource</code> interne pour enregistrer les données. Ceci
+est fait parce que ce datasource intérieur n'a aucune limitation sur le genre
+de données qu'il peut stocker. Cependant le datasource de signets a besoin
+d'assurer que les données saisies sont valides dans le contexte des signets.
+D'autres datasources, tels que le datasource d'historique, ont des emballages
+autour d'autres structures de données internes.</p>
+
+<h2>Memory datasources</h2>
+
+<p>Le <code>in-memory-datasource</code> contient toutes les données RDF en
+mémoire. Il a été conçue pour être efficace en interrogation et en modification
+de données. C'est le type de datasource que vous emploierez pour les données
+faites sur commandes qui ne sont pas chargées à partir d'un fichier RDF/XML.</p>
+
+<p>Le memory datasource applique toutes les méthodes de l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFDataSource.html">nsIRDFDataSource</a>
+comme pour tous les datasources. Il implémente aussi l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFInMemoryDataSource.html">nsIRDFInMemoryDataSource</a>
+qui fournit une méthode simple <code class="attribut">EnsureFastContainement</code>
+(assurer un contenu rapide). Vous n'appellerez normalement pas cette méthode
+vous-même. Elle est utilisé intérieurement pour optimiser le stockage.
+Fondamentalement, elle est utilisé pour assurer qu'une ressource particulière
+dans le datasource soit stockée de façon à y avoir accès plus rapidement. La
+différence est que plus de mémoire est employée. Les conteneurs RDF le font
+automatiquement quand ils ont un grand nombre d'enfant, car sinon l'accès
+serait plus lent.</p>
+
+<h2>XML datasources</h2>
+
+<p>Le <code>xml-datasource</code> est employé pour des données chargées à
+partir d'un fichier RDF/XML. Ces fichiers peuvent être des fichiers locaux ou
+des fichiers distants stockés sur un site Web. Ces datasources peuvent être
+aussi bien rechargés et sauvés. Charger un fichier RDF/XML est simple comme
+appeler la méthode GetDataSource du service RDF. Ceci chargera le fichier et
+l'parsera dans un datasource. Le <code>xml-datasource</code> n'est réellement
+qu'un paquetage autour du <code>in-memory-datasource</code>. Ce datasource
+intérieur contient les données du RDF.</p>
+
+<p>Le fichier RDF/XML doit avoir un type de contenu HTTP
+<code class="attribut">text/XML</code>,
+<code class="attribut">application/XML</code> ou
+<code class="attribut">text/rdf</code>. Mozilla ne supporte pas actuellement
+les RDF/XML déclaré comme application/rdf+XML. Un RDF/XML déclaré d'une autre
+manière que celle ci-dessus ne sera pas chargé dans un datasource. Quand vous
+chargez des datsources en utilisant le service RDF, vous devez toujours
+spécifier l'URL absolue du fichier RDF/XML, pas une URL relative.</p>
+
+<p>Les datasources RDF/XML peuvent être chargés de n'importe quel type d'URL.
+Actuellement, seulement ceux chargés à partir d'une URL de fichier (les URLs
+qui commencent par « file: ») peuvent être modifier avec les APIs RDF de
+modification. Une façon de contourner le problème de modification des sources
+RDF distantes est de charger le RDF et ensuite d'ajouter les données dans un
+<code>in-memory-datasource</code> séparé.</p>
+
+<p>La méthode <code class="attribut">GetDataSource</code> charge le fichier de
+façon asynchrone. Cela signifie que le datasource peut ne pas être chargé quand
+la méthode répond. Un chargement synchronisé peut être effectué à l'aide de la
+méthode <code class="attribut">GetDataSourceBlocking</code>. Cette méthode
+attendra jusqu'à la fin du chargement avant de renvoyé quelque chose. Notez
+que ceci semblera retenir l'interface utilisateur le temps que le datasource
+soit chargé.</p>
+
+<p>Il peut être utile d'employer le chargement asynchrone pour pouvoir déterminer
+quand le datasource a été chargé. Le <code>xml-datasource</code> implémente une
+interface <a href="/references/xpcomref/ifaces/nsIRDFXMLSink.html">nsIRDFXMLSink</a>
+ qui est une interface d'aide appelée pendant le chargement et l'analyse du RDF.
+La plupart du temps il est employé intérieurement, mais l'interface peut être
+employé pour ajouter un observateur qui annoncera quand le RDF/XML aura été
+chargé. Voici un exemple:</p>
+
+<pre><code>
+var observer = {
+  onBeginLoad : function(sink){},
+  onInterrupt : function(sink){},
+  onResume : function(sink){},
+  onError : function(sink,status,msg){},
+
+  onEndLoad : function(sink){
+    sink.removeXMLSinkObserver(this);
+    sink.QueryInterface(Components.interfaces.nsIRDFDataSource);
+  }
+};
+
+var ds=rdfService.GetDataSource(&quot;http://www.xulplanet.com/tutorials/xultu/animals.rdf&quot;);
+ds.QueryInterface(Components.interfaces.nsIRDFXMLSink);
+ds.addXMLSinkObserver(observer);
+</code></pre>
+
+<p>la méthode <code class="attribut">addXMLSinkObserver</code> est employé
+pour ajouter un observateur du processus de chargement du datasource.
+L'observateur doit utilisé l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFXMLSinkObserver.html">nsIRDFXMLSinkObserver</a>
+qui dans l'exemple est utilisé par un objet Javascript. La méthode
+<code class="attribut">onEndLoad</code> est d'un intérêt particulier,
+elle sera appelée quand les données auront été entièrement chargée. Dans
+cette méthode, nous saisissons l'occasion d'enlever l'observateur en utilisant
+la méthode <code class="attribut">removeXMLSinkObserver</code>. C'est là que
+vous mettriez le code à exécuter après que le datasource ait été chargé.
+Note that the datasource may be casted to and from the <code>nsIRDFXMLSink</code>
+directly.</p>
+
+<p>le <code>xml-datasource</code> implémente aussi l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFRemoteDataSource.html">nsIRDFRemoteDataSource</a>.
+En dépit du nom, cette interface contient des méthodes pour recharger et
+sauver le datasource. La sauvegarde d'un datasource sera discutée dans
+une prochaine section.</p>
+
+<p>Pour recharger un datasource, utilisez la méthode
+<code class="attribut">Refresh</code>. Elle prend un argument, si elle doit
+bloquer alors que ça charge ou pas. Si c'est true, la méthode attendra que le
+datasource ait été entièrement chargé avant le renvoi. Si c'est false, la
+méthode répondra immédiatement. L'exemple ci-dessous obtiendra un datasource
+et le rechargera.</p>
+
+<pre><code>
+var ds=rdfService.GetDataSource(&quot;file:///main/data/animals.rdf&quot;);
+ds.QueryInterface(Components.interfaces.nsIRDFRemoteDataSource);
+ds.Refresh(true);
+</code></pre>
+
+<h2>Analyser (parser) un RDF/XML comme une chaîne de caractère</h2>
+
+<p>Vous pouvez également analyser un RDF/XML comme une chaîne de caractère.
+Ceci implique de créer un composant d'analyse de RDF/XML et d'assurer un
+datasource pour l'analyser. Le <code>xml-datasource</code> a la capacité
+d'analyser à l'intérieur de lui-même, mais le parseur peut ajouter des
+données à n'importe quel datasource modifiable. Le parseur emploie les
+méthodes de modification de l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFDataSource.html">nsIRDFDataSource</a>,
+donc tout ce qui est exigé c'est un datasource qui manipule ces méthodes
+convenablement.</p>
+
+<p>L'interface <a href="/references/xpcomref/ifaces/nsIRDFXMLParser.html">nsIRDFXMLParser</a>
+a une méthode qui peut être employée pour analyser une chaîne de caractère
+RDF/XML. Dans cet exemple, nous analysons les données dans un
+<code>in-memory-datasource</code>.</p>
+
+<pre><code>
+function parseRDFString(str, url)
+{
+  var memoryDS = Components.classes[&quot;@mozilla.org/rdf/datasource;1?name=in-memory-datasource&quot;]
+                   .createInstance(Components.interfaces.nsIRDFDataSource);
+
+  var ios=Components.classes[&quot;@mozilla.org/network/io-service;1&quot;]
+                  .getService(Components.interfaces.nsIIOService);
+  baseUri=ios.newURI(url,null,null);
+
+  var parser=Components.classes[&quot;@mozilla.org/rdf/xml-parser;1&quot;]
+                       .createInstance(Components.interfaces.nsIRDFXMLParser);
+  parser.parseString(memoryDS,baseUri,str);
+
+  return memoryDS;
+}
+</code></pre>
+
+<p>Cette fonction peut être découpée en trois parties. La première partie
+crée un nouveau datasource vide. La deuxième partie crée un objet Uri, puisque
+tous les datasources doivent avoir un URI. Puisque nous analysons une chaîne
+de caractère, nous n'avons aucun URI spécifique, ainsi nous pourrions juste
+en composer un. Toutes les références relatives dans le RDF/XML seront
+résolues relativement à cet URI. En conclusion, le parseur de RDF/XML est
+créé et nous analysons le contenu en utilisant la méthode
+<code class="attribut">parseString</code>. Cette méthode prend trois arguments,
+le datasource à analyser, la base URI créée dans la deuxième partie et la
+chaîne de caractère à analyser.</p>
+
+<p>Si vous passez un <code>xml-datasource</code> à la méthode
+<code class="attribut">parseString</code>, les nouvelles données remplaceront
+les données existantes. Pour d'autres datasources, cependant, comme un
+<code>in-memory-datasource</code>, les nouvelles données seront ajoutées à
+celles qui sont déjà dans le datasource. Vous pourriez employer ceci pour
+accumuler un plus grand datasource à partir de plusieurs petits.</p>
+
+<p>Quand les données sont remplacées dans un <code>xml-datasource</code> la
+manipulation spéciale est faite pour s'assurer que les données nouvellement
+analysées ne suppriment pas des données si elles existent déjà. Quand l'analyse
+se produit, les liens RDF existants dans le datasource sont en premier maintenus.
+Quand un nouveau lien est ajouté à partir des nouvelles données analysées, et
+qu'il existe déjà, le vieux lien est conservé. Si le nouveau lien n'existe pas
+déjà, on l'ajoute. Une fois que l'analyse est complète, les liens qui existaient
+dans les vieilles données mais qui n'étaient pas dans les nouvelles données sont
+nettoyés. Ce processus peu commun est employé pour s'assurer que les objets
+ressource ne soient pas supprimés et ne soient pas recréés, ce qui peux avoir
+des effets secondaires indésirables. Ce processus comporte l'utilisation de
+l'interface <a href="/references/xpcomref/ifaces/nsIRDFPurgeableDataSource.html">nsIRDFPurgeableDataSource</a>.
+Cette interface interne est prévue pour être employée seulement à cette fin --
+vous ne devriez pas l'employer vous-même.</p>
+
+<p>La méthode <code class="attribut">parseString</code> charge de façon synchrone.
+Il y a également une méthode <code class="attribut">parseAsync</code> qui peut
+être employée pour analyser de façon asynchrone. Elles prennent le datasource et
+l'URI de base et elles retournent un objet qui met en application l'interface
+<a href="/references/xpcomref/ifaces/nsIStreamListener.html">nsIStreamListener</a>.
+Vous devrez appeler les méthodes de cette interface et lui passer le RDF. C'est
+un peu maladroit, ainsi vous n'emploierez probablement pas cette méthode.</p>
+
+<h2>Composite datasource</h2>
+
+<p>Le <code>composite-datasource</code> contient une liste d'autres datasources.
+Quand vous questionnez ce datasource, il questionnera chacun des datasources de
+la liste chacun leur tour jusqu'à ce qu'une réponse soit trouvée, qui sera
+alors retournée. Si vous essayez de changer le <code>composite-datasource</code>
+il appellera chacun des datasources dans sa liste jusqu'à ce qu'un d'eux accepte
+le changement. Pour les méthodes d'interrogation qui renvoient seulement une
+valeur simple, ou pour des méthodes de modification, seulement un datasource
+renverra des résultats ou sera changé. Une fois qu'un datasource est trouvé avec
+le résultat ou qu'il accepte un changement, les autres ne seront pas interrogés.
+Pour les méthodes d'interrogation qui renvoient normalement des valeurs multiples,
+toutes les valeurs possibles dans tous les datasources sont retournées.
+Naturellement, vous pouvez interroger et encore modifier les différents
+datasources séparément.</p>
+
+<p>Puisque le <code>composite-datasource</code> contient une liste de datasources,
+il peut efficacement être employé comme si tous les datasources qu'il contient
+avaient tous été combinés dans un datasource simple. Cette assemblage s'appelle
+parfois l'agrégation. N'importe quel datasource peut être ajouté à un
+<code>composite-datasource</code> que ce soient des sources RDF/XML, des
+datasources intégrés de Mozilla et même d'autres composite-datasources.</p>
+
+<p>Le datasource ajouté à un élément de XUL quand il emploie un attribut
+<code class="attribut">datasources</code> est un <code>composite-datasource</code>,
+ainsi vous pouvez ajouter des datasources et les enlever à tout moment.</p>
+
+<p>L'interface <a href="/references/xpcomref/ifaces/nsIRDFCompositeDataSource.html">nsIRDFCompositeDataSource</a>
+est implémentée par le <code>composite-datasource</code> et est employée pour
+ajouter et enlever des datasources. Pour ajouter un datasource, employez la
+méthode <code class="attribut">AddDataSource</code>. Elle prend un argument,
+le datasource à ajouter. Vous devrez passer le datasource lui-même et non son
+URI. Notez que cette méthode ne vérifie pas l'unicité. Si le datasource est
+déjà inclus dans la liste, on l'ajoutera encore. Le code suivant est un exemple
+pour ajouter un datasource:</p>
+
+<pre><code>
+var rdfService = Components.classes[&quot;@mozilla.org/rdf/rdf-service;1&quot;].
+                   getService(Components.interfaces.nsIRDFService);
+var compositeDS = rdfService.GetDataSource(&quot;rdf:composite-datasource&quot;);
+
+var ds1=rdfService.GetDataSource(&quot;http://www.xulplanet.com/tutorials/xultu/animals.rdf&quot;);
+var ds2=rdfService.GetDataSource(&quot;rdf:bookmarks&quot;);
+
+compositeDS.QueryInterface(Components.interfaces.nsIRDFCompositeDataSource);
+compositeDS.AddDataSource(ds1);
+compositeDS.AddDataSource(ds2);
+</code></pre>
+
+<p>Quand vous interrogez le composite-datasource, il interrogera le premier
+datasource, dans ce cas-ci une source RDF/XML, suivie du second, le datasource
+de signets, jusqu'à ce qu'un résultat soit trouvé.</p>
+
+<p>Vous pouvez enlever un datasource du composé, en appelant la méthode de
+<code class="attribut">RemoveDataSource</code>.  Elle prend un argument, le
+datasource à enlever.</p>
+
+<p>La méthode <code class="attribut">GetDataSources</code> peut être employée
+pour obtenir une liste des datasources employés par le composé. Cette méthode
+renvoie une énumération qui peut être employée pour réitérer au-dessus des
+datasources. Ils seront retournés dans l'ordre dans lequel ils ont été ajoutés.
+Dans l'exemple suivant, nous recherchons les datasources qui sont attachés à
+un élément XUL. Ce sont les datasources que le calibre emploierait.</p>
+
+<pre><code>
+var compositeDS = xulElement.database;
+
+var list = compositeDS.GetDataSources();
+while (list.hasMoreElements()){
+  var ds = list.getNext();
+  if (ds instanceof Components.interfaces.nsIRDFDataSource){
+    ...
+  }
+}
+</code></pre>
+
+<p>L'interface des ccomposites datasources a deux propriétés. La première,
+<code class="attribut">allowNegativeAssertions</code> est employé pour indiquer
+comment le composé manipule des affirmations négatives. Une affirmation
+négative est un lien RDF que le datasource indique comme faux. Si cet attribut
+est vrai, la valeur par défaut, le composites datasource manipulera des
+affirmations négatives. Si un datasource contient un lien normal vrai, et
+un autre contient le même lien mais faux, ils se déprogrammeront l'un l'autre.
+Si la propriété <code class="attribut">allowNegativeAssertions</code> est
+fausse, les liens négatifs des datasources ne seront pas examinés. C'est plus
+rapide, ainsi vous pouvez souhaiter changer la valeur si vous savez que les
+datasources ne contiennent aucune affirmation négative. La plupart des
+datasources n'en ont pas.</p>
+
+<p>La propriété <code class="attribut">coalesceDuplicateArcs</code> indique
+si le composite datasource enlèvera des repliques quand  il sera interrogé.
+Si cette valeur est vraie, et qu'une interrogattion est posée, les valeurs
+en double seront enlevées. C'est utile quand plusieurs datasources sont
+combinés ainsi vous ne devrez pas vous inquiéter du fait que les datasources
+multiples contiennent les mêmes données. Si cette propriété est fausse, des
+reproductions seront retournées, qui auront comme conséquence des interrogations
+légèrement plus optimales.</p>
+
+<h2>le local store</h2>
+
+<p>Le datasource <code>rdf:local-store</code> est inclus dans Mozilla et est
+employé pour contenir l'information d'état telle que la position de la fenêtre
+du navigateur, comment sont présentées les colonnes dans les vues d'arbre,
+et comment sont visibles les toolbars et les sidebars. Cette information est
+sauvée quand Mozilla ferme sort de la fenêtre, et est réappliquée
+automatiquement au contenu XUL quand la fenêtre appropriée est de nouveau
+ouverte. Ce processus est expliqué en détail dans la section sur des
+<a href="/tutorials/xultu/persist.html">données persistantes</a>. Pour
+récapituler, l'attribut <code class="attribut">persist</code> peut être
+employé sur un élément XUL pour sauver des données dans le magasin local
+(local store) et pour les récupérer quand la fenêtre XUL sera ouverte plus
+tard. Bien que le magasin local contienne normalement l'information d'état
+de XUL, vous pouvez réellement mettre ce que vous y voulez.</p>
+
+<p>Le magasin local est sauvé dans un fichier RDF/XML, 'localstore.rdf ,'
+dans votre annuaire de profil de Mozilla. Puisque c'est un dossier de RDF/XML,
+vous pouvez l'ouvrir dans un éditeur de texte et regarder l'information qu'il
+contient. Il est possible de modifier le fichier comme bon vous semble, bien
+que cela ne soit pas recommandé à moins que vous sachiez ce que vous changez.</p>
+
+<p>Le <code>local-store</code> est toujours inclus dans une application
+XUL chrome quand vous employez un attribut
+<code class="attribut">datasources</code> sur un élément. Le magasin local
+est toujours le premier datasource utilisé.  Naturellement, rien ne vous
+empêche de l'enlever en employant plus tard la méthode <code
+class="attribut">RemoveDataSource</code> des datasources composés.</p>
+
+<p>Ceci signifie qu'il est possible d'ajouter de l'information au magasin
+local qui chevauche l'information des autres datasources utilisés dans les
+templates. Par exemple, si vous ajoutez la bonne information au fichier
+localstore.rdf, vous pourriez la faire apparaître comme si l'utilisateur
+avait ajouter un signet, puisque Mozilla emploie un template pour faire
+apparaître la liste des signets de l'utilisateur. Naturellement, le signet
+ne fonctionnera pas correctement puisqu'il n'est pas vraiment dans le
+datasource de signets.</p>
+
+

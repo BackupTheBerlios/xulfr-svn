@@ -1,0 +1,205 @@
+
+
+<p>Cette section décrit comment sauvegarder des datasources RDF en fichiers
+ou les arranger en chaîne de caractères.</p>
+
+<h2>Sauvegarder des fichiers RDF/XML</h2>
+
+<p>Un <code>xml-datasource</code> peut être sauvé de nouveau en un dossier
+après que des modifications aient été faites. En fait, le RDF/XML chargé à
+partir d'une URL de fichier tend à sauver automatiquement de nouveau sur
+disque quand le datasource lui-même n'est plus employé. Vous ne devriez
+cependant pas compter sur ce comportement, car cette sauvegarde ne fonctionne
+pas sûrement si le datasource est toujours en service quand Mozilla sort.
+Par conséquent, vous devriez toujours sauver le datasource manuellement si
+vous en avez besoin.</p>
+
+<p>Ne vous inquiétez pas de la sauvegarde automatique se produisant aussi
+après. Le datasource sera seulement sauvé si des changements ont été faits,
+ainsi une sauvegarde manuelle suivi de la sauvegarde automatique entrainera
+seulement la sauvegarde du datasource une fois. Ceci signifie également
+que la sauvegarde manuelle ne fait rien si le datasource n'a pas changé.</p>
+
+<p>Pour sauver un fichier RDF/XML, employez la méthode
+<code class="attribut">Flush</code> de l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFRemoteDataSource.html">nsIRDFRemoteDataSource</a>.
+Cette méthode sauvera le RDF/XML modifié de nouveau dans le fichier où
+il a été chargé. Seulement des fichiers chargés à partir d'une URL de
+fichier peuvent être sauvés de cette manière. Des fichiers distants et
+des fichiers chargés à partir d'une URL chrome ne peuvent pas être sauvegardés
+comme ça.</p>
+
+<pre><code>
+var ds=rdfService.GetDataSourceBlocking("file:///main/animals.rdf");
+
+var subject = rdfService.GetResource("http://www.some-fictitious-zoo.com/crustaceans");
+var predicate = rdfService.GetResource("http://www.some-fictitious-zoo.com/rdf#name");
+var name = rdfService.GetLiteral("Crustaceans");
+
+ds.Assert(subject, predicate, name, true);
+
+ds.QueryInterface(Components.interfaces.nsIRDFRemoteDataSource);
+ds.Flush();
+</code></pre>
+
+<p>Cet exemple charge un fichier RDF/XML, lui ajoute un rapport, et ensuite
+le sauve de nouveau sur le disque. Puisque RDF n'est pas organisé, le fichier
+sauvé sera probablement tout à fait différent de ce qu'il était à l'origine.</p>
+
+<p>Une deuxième méthode <code class="attribut">FlushTo</code> peut être employé
+pour sauver un datasource à une URL spécifique. Comme avec la méthode
+<code class="attribut">Flush</code>, actuellement seulement les fichiers à
+URLs peuvent être sauvegardé. À l'avenir, d'autres types d'URL pourront être
+soutenus pour la sauvegarde. Cependant, il est possible de sauver de n'importe
+quel type d'Uri. Ceci signifie que tandis que vous pouvez seulement sauver à
+une URL de fichier, la méthode <code class="attribut">FlushTo</code> peut sauver
+un datasource qui a été chargé d'une autre source. La méthode
+<code class="attribut">FlushTo</code> prend un argument, l'URL où il doit
+sauvegarder. Elle ne modifie pas le datasource original, ni son URL, et écrit
+juste une version serializée des données sous forme RDF/XML. Puisqu'elle écrit
+dans un autre fichier, vous pouvez employer la méthode
+<code class="attribut">FlushTo</code> même si vous n'avez pas modifié le
+datasource.</p>
+
+<p>L'exemple ci-dessous charge un datasource et le sauve dans un autre fichier.</p>
+
+<pre><code>
+var ds=rdfService.GetDataSourceBlocking("file:///main/animals.rdf");
+ds.QueryInterface(Components.interfaces.nsIRDFRemoteDataSource);
+ds.FlushTo("file:///main/more-animals.rdf");
+</code></pre>
+
+<h2>Ranger en une chaîne de caractères</h2>
+
+<p>Notez que seulement le <code>xml-datasource</code> supporte la sauvegarde
+comme décrit ci-dessus. Pour d'autres types de datasources, vous pouvez souhaiter
+ranger les données dans une chaîne de caractère. Vous pourrez alors sauver la
+chaîne de caractère dans un fichier en utilisant les interfaces fichier de
+Mozilla. Vous pouvez également arranger un <code>xml-datasource<code> en une
+chaîne de carcatère, par exemple, si vous vouliez montrer le RDF/XML à
+l'utilisateur.</p>
+
+<p>Arranger en une chaîne de caractères implique deux interfaces et un composant
+serializeur. Ce composant est l'inverse du composant parseur RDF employé pour
+analyser le RDF. Le serializeur met en application deux interfaces,
+<a href="/references/xpcomref/ifaces/nsIRDFXMLSource.html">nsIRDFXMLSource</a>
+et <a href="/references/xpcomref/ifaces/nsIRDFXMLSerializer.html">nsIRDFXMLSerializer</a>.
+La première est employée pour initialiser le serializeur avec un datasource
+pour écrire dedans tandis que la deuxième est employée pour faire la conversion.
+Si en utilisant le <code>xml-datasource</code>, vous manipulez la première
+partie, vous pouvez juste appeler la méthode
+<code class="attribut">serialize</code>. Le <code>xml-datasource</code> met
+directement en application l'interface <code>nsIRDFXMLserializeur</code>,
+ainsi l'écriture de ces datasources est plus dynamique (streamline).</p>
+
+<p>La méthode <code class="attribut">Serialize</code> est employée pour écrire
+des données RDF/XML en cascade (stream). Elle n'écrit pas une chaîne de caractères
+directement -- à la place nous devons envelopper la chaîne de caractères pour
+écrire dans une chaîne de caractères. Naturellement, si vous voulez écrire en
+cascade, vous n'avez pas besoin de faire ceci. Le flot (stream) devrait mettre
+en application l'interface <a href="/references/xpcomref/ifaces/nsIOutputStream.html">nsIOutputStream</a>.</p>
+
+<p>Il est assez facile de mettre en application un flot de sortie. Il y a
+seulement quatre méthodes et seulement une, <code class="attribut">write</code>,
+qui peut tout faire. Cette méthode sera appelé pour écrire en flot les données
+sérializées. Elles ne seront pas envoyées d'une traite, ainsi vous pouvez
+l'employer en tenant compte de l'écriture asynchrone qui ne bloque pas l'interface
+utilisateur.</p>
+
+<pre><code>
+var outputStream = {
+  data: "",
+  close : function(){},
+  flush : function(){},
+  write : function (buffer,count){
+    this.data += buffer;
+    return count;
+  },
+  writeFrom : function (stream,count){},
+  isNonBlocking: false
+}
+
+ds.QueryInterface(Components.interfaces.nsIRDFXMLSource);
+ds.Serialize(outputStream);
+</code></pre>
+
+<p>Dans l'exemple ci-dessus, nous créons un objet de flot de sortie. Le pont
+XPConnect qui relie XPCOM et le Javascript peut convertir ceci en une
+exécution de l'interface <a href="/references/xpcomref/ifaces/nsIOutputStream.html">nsIOutputStream</a>,
+simplement en alliant la méthode appelée. La méthode
+<code class="attribut">write</code> prend deux arguments, le buffer des données
+et la longueur du buffer. Nous apposons simplement le contenu du buffer à la
+propriété <code class="attribut">data</code>, qui n'est pas une partie de
+l'interface <code>nsIOutputStream</code>. Après la serialization est complète,
+la propriété <code class="attribut">data</code> contiendra la chaîne de
+caractères du RDF/XML serializé.</p>
+
+<p>Dans l'exemple ci-dessus, nous appelons la méthode <code
+class="attribut">Serialize</code> directement sur un datasource, après avoir
+appelé <code class="attribut">QueryInterface</code> pour le former à la
+bonne interface. Ceci fonctionne bien pour des datasources RDF/XML,
+puisqu'ils savent comment faire cela. Pour d'autres datasources, vous
+devez d'abord créer un serializeur, comme dans l'exemple ci-dessous.</p>
+
+<pre><code>
+var serializer=Components.classes["@mozilla.org/rdf/xml-serializer;1"]
+                         .createInstance(Components.interfaces.nsIRDFXMLSerializer);
+serializer.init(ds);
+
+serializer.QueryInterface(Components.interfaces.nsIRDFXMLSource);
+serializer.Serialize(outputStream);
+</code></pre>
+
+<p>Le serializeur est créé et initialisé avec le datasource en appelant la
+méthode <code class="attribut">init</code>. Puis, nous pouvons appeler la
+méthode <code class="attribut">Serialize</code> sur le serializeur directement
+après l'avoir bâti. La plupart des datasources peuvent être serializés de
+cette façon. Vous ne pouvez pas serializer un <code>composite-datasource</code>,
+vous devez serializer chaque datasource qu'il contient séparément.</p>
+
+<p>Pendant la serialization, les namespaces et les préfixes seront déterminés
+automatiquement. Le serializeur emploie un mécanisme assez simple par lequel
+il suppose entre que la dernière hachure (#) ou le slash vers l'avant est le
+séparateur entre le namespace et la valeur. Par exemple,
+<code>http://www.xulplanet.com/rdf/people/name</code> aura un namespace
+'http://www.xulplanet.com/rdf/people/'et une valeur de prédicat 'name'.
+Le serializeur composera un préfixe à employer. Le comportement peut sembler
+peu commun et ne fonctionnera pas si les prédicats ne suivent pas cette
+convention. Heureusement, le serializeur a des moyens de commander les
+namespaces qui sont employés.</p>
+
+<p>Le serializeur a une méthode <code class="attribut">addNameSpace</code>
+ce qui peut être employé pour associer un préfixe à une URI de namespace.
+En serializant, la liste des namespaces supplémentaires est employée en
+convertissant les prédicats en namespace et valeur. La méthode
+<code class="attribut">addNameSpace</code> prend deux arguments, le préfixe
+et l'URI du namespace. Bien que l'URI du namespace soit une chaîne de
+caractères, le préfixe est à la place un objet atome. Un atome est simplement
+une chaîne de caractères qui est cachée avec une clef et est efficace pour
+comparer. Il est assez semblable à un literal RDF dans le but bien que les
+atomes soient incorporés à la bibliothèque XPCOM ce qui est commode pour les
+applications basées sur Mozilla qui n'ont pas besoin de RDF. Mozilla utilise
+des atomes intérieurement pour manipuler des namespaces de sorte que les
+éléments et les attributs puissent être comparés rapidement. Pour créer un
+atome, utilisez juste le service atom.</p>
+
+<pre><code>
+var atomService = Components.classes["@mozilla.org/atom-service;1"]
+                    .createInstance(Components.interfaces.nsIAtomService);
+var prefix = atomService.getAtom("people");
+
+ser.addNameSpace(prefix,"http://www.xulplanet.com/rdf/people/");
+</code></pre>
+
+<p>Dans cet exemple, la méthode <code class="attribut">getAtom</code> du service
+atom est employée pour obtenir des références d'atome. Le service atom met en
+application l'interface <a href="/references/xpcomref/ifaces/nsIAtomService.html">nsIAtomService</a>
+et les atomes mettent en application l'interface
+<a href="/references/xpcomref/ifaces/nsIAtom.html">nsIAtom</a> . La méthode
+<code class="attribut">addNameSpace</code> est employée pour ajouter un
+préfixe 'people' au namespace 'http://www.xulplanet.com/rdf/people/'. En
+serializant un datasource RDF, tous les prédicats qui commencent par ce
+namespace seront serializés en utilisant le préfixe du namespace 'people'.
+Notez que le namespace 'RDF' est déjà ajouté au serializeur ainsi vous ne
+devez pas l'ajouter manuellement.</p>
+

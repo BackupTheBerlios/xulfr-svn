@@ -1,0 +1,325 @@
+
+<p>Cette section décrit comment interroger et manipuler des conteneurs
+RDF.</p>
+
+<h2>Interfaces De conteneur de RDF</h2>
+
+<p>Puisque les conteneurs RDF, c.-à-d., les types Seq, Bag et Alt, sont
+souvent manipulés, Mozilla fournit quelques méthodes additionnelles pour
+manipuler ces types. Ces méthodes sont contenues dans deux interfaces,
+<a href="/references/xpcomref/ifaces/nsIRDFContainer.html">nsIRDFContainer</a>
+et <a href="/references/xpcomref/ifaces/nsIRDFContainerUtils.html">nsIRDFContainerUtils</a>.
+Il est important de noter que ces interfaces sont seulement des méthodes
+de convenance qui enveloppent les méthodes de datasource déjà expliquées
+dans les sections précédentes. Il est possible d'effectuer toutes ces
+opérations sans employer les classes de conteneur du tout. Ceci pourrait
+être utile pour faire encore plus de choses spécifiques avec des
+conteneurs. Pour la plupart des objectifs, cependant, les conteneurs
+fournissent une manière maniable de manipuler des conteneurs de RDF.
+Ces conteneurs RDF sont simplement des emballages autour des méthodes
+de datasource ce qui signifie que tous les datasources supportent des
+conteneurs, bien que tous les datasources ne les emploient pas pour
+n'importe quoi. Tous les observateurs RDF attachés au datasource
+recevront des avis au sujet des changements fondamentaux que le conteneur
+fait.</p>
+
+<p>L'interface <code>nsIRDFconteneur</code> est employée pour contenir un
+conteneur RDF. Vous pouvez employer cette interface pour interroger,
+ajouter et supprimer des enfants du conteneur. Cette interface est utile
+puisque l'indexation des enfants est manipulée pour vous. Pour en créer
+un, employez le code suivant:</p>
+
+<pre><code>
+var container = Components.classes[&quot;@mozilla.org/rdf/container;1&quot;].
+                  createInstance(Components.interfaces.nsIRDFContainer);
+</code></pre>
+
+<p>Le code ci-dessus créera un conteneur RDF non initialisé. Son
+initialisation est décrite ci-dessous.</p>
+
+<p class="note">Le composant du conteneur RDF (nsIRDFconteneur) devrait
+être créé comme instance avec <code class="attribut">createInstance</code>
+pas comme service. Il y a un certain nombre de sources et d'exemples qui
+emploient inexactement <code class="attribut">getService</code> au lieu
+de cela.</p>
+
+<p>L'interface <code>nsIRDFconteneurUtils</code> a quelques méthodes de
+service commodes pour que créer des conteneurs et une façon de vérifier
+si une ressource est un conteneur ou pas. Cet objet est un service,
+ainsi il devrait être créé avec <code class="attribut">getService</code>.</p>
+
+<pre><code>
+var rdfContainerUtils = Components.classes[&quot;@mozilla.org/rdf/container-utils;1&quot;].
+                          getService(Components.interfaces.nsIRDFContainerUtils);
+</code></pre>
+
+<h2>Interroger un conteneur</h2>
+
+<p>Il y a deux manières d'initialiser un objet de conteneur RDF. D'abord,
+appeler la méthode <code class="attribut">Init</code> de l'interface
+<code>nsIRDFconteneur</code>. Cette méthode prend une ressource et
+initialise le conteneur en utilisant cette ressource. Dans ce cas-ci,
+la ressource doit déjà être un conteneur. Si une ressource n'est pas
+un conteneur, la méthode <code class="attribut">Init</code> renverra
+une exception.</p>
+
+<pre><code>
+var folderRes = rdfService.GetResource(&quot;http://www.example.com/folder/simonesbirthday&quot;);
+
+var container = Components.classes[&quot;@mozilla.org/rdf/container;1&quot;].
+                  createInstance(Components.interfaces.nsIRDFContainer);
+try {
+  container.Init(photosDS, folderRes);
+}
+catch (ex){}
+</code></pre>
+
+<p>Dans cet exemple, le conteneur est initialisé à une ressource donnée.
+Les deux arguments de la méthode <code class="attribut">Init</code> sont
+respectivement le datasource et la ressource. Nous devons envelopper
+l'appel dans un try-catch bloc au cas où la ressource ne serait pas un
+conteneur RDF. Si vous êtes sûr qu'elle le sera, vous n'avez pas besoin
+d'exécuter ce contrôle.</p>
+
+<p>La deuxième manière d'initialiser un objet de conteneur RDF est d'en
+créer un neuf. Cette méthode transformera une ressource existante en
+conteneur. Vous devriez employer cette méthode pour créer de nouveaux
+conteneurs. Ceci comporte l'utilisation de trois méthodes dans
+l'interface <code>nsIRDFconteneurUtils</code>, <code
+class="attribut">MakeSeq</code>, <code class="attribut">MakeBag</code>
+et <code class="attribut">MakeAlt</code>. Ce que vous allez employer
+dépend du type de conteneur que vous voulez créer. Par exemple, la
+méthode <code class="attribut">MakeSeq</code> transformera une ressource
+en Seq. Rappelez-vous, ces conteneurs RDF sont des emballages justes
+autour d'autres méthodes de datasource. Il est possible d'employer des
+méthodes de datasource pour transformer une ressource en un conteneur
+RDF.</p>
+
+<pre><code>
+var folderRes = rdfService.GetResource(&quot;http://www.example.com/folder/simonesbirthday&quot;);
+
+var rdfContainerUtils = Components.classes[&quot;@mozilla.org/rdf/container-utils;1&quot;].
+                          createInstance(Components.interfaces.nsIRDFContainerUtils);
+
+var container = rdfContainerUtils.MakeSeq(photosDS, folderRes);
+</code></pre>
+
+<p>La méthode <code class="attribut">MakeSeq</code> prend le datasource et
+la ressource comme arguments comme avec la méthode <code
+class="attribut">Init</code> du conteneur RDF. Cette méthode renvoie un
+nouvel objet conteneur déjà initialisé aux valeurs appropriées. Si la
+ressource est déjà un conteneur, les trois méthodes Make renvoient juste
+le conteneur existant. Elles ne la recréent pas ni ne commutent pas d'un
+type de conteneur à l'autre. Ceci signifie qu'il est possible de créer
+et obtenir les conteneurs existants en utilisant seulement les méthodes
+Make.</p>
+
+<p>Vous pouvez vérifier si une ressource est un conteneur ou pas en
+employant est les méthodes de l'interface <code>nsIRDFconteneurUtils</code>.
+Spécifiquement, <code class="attribut">IsSeq</code> vérifie si une
+ressource est un Seq, <code class="attribut">IsBag</code> vérifie si
+une ressource est un Bag, <code class="attribut">IsAlt</code> vérifie
+si une ressource est un Alt, et <code class="attribut">IsContainer</code>
+vérifie si une ressource est n'importe quel type de conteneur. Chacune
+des quatre méthodes renvoie vrai ou faux.</p>
+
+<p>Vous pouvez découvrir quelles ressources sont des enfants d'un conteneur
+en employant la méthode <code class="attribut">GetElements</code> pour
+un conteneur. Comme d'autres méthodes d'interrogation de RDF, il renvoie
+une énumération qui peut être employée pour réitérer les enfants du
+conteneur. Ils seront retournés dans l'ordre, bien que pour un Bag,
+cet ordre n'est pas prévus pour être significatifs.</p>
+
+<pre><code>
+var ratingProp = rdfService.GetResource(&quot;http://www.example.com/rdfns/rating&quot;);
+var threeProp = rdfService.GetLiteral(&quot;3&quot;);
+
+var children = container.GetElements();
+while (children.hasMoreElements()){
+  var child = children.getNext();
+  if (child instanceof Components.interfaces.nsIRDFResource){
+    photosDS.Assert(child, ratingProp, threeProp, true);
+  }
+}
+</code></pre>
+
+<p>Ce code réitère pour tous les enfants d'un certain conteneur. Pour
+chaque enfant, il ajoute un triplet en le plaçant en position 3.</p>
+
+<p>Une méthode additionnelle de conteneur est <code class="attribut">GetCount</code> qui peut être employé pour obtenir le nombre d'enfants dans le conteneur sans devoir réitérer un conteneur. En fait, ce n'est pas tout à fait vrai. Il renvoie réellement l'index du dernier enfant du conteneur. Rappelez-vous que tous les index ne sont pas employés dans un conteneur et certains peuvent être employés plusieurs fois. Si vous voulez juste vérifier si un conteneur a des enfants, employez la méthode <code class="attribut">IsEmpty</code> de l'interface <code>nsIRDFconteneurUtils</code>. Cette méthode renverra vrai ou faux.</p>
+
+<p>Vous pouvez souhaiter rechercher un enfant spécifique dans un conteneur,
+identifié par son index. Rappel de la section sur le <a
+href="rdfstart.html">modèle RDF</a> que les conteneurs RDF mettent en
+référence des enfants en utilisant des triplets avec des prédicats
+comme _ 1, _ 2, et ainsi de suite. Ceci rend assez facile la recherche
+d'un enfant spécifique juste en employant <code
+class="attribut">GetTarget</code> sans employer les classes de conteneur.
+En fait, les classes de conteneur ne contiennent pas de méthode telle que
+GetChild pour rechercher des enfants.</p>
+
+<pre><code>
+var kidsRes = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;);
+var twoRes = rdfService.GetResource(&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#_2&quot;);
+
+var child = datasource.GetTarget(kidsRes, twoRes, true);
+</code></pre>
+
+<p>L'exemple ci-dessus peut être employé pour rechercher le deuxième enfant
+d'un conteneur. En utilisant l'exemple de Karen des sections précédentes,
+il retournera le deuxième enfant de Karen. Cette technique n'est différente
+d'aucune autre propriété de recherche d'une ressource. L'interface
+<code>nsIRDFconteneurUtils</code> nous fournit une méthode de convenance
+pour créer des ressources indexées cependant sous forme d'une méthode
+IndexToOrdinalResource. Par exemple, nous pourrions rechercher la
+ressource '2' en utilisant l'exemple suivant à la place:</p>
+
+<pre><code>
+var twoRes = rdfContainerUtils.IndexToOrdinalResource(2);
+</code></pre>
+
+<p>Ceci peut rendre le code plus lisible. Il y a également une méthode
+semblable <code class="attribut">OrdinalResourceToIndex</code> pour le
+faire d'une autre manière et rechercher l'index de nombre entier d'une
+ressource. Naturellement cette méthode échouera sur les ressources
+non-ordinales. Vous pouvez vérifier si une ressource est une ressource
+ordinale avec la méthode <code class="attribut">IsOrdinalProperty</code>.
+Notez que des index dans l'API RDF commencent toujours par 1, non 0.</p>
+
+<p>Vous pouvez déterminer l'index d'un enfant dans un conteneur en
+employant la méthode de conteneur <code class="attribut">IndexOf</code>.
+Cette méthode renverra l'index de nombre entier de l'enfant dans le
+conteneur. Si l'enfant n'est pas dans le conteneur, la méthode retournera
+-1. Ceci signifie que vous pouvez également employer cette méthode pour
+vérifier si un enfant existe dans le parent. Il y a une méthode semblable,
+la méthode <code class="attribut">indexOf</code> de l'interface
+<code>nsIRDFconteneurUtils</code> qui fait la même chose sauf que vous
+n'avez pas besoin de créer un objet conteneur RDF d'abord. Notez bien
+la différence au cas où entre les deux formes. L'exemple suivant
+détermine la position de Sandra dans la liste des enfants de Karen.</p>
+
+<pre><code>
+var kidsRes = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;);
+var sandraRes = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;);
+
+var idx = rdfContainerUtils.indexOf(datasource,kidsRes,sandraRes);
+</code></pre>
+
+<p>Vous pouvez souhaiter déterminer ce qu'est le parent d'un enfant, ou
+déterminer le conteneur d'une ressource qui est à l'intérieur de celui-ci.
+Les classes de conteneur RDF ne fournissent pas de méthode pour faire ceci.
+Une manière possible de déterminer le conteneur pour un enfant est la
+suivante:</p>
+
+<pre><code>
+var rdfContainerUtils = Components.classes[&quot;@mozilla.org/rdf/container-utils;1&quot;].
+                          getService(Components.interfaces.nsIRDFContainerUtils);
+
+var sandraRes = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;);
+var parent = null;
+
+var arcsIn = datasource.ArcLabelsIn(sandraRes);
+while (arcsIn.hasMoreElements()){
+  var arc = arcsIn.getNext();
+  if (arc instanceof Components.interfaces.nsIRDFResource){
+    if (rdfContainerUtils.IsOrdinalProperty(arc)){
+      parent = datasource.GetSource(arc, sandraRes, true);
+      break;
+    }
+  }
+}
+</code></pre>
+
+<p>Ce code réitère tout les prédicats (arcs) qui se dirige vers la
+ressource 'Sandra'. Cette liste de prédicats peut inclure un certain
+nombre de choses. Cependant, si le prédicat est une ressource ordinale,
+nous savons que c'est un enfant d'une autre ressource. Nous pouvons
+employer la méthode <code class="attribut">GetSource</code> pour déterminer
+le parent. Rappelez-vous qu'il est possible qu'une ressource soit
+immédiatement dans plusieurs conteneurs. Cet exemple suppose que l'enfant
+aura seulement un parent. Si vous voulez trouver tous les parents, au
+lieu de cela vous devrez employer <code class="attribut">GetSources</code>
+et récupérez une liste.</p>
+
+<h2>Modification d'un conteneur</h2>
+
+<p>Ajouter et enlever des enfants d'un conteneur est simple. Il y a
+plusieurs méthodes de l'interface <code>nsIRDFconteneur</code> qui
+peuvent être employées pour ajouter et enlever des enfants.</p>
+
+<pre><code>
+var kidsRes = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;);
+var christaRes = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Christa&quot;);
+
+var container = Components.classes[&quot;@mozilla.org/rdf/container;1&quot;].
+                  createInstance(Components.interfaces.nsIRDFContainer);
+try {
+  container.Init(datasource, kidsRes);
+  container.AppendElement(christaRes);
+}
+catch (ex){}
+</code></pre>
+
+<p>Les méthodes de modification de conteneurs RDF ne vérifient pas pour
+voir si l'enfant est déjà dans le conteneur ou pas. Cela signifie que vous
+pouvez ajouter un enfant plusieur fois. La méthode <code
+class="attribut">InsertElementAt</code> peut être employée pour insérer
+un enfant à un index spécifique.</p>
+
+<pre><code>
+container.InsertElementAt(christaRes,2,true);
+</code></pre>
+
+<p>Cette méthode prend trois arguments. Le premier argument est la ressource
+d'enfant à ajouter. La seconde est la position en nombre entier pour placer
+l'enfant. Le troisième argument indique si il faut renuméroter les index
+des autres enfants pour s'adapter au nouvel enfant. Rappelez-vous que les
+index sont les ressources justes du prédicat avec une convention de
+numérotation et qu'il peut y avoir plusieurs enfants avec le même index.
+Si vous passez true pour le troisième argument, les enfants restants
+dans la liste seront renumérotés pour s'adapter au nouvel enfant. Dans
+l'exemple ci-dessus, le nouvel enfant sera ajouté à la deuxième position.
+L'enfant déjà à la deuxième position aura son index ajusté à trois, le
+troisième enfant sera déplacé à la quatrième position, et ainsi de suite.
+Si ce dernier argument est faux, les index ne sont pas renumérotés. Ceci
+signifierait qu'il y aurait deux enfants en deuxième position dans
+l'exemple ci-dessus, en supposant qu'il en existait déjà un.</p>
+
+<p>Le processus renumérotant peut maintenir le cas où plusieurs des index
+doivent être renumérotés avec déjà plusieurs enfants avec cet index. Par
+exemple, s'il y avait trois ressources d'enfant à l'index 3, chacun des
+trois serait déplacé à l'index 4. Ceux à l'index 4 seraient déplacés à
+l'index 5, et ainsi de suite. Si le datasource met en application
+l'interface <a href="/references/xpcomref/ifaces/nsIRDFPropagatableDataSource.html">nsIRDFPropagatableDataSource</a>,
+les avis de changement sont mis hors service tandis que la renumérotation
+est exécutée afin d'éviter un bon nombre de faux avis. Seulement
+l'affirmation provoquée par la ressource insérée sera envoyée aux
+observateurs.</p>
+
+<p>Pour enlever un enfant, employez les méthodes <code
+class="attribut">RemoveElement</code> ou <code
+class="attribut">RemoveElementAt</code>. La première méthode enlève un
+enfant en donnant sa ressource, alors que la deuxième méthode enlève un
+enfant en donnant son index.</p>
+
+<pre><code>
+container.RemoveElement(christaRes,true);
+container.RemoveElementAt(2,true);
+</code></pre>
+
+<p>En supposant que la ressource ai été insérée comme dans l'exemple
+précédent, les deux méthodes feront la même chose. La première enlève
+l'enfant donné par sa ressource. Cette méthode déterminera l'index
+lui-même. La deuxième méthode enlèvera un élément à un index spécifique.
+À la différence de la méthode <code class="attribut">RemoveElement</code>,
+la méthode <code class="attribut">RemoveElementAt</code> renverra
+l'élément enlevé comme noeud RDF. S'il y a des enfants multiples à
+l'index, la méthode <code class="attribut">RemoveElementAt</code> enlèvera
+seulement un d'eux.</p>
+
+<p>Ces deux méthodes de suppression prennent également un deuxième argument
+qui indique si il faut renuméroter les autres enfants après la suppression
+de l'enfant, et ceci fonctionne pareillement à la méthode <code
+class="attribut">InsertElementAt</code>.</p>
+
+

@@ -1,0 +1,366 @@
+
+<p>Cette section décrit comment ajouter, modifier et supprimer des
+informations d'un datasource RDF.</p>
+
+<h2>Modification de datasource</h2>
+
+<p>Les datasources ont quatre méthodes qui peuvent être employées pour
+modifier un datasource. Il est possible de modifier un datasource en
+utilisant seulement ces quatre méthodes. Pas tous les datasources sont
+modifiables. Ces datasources renveront une exception quand vous essaierez
+d'appeler les méthodes. Par exemple, des fichiers RDF/XML chargés d'un
+emplacement distant ne peuvent pas être modifiés directement.</p>
+
+<p>Pour ajouter un triplet RDF à un datasource, employez la méthode <code
+class="attribut">Assert</code>. Donné un sujet, un attribut et une cible,
+cette méthode ajoutera ce lien au datasource. Si le lien existe déjà, on
+l'ajoute encore. Cela signifie que vous pouvez souhaiter employer la
+méthode <code class="attribut">GetTarget</code> et vérifier le lien d'abord.
+Dans la terminologie de Mozilla, un triplet ou le lien RDF s'appelle une
+affirmation (assertion), voici d'où vient le nom de la méthode.
+Essentiellement, nous affirmons de l'information.</p>
+
+<p>Disons que nous avons voulu ajouter un nom pour une personne. Voici un
+exemple de comment faire cela.</p>
+
+<pre><code>
+var subject = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/David&quot;);
+var predicate = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/name&quot;);
+var name = rdfService.GetLiteral(&quot;David&quot;);
+
+datasource.Assert(subject, predicate, name, true);
+</code></pre>
+
+<p>D'abord, nous obtenons des objets ressource pour le sujet et le prédicat.
+Nous voulons ajouter un nom, ainsi nous employons le prédicat 'name',
+qualifié par le namespace. Le nom lui-même est un literal ainsi nous
+obtenons un objet literal pour celui-ci. Chacun des trois sont recherché
+par le service RDF. Nous pourrions avoir employé <code
+class="attribut">GetAnonymousResource</code> pour obtenir le sujet si nous
+voulions nous assurer que l'URI de la ressource était unique.</p>
+
+<p>En conclusion, <code class="attribut">Assert</code> s'utilise avec
+quatre arguments, le sujet, le prédicat, la cible et la valeur de vérité.
+Ce dernier argument peut être employé pour indiquer que quelque chose
+est faux. C'est rarement utile, ainsi le quatrième argument devrait
+presque toujours être vrai.</p>
+
+<p>Le datasource peut ne pas accepter le changement. Par exemple, quand
+un datasource n'est pas inscriptible ou vous essayez d'ajouter des
+données inadmissibles, le datasource rejettera le changement. En code
+natif, vous pouvez détecter ceci car le datasource renverra un code de
+statut NS_RDF_ASSERTION_REJECTED. Ce code de statut n'est cependant pas
+une erreur.</p>
+
+<p>Pour enlever un lien d'un datasource, il y a une méthode semblable
+<code class="attribut">Unassert</code>. Cette méthode enlèvera un seul
+lien à partir des arguments de sujet, de prédicat et de cible. Par
+exemple, nous pourrions enlever le lien précédant que nous venons juste
+d'ajouter avec ce qui suit:</p>
+
+<pre><code>
+datasource.Unassert(subject, predicate, name);
+</code></pre>
+
+<p>Il n'importe pas que le lien existe ou pas. La méthode <code
+class="attribut">Unassert</code> ne causera pas d'erreur si il
+n'existe pas.</p>
+
+<p>La méthode <code class="attribut">Change</code> peut être employée
+pour changer la cible d'un lien en une autre valeur. Par exemple, ceci
+pourrait être employé pour changer le nom d'une personne en une autre
+valeur. C'est équivalent à enlever la vieille valeur en appelant
+<code class="attribut">Unassert</code> et en ajoutant alors la nouvelle
+valeur en appelant <code class="attribut">Assert</code>. Cependant, la
+méthode <code class="attribut">Change</code> fait les deux en une
+étape.</p>
+
+<p>Voici un exemple:</p>
+
+<pre><code>
+var subject = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/George&quot;);
+var predicate = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/name&quot;);
+var oldName = rdfService.GetLiteral(&quot;George&quot;);
+var newName = rdfService.GetLiteral(&quot;Georgina&quot;);
+
+datasource.Change(subject, predicate, oldName, newName);
+</code></pre>
+
+<p>Dans ce cas-ci, nous changeons la valeur du prédicat 'name' de la
+ressource 'George' de la valeur 'George' en 'Georgina'. L'ancienne
+valeur sera enlevée du datasource et remplacée par la nouvelle valeur.</p>
+
+<p>En conclusion, la méthode <code class="attribut">Move</code> peut
+être employée pour changer la source de lien en une autre valeur. Ceci
+serait employé pour changer la ressource qui a un nom donné. Par exemple,
+nous pourrions décider que le nom de Georgina devrait être associé
+réellement à une ressource 'Georgina'.</p>
+
+<pre><code>
+var oldSubject = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/George&quot;);
+var newSubject = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Georgina&quot;);
+var predicate = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/name&quot;);
+var name= rdfService.GetLiteral(&quot;Georgina&quot;);
+
+datasource.Move(oldSubject, newSubject, predicate, name);
+</code></pre>
+
+<p>Comme avec la méthode <code class="attribut">Change</code>, la
+vieille valeur est enlevée et la nouvelle valeur est ajoutée. La
+méthode <code class="attribut">Move</code> est l'inverse parce qu'elle
+change les sources au lieu des cibles.</p>
+
+<p>Les deux méthodes <code class="attribut">Change</code> et <code
+class="attribut">Move</code> ne s'arrêtent pas si la vieille valeur
+n'était pas présente. Pour les deux méthodes, elles veulent absolument
+ajouter la nouvelle valeur. Pour cette raison, vous devriez vous
+assurer que la vieille valeur existe d'abord si c'est un souci.</p>
+
+<h2>Exemple de modification</h2>
+
+<p>Disons que vous construisez un catalogue de photos. Vous pourriez
+avoir une variété d'informations à stocker pour chaque photo, telle que
+l'endroit, la date et une description de la photo. Pour chaque photo
+nous prendrons une ressource et un certain nombre de propriétés. Les
+propriétés ne doivent pas être les mêmes pour chaque photo, ainsi nous
+pouvons omettre des choses pour quelques photos et ajouter plus de
+détail pour d'autres. Une interface utilisateur montrant les données
+pourrait seulement montrer les champs qui sont présents.</p>
+
+<p>D'abord, commençons en créant un nouveau datasource vide dans la
+mémoire (in-memory):</p>
+
+<pre><code>
+var rdfService = Components.classes[&quot;@mozilla.org/rdf/rdf-service;1&quot;].getService(Components.interfaces.nsIRDFService);
+
+var photosDS = Components.classes[&quot;@mozilla.org/rdf/datasource;1?name=in-memory-datasource&quot;].createInstance(Components.interfaces.nsIRDFDataSource);
+</code<</pre>
+
+<p>Après, ajoutons quelques données pour chaque photo. Nous pourrions
+employer <code class="attribut">GetAnonymousResource</code> pour produire
+des UIRs de ressource anonyme pour chaque photo. Ou, nous pourrions
+employer l'Uri du site Web où la photo est placée. Nous pourrions
+employer l'un ou l'autre puisque RDF emploie l'Uri seulement comme
+gardien de place (placeholder) et que nous ne téléchargeons pas le
+contenu. Dans notre exemple, prenons l'exemple d'URI suivant
+http://www.example.com/image/clown.jpeg.</p>
+
+<p>La première photo a deux propriétés, une date et une description.
+Nous devrons faire deux appels à la méthode <code
+class="attribut">Assert</code> pour ajouter cette information. Par
+exemple:</p>
+
+<pre><code>
+var photoRes = rdfService.GetResource(&quot;http://www.example.com/image/clown.jpeg&quot;);
+var dateProp = rdfService.GetResource(&quot;http://www.example.com/rdfns/date&quot;);
+var descriptionProp = rdfService.GetResource(&quot;http://www.example.com/rdfns/description&quot;);
+
+var photoDate = rdfService.GetLiteral(&quot;January 20, 2003&quot;);
+var photoDescription = rdfService.GetLiteral(
+      &quot;The clown at Simone's birthday party makes a funny face.&quot;);
+
+photosDS.Assert(photoRes, dateProp, photoDate, true);
+photosDS.Assert(photoRes, descriptionProp, photoDescription, true);
+</code></pre>
+
+<p>D'abord, nous obtenons les objets ressource et literal requis. Nous
+pourrions utilisé <a href="/references/xpcomref/ifaces/nsIRDFDate.html">nsIRDFDate</a> au lieu d'un simple literal pour la date, mais ce n'est pas le sujet de cet exemple.</p>
+
+<p>Les deux lignes <code class="attribut">Assert</code> ajoutent
+respectivement la date et la description. Si nous décidons plus tard
+que nous voulons enlever une propriété, nous pouvons juste employer
+la méthode <code class="attribut">Unassert</code>.</p>
+
+<p>Ajoutons une deuxième photo, dans ce cas-ci une prise à la même date.</p>
+
+<pre><code>
+var photo2Res = rdfService.GetResource(&quot;http://www.example.com/image/cake.jpeg&quot;);
+
+var photo2Description = rdfService.GetLiteral(
+      &quot;Simone blows out the candles on her cake to officially mark that she is four.&quot;);
+
+photosDS.Assert(photo2Res, dateProp, photoDate, true);
+photosDS.Assert(photo2Res, descriptionProp, photo2Description, true);
+</code></pre>
+
+<p>Dans ce cas-ci, nous n'avons pas besoin d'obtenir autant d'objets
+ressource et literal puisque nous avons déjà les objets d'avant. Il
+n'y a aucun avantage à demander au service RDF ces objets à plusieurs
+reprises puisque le service RDF renverra le même objet de toute façon.
+La date est identique également ainsi nous pouvons juste réutiliser
+l'objet. La méthode <code class="attribut">Assert</code> est aussi appelé
+deux fois comme avant, mais en utilisant les données pour la deuxième
+photo.</p>
+
+<p>Puisque les deux dates sont identiques, nous pouvons interroger le
+datasource pour toutes les photos à cette date en employant la méthode
+<code class="attribut">GetSources</code>. Le code d'exemple ci-dessous
+renverra une énumération avec deux items en lui, puisqu'il y a deux
+photos enregistrées pour la date du '20 janvier 2003'. Notez que la
+chaîne de caractère doit être exactement la même.</p>
+
+<pre><code>
+var sources = photosDS.GetSources(dateProp, photoDate, true);
+while (sources.hasMoreElements()){
+  var photoRes = sources.getNext();
+  if (photoRes instanceof Components.interfaces.nsIRDFResource){
+    var description = photosDS.GetTarget(photoRes, descriptionProp, true);
+    if (description instanceof Components.interfaces.nsIRDFLiteral){
+      alert(description.Value);
+    }
+  }
+}
+</code></pre>
+
+<p>Pour chaque item de l'énumération, nous réclamons la méthode
+<code class="attribut">GetTarget</code> pour obtenir la description de
+la photo. En donnant seulement la date de la photo, nous aurions trouvé
+les deux descriptions. Ces genres de questions nous permettent de
+naviguer à travers les informations du graphique RDF facilement.</p>
+
+<p>Après, nous décidons de changer la description de la première photo.
+Nous ne voulons pas créer une nouvelle ressource et encore ajouter les
+données. Nous emploierons à la place juste la méthode Change pour
+réaliser ceci. Cette méthode permettra à la valeur d'une propriété
+d'être changée d'une valeur à l'autre. Nous ne pouvons pas simplement
+appeler <code class="attribut">Assert</code> puisque cela ajoutera une
+deuxième valeur, et n'enlèvera pas l'autre. Ceci pourrait être utile
+dans certains cas cependant. Voici un exemple pour changer une valeur.</p>
+
+<pre><code>
+var photoNewDescription = rdfService.GetLiteral(
+      &quot;Simone laughs when the clown at her birthday party makes a funny face.&quot;);
+
+photosDS.Change(photoRes, descriptionProp, photoDescription, photoNewDescription);
+</code></pre>
+
+<p>Parfois plus tard, nous pourrons découvrir que les descriptions des
+photos sont renversées. Nous pourrons employer la méthode <code
+class="attribut">Move</code> pour les changer de sorte que les
+descriptions soient associées aux bonnes ressources. Il est également
+possible d'enlever les vieilles valeurs et réinsérer les valeurs au
+bon endroit.</p>
+
+<pre><code>
+photosDS.Move(photoRes, photo2Res, descriptionProp, photoNewDescription);
+photosDS.Move(photo2Res, photoRes, descriptionProp, photo2Description);
+</code></pre>
+
+<p>La première ligne ajuste la première description de la première
+ressource photo sur la deuxième ressource. La deuxième ligne ajuste la
+deuxième description de la deuxième photo sur la première. C'est un
+exemple plutôt insignifiant, mais certainement utile. Un exemple plus
+efficace de l'utilisation de la méthode <code class="attribut">Move</code>
+est de déplacer une ressource d'un endroit à l'autre. Par exemple, si
+des photos sont stockées dans un ensemble de groupes, on pourrait
+déplacer une photo d'un groupe à l'autre en employant la méthode <code
+class="attribut">Move</code> pour changer le groupe au quel elle a été
+associé. Par exemple:</p>
+
+<pre><code>
+var oldFolderRes = rdfService.GetResource(&quot;http://www.example.com/folder/unsorted&quot;);
+var newFolderRes = rdfService.GetResource(&quot;http://www.example.com/folder/simonesbirthday&quot;);
+var photoChildProp = rdfService.GetResource(&quot;http://www.example.com/rdfns/photo&quot;);
+
+photosDS.Move(oldFolderRes, newFolderRes, photoChildProp, photoRes);
+</code></pre>
+
+<p>Cet exemple déplacera une photo d'un groupe à l'autre. Nous pourrions
+employer un code semblable pour déplacer un groupe à l'intérieur d'un
+autre groupe. Dans ce cas-ci nous employons une propriété pour indiquer
+qu'une photo est dans un groupe. Nous pourrions vouloir utiliser un
+conteneur RDF à la place. Ceci est décrit dans la prochaine section.</p>
+
+<h2>Observer des changements de datasource</h2>
+
+<p>Les datasources RDF peuvent avoir un ou plusieurs observateurs
+attachés à eux. Les observateurs sont appelés toutes les fois que le
+datasource change. Il peut être utile d'observer les datasources
+fournis par Mozilla ou vos propres datasources. Par exemple, ceci
+pourrait aider à garder certain code séparé l'un de l'autre, si désiré.
+Le constructeur de template de XUL emploie des observateurs pour
+observer des changements de datasource RDF de sorte que le contenu du
+template puisse être reconstruit.</p>
+
+<p>Vous pouvez ajouter un observateur à un datasource avec la méthode
+de datasource <code class="attribut">AddObserver</code>. Vous pouvez
+l'enlever en employant encore la méthode <code
+class="attribut">RemoveObserver</code>. Les datasources peuvent avoir
+plusieurs observateurs et ils seront tous appellés quand le datasource
+changera. Les observateurs devraient appliquer des méthodes de
+l'interface <a href="/references/xpcomref/ifaces/nsIRDFObserver.html">nsIRDFObserver</a>.</p>
+
+<p>L'observateur reçoit un avis séparé pour chaque modification du
+datasource. Les arguments fournis aux méthodes de l'observateur
+indiquent ce qui a changé. L'observateur devrait appliquer une méthode
+pour chacun des quatre types de changement qui peuvent se produire
+dans le datasource, comme décrit ci-dessus. Ces changements sont
+insertion, désinsertion, changement et mouvement. Le
+<code>nsIRDFObserver</code> a quatre méthodes correspondant à ces
+quatre types, avec pour en tête 'on'. Par exemple, la méthode <code
+class="attribut">onAssert</code> sera appelée toutes les fois que
+<code class="attribut">Assert</code> sera appelé sur le datasource.</p>
+
+<p>Deux méthodes, <code class="attribut">onBeginUpdateBatch</code>
+et <code class="attribut">onEndUpdateBatch</code> additionnels sont
+appelées quand les méthodes correspondantes du datasource sont
+appelées. Bien qu'il n'y ait rien de spécial que ces méthodes doivent
+faire, elles sont un indicateur au datasource et ses observateurs
+qu'un grand nombre de changements vont être faits au datasource.
+Puisqu'il pourrait être inefficace de manipuler chaque changement,
+les méthodes en lots vous permettent de détecter quand un groupe de
+changements commence et fini, et optimisent le code pour ce cas.
+Par exemple, quand une opération en lots commence, le constructeur
+de template de XUL ne reconstruit aucun contenu de template jusqu'à
+ce que l'opération en lots finisse. Si les changements étaient faits
+sans les traiter en lots, le constructeur reconstruirait sur chaque
+changement qui serait inefficace.</p>
+
+<p>Vous devez appliquer les six méthodes de l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFObserver.html">nsIRDFObserver</a>,
+bien que vous n'ayez pas besoin de prendre toutes les étapes parmis
+celles offertes. Voici un exemple:</p>
+
+<pre><code>
+var observer = {
+  onAssert            : function(ds, source, predicate, target)
+  {
+    var dateProp = rdfService.GetResource(&quot;http://www.example.com/rdfns/date&quot;);
+    var photoDate = rdfService.GetLiteral(&quot;January 20, 2003&quot;);
+    if ((dateProp == predicate) && (photoDate == target)){
+      alert(&quot;That is Simone's birthday!&quot;);
+    }
+  },
+  onUnassert          : function(ds, source, predicate, target){},
+  onChange            : function(ds, source, predicate, oldTarget, newTarget){},
+  onMove              : function(ds, oldSource, newSource, predicate, target){},
+  onBeginUpdateBatch  : function(ds){},
+  onEndUpdateBatch    : function(ds){}
+};
+
+photosDS.AddObserver(observer);
+</code></pre>
+
+<p>Dans cet exemple, nous voulons seulement écouter les liens étant
+ajoutés au datasource, ainsi nous ne faisons rien avec les autres méthodes.
+Nous devons toujours les déclarer ou des erreurs se produiront.
+Les arguments de la méthode <code class="attribut">onAssert</code>
+indiquent les données qui ont été ajoutées. Ceci est employé pour
+comparer la date à une date spécifique et pour afficher un message
+d'alerte si la date est le '20 janvier 2003'. Notez que nous pouvons
+comparer des ressources et des literals en utilisant l'opérateur ==.</p>
+
+<p>Le <code>in-memory-datasource</code> implémente l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFPropagatableDataSource.html">nsIRDFPropagatableDataSource</a>.
+
+Elle a une simple propriété <code class="attribut">propagateChanges</code>
+qui peut être placé à vrai ou faux. Par défaut, la valeur de cette
+propriété est vraie, mais si vous la changez en faux, la notification
+de l'observateur sera mis hors service. Ceci neutralisera tous les avis
+des observateurs ainsi ils ne seront plus appellés. En replaçant la valeur
+sur true les avis seront réactivé. Les changements réalisés tandis que la
+valeur est sur false n'atteindront pas les observateurs. Comme exemple,
+le datasource de signets neutralise les avis en triant un dossier,
+puisqu'une grande quantité de données est brassée pendant l'opération de
+trie.</p>
+

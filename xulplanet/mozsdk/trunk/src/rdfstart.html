@@ -1,0 +1,371 @@
+
+<p>Cette section décrit le modèle RDF (Resource Description Framework,
+cadre de description de ressource)</p>
+
+<h2>Ressources</h2>
+
+<p>Le RDF (Resource Description Framework, cadre de description de
+ressource) est un modèle de stockage de graphiques d'informations.
+Le RDF est employé pour créer des rapports entre différentes ressources,
+chaque ressource étant une chose, telle qu'une personne, une chanson, une
+page Web ou un signet (bookmark). Certains considèrent le RDF comme un
+langage XML de description de données. Cependant, le format RDF/XML est
+juste une méthode pour stocker du RDF dans un fichier. Si vous essayez
+d'apprendre le RDF, il peut être déroutant de l'apprendre par
+l'intermédiaire de la syntaxe RDF/XML; c'est pourquoi le modèle RDF
+est décrit ci-dessous,dans assez de détail pour le comprendre sans
+discuter de la syntaxe RDF/XML.</p>
+
+<p>Imaginez un enchaînement ou un graphique de noeuds interconnectés.
+Les noeuds sont reliés par l'intermédiaire de divers relations. Par
+exemple, disons que chaque noeud représente une personne. Chaque personne
+pourrait être liée à une autre personne parce qu'ils sont des enfants de
+mêmes parents, des parents, des conjoints, des employés ou des ennemis.
+Chaque connexion porte le nom de la relation entre les noeuds.</p>
+
+<p>Un autre type de relations est les propriétés physiques d'un noeud.
+Par exemple, le nom ou l'âge d'une personne. Ces relations seraient
+nommés par 'nom' et 'âge' au lieu de 'enfant de mêmes parents' ou
+'parent'.</p>
+
+<p>le RDF est employé pour décrire ces relations. Il n'inclut pas
+réellement directement les noeuds, mais indirectement grâce aux
+relations pointant vers les noeuds. À tout moment, nous pourrions ajouter
+un nouveau noeud, tel qu'un enfant nouveau-né, et tout ce que nous devons
+faire c'est ajouter deux liens 'parent', un pour chaque parent.</p>
+
+<p>Dans le RDF, les noeuds peuvent être de deux types très généraux,
+ressource ou literal. Un literal est une valeur réelle, telle que le nom
+'Sandra' ou le nombre '7'. Vous pourriez penser à un literal comme une
+chaîne de caractères une fois utilisé dans un langage de programmation.
+Une ressource représente quelque chose, plus comme un objet dans un
+langage de programmation. Par exemple, une personne serait une ressource,
+mais le nom de la personne serait un literal.</p>
+
+<p>Dans le RDF, des ressources sont associées à des URIs de sorte que
+nous puissions les identifier. Puisqu'une URI est unique, nous pouvons
+identifier une ressource spécifique. La valeur de l'Uri n'est pas vraiment
+importante dans le RDF puisqu'elle est juste employée comme identifiant.
+Vous pourriez vouloir employer une certaine convention comme un URI qui
+inclut un numéro de série permettant d'identifier un objet physique.</p>
+
+<h2>Triplets (triples)</h2>
+
+<p>Nous pouvons ajouter des relations entre deux ressources ou entre une
+ressource et un literal. Ces liens s'appellent souvent des triplets ou
+des arcs. Voici quelques exemples:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  name     -&gt;  Sandra
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  gender   -&gt;  female
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  sibling  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;   -&gt;  gender   -&gt;  male
+</code></pre>
+<p>Dans cette documentation, nous emploierons la convention que les thèmes
+écrits entre tags sont des ressources, et ceux qui ne le sont pas sont des
+literals. Ci-dessus, sont définis quatre triplets. Le premier indique qu'il
+y a une ressource &lt;http://www.xulplanet.com/rdf/people/Sandra&gt; avec
+pour nom 'Sandra'. Le second indique que la même ressource a un genre
+'femelle'. Le troisième triplet indique que l'enfant de mêmes parents
+est une autre ressource &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;.
+Le triplet final indique un genre pour la ressource
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;.</p>
+
+<p>Un nom n'a pas été fourni pour la ressource
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;. En tant que lecteur
+humain, nous pourrions supposer que le nom est probablement le literal
+'Kevin ', mais le système informatique n'aura aucune manière de le savoir.
+Nous pourrions employer n'importe quelle forme d'Uri pour la ressource;
+par exemple ce qui suit serait juste et acceptable :</p>
+
+<pre><code>
+&lt;urn:x-person:S1&gt;  -&gt;  name  -&gt;   Sandra
+</code></pre>
+<p>La ressource &lt;urn:x-person:S1&gt; ne veut rien dire pour un humain,
+et serait juste et compréhensible par un système informatique. En fait,
+une URI moins significative pour un humain pourrait être meilleur puisque
+l'arrangement utilisé avec &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;
+ne fonctionnerait pas si quelqu'un d'autre s'appelait Sandra. Notez que le
+fait qu'une URI HTTP soit employé n'indique pas qu'elle est associée à un
+site Web accessible par le protocole HTTP, bien que vous pourriez mettre
+quelque chose reliée à cet URL en téléchargement. Au lieu de cela, vous
+pourriez juste employer le nom de votre site Web en créant des URIs avec
+pour assurer l'unicité de vos informations puisque d'autres ne devraient
+pas l'employer.</p>
+
+<p>L'Uri est juste un identifiant. Le RDF ne s'inquiète pas de ce qu'il est.
+Mais si la même URI est employée en plusieurs endroits, le RDF comprendra
+que tous se rapportent à la même ressource. Dans le premier exemple,
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt; était présent plusieurs
+fois, mais ils représentaient tous une même chose.</p>
+
+<p>Quoique nous n'ayons pas indiqué un nom pour la ressource
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;, ceci ne signifie pas
+qu'il n'en a pas un. Si un triplet n'est pas indiqué dans le graphique,
+il ne signifie pas que la valeur n'existe pas, au lieu de cela il peut
+signifier que la valeur n'est pas connue, ou qu'on lui fournira plus
+tard.</p>
+
+<p>Une chose que nous n'avons pas indiqué dans l'exemple est si Kevin est
+un frère ou une soeur de Sandra, nous avons juste employé un terme plus
+générique 'enfant de mêmes parents'. Cependant, le système peut figurer
+ceci en employant seulement les informations fournies et un peu de logique.
+Par exemple, si il était dit au système qu'un frère est un enfant de mêmes
+parents qui est masculin, il pourrait déterminer que Kevin est le frère de
+Sandra en utilisant seulement les deux triplets suivants:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  sibling  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;   -&gt;  gender   -&gt;  male
+</code></pre>
+<p>Cependant, avec juste ces deux règles, le système ne peut pas déterminer
+si Sandra est un frère ou une soeur de Kevin, puisque ces deux règles
+n'indiquent pas le genre de Sandra. Pour ceci, nous aurions besoin de
+la règle appropriée de l'exemple précédent.</p>
+
+<p>RDF nous laisse composer des ressources, des literals, et même les
+étiquettes des arcs (tels que 'enfant de mêmes parents '). Ainsi, nous
+pouvons composer une nouvelle étiquette à tout moment:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt; bestFriend  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Christine&gt;
+</code></pre>
+<p>L'étiquette 'bestFriend ', et les autres utilisées ci-dessus s'appelle
+des prédicats. L'élément à gauche de chaque triplet s'appelle le sujet et
+à droite il s'appelle l'objet ou la cible. Le sujet sera toujours une
+ressource, alors que la cible peut être une ressource ou un literal.
+Vous n'aurez jamais un literal en rapport avec un literal.</p>
+
+<p>Pour assurer l'unicité de l'information, les prédicats sont également
+identifiés par des URIs. Il y aura un URI unique pour chaque prédicat.
+Par exemple, l'Uri pour 'enfant de mêmes parents' pourrait être
+&lt;http://www.xulplanet.com/rdf/people/sibling&gt;. Habituellement,
+les étiquettes de prédicat relatif seront semblables de sorte que les
+namespaces du XML-modèle puissent être employés pour se rapporter à
+elles. Le dernier exemple serait représenté ainsi:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/bestFriend&gt;  -&gt;
+            &lt;http://www.xulplanet.com/rdf/people/Christine&gt;
+</code></pre>
+<p>Dans les propos de cette documentation, nous omettrons parfois le
+namespace des prédicats pour simplifier les exemples. Les prédicats sont
+également des ressources et vous pourriez créer des rapports entre un
+prédicat et autre chose. Ceci est généralement fait pour définir les
+propriétés qui décrivent un prédicat, formant un vocabulaire formel
+pour ce prédicat.</p>
+
+<p>Disons que nous décidons d'ajouter une autre personne également
+appelé Sandra:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/SandraJr&gt;  -&gt;  name  -&gt;  Sandra
+</code></pre>
+<p>La ressource est différente de celle des exemples précédents car
+elle représente une personne différente, toutefois ils ont tous les
+deux le même nom. Avec la plupart des APIs RDF, on peut interroger dans
+un sens ou dans l'autre. Si tout ce que vous savez est que la personne
+se nomme 'Sandra ', vous pouvez obtenir les ressources à partir du nom.</p>
+
+<h2>Types</h2>
+
+<p>Parfois il est utile de pouvoir identifier le genre d'une ressource,
+tout comme la façon dont les systèmes orientés object emploient des
+classes à cette fin. Le RDF emploie un type à cette fin. Tandis qu'il
+ y a deux types très généraux, ressource et literal, à chaque ressource
+ peut être donnée un type précis. Par exemple, pour la ressource Sandra
+ il pourrait être donnée un type 'personne'. La valeur du type devrait
+ être une autre ressource qui signifierait que plus d'information pourrait
+ être associée au type lui-même.</p>
+
+<p>Comme avec d'autres propriétés, les types sont également indiqués avec
+un triplet:</p>
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  rdf:type  -&gt;
+      &lt;http://xmlns.com/wordnet/1.6/Person&gt;
+</code></pre>
+<p>La ressource &lt;http://xmlns.com/wordnet/1.6/Person&gt; est employée pour représenter une personne. L'Uri est de WordNet, qui fournit des URIs de ressource pour des mots. Le prédicat est rdf:type, qui est dans le namespace de RDF puisque l'attribut 'type' est intégré à RDF. Le nom complet est 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'. Ici, nous employons 'rdf:' comme abréviation pour le namespace du RDF, comme ce serait fait dans un XML. Ceci est seulement fait pour simplifier l'exemple -- l'attribut est toujours le nom complet avec le namespace.</p>
+
+<p>Nous pouvons également composer nos propres types. Dans l'exemple ci-dessous nous associons le type &lt;http://www.xulplanet.com/rdf/example/Poem&gt; comme type d'une ressource, qui signifie que l'Uri pourrait être un poème.
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/something/785&gt;  -&gt;  rdf:type  -&gt;
+      &lt;http://www.xulplanet.com/rdf/example/Poem&gt;
+</code></pre>
+
+<h2>Quelques types de liste</h2>
+
+<p>Le RDF a un certain nombre de types intégrés pour représenter des listes
+de choses. Reprenons un exemple précédent où Sandra a eu deux noms. On y a
+mentionné que les noms n'avaient pas d'ordre particulier. Parfois, il peut
+être utile de pouvoir mettre un ensemble de valeurs dans un ordre
+particulier. Vous pourriez avoir penser aux manières de travailler autour
+de ceci, par exemple en utilisant des attributs 'name1', 'name2' et ainsi
+de suite. RDF a un mécanisme intégré pour faire ce genre de chose.</p>
+
+<p>Dans le RDF, un prédicat qui est un nombre précédé par un underscore
+est employé comme item dans une liste. Par exemple, rdf:_1 est employé
+pour indiquer le premier item d'une liste. Nous employons encore le
+namespace du RDF. Par exemple, nous pourrions créer une liste de choses
+comme ci-dessous:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:_1  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:_2  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:_3  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Jack&gt;
+</code></pre>
+<p>Ici, &lt;http://www.xulplanet.com/rdf/people/Karen&gt; a une liste de
+trois items. Nous, en tant qu'humains, pourrions présumer que les trois
+items sont les enfants de Karen, le système informatique ne saura pas ceci,
+mais votre application pourrait faire cette hypothèse. Les trois prédicats
+ne sont en aucun cas spécifique, car nous pourrions employer 'name1',
+'name2' et 'name3'.  Cependant, puisque le RDF a les prédicats ci-dessus
+intégrés nous devrions employer ceci si possible.</p>
+
+<p>Puisque rdf:_XXX est un prédicat juste, comme tout autre, nous pourrions
+indiquer des valeurs multiples avec le même nombre, ou nous pourrions ne
+pas utiliser certaines valeurs:</p>
+<pre><code>
+&lt;http://w&gt;w.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:_1  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:_6  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:_6  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Billy&gt;
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:_8  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Jack&gt;
+</code></pre>
+<p>Ce qui précède est une liste contenant quatre items. Cependant, les
+nombres ne sont pas séquentiels. Créer des triplets comme ceci n'est pas
+fait souvent, mais une liste où des nombres sont sautés pourrait être
+trouvée quand un item a été supprimé.</p>
+
+<p>Afin que le RDF puisse traiter ces prédicats numérotés de n'importe
+quelle manière -- rappelez-vous que ce sont juste des prédicats
+ordinaires -- le RDF exige également d'employer un type spécial pour les
+listes. Plusieurs types de liste sont disponibles:</p>
+<ul>
+<li><strong>rdf:Seq:</strong> une liste ordonnée, qui est  ce que nous
+emploierons pour les exemples précédents.</li>
+<li><strong>rdf:Bag:</strong> une liste non ordonnée.</li>
+<li><strong>rdf:Alt:</strong> une liste de valeurs alternatives où on
+s'attend à ce que seulement une valeur soit employée.</li>
+</ul>
+<p>Pour les exemples ci-dessus, nous emploierions rdf:Seq parce que nous
+voulons que les items soient dans un ordre spécifique. Nous emploierions
+rdf:Bag si l'ordre des items n'importait pas. Ceci pourrait ne pas sembler
+différent du fait d'employer juste des prédicats 'name' plusieurs fois,
+cependant, si le type est rdf:Bag nous savons que la ressource contient
+une liste de noms, au lieu d'un seul. Pour des noms, nous pourrions
+employer un rdf:Alt puisqu'une application devra seulement employer un
+des noms à la fois.</p>
+
+<p>Nous assignons ces types de liste simplement comme n'importe quel
+autre type décrit plus tôt:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;  -&gt;  rdf:type  -&gt;
+      &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq&gt;
+</code></pre>
+<p>Ici, le namespace 'rdf' est complet pour la valeur à atteindre.
+Maintenant que Karen est un rdf:Seq, nous pouvons ajouter les trois
+enfants comme ci-dessus. Un problème ici est que maintenant que Karen
+est du type rdf:Seq, elle n'est plus du type personne. Nous pourrions
+résoudre ceci en assignant un deuxième type à Karen, comme avec d'autres
+prédicats. Une meilleure manière est d'employer une deuxième ressource
+comme conteneur de la liste des enfants de Karen. Karen restera une
+personne, mais la liste d'enfants sera un rdf:Seq.</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;       -&gt;  rdf:type  -&gt;
+      &lt;http://xmlns.com/wordnet/1.6/Person&gt;
+&lt;http://www.xulplanet.com/rdf/people/Karen&gt;       -&gt;  children  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;
+&lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;  -&gt;  rdf:type  -&gt;
+      &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq&gt;
+&lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;  -&gt;  rdf:_1    -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;
+&lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;  -&gt;  rdf:_2    -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
+&lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;  -&gt;  rdf:_3    -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Jack&gt;
+</code></pre>
+<p>Nous avons fait de Karen une personne, et lui avons assigné un lien
+avec une ressource &lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;
+par l'intermédiaire du prédicat 'enfants'. Au lieu d'associer les trois
+enfants directement à Karen, nous les associons à cette ressource
+supplémentaire. Cette ressource supplémentaire a un type rdf:Seq. Le
+résultat est que Karen est associés aux trois enfants mais peut aussi
+avoir un type unique de personne.</p>
+
+<p>En termes de RDF, nous ne devons pas explicitement indiquer l'Uri
+&lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;. Puisque le modèle
+ci-dessus est généralement employé, RDF permet d'utilisation des noeuds
+blancs ou des ressources anonymes. Une API RDF vous permettra de créer
+ces noeuds, et habituellement une URI pourrait être aléatoirement produit
+pour vous. Techniquement, ils n'ont pas d'URIs, mais vous pouvez aussi
+les manoeuvrer comme ressources, et ajoutez et enlevez des triplets liés
+à eux.</p>
+
+<p>Dans tous les exemples ci-dessus, nous avons toujours défini des
+triplets. Chaque ligne a un sujet, un prédicat et un objet. Même lorsque
+nous définissons des types et des listes, nous employons toujours des
+triplets pour les définir. Le RDF est seulement une liste de triplets,
+ou de liens entre les choses.</p>
+
+<p>Une chose intéressante au sujet de RDF est que nous pourrions prendre
+une liste de triplets d'une source et les combiner avec des triplets
+d'une autre source. Puisque l'ordre n'importe pas, ceci aurait le même
+effet que si nous avions commencé par les indiqués ensemble. Par exemple,
+supposons qu'une autre source fournisse le triplet suivant</p>
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/KarensKids&gt;  -&gt;  rdf:_4  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Wendy&gt;
+</code></pre>
+<p>Une fois combiné avec l'exemple précédent, ceci signifierait que Karen
+aurait maintenant quatre enfants au lieu de trois. C'est un aspect
+important du RDF -- pouvoir combiner ou agréger des données de sources
+multiples.</p>
+
+<h2>Exemple de triplets</h2>
+
+<p>Dans le contexte d'un navigateur, les signets peuvent être stockés
+comme une série de triplets RDF.<p>
+<pre><code>
+  &lt;urn:x-mark:1&gt;  -&gt;  Name         -&gt;  XULPlanet.com
+  &lt;urn:x-mark:1&gt;  -&gt;  URL          -&gt;  &lt;http://www.xulplanet.com&gt;
+  &lt;urn:x-mark:1&gt;  -&gt;  LastVisited  -&gt;  Sept 8, 2003
+  &lt;urn:x-mark:2&gt;  -&gt;  Name         -&gt;  mozilla.org
+  &lt;urn:x-mark:2&gt;  -&gt;  URL          -&gt;  &lt;http://www.mozilla.org&gt;
+</code></pre>
+<p>Cet exemple a cinq triplets décrivant deux signets. Chaque signet a
+un nom et une URL, et un d'eux a un prédicat LastVisited. Les valeurs de
+l'URL sont placées dans une autre ressource, qui signifie qu'elles
+pourraient être employées dans d'autres triplets.</p>
+
+<p>Si vous avez une variété de signets de types différents, vous pourriez
+créer un type pour chacun.  Par exemple, votre application pourrait avoir
+un concept d'abonnement stocké comme signet, ainsi vous pourriez employer
+un type pour celui-ci:</p>
+<pre><code>
+  &lt;urn:x-mark:1&gt;  -&gt;  rdf:type  -&gt; http://www.xulplanet.com/rdf/example/Subscription
+</code></pre>
+<p>Vous pourriez employer la convention qu'un signet qui est de type Seq
+soit un dossier de signet.  Les enfants du Seq seraient les signets
+stockés dans le dossier.</p>
+<pre><code>
+  &lt;urn:x-mark:folder&gt;  -&gt;  rdf:type  &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq&gt;
+  &lt;urn:x-mark:folder&gt;  -&gt;  rdf:_1    &lt;urn:x-mark:1&gt;
+  &lt;urn:x-mark:folder&gt;  -&gt;  rdf:_2    &lt;urn:x-mark:2&gt;
+</code></pre>
+<p>C'était seulement un exemple des choses qui peuvent être stockées
+avec RDF. Bien que n'importe quel genre de données puissent être manipulé
+avec RDF.</p>
+
+

@@ -1,0 +1,459 @@
+
+<p>Cette section décrit une méthode pour stocker des données RDF au format XML.</p>
+
+<h2>Stockage de RDF</h2>
+
+<p>Si vous n'êtes pas familier avec le RDF, ou avez seulement une compréhension
+limitée de ce standard, lisez d'abord la <a href="rdfstart.html">section
+précédente</a>. Si vous essayez de lire cette section en première, vous mettrez
+probablement un certain temps à comprendre le RDF.</p>
+
+<p>Vous aurez certainement besoin de stocker du RDF dans un fichier ou de
+transférer des données vers un autre lieu. Il existe un format commun à XML et
+RDF pour stocker du RDF en format XML. Ce format s'appelle RDF/XML. Il y a
+plusieurs autres manières de stocker des données RDF, mais ce format est le plus
+commun. Certains se réfèrent confusément à ce format comme étant du RDF. En fait,
+le modèle de données est le RDF et il est décrit dans la section précédente,
+tandis que la syntaxe s'appelle correctement le RDF/XML.</p>
+
+<p>La base d'un fichier RDF/XML ressemblera à celui ci-dessous. L'élément
+<code class="tag">RDF</code> est le noeud racine qui englobe les données. Les
+triplets ne sont pas encore dans le fichier; nous les ajouterons dans un moment.
+Nous déclarons des namespaces dans l'élément <code class="tag">RDF</code> comme
+avec d'autres vocabulaires XML.</p>
+
+<pre><code>
+&lt;?XML version=&quot;1.0&quot;?&gt;
+
+&lt;rdf:RDF XMLns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         XMLns:people=&quot;http://www.xulplanet.com/rdf/people/&quot;&gt;
+
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>Nous déclarons deux namespaces, en premier le rdf, et un namespace 'people '
+pour nos propres objets. Vous pouvez employer votre propre namespace, ou un parmi
+ceux qui ont déjà été créé dans  différents buts.</p>
+
+<h2>Ressource pour les triplets literal</h2>
+
+<p>D'abord, étudions un triplet RDF simple:</p>
+
+<pre><code>
+  &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  name  -&gt;  Sandra
+</code></pre>
+
+<p>Trois informations y sont stockées, le sujet de la ressource, le prédicat, et
+la cible. Dans la section précédente, nous n'avions pas mis le prédicat 'name '
+dans un namespace pour simplifié la lecture. Cependant, nous devrions ajouter un
+namespace, et pour les propos de cet exemple, nous en composerons juste un. Voici
+l'information qui devra être stockée:</p>
+
+<pre><code>
+  Subject:   &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;
+  Predicate: &lt;http://www.xulplanet.com/rdf/people/name&gt;
+  Object:    Sandra
+</code></pre>
+
+<p>Ajoutons le triplet ci-dessus au fichier. C'est un triplet décrivant une
+ressource en relation avec un literal. Ce type de relation peut être décrit
+en utilisant un élément simple avec deux attributs:</p>
+
+<pre><code>
+&lt;?XML version=&quot;1.0&quot;?&gt;
+
+&lt;rdf:RDF XMLns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         XMLns:people=&quot;http://www.xulplanet.com/rdf/people/&quot;&gt;
+
+  &lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                   people:name=&quot;Sandra&quot;/&gt;
+
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>L'élément <code class="tag">Description</code> peut être utilisé pour
+décrire un triplet. Cet élément est dans le namespace rdf. L'attribut
+<code class="attribut">about</code> est employé pour indiquer le sujet du
+triplet. Pour l'objet du triplet, 'Sandra ', nous l'assignons à l'attribut
+'people:name '. Avec la déclaration du namespace, cet attribut équivaut à
+'http://www.xulplanet.com/rdf/people/name ', qui est le prédicat du triplet.</p>
+
+<p>Ainsi, pour spécifier un triplet, nous tirons profit des namespaces et
+assignons des valeurs à atteindre aux attributs avec les mêmes noms que les
+prédicats. Nous pourrions ajouter un attribut pour chaque triplet que nous
+voulons ajouter et qui a le même sujet.</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:name=&quot;Sandra&quot;
+                 people:gender=&quot;female&quot;/&gt;
+</code></pre>
+
+<p>Vous n'avez pas besoin de répéter l'élément <code class="tag">Description</code>
+à chaque fois; ajoutez juste les attributs additionnels au même élément.
+Cependant, il n'est pas faux d'employer plusieurs éléments. Par exemple, ce
+qui suivant signifie la même chose:</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:name=&quot;Sandra&quot;/&gt;
+
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:gender=&quot;female&quot;/
+</code></pre>
+
+<p>Rappelez-vous que dans un RDF, l'ordre des triplets n'a pas d'importance.
+C'est pourquoi la syntaxe alternative de ce type est correcte. Puisque l'ordre
+n'importe pas, nous pourrions mettre les éléments ou les attributs dans un
+ordre différent sans que cela ne change les triplets créés. RDF/XML a un certain
+nombre de manières alternatives d'indiquer la même chose. Voici une autre manière.
+Au lieu d'employer la forme d'attribut, nous pourrions également employer un
+élément pour indiquer l'attribut. Par exemple, le triplet précédent peut être
+écrit ainsi:</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;&gt;
+  &lt;people:name&gt;Sandra&lt;/people:name&gt;
+&lt;/rdf:Description&gt;
+</code></pre>
+
+<p>Ici l'attribut du prédicat a été remplacé par un élément. Les deux formes
+donnent la même chose, mais il peut y avoir une raison de préférer l'une ou
+l'autre forme. La forme attribut est plus courte, ainsi elle est utile pour
+indiquer un certain nombre de prédicats. La forme élément serait plus pratique
+quand la valeur est plus longue, pour une meilleure lisibilité. Elle pourrait
+également être employée si la valeur contient des quotes puisque vous ne pouvez
+pas en mettre dans un attribut sans qu'elles ne vous échappent. En outre, la
+forme élément vous permet d'employer les mêmes prédicat plusieur fois:</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;&gt;
+  &lt;people:name&gt;Sandra&lt;/people:name&gt;
+  &lt;people:name&gt;Sandy&lt;/people:name&gt;
+&lt;/rdf:Description&gt;
+</code></pre>
+
+<p>Ceci crée deux triplets ayant le même sujet ressource et le même prédicat
+mais avec différentes valeurs cibles. Nous avons vu ces triplets dans la section
+précédente. Nous ne pourrions pas faire ça avec des attributs, puisqu'un élément
+ne peut pas avoir le même attribut deux fois.</p>
+
+<p>Il est acceptable de mélanger les deux formes selon les besoins. Par exemple,
+ce qui suit aurait comme conséquence de créer trois triplets:</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:name=&quot;Sandra&quot;&gt;
+  &lt;people:name&gt;Sandy&lt;/people:name&gt;
+  &lt;people:gender&gt;female&lt;/people:gender&gt;
+&lt;/rdf:Description&gt;
+</code></pre>
+
+<h2>Ressource des triplets ressource</h2>
+
+<p>Vous devrez également indiquer la ressource des relations entre ressource
+comme ci-dessous.</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  sibling  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
+</code></pre>
+
+<p>Vous ne pouvez pas employer la forme attribut pour ce type de triplets,
+puisqu'ils peuvent seulement être employés pour des valeurs de type literal.
+Cependant, vous pouvez employer une forme élément modifié. Cependant, au lieu
+de mettre la valeur entre le tag d'ouverture et de fermeture du prédicat, vous
+pouvez utiliser l'attribut <code class="attribut">ressource</code>.</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:name=&quot;Sandra&quot;&gt;
+  &lt;people:sibling rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot;/&gt;
+&lt;/rdf:Description&gt;
+</code></pre>
+<p>Ici, nous employons l'attribut <code class="attribut">ressource</code> pour
+indiquer que l'enfant de mêmes parents de la ressource Sandra est une autre
+ressource &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;, il faut noter que
+cet attribut a besoin d'être dans le namespace rdf. Cet attribut est employé
+pour indiquer les cibles de type ressource, tandis que le texte à l'intérieur
+de l'élément est employé pour indiquer les cibles de type literal. Notez la
+similitude dans la forme avec l'attribut <code class="attribut">about</code>.
+L'attribut <code class="attribut">about</code> est employé pour les sujets, le
+côté gauche d'un triplet, et l'attribut <code class="attribut">ressource</code>
+est employé pour les cibles, le côté droit du triplet.</p>
+
+<p>Dans l'exemple ci-dessus, nous avons également indiqué le nom de Sandra avec
+un attribut. Il est habituel de grouper tous les triplets liés à un sujet simple
+ensemble dans un fichier. Si nous voulions ajouter quelques triplets pour Kevin,
+nous pourrions employer un autre élément <code class="tag">Description</code>:</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:name=&quot;Sandra&quot;&gt;
+  &lt;people:sibling rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot;/&gt;
+&lt;/rdf:Description&gt;
+
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot;
+                 people:name=&quot;Kevin&quot;/&gt;
+</code></pre>
+
+<p>Le deuxième élément <code class="tag">Description</code> est employé pour
+déclarer un autre triplet, cette fois pour une ressource sujet différente,
+puisque l'attribut <code class="attribut">about</code> est différent. Il y a
+cependant une autre forme que vous pouvez employer, puisque vous voudriez
+probablement décrire deux personnes reliées ensemble dans un fichier. Au lieu
+d'employer un écriture séparer du deuxième élément <code
+class="tag">Description</code>, nous pouvons simplement le mettre directement à
+l'intérieur de l'enfant de mêmes parents.</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:name=&quot;Sandra&quot;&gt;
+  &lt;people:sibling&gt;
+    &lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot;
+                     people:name=&quot;Kevin&quot;/&gt;
+  &lt;/people:sibling&gt;
+&lt;/rdf:Description&gt;
+</code></pre>
+
+<p>Ceci correspond toujours au même ensemble de triplets. Cependant, au lieu
+que <code>'enfant de mêmes parents'</code> pointe vers la ressource et de l'avoir
+décrit séparément, il inclut la description de la ressource directement. Nous
+n'avons plus besoin de l'attribut <code class="attribut">ressource</code> puisque
+la ressource est indiquée à l'intérieur avec l'attribut <code
+class="attribut">about</code>.</p>
+
+<p>Vous pouvez continuer à nicher l'information à l'intérieur d'autres items et
+à n'importe quel niveau. Cependant, vous ne devez pas le faire. Parfois, vous
+préférerez les décrire séparément.  Puisque l'ordre des triplets n'importe pas
+dans le RDF, vous êtes donc libre de les spécifier de la façon la plus efficace
+pour décrire les données. Par exemple, en décrivant des personnes, vous mettriez
+probablement Kevin séparément si vous aviez un bon nombre de triplets additionnels
+le décrivant, pour améliorer la lisibilité.</p>
+
+<p>Vous pourriez vous demander ce qui se produirait si vous retireriez l'attribut
+<code class="attribut">about</code> ci-dessus, comme dans le fragment suivant:</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;&gt;
+  &lt;people:sibling&gt;
+    &lt;rdf:Description people:name=&quot;Kevin&quot;/&gt;
+  &lt;/people:sibling&gt;
+&lt;/rdf:Description&gt;
+</code></pre>
+
+<p>Ceci donnera la même structure de graphique, signifiant que Kevin sera
+toujours un enfant de mêmes parents que Sandra, sauf que Kevin n'aura pas d'URI.
+Ceci crée un noeud blanc (ou noeud anonyme), qui n'a pas d'URI, mais il sera
+toujours un noeud dans le graphique RDF. En utilisant une API RDF, vous pourriez
+faire référence à un noeud par l'intermédiaire de son URI, mais vous ne pourriez
+pas pouvoir obtenir un noeud blanc de cette manière puisqu'il n'a pas d'URI.
+vous auriez plutôt besoin d'une méthode transverse pour le trouver.</p>
+
+<h2>Types</h2>
+
+<p>Ensuite indiquer le type d'un noeud est fait avec un triplet comme toute
+autre information dans RDF, vous pouvez utiliser le même formalisme pour indiquer
+le type d'un noeud. Voici le triplet que nous voulons stocker:</p>
+
+<pre><code>
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  rdf:type  -&gt;
+      &lt;http://XMLns.com/wordnet/1.6/Person&gt;
+</code></pre>
+
+<p>Voici ce triplet sous la forme de RDF/XML:</p>
+
+<pre><code>
+&lt;?XML version=&quot;1.0&quot;?&gt;
+
+&lt;rdf:RDF XMLns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         XMLns:people=&quot;http://www.xulplanet.com/rdf/people/&quot;&gt;
+
+&lt;rdf:Description rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+  &lt;rdf:type resource=&quot;http://XMLns.com/wordnet/1.6/Person&quot;/&gt;
+&lt;/rdf:Description&gt;
+
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>Il n'y a aucune différence avec n'importe quel autre triplet. Nous employons
+le prédicat <code class="attribut">rdf:type</code> qui pointe vers le type person.
+Cependant, comme ces types sont habituellement employés dans RDF, il y a un
+raccourci spécial que vous pouvez prendre.</p>
+
+<pre><code>
+&lt;?XML version=&quot;1.0&quot;?&gt;
+
+&lt;rdf:RDF XMLns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         XMLns:wordnet=&quot;http://XMLns.com/wordnet/1.6/&quot;
+         XMLns:people=&quot;http://www.xulplanet.com/rdf/people/&quot;&gt;
+
+&lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;/&gt;
+
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>Ceci signifie la même chose, mais il est beaucoup plus simple. L'attribut
+<code class="attribut">about</code> est encore présent comme avant, mais
+l'élément <code class="tag">Description</code> a été remplacée par le type
+lui-même. Le namespace 'wordnet' a été ajouté à l'élément <code
+class="tag">RDF</code>. Une fois qualifiées, l'élément 'wordnet:Person'
+équivaut à 'http://XMLns.com/wordnet/1.6/Person', comme vous pouvez le noter
+c'est le type que nous voulions.</p>
+
+<p>La différence est alors que le élément <code class="tag">Description</code>
+a été remplacée par le type, qui est de la forme que nous voulions. On peut
+supposer que quand vous voyez un élément avec un attribut <code
+class="attribut">about</code>, cet élément est le type de cette ressource.</p>
+
+<p>Ainsi vous pouvez dire que quand un élément <code class="tag">Description</code>
+est employé, il signifie que le type n'est pas connu, ou n'est pas important.
+Par contre quand vous voulez indiquer le type d'une ressource, remplacez
+l'élément <code class="tag">Description</code> par le type de la ressource.
+C'est une raison pour laquelle les types sont toujours de type ressource
+puisque vous ne pourriez pas employer d'élément s'ils étaient de type
+literal.</p>
+
+<p>Naturellement, vous pourriez aussi bien employer la syntaxe de type quand
+vous emboîtez des triplets:</p>
+
+<pre><code>
+&lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;
+                 people:name=&quot;Sandra&quot;&gt;
+  &lt;people:sibling&gt;
+    &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot;
+                     people:name=&quot;Kevin&quot;/&gt;
+  &lt;/people:sibling&gt;
+&lt;/wordnet:Person&gt;
+</code></pre>
+
+<p>Ici, nous indiquons que les ressources Sandra et Kevin sont du type personne.
+Une chose à noter est que cela peut devenir difficile à lire si vous employez
+trop d'emboîtement puisqu'il peut devenir peu clair de savoir quel élément est
+censé être un type et quel élément est un prédicat. Cependant, ils alternent
+toujours. Dans l'exemple ci-dessus, l'élément externe est un type,donc l'élément
+suivant intérieure est un prédicat, et puis de nouveau un type. L'élément
+suivant devrait encore être un prédicat. Ce concept s'appelle parfois le
+striping, en raison de la manière dont les types et les prédicats alternent.</p>
+
+<h2>Les types liste</h2>
+
+<p>Pour les types intégrés de liste, Seq, Bag et Alt, vous pouvez indiquer le
+type de la même manière. Remplacez juste l'élément <code class="tag">Description</code>
+ou dactylographiez le nom avec rdf:Seq, pour un type Seq.</p>
+
+<pre><code>
+&lt;rdf:Seq rdf:about=&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;/&gt;
+</code></pre>
+
+<p>Ce n'est aucunement différent de la spécification d'autres types. La
+ressource &lt; http://www.xulplanet.com/rdf/people/KarensKids &gt; a un type
+rdf:Seq. Naturellement, nous ajouterons les enfants dans la liste de cette
+ressource:</p>
+
+<pre><code>
+&lt;rdf:Seq rdf:about=&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;&gt;
+  &lt;rdf:_1 rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;/&gt;
+  &lt;rdf:_2 rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot;/&gt;
+  &lt;rdf:_3 rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Jack&quot;/&gt;
+&lt;/rdf:Seq&gt;
+</code></pre>
+
+<p>Comme nous le faisons avec tous les triplets, nous les ajoutons à l'intérieur
+de la ressource et les orientons vers trois ressources d'enfant. Disons que Karen
+a eu 20 gosses à la place. Si nous écrivions ceci en dehors et que nous réalisons
+que nous faisons une erreur et oublions un enfant, nous devrions insérer l'enfant
+et renuméroter les autres dans la liste. Rappelez-vous que ceci n'est pas
+nécessaire, puisque sauter des nombres n'est pas grave. Cependant, ceci
+semblerait peu commun une fois lu. RDF/XML fournit un élément spéciale juste
+pour résoudre ce genre de problème.</p>
+
+<pre><code>
+&lt;rdf:Seq rdf:about=&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;&gt;
+  &lt;rdf:li rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;/&gt;
+  &lt;rdf:li rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot;/&gt;
+  &lt;rdf:li rdf:resource=&quot;http://www.xulplanet.com/rdf/people/Jack&quot;/&gt;
+&lt;/rdf:Seq&gt;
+</code></pre>
+
+<p>Au lieu d'employer les nombres, nous pouvons employer l'élément
+<code class="tag">li</code> qui fera le compte pour nous. Le premier article
+sera marqué 1 (réellement rdf:_1 comme ci-dessus), les deuxièmes 2, et le
+troisième 3. Nous pouvons insérer un enfant sans ajuster les autres. Cet élément
+a été créé sur le modèle de l'élément HTML du même nom pour créer des listes.</p>
+
+<p>Les éléments <code class="tag">li</code> ne sont pas employées directement
+comme prédicats. Si vous devez employer une API RDF pour interroger les données,
+vous ne trouverez aucun prédicat <code class="tag">li</code>, elles auront été
+traduits sous forme de nombre. Cet élément est employée seulement par commodité
+en écrivant du RDF dans XML.</p>
+
+<p>Notez que l'élément <code class="tag">li</code> a un attribut
+<code class="attribut">ressource</code>, comme plusieurs exemples plus tôt.
+Comme toujours, ceci indique que &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;
+est la cible du triplet. Comme avant, nous pourrions également nicher des items
+à l'intérieur de cet élément:</p>
+
+<pre><code>
+&lt;rdf:li&gt;
+  &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot; people:name=&quot;Sandra&quot;/&gt;
+&lt;/rdf:li&gt;
+</code></pre>
+
+<p>Ceci combine une variété de concepts précédents. L'enfant de la cible dans la
+liste est toujours la ressource &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;,
+mais on lui a donné un nom et un type.</p>
+
+<h2>Exemple complet</h2>
+
+<p>Voici un exemple complet de la famille de Karen:</p>
+
+<pre><code>
+&lt;?XML version=&quot;1.0&quot;?&gt;
+
+&lt;rdf:RDF XMLns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         XMLns:wordnet=&quot;http://XMLns.com/wordnet/1.6/&quot;
+         XMLns:people=&quot;http://www.xulplanet.com/rdf/people/&quot;&gt;
+
+&lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Karen&quot; people:name=&quot;Karen&quot;&gt;
+  &lt;people:children&gt;
+    &lt;rdf:Seq rdf:about=&quot;http://www.xulplanet.com/rdf/people/KarensKids&quot;&gt;
+      &lt;rdf:li&gt;
+        &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Sandra&quot; people:name=&quot;Sandra&quot;/&gt;
+      &lt;/rdf:li&gt;
+      &lt;rdf:li&gt;
+        &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Kevin&quot; people:name=&quot;Kevin&quot;/&gt;
+      &lt;/rdf:li&gt;
+      &lt;rdf:li&gt;
+        &lt;wordnet:Person rdf:about=&quot;http://www.xulplanet.com/rdf/people/Jack&quot; people:name=&quot;Jack&quot;/&gt;
+      &lt;/rdf:li&gt;
+    &lt;/rdf:Seq&gt;
+  &lt;/people:children&gt;
+&lt;/wordnet:Person&gt;
+
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>Ceci créera les triplets de la section précédente, avec quelques autres. Il
+créera un total de 13 triplets. Un nom pour chacun des quatre personnes, un type
+pour chaque personne, un type pour le Seq, d'un pour chacun des trois items de la
+liste, et un pour le prédicat 'enfants'.</p>
+
+<p>Il y a quelques autres syntaxes associées à RDF/XML, cependant ceci devrait
+être suffisant pour une compréhension de base.</p>
+
+<h2>Notes De Mozilla RDF</h2>
+
+<p>Le parser RDF de Mozilla a été écrit avant que les spécifications de RDF aient
+été menées à leur terme. Ainsi, il y a deux différences. La première est que le
+parser est légèrement plus laxiste qu'il ne pourrait l'être, ainsi les attributs
+<code class="attribut">ressource</code> et <code class="attribut">about</code>
+n'ont pas besoin d'être dans le namespace de RDF pour fonctionner. La seconde est
+celle pour les types Seq, Bag et Alt, et le prédicat 'rdf:instanceOf' extrait
+d'une ébauche antérieur de RDF sont employés au lieu de 'rdf:type'. Ceci s'applique
+seulement aux types de liste, pas à d'autres types.</p>
+
+<p>Ni l'un ni l'autre de ces issues ne devraient vous poser de problème, cependant,
+vous pourriez vouloir être au courant de ceux-ci.</p>
+
+

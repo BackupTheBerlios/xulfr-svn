@@ -1,0 +1,223 @@
+
+
+<p>Cette section décrit les ressources et literals RDF.</p>
+
+<h2>Ressources RDF</h2>
+
+<p>Des ressources RDF peuvent être recherchées en utilisant le service RDF.
+Elles sont identifiées par une URI. Vous ne pouvez pas employer une chaîne
+de caractère directement, vous devez obtenir un objet ressource en utilisant
+le service RDF. Les datasources enregistrent les références de ces ressources.
+Comme avec des datasources, le service RDF a un service pour mettre en cache
+des objets ressource. Quand une demande est faite pour une ressource qui est
+déjà dans le cache, la version du cache sera retournée. Cela signifie que
+chaque référence à une ressource sera identique. En code natif, chaque
+référence aura le même indicateur ainsi ils peuvent être comparés sans devoir
+faire une comparaison potentiellement plus coûteuse de chaîne de caractère.</p>
+
+<p>Puisque la ressource est dans le cache, elle est globalement unique. Si
+plusieurs datasources se rapportent à la même ressource, ils se référeront
+tous à la même chose. Ceci permet facilement de combiner plusieurs datasources
+ensemble dans un unique <code>composite-datasource</code> et avoir toutes les
+données de tous les datasources comme si elles avaient été mélangées ensemble.</p>
+
+<p>Les objets ressource implémente l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFResource.html">nsIRDFResource</a>.
+Ne mettez jamais en application vos ressources propres dans le Javascript --
+employez toujours le service RDF pour les rechercher. Autrement, le cache et
+la manipulation des ressources ne fonctionneront pas correctement. Heureusement,
+il n'y a aucune raison de mettre en application vos objets ressource propres
+car l'exécution standard est très bien pour la plupart des objectifs.</p>
+
+<p>Une ressource peut être recherchée par le service RDF en utilisant la
+méthode <code class="attribut">GetResource</code>. L'Uri de la ressource
+devrait être passée à cette méthode et elle renverra un objet ressource
+correspondant à cette URI. Par exemple:</p>
+
+<pre><code>
+var res = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Karen&quot;);
+</code></pre>
+
+<p>Les noeuds anonymes sont ceux qui n'ont pas d'URI, et sont souvent employés
+comme des gardiens de place ou conteneur dans le graphique RDF. Mozilla
+manipule les noeuds blancs ou noeuds anonymes en leur assignant une URI
+aléatoirement produite. Cela signifie que des ressources anonymes sont
+manipulées de la même manière que d'autres ressources sauf que les URIs sont
+produites. Bien que vous ne devriez pas employer les URIs de ressource
+directement, elles commencent toujours par la chaîne de caractère 'rdf:#$'
+suivie de quelques lettres et nombres aléatoires. La méthode
+<code class="attribut">GetAnonymousResource</code> du service RDF peut être
+employé pour rechercher les ressources anonymes. Il ne prend pas une URI
+comme argument, puisqu'elle sera produite.</p>
+
+<pre><code>
+var res = rdfService.GetAnonymousResource();
+</code></pre>
+
+<p>Quand la méthode <code class="attribut">GetResource</code> est appelé, le
+service RDF regardera dans le cache pour voir si la ressource est déjà cachée.
+Si elle l'est, la ressource cachée sera retournée. Si la ressource n'est pas
+cachée, le service RDF créera un nouvel objet ressource et le renverra.
+Semblable à la façon dont le service RDF manipule des datasources, les
+ressources ne sont pas mises en cache directement par le service RDF. Ceci
+est manipulé dans la méthode <code class="attribut">Init</code> de la ressource,
+qui sera appelé juste avant le revois de la méthode
+<code class="attribut">GetResource</code>.</p>
+
+<p>La ressource appellera la méthode <code class="attribut">RegisterResource</code>
+du service RDF pour mettre en cache la ressource. Quand la dernière référence à
+la ressource est dépassée, l'objet ressource sera supprimé et la ressource
+appellera la méthode <code class="attribut">UnregisterResource</code> du
+service RDF pour enlever la ressource du cache.</p>
+
+<p>Quand le service crée une nouvelle ressource, il trouve un objet de fabrique
+qui est capable de créer la ressource. La fabrique est responsable d'allouer
+la ressource. Dans presque tous les cas, on emploiera la fabrique par défaut
+qui crée les objets standards de ressource. Il est possible de faire créer par
+une fabrique différente les ressources s'il y a un besoin de processus spécial.
+La fabrique saura employer le schéma de l'URI de la ressource. Par exemple,
+si l'Uri de la ressource était 'http://www.example.com/resource/', l'arrangement
+de l'Uri serait 'HTTP', ainsi une fabrique qui a produit des ressources 'HTTP'
+serait employée. Notez que ceci n'a rien à voir avec le HTTP des sites Web.
+Si l'Uri était 'urn:sample', une fabrique d' 'urn:'serait employée.</p>
+
+<p>Ce mécanisme permet à un composant particulier fait sur commande d'avoir
+une implémentation ressource différente. Le service RDF recherchera un
+composant de la forme
+<code>@mozilla.org/rdf/resource-factory;1?name=&lt;scheme&gt;</code> où
+&lt;scheme&gt; est l'arrangement de URL. Ce composant sera employé pour
+créer les objets ressource. Ce dispositif est employé par l'application
+mail de Mozilla pour créer les ressources spécialisées. Cependant, ce dispositif
+n'est pas particulièrement nécessaire pour des usages généraux et devrait être
+évité. Dans la plupart des cas, une fabrique ne sera pas trouvée et une
+ressource par défaut sera créée.</p>
+
+<p>Une fois que vous avez un objet ressource, vous pouvez obtenir son URI en
+recherchant la propriété <code class="attribut">Value</code>. Vous ne pouvez
+pas changer l'Uri avec cette propriété -- vous devez obtenir un objet ressource
+en utilisant la méthode <code class="attribut">GetResource</code> du service
+RDF. Voici un exemple qui recherche une ressource et donne son URI:</p>
+
+<pre><code>
+var res = rdfService.GetResource(&quot;http://www.xulplanet.com/rdf/people/Sandra&quot;);
+alert(res.Value);
+</code></pre>
+
+<h2>literals RDF</h2>
+
+<p>Mozilla manipule des literals RDF dans un mode semblable. Ils devraient
+être recherchées en utilisant le service RDF et sont mis en cache de sorte
+que le même objet soit retourné chaque fois qu'un literal est demandé. Les
+literals sont identifiées par le contenu de leur chaîne de caractère. Vous ne
+pouvez pas créer vos propres types literal et les rechercher avec le service
+RDF.</p>
+
+<p>Mozilla soutient un certain nombre de différents types de literal, la
+plupart du temps pour la convenance. Les types sont récapitulés ci-dessous:</p>
+
+<table border="1">
+<tr>
+	<th>Type</th>
+	<th>Interface de XPCOM</th>
+	<th>Méthode du service RDF</th>
+	<th>Description</th>
+</tr>
+<tr>
+	<td>String</td>
+	<td>nsIRDFLiteral</td>
+	<td>GetLiteral</td>
+	<td>chaîne de caractères de toute longueur</td>
+</tr>
+<tr>
+	<td>Integer</td>
+	<td>nsIRDFInt</td>
+	<td>GetIntLiteral</td>
+	<td>nombre entier de 32 bits</td>
+</tr>
+<tr>
+	<td>Date</td>
+	<td>nsIRDFDate</td>
+	<td>GetDateLiteral</td>
+	<td>Un date/heure, initialisé en utilisant un nombre 64-bit de
+    micro-secondes depuis janvier 1, 1970 GMT</td>
+</tr>
+<tr>
+	<td>Blob</td>
+	<td>nsIRDFBlob</td>
+	<td>GetBlobLiteral</td>
+	<td>Toutes données binaires. Ce type n'est pas scriptable.</td>
+</tr>
+</table>
+
+<p>En outre énumérée dans la table, la méthode du service RDF qu'on appellerait
+pour rechercher un literal du type désiré. Tous les types literals sont en cache,
+ce qui signifient que chaque demande pour obtenir le literal '7' de nombre entier
+renverra le même objet.</p>
+
+<p>Par exemple, pour rechercher un literal de type string, on peut employer:</p>
+
+<pre><code>
+var house = rdfService.GetLiteral(&quot;House&quot;);
+</code></pre>
+
+<p>Dans des fichiers RDF/XML, vous pouvez employer un attribut supplémentaire
+pour indiquer quel type de literal à employer. Dans les plus récentes propositions
+de spécifications du RDF, on devrait employer l'attribut
+<code class="attribut">rdf:datatype</code> pour indiquer le type d'un literal.
+Le parseur RDF de Mozilla ne met pas en application ceci, encore car il a été
+écrit longtemps avant que les dispositifs plus nouveaux aient été indiqués,
+mais un dispositif semblable est disponible. Au lieu de cela, le type est
+indiqué en ajoutant un attribut <code class="attribut">NC:parseType</code> à
+un literal. Le namespace 'NC' est 'http://home.netscape.com/NC-rdf#'. Ci-après
+un exemple:</p>
+
+<pre><code>
+&lt;?xml version=&quot;1.0&quot;?&gt;
+
+&lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+         xmlns:NC=&quot;http://home.netscape.com/NC-rdf#&quot;&gt;
+         xmlns:sample=&quot;http://www.xulplanet.com/rdf/example/&quot;&gt;
+
+  &lt;rdf:Description rdf:about=&quot;urn:person:Sandra&quot;&gt;
+    &lt;sample:age NC:parseType=&quot;Integer&quot;&gt;16&lt;/sample:age&gt;
+  &lt;/rdf:Description&gt;
+
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>Comme avec des ressources, les literals ont également une propriété
+<code class="attribut">Value</code> qui peut être employée pour obtenir
+la valeur du literal.</p>
+
+<h2>Noeuds RDF</h2>
+
+<p>Toutes les ressources RDF implémente
+<a href="/references/xpcomref/ifaces/nsIRDFResource.html">nsIRDFResource</a>
+et tous les literals implémente une des interfaces énumérées dans la table
+ci-dessus. Toutes les ressource et interfaces literals sont des
+sous-interfaces de l'interface plus général <a
+href="/references/xpcomref/ifaces/nsIRDFNode.html">nsIRDFNode</a>. Cette
+interface représente un noeud dans le graphique RDF et est disponible pour
+toutes les ressources et literals. Les méthodes d'interrogation du Datasource,
+qui peuvent renvoyer ou une ressource ou un literal, renverra un noeud et vous
+pouvez employer <code class="attribut">QueryInterface</code> pour obtenir un
+noeud au type plus spécifique. Interrogez les méthodes qui peuvent seulement
+renvoyer une ressource renverraient directement <code>nsIRDFResource</code>.</p>
+
+<p>L'interface <a href="/references/xpcomref/ifaces/nsIRDFNode.html">nsIRDFNode</a>
+a une méthode simple, <code class="attribut">EqualsNode</code> ce qui
+peut être employé pour comparer deux noeuds sans devoir les obtenir.
+Cette méthode renverra vrai si les deux noeuds sont de même type et
+ont la même valeur.</p>
+
+<h2>Délégués RDF</h2>
+
+<p>Les délégués RDF sont une manière d'attacher un objet à une ressource
+RDF qui sera automatiquement gardée jusqu'à ce que la ressource ne soit
+plus employée. Quand la ressource est supprimée, le délégué est libéré et
+peut être ensuite supprimé, en supposant qu'elle n'est pas employée par
+autre chose. Vous n'emploierez probablement pas de délégués pour vos
+propres besoins, ainsi ils sont décrits seulement brièvement
+ci-dessous.</p>
+
+

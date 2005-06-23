@@ -1,0 +1,347 @@
+
+
+<p>Cette section décrit les datasources (sources de données) RDF dans Mozilla.</p>
+
+<h2>Au sujet de RDF Datasources</h2>
+
+<p>Mozilla stocke les informations RDF dans quelque chose appelé un datasource.
+Chaque datasource contient un ensemble de triplets RDF. Vous pouvez questionner
+ces datasources pour des triplets RDF en utilisant diverses méthodes. Ceci
+vous permet de naviguer dans le graphique RDF ou de déterminer les données
+que le datasource contient. Quelques datasources sont modifiables ainsi on
+peut ajouter ou enlever des triplets du datasource. Vous pouvez employer
+les datasources indépendamment les uns des autres, ou vous pouvez les
+combiner et ainsi former ce qui s'appelle un datasource composite
+(composite-datasource). Le datasource composite est un groupe de datasources
+RDF.</p>
+
+<p>Habituellement, chaque datasource contient des données qui sont reliées
+de différente manière. Par exemple, Mozilla emploie un datasource de signets
+(bookmarks) qui contient des informations sur les signets de l'utilisateur.
+Mozilla emploie un certain nombre de datasources contenant diverses informations
+donc si vous créez une extention de Mozilla, vous pourrez les utiliser.
+Cependant, vous pouvez également créer vos propres datasources. Mozilla
+supporte également l'analyse (le parsing) de fichier RDF/XML dans des
+datasources.</p>
+
+<p>Tous les datasources RDF mettent en application l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFDataSource.html">nsIRDFDataSource</a>.
+Cette interface fournit des méthodes pour interroger et modifier l'information
+dans le datasource. Voici les datasources les plus communs que vous emploierez,
+celles fournis par Mozilla:</p>
+
+<table border="1">
+<tr>
+	<th>Datasource</th>
+	<th>Description</th>
+</tr>
+<tr>
+	<td>in-memory-datasource</td>
+	<td>Ce datasource contient des triplets RDF en mémoire. Plusieurs des
+    autres datasources enveloppent ce datasource. Ce datasource peut être
+    modifié.</td>
+</tr>
+<tr>
+	<td>XML-datasource</td>
+	<td>Ce datasource contient les triplets lus à partir d'un fichier RDF/XML.
+    Il peut maintenir le fichier à partir du quel il a été chargé et il peut
+    sauver des modifications de nouveau dans ce dossier. Ce datasource peut
+    également contenir un RDF/XML chargé à partir d'une URL distante, bien
+    que ceux-ci ne puissent pas être modifiés ou sauvés. Tous les
+    XML-datasources mettent en application l'interface
+    <a href="/references/xpcomref/ifaces/nsIRDFRemoteDataSource.html">nsIRDFRemoteDataSource</a>,
+    même ceux qui sont chargées à partir des fichiers locaux.</td>
+</tr>
+<tr>
+	<td>composite-datasource</td>
+	<td>Contient une collection d'autres datasources. Quand vous questionnez
+    ce datasource, il questionnera chaque datasource à leur tour. De même,
+    les modifications sont proposées à chaque datasource jusqu'à ce qu'un
+    d'eux accepte le changement. Ces datasources mettent également en
+    application l'interface
+    <a href="/references/xpcomref/ifaces/nsIRDFCompositeDataSource.html">nsIRDFCompositeDataSource</a>.</td>
+</tr>
+</table>
+
+<p>Il y a également nombreux autres datasources, mais ceux-ci contiennent
+des données spécifiques à l'application de Mozilla.</p>
+
+<h2>Obtenir des Datasources RDF</h2>
+
+<p>Mozilla emploie un service RDF qui est responsable de l'obtention des
+datasources RDF. Le service renvoie également d'autres objets RDF
+relationnels tels que les objets de type ressource et literal. Les
+datasources sont identifiés par une URI. Si vous employez une URI, ceci
+aura habituellement comme conséquence la création d'un
+<code>xml-datasource</code> qui chargera le RDF/XML de cette URI.</p>
+
+<p>Mozilla fournit un certain nombre de datasources additionnels qui peuvent
+être récupérés en employant une URI qui commence par 'rdf:'. Par exemple,
+l'Uri <code>rdf:history</code> renverra le datasource d'historique qui
+stocke les données liées à l'historique de la navigation de l'utilisateur.
+Quand vous demandez un datasource de cette forme, c.-à-d., un datasource
+avec une URI qui commence par 'rdf:', Mozilla recherchera un composant qui
+manipule ce datasource. Il trouve ce composant en prenant la partie de l'Uri
+après le préfixe et l'appose à la chaîne de caractère
+<code>@mozilla.org/rdf/datasource;1?name=</code> pour former un nom composé.
+Par exemple, l'Uri <code>rdf:bookmarks</code>, donnera le composant
+<code>@mozilla.org/rdf/datasource;1?name=bookmarks</code>.</p>
+
+<p>Tous les datasources fonctionnent de cette façon. Si vous créez un composant
+fait sur commande en utilisant cette convention, vous pourrez rechercher le
+datasource en utilisant le service RDF. Vous pouvez également employer un
+datasource spécifique dans une template (calibre) en plaçant l'Uri sur
+l'attribut <code class="attribut">datasources</code> d'un élément. Les
+datasources 'rdf:' ont habituellement des méthodes de manipulation du
+datasource spéciale, ou stocke les données d'une façon particulière.
+Par exemple, le datasource d'historique stocke des données dans un format
+fait sur mesure et emploie du code pour envelopper les données de manière
+qu'elles puissent être interrogé en utilisant les APIs de datasource RDF.
+Le datasource des signets stocke les données sur le disque dans un format
+fait sur mesure, mais utilise un <code>in-memory-datasource</code> pour
+stocker les données dans la mémoire.</p>
+
+<p>Le service RDF a deux méthodes pour rechercher des datasources. La première
+méthode, <code class="attribut">GetDataSource</code> est employée pour charger
+un datasource de façon asynchrone. Cette fonction peut retourner une réponse
+avant que le datasource ait été chargé, sachant que les datasources qui sont
+déjà chargés sont disponibles tout de suite. Les datasources 'rdf:' sont
+habituellement disponibles immédiatement, car le navigateur se servira déjà
+d'eux. Encore que les datasources 'rdf:' font habituellement n'importe quelle
+initialisation tout de suite. Ceci signifie que la méthode
+<code class="attribut">GetDataSource</code> convient au chargement de ce genre
+de datasources. Vous devriez également employer cette méthode pour charger
+les fichiers RDF/XML distants de de sorte qu'ils puissent être recherchés en
+tache de fond. Une méthode sera expliquée plus tard pour déterminer quand le
+chargement est complet.</p>
+
+<p>La deuxième méthode, <code class="attribut">GetDataSourceBlocking</code>
+obtient un datasource et attend qu'il soit chargé. Cette méthode peut être
+employée pour les fichiers RDF/XML locaux. Cette méthode retournera une
+réponse une fois que le datasource aura été chargé et analysé. Cette méthode
+ne fonctionne pas actuellement pour les fichiers distants.</p>
+
+<p>Les deux méthodes prennent un argument simple, l'Uri absolu du datasource
+à charger, et toutes les deux elles renvoient le datasource. Dans le cas de
+la fonction <code class="attribut">GetDataSource</code>, le datasource est
+retourné mais il peut encore ne contenir aucune données. Voici quelques
+exemples des deux fonctions.</p>
+
+<pre><code>
+var rdfService = Components.classes[&quot;@mozilla.org/rdf/rdf-service;1&quot;].
+                   getService(Components.interfaces.nsIRDFService);
+
+var historyDS = rdfService.GetDataSource(&quot;rdf:history&quot;);
+
+var fileDS = rdfService.GetDataSourceBlocking(&quot;file:///somedir/somefile.rdf&quot;);
+</code></pre>
+
+<p>D'abord, nous obtenons le service RDF. Puisque c'est un service, nous
+employons getService au lieu de createInstance. La ligne suivante recupère
+le datasource d'historique en utilisant la fonction GetDataSource. En
+conclusion, nous recupérons un fichier RDF/XML en utilisant la fonction
+GetDataSourceBlocking, qui peut être interogée et modifiée immédiatement.
+Chacun des datasources retournés implémente l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFDataSource.html">nsIRDFDataSource</a>.</p>
+
+<p>Pour les datasources 'rdf:', les fonctions
+<code class="attribut">GetDataSource</code> et
+<code class="attribut">GetDataSourceBlocking</code> créent le nouveau datasource
+comme un service. Cela signifie que seulement une copie du datasource existe
+à la fois. Faites attention à ceci si vous exploitez vos propres datasources.
+Si vous voulez qu'un datasource différent soit créé à chaque fois, vous devrez
+créer le composant de la manière habituelle de XPCOM, avec la méthode
+<code class="attribut">createInstance</code>. Par exemple, pour créer un
+nouveau <code>in-memory-datasource</code>, faites ce qui suit:</p>
+
+<pre><code>
+var inmemds = Components.classes[&quot;@mozilla.org/rdf/datasource;1?name=in-memory-datasource&quot;]
+                .createInstance(Components.interfaces.nsIRDFDataSource);
+</code></pre>
+
+<p>C'est nécessaire à partir du moment où vous ne voulez pas employer les
+mêmes données en mémoire à chaque fois.</p>
+
+<p>Le service RDF met en cache les datasources qui ont été chargés. Cela
+signifie que quand vous essayez de rechercher le même URI en employant encore
+les fonctions <code class="attribut">GetDataSource</code> ou
+<code class="attribut">GetDataSourceBlocking</code>, le service RDF renverra
+le même objet. Ceci évite de créer et charger le même datasource à plusieurs
+reprises, à chaque fois qu'il est mentionné. En outre, cela signifie que vous
+pouvez appeler avec le service RDF le même datasource plusieurs fois et
+récupérer le même objet à chaque fois.</p>
+
+<p>Cette description, au-dessus, n'est cependant pas techniquement exact sur
+le fonctionnement du cache. Quand la fonction
+<code class="attribut">GetDataSource</code> ou
+<code class="attribut">GetDataSourceBlocking</code> est appellé, ces fonctions
+regardent dans le cache du service RDF les datasources déjà utilisés. Si
+l'Uri est trouvée dans le cache, ce datasource est retourné. Si l'Uri n'est
+pas trouvée, un nouveau datasource du type approprié est créé, comme décrit
+ci-dessus. Le service RDF n'ajoute cependant pas le datasource nouvellement
+créé au cache. C'est de la responsabilité du datasource lui-même, en appelant
+la méthode <code class="attribut">RegisterDataSource</code> du service RDF.
+Cette méthode ajoutera le datasource au cache du service RDF. Si le datasource
+n'appelle jamais cette méthode, le datasource n'apparaîtra jamais dans le
+cache.</p>
+
+<p>Ceci créera un nouveau datasource à chaque fois. D'autres datasources
+appelleront <code class="attribut">RegisterDataSource</code> et ainsi un
+nouvel objet n'est pas créé à chaque fois. Quand
+<code class="attribut">RegisterDataSource</code> est appellé, le service RDF
+interroge le datasource sur son URI et la stocke dans le cache. Notez qu'il
+est possible qu'un datasource renvoie une URI différente de celle employée
+pour le créer, ce qui offre quelques possibilités intéressantes. Le datasource
+<code>xml-datasource</code> appelle la méthode
+<code class="attribut">RegisterDataSource</code>, mais l'URL sera l'URL du
+fichier RDF/XML. Un datasource peut appeler la méthode
+<code class="attribut">RegisterDataSource</code> à tout moment, ainsi il est
+possible de mettre en cache un datasource à l'avance.<p>
+
+<p>La méthode correspondante à <code class="attribut">UnregisterDataSource</code>
+du service RDF est employée pour enlever des datasources du cache. Celle-ci
+normalement sera appelée par le destructeur des datasource, c.-à-d., quand le
+datasource est supprimé. Un datasource sera supprimé quand désormais plus
+aucune référence à lui sera faîte. Quand il est supprimé, le datasource peut
+être désenregistrer avec le service RDF, et il sera enlevé du cache. La
+prochaine fois que l'URL est demandé, le datasource devra être créé une nouvelle
+fois. Tandis qu'il est possible d'enlever un datasource du cache du service
+RDF à tout moment en employant <code class="attribut">UnregisterDataSource</code>,
+le datasource et ses données continueront à exister jusqu'à ce qu'il n'y aient
+plus de références faites à lui.</p>
+
+<h2>Comment utiliser des Datasources dans des templates XUL</h2>
+
+<p>Les éléments XUL peuvent être associés à un datasource. Tous les éléments XUL
+dans un document XUL peuvent avoir un datasource, bien qu'il soit aussi possible
+à d'autres types d'éléments d'être liés à des datasources s'ils sont placés dans
+un document XUL. Les éléments qui ne sont pas dans un document XUL ne peuvent
+pas employer de template. Le datasource associé à un élément peut être récupéré
+en obtenant la valeur de la propriété <code class="attribut">database</code>
+de l'élément. La base de données est toujours un <code>composite-datasource</code>
+qui contient un certain nombre de datasources RDF. Elle peut contenir un grand
+nombre de datasources et peut même n'en contenir aucun, et l'ensemble des
+sources peuvent être modifiées en employant les méthodes de l'interface
+<a href="/references/xpcomref/ifaces/nsIRDFCompositeDataSource.html">nsIRDFCompositeDataSource</a>.</p>
+
+<p>La plupart des éléments n'auront pas de datasource associé ainsi la propriété
+<code class="attribut">database</code> sera nulle. Vous pouvez indiquer que vous
+voulez qu'un élément ait une base de données en ajoutant l'attribut <code
+class="attribut">datasources</code> à un élément. La valeur de cet attribut
+est une liste d'URIs des datasources initiaux à ajouter à la base de données
+séparés par un espace. Tandis que vous pouvez changer les datasources en
+employant les méthodes de l'interface <code>nsIRDFCompositeDataSource</code>,
+l'attribut <code class="attribut">datasources</code> représente seulement les
+datasources initiaux à employer. Changer la valeur de l'attribut ne change pas
+les datasources dans la base de données.</p>
+
+<p>Par exemple, dans l'exemple ci-dessous, deux datasources sont assignés comme
+datasources initiaux à associer à l'élément <code class="tag">tree</code>.</p>
+
+<pre><code>
+&lt;tree datasources=&quot;rdf:bookmarks animals.rdf&quot;&gt;
+</code></pre>
+
+<p>Ceci entrainera l'association d'un
+<code class="attribut">composite-datasource</code> à l'arbre contenant les deux
+datasources indiqués. Le premier datasource est <code
+class="attribut">rdf:bookmarks</code> qui est le datasource de Mozilla utilisés
+pour stocker les signets de l'utilisateur. Le deuxième datasource est manié en
+tant qu'URI d'un fichier RDF/XML, dans ce cas-ci relativement au fichier XUL.</p>
+
+<p>Dans cet exemple, le datasource de signets (bookmarks) serait seulement
+employé si le code est privilégié, ce qui signifie habituellement qu'il
+appartient à une application chrome. Le code non privilégié ne pourra pas
+accéder au datasource de signets.</p>
+
+<p>Une différence additionnelle entre le code privilégié et non privilégié est
+que pour le code privilégié, le datasource
+<code class="attribut">rdf:local-store</code> est toujours inclus dans la liste
+des datasources indépendamment du fait qu'on l'ait indiqué ou pas. Ce datasource
+est normalement employé pour contenir quelques informations diverses d'état tel
+que les tailles de fenêtre, quel toolbar est visible, les tailles des colonnes
+d'arbre, et ainsi de suite. Ceci signifie que la base de données dans l'exemple
+ci-dessus aura réellement trois datasources, en premier le magasin local (local
+store), en deuxième les signets et en troisième le fichier animals.rdf. Le code
+non privilégié fonctionnant sur un site Web distant n'inclut pas ce datasource,
+puisqu'il contient des information sur l'utilisateur.</p>
+
+<p>Une fois qu'une base de données a été appliquée à un élément, elle n'est pas
+enlevée jusqu'à ce que le document soit détruit, ce qui se produira lorsque
+l'utilisateur activera une autre page ou fermera la fenêtre. Ainsi, en enlevant
+un élément puis en l'ajoutant de nouveau au document la même base de données
+se maintiendra. Si un élément avec un attribut
+<code class="attribut">datasources</code> qui n'était pas dans le document avant
+qu'il n'y soit inséré, alors une nouvelle base de données sera créé pour lui.</p>
+
+<p>Il est normal d'employer un calibre ou template à l'intérieur de l'élément
+associé à une base de données, bien que ce ne soit pas strictement nécessaire.
+Le calibre doit soit être un élément <code class="tag">template</code> enfant
+direct de l'élément avec l'attribut <code class="attribut">datasources</code>,
+soit y faire référence en utilisant un attribut
+<code class="attribut">template</code>. Dans le dernier cas, la valeur de
+l'attribut devra être la valeur de l'attribut <code class="attribut">id</code>
+d'un élément <code class="tag">template</code> quelque part dans le document.
+Ceci permet à un calibre simple d'être employé dans plusieurs endroits, bien
+que cette utilisation ne soit pas commune.</p>
+
+<p>Un constructeur de template sera employé pour construire le contenu réel
+du calibre. Il emploiera le template pour construire les nouveaux noeuds du DOM
+qui seront insérés au document. Si les données d'un datasource associées à un
+élément changent, le constructeur de template régénérera les données, ajoutant,
+enlevant ou changeant le contenu selon les besoins. Le constructeur de template
+manipule ceci par l'enregistrement dans un observateur du datasource, de sorte
+qu'il soit avisé des changements.</p>
+
+<p>La reconstruction automatique du contenu du calibre se produit seulement
+dans deux situations. La première quand le datasource RDF fondamental change.
+Quand le RDF change, le constructeur de template sera avisé du changement. Le
+constructeur de template reconstruira les parties du contenu qui seront affectées
+par le changement, mais ne change pas les parties du contenu qui ne seront pas
+affectées. Cette reconstruction automatique se produit si une opération
+d'insertion, de suppression ou de changement se produit dans le datasource,
+mais pas sur une opération de mouvement. Le constructeur de calibre reconstruira
+également automatiquement après une opération en batch (en lot) quand la méthode
+onEndUpdateBatch est appelé.</p>
+
+<p>La deuxième situation qui déclenchera une reconstruction automatique de
+contenu du calibre est quand l'attribut <code class="attribut">ref</code> est
+modifié sur l'élément externe associé à la base de données. Ceci entraîne la
+reconstruction complète du contenu. Notez que la valeur doit être une valeur
+différente. Le réglage de l'attribut <code class="attribut">ref</code> à la
+même valeur n'entraîne pas de reconstruction. Faites attention à ceci, comme
+précédemment Mozilla construit et fait reconstruire même quand la valeur est
+simplement placée à la même valeur.</p>
+
+<p>Toutes autres modifications ne déclenchent pas une reconstruction.
+Spécifiquement, ajouter ou enlever des datasources, changer l'attribut
+<code class="attribut">datasources</code>, ou modifier le contenu du calibre,
+n'entraînent pas une reconstruction automatique. En cas de doute, faites une
+reconstruction manuelle.</p>
+
+<p>La reconstruction peut être exécutée manuellement en appelant la méthode
+<code class="attribut">rebuild</code> du constructeur de template. Tous les
+éléments XUL ont une propriété <code class="attribut">builder</code> qui est
+une référence au constructeur de calibre lié à l'élément. S'il n'y a aucun
+constructeur de template lié à un élément, la valeur de cette propriété sera
+nulle. Le code suivant est employé pour reconstruire le contenu d'un calibre,
+où <code class="attribut">element</code> est l'élément associé à la base de
+données:</p>
+
+<pre><code>
+element.builder.rebuild();
+</code></pre>
+
+<p>Changer l'attribut <code class="attribut">ref</code> a pour conséquence
+l'exécution du même code fondamental que pour la reconstruction manuelle,
+sauf que le nouveau noeud racine est employé pour établir le nouveau contenu.</p>
+
+<p>Le constructeur de calibre créera souvent paresseusement le contenu. Cela
+signifie qu'il créera seulement le contenu réel quand il sera nécessaire de le
+montrer. Par exemple, le contenu d'un menu n'est pas produit tant que le menu
+n'a pas été ouvert une fois. De même pour des noeuds enfant dans le contenu d'un
+arbre qui ne sont pas créés tant que le noeud parent n'a pas été ouvert. C'est
+quelque chose à prendre en compte quand vous examinerez le DOM de l'arbre
+résultant.</p>
+
+
