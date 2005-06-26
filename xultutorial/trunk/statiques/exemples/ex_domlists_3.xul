@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
@@ -16,17 +16,16 @@ function doSelect()
 </script>
 
 <hbox align="center">
-  <label value="Entrer un nombre compris entre 1 et 3:"/>
+  <label value="Entrez un nombre compris entre 1 et 3 :"/>
   <textbox id="number"/>
-  <button label="SÃ©lectionner" oncommand="doSelect();"/>
+  <button label="Sélectionnez" oncommand="doSelect();"/>
 </hbox>
 
 <radiogroup id="level">
   <radio label="Excellent"/>
   <radio label="Bon"/>
-  <radio label="Pauvre"/>
+  <radio label="Mauvais"/>
 </radiogroup>
-
 
 </window>
 
