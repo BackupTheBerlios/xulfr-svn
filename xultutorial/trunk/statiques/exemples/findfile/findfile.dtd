@@ -22,7 +22,7 @@
  <!ENTITY saveCmdToolbar.label "Sauvegarder">
  <!ENTITY searchTab "Recherche">
  <!ENTITY optionsTab "Options">
- <!ENTITY findDescription "Entrez votre critère de recherche ci dessous et appuyer sur le bouton Chercher.">
+ <!ENTITY findDescription "Entrez votre critère de recherche ci dessous et appuyer sur le bouton Rechercher.">
  <!ENTITY findCriteria "Critère de recherche">
  <!ENTITY type.name "Nom">
  <!ENTITY type.size "Taille">
@@ -35,8 +35,8 @@
  <!ENTITY results.location "Emplacement">
  <!ENTITY results.size "Taille">
  <!ENTITY bytes.before "">
- <!ENTITY bytes.after " ko">
- <!ENTITY button.find "Chercher">
+ <!ENTITY bytes.after " octets">
+ <!ENTITY button.find "Rechercher">
  <!ENTITY button.cancel "Annuler">
  <!ENTITY helpCmd.label "Aide">
  <!ENTITY helpCmd.accesskey "a">
