@@ -1,5 +1,4 @@
 
-
 <p>
 XUL a un langage qui lui est parent, <acronym title="eXtensible Bindings Language">XBL</acronym>
 (eXtensible Bindings Language). Ce langage est utilisé pour déclarer le comportement des éléments graphiques de XUL.
@@ -10,11 +9,11 @@ XUL a un langage qui lui est parent, <acronym title="eXtensible Bindings Languag
 <p>
 Vous pouvez utiliser XUL pour définir la mise en page de l'interface utilisateur d'une
 application. Vous pouvez adapter l'apparence des éléments en leur appliquant des styles. Vous
-pouvez aussi créer de nouveaux thèmes en changeant les styles. L'apparence basique de tous les
+pouvez aussi créer de nouveaux thèmes en modifiant les styles. L'apparence basique de tous les
 éléments, comme les barres de défilement et les cases à cocher pourrait être modifiée en ajustant
 le style ou en déclarant des attributs à l'élément. Cependant, XUL ne fournit aucun moyen de
 vous permettre de changer le fonctionnement d'un élément. Par exemple, vous pourriez vouloir changer
-le fonctionnement des pièces d'une barre de défilement. Pour cela, vous avez besoin de XBL.
+le fonctionnement des composants d'une barre de défilement. Pour cela, vous avez besoin de XBL.
 </p>
 
 <p>
@@ -26,23 +25,18 @@ comportement décrit les propriétés et méthodes de la barre de défilement en plus
 
 <p>
 Comme XUL, XBL est un langage XML, ainsi il a des règles syntaxiques similaires. L'exemple suivant
-montre le squelette basique d'un fichier XBL :
+montre le squelette basique d'un fichier XBL&nbsp;:
 </p>
 
 <pre><code>&lt;?xml version="1.0"?&gt;
 &lt;bindings xmlns="http://www.mozilla.org/xbl"&gt;
-
   &lt;binding id="liaison1"&gt;
-    &lt;!-- le contenu, la propriété, la méthode et les descriptions d'évènements viennent ici
---&gt;
+    &lt;!-- le contenu, la propriété, la méthode et les descriptions d'évènements viennent ici --&gt;
   &lt;/binding&gt;
   &lt;binding id="liaison2"&gt;
-    &lt;!-- le contenu, la propriété, la méthode et les descriptions d'évènements viennent ici
---&gt;
+    &lt;!-- le contenu, la propriété, la méthode et les descriptions d'évènements viennent ici --&gt;
   &lt;/binding&gt;
-
-&lt;/bindings&gt;
-</code></pre>
+&lt;/bindings&gt;</code></pre>
 
 <p>
 L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xbl/bindings">bindings</a></code> est
@@ -59,7 +53,7 @@ dans le modèle ci-dessus. Il déclare que nous sommes en train d'utiliser une syn
 
 <p>
 Vous assignez une liaison à un élément en déclarant la propriété CSS <code
-class="attribut">-moz-binding</code> avec l'URL des fichiers de liaisons. Par exemple :
+class="attribut">-moz-binding</code> avec l'URL des fichiers de liaisons. Par exemple&nbsp;:
 </p>
 
 <pre><code>scrollbar {
@@ -74,7 +68,7 @@ liaison spécifique, de la même façon que si vous pointiez vers une ancre dans un
 mettrez habituellement toutes vos liaisons dans un seul fichier. Le résultat dans cet exemple,
 est que toutes les barres de défilement auront leur comportement décrit par la liaison
 "binding1". Si vous n'utilisez pas d'ancres dans l'URL <code class="attribut">-moz-binding</code>,
-la première liaison dans le fichier XBL est utilisée.
+la première liaison dans le fichier XBL sera utilisée.
 </p>
 
 <p>
@@ -82,22 +76,24 @@ Une liaison déclare cinq types de choses&nbsp;:
 </p>
 
 <ol>
-  <li>Le contenu : les éléments fils qui sont ajoutés à l'élément auquel la liaison est attachée.</li>
-  <li>Les propriétés : les propriétés ajoutées à l'élément. On peut y accéder par un script.</li>
-  <li>Les méthodes : les méthodes ajoutées à l'élément. Elles peuvent être appelées à partir
+  <li>Le contenu&nbsp;: les éléments fils qui sont ajoutés à l'élément auquel la liaison est attachée.</li>
+  <li>Les propriétés&nbsp;: les propriétés ajoutées à l'élément. On peut y accéder par un script.</li>
+  <li>Les méthodes&nbsp;: les méthodes ajoutées à l'élément. Elles peuvent être appelées à partir
 d'un script.</li>
-  <li>Les évènements : les évènements, comme les clics de souris et les appuis sur les touches
+  <li>Les évènements&nbsp;: les évènements, comme les clics de souris et les appuis sur les touches
 auxquels l'élément répondra. La liaison peut ajouter des scripts pour fournir la manipulation par
 défaut. En plus de cela, de nouveaux évènements peuvent être définis.</li>
-  <li>Le style : adapte les propriétés de style que l'élément XBL possède.</li>
+  <li>Le style&nbsp;: adapte les propriétés de style que l'élément XBL possède.</li>
 </ol>
 
 <h2>Exemple de liaison</h2>
 
 <p>
 L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code> est suffisamment générique
-pour que vous l'utilisiez afin de créer des éléments graphiques personnalisés (bien que vous puissiez utiliser d'autres éléments, même un élément que vous composez vous-même). En assignant un attribut <code
-class="attribut">class</code> à une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code>, vous ne pouvez associer une liaison
+pour que vous l'utilisiez afin de créer des éléments graphiques personnalisés 
+(bien que vous puissiez utiliser d'autres éléments, même un élément composé par vous-même). 
+En assignant un attribut <code class="attribut">class</code> à une balise 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code>, vous ne pouvez associer une liaison
 qu'aux boîtes qui appartiennent à cette classe. L'exemple suivant le démontre&nbsp;:
 </p>
 
@@ -111,7 +107,6 @@ qu'aux boîtes qui appartiennent à cette classe. L'exemple suivant le démontre&nb
 &lt;window
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
   &lt;box class="okcancelbuttons"/&gt;
-
 &lt;/window&gt;
 
 <b>CSS (example.css):</b>
@@ -126,7 +121,6 @@ box.okcancelbuttons {
 &lt;bindings xmlns="http://www.mozilla.org/xbl"
           xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
   &lt;binding id="okcancel"&gt;
-
     &lt;content&gt;
       &lt;xul:button label="OK"/&gt;
       &lt;xul:button label="Annuler"/&gt;
@@ -136,9 +130,9 @@ box.okcancelbuttons {
 </code></pre>
 
 <p>
-Cet exemple crée une fenêtre avec une boîte simple. La boîte a été déclarée pour avoir un
+Cet exemple crée une fenêtre avec une seule boîte. La boîte a été déclarée pour avoir un
 attribut <code class="attribut">class</code> de valeur <var>okcancelbuttons</var>.
-La feuille de style associée au fichier indique que les boîtes avec les classes
+La feuille de styles associée au fichier indique que les boîtes avec les classes
 <var>okcancelbuttons</var> ont une liaison spécialisée,
 définie dans le fichier XBL. Vous pouvez employer d'autres éléments derrière l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code>,
@@ -146,7 +140,7 @@ même pour votre propre balise adaptée.</p>
 
 <p>
 Nous verrons plus de détails concernant la partie XBL dans la section suivante. Cependant, pour
-récapituler, cela entraîne que deux boutons sont automatiquement ajoutés dans la boîte, un bouton
+récapituler, cet exemple entraîne l'ajout automatique de deux boutons dans la boîte, un bouton
 <var>Ok</var> et un autre <var>Annuler</var>.
 </p>
 
