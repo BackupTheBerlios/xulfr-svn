@@ -25,7 +25,7 @@
     <constructor>
       var totalpages=this.childNodes.length;
       document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1]
-              .setAttribute("value",(this.page+1)+" of "+totalpages);
+              .setAttribute("value",(this.page+1)+" sur "+totalpages);
     </constructor>
 
     <property name="page"

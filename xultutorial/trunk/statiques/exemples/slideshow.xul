@@ -5,7 +5,7 @@
 
    <slideshow previoustext="Précédent" nexttext="Suivant" flex="1">
       <button label="Bouton 1"/>
-      <checkbox label="Checkbox 2"/>
+      <checkbox label="Case à cocher 2"/>
       <textbox/>
    </slideshow>
 </window>
