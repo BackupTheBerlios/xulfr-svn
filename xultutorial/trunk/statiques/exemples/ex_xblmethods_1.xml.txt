@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <bindings xmlns="http://www.mozilla.org/xbl"
           xmlns:xbl="http://www.mozilla.org/xbl"
@@ -8,8 +8,8 @@
   <content>
     <xul:label xbl:inherits="value=title"/>
     <xul:label xbl:inherits="value"/>
-    <xul:button label="Show" oncommand="parentNode.showTitle(true);"/>
-    <xul:button label="Hide" oncommand="parentNode.showTitle(false);"/>
+    <xul:button label="Montrer" oncommand="parentNode.showTitle(true);"/>
+    <xul:button label="Cacher" oncommand="parentNode.showTitle(false);"/>
   </content>
   <implementation>
     <method name="showTitle">
