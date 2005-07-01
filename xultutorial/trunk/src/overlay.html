@@ -1,72 +1,74 @@
 
-
 <p>Cette section décrit les overlays qui peuvent être utilisés pour partager
-      du contenu commun. </p>
+du contenu commun. </p>
+
 <h2>Utilisation des Overlays </h2>
+
 <p>Dans une simple application ne comportant qu'une seule fenêtre, vous aurez
-  généralement qu'un seul fichier XUL, associé avec un fichier de scripts, une
-  feuille de style, un fichier d'entités DTD et peut être quelques images. Certaines
-  applications contiennent également un certain nombre de boîtes de dialogue.
-  Celles ci sont placées dans des fichiers XUL séparés. Des applications plus
-  sophistiquées peuvent contenir de nombreuses fenêtres et boîtes de dialogues.
+généralement qu'un seul fichier XUL, associé avec un fichier de scripts, une
+feuille de styles, un fichier d'entités DTD et peut être quelques images. Certaines
+applications contiennent également plusieurs boîtes de dialogue.
+Celles ci sont placées dans des fichiers XUL séparés. Des applications plus
+sophistiquées peuvent contenir de nombreuses fenêtres et boîtes de dialogues.
 </p>
-    <p>Une application contenant de nombreuses fenêtres aura certains éléments
-      ou parties d'interface utilisateur communs entre chacune d'elles. Par exemple,
-      chaque composant de Mozilla partage des éléments communs. Certains menus
-      sont similaires, comme les menus Outils et Aide, la barre latérale est similaire,
-      et chaque fenêtre partage des raccourcis claviers globaux communs.</p>
 
-    <p>Il est bien entendu possible de ré-implémenter des éléments ou des fonctions
-      similaires dans chaque fichiers nécessaires. Toutefois, la maintenance devient
-      difficile. Si vous décidez de modifier quelque chose, vous devrez le faire
-      à différents endroits. En revanche, il est plus intéressant d'utiliser un
-      mécanisme permettant de séparer les
-      éléments communs et de les partager entre les fenêtres. Vous pouvez faire ceci
-      avec des overlays.</p>
+<p>Une application contenant de nombreuses fenêtres aura certains éléments
+ou parties d'interface utilisateur communs entre chacune d'elles. Par exemple,
+chaque composant de Mozilla partage des éléments communs. Certains menus
+sont similaires, comme les menus Outils et Aide, la barre latérale est similaire,
+et chaque fenêtre partage des raccourcis claviers globaux communs.</p>
 
-    <p>Vous pouvez placer dans un overlay des éléments qui seront partagés par
-      toutes les fenêtres utilisant cet overlay. Ces éléments sont ajoutés à l'intérieur
-      des fenêtres aux emplacements déterminés par leurs identifiants
-      <code class="attribut">id</code>.</p>
+<p>Il est bien entendu possible de ré-implémenter des éléments ou des fonctions
+similaires dans chaque fichiers nécessaires. Toutefois, la maintenance devient
+difficile. Si vous décidez de modifier quelque chose, vous devrez le faire
+à différents endroits. En revanche, il est plus intéressant d'utiliser un
+mécanisme permettant de séparer les éléments communs et de les partager entre 
+les fenêtres. Vous pouvez le faire avec des overlays.</p>
 
-    <p>Par exemple, disons que vous voulez créer un menu Aide partagé par plusieurs
-      fenêtres. Le menu Aide sera placé dans un overlay, en utilisant la syntaxe
-      XUL habituelle. Un attribut <code class="attribut">id</code> sera affecté
-      au menu pour l'identifier. Chaque fenêtre importera l'overlay en utilisant
-      une directive qui sera décrite dans un moment. Afin de pouvoir utiliser
-      le menu Aide tel que définit dans l'overlay, il vous suffit d'ajouter un
-      simple élément de menu ayant le même attribut <code class="attribut">id</code>
-      que celui utilisé dans l'overlay. Ce menu n'a pas besoin de contenir tous
-      les éléments enfants comme ceux placés dans l'overlay. </p>
+<p>Vous pouvez placer dans un overlay des éléments qui seront partagés par
+toutes les fenêtres utilisant cet overlay. Ces éléments sont ajoutés à l'intérieur
+des fenêtres aux emplacements déterminés par leurs identifiants
+<code class="attribut">id</code>.</p>
 
-    <p>Lorsqu'une fenêtre contenant un overlay est ouverte, les éléments de la
-      fenêtre et ceux de l'overlay ayant le même identifiant <code class="attribut">id</code>
-      sont combinés entre eux. Les enfants des éléments correspondants sont ajoutés
-      à la fin de l'ensemble des enfants des éléments de la fenêtre.
-      Les attributs présents sur les éléments de l'overlay sont appliqués à ceux
-      de la fenêtre. Ces détails seront expliqués ci après. </p>
+<p>Par exemple, disons que vous voulez créer un menu Aide partagé par plusieurs
+fenêtres. Le menu Aide sera placé dans un overlay, en utilisant la syntaxe
+XUL habituelle. Un attribut <code class="attribut">id</code> sera affecté
+au menu pour l'identifier. Chaque fenêtre importera l'overlay en utilisant
+une directive qui sera décrite dans un moment. Afin de pouvoir utiliser
+le menu Aide tel que définit dans l'overlay, il vous suffit d'ajouter un
+simple élément de menu ayant le même attribut <code class="attribut">id</code>
+que celui utilisé dans l'overlay. Ce menu n'a pas besoin de contenir tous
+les éléments enfants comme ceux placés dans l'overlay. </p>
 
+<p>Lorsqu'une fenêtre contenant un overlay est ouverte, les éléments de la
+fenêtre et ceux de l'overlay ayant le même identifiant <code class="attribut">id</code>
+sont combinés entre eux. Les enfants des éléments correspondants sont ajoutés
+à la fin de l'ensemble des enfants des éléments de la fenêtre.
+Les attributs présents sur les éléments de l'overlay sont appliqués à ceux
+de la fenêtre. Ces détails seront expliqués ci après. </p>
 
-    <div class="task">
+<div class="task">
 
 <p>Pour importer un overlay dans une fenêtre, utilisez la syntaxe ci dessous.
-  Ajoutons cette ligne vers le haut de notre exemple XUL de recherche de fichiers.
+Ajoutons cette ligne vers le haut de notre exemple XUL de recherche de fichiers.
 </p>
 
-    <pre><code><strong>    &lt;?xul-overlay href=&quot;chrome://findfile/content/helpoverlay.xul&quot;?&gt;</strong></code></pre>
+<pre><code><strong>&lt;?xul-overlay href=&quot;chrome://findfile/content/helpoverlay.xul&quot;?&gt;</strong></code></pre>
 
-    <p>Cette ligne doit être ajoutée quelque part en haut du fichier, habituellement
-      juste avant les déclarations d'entités DTD. Dans l'exemple précédent, la
-      fenêtre importera un overlay contenu dans le fichier <var>helpoverlay.xul</var>.
-    </p>
+<p>Cette ligne doit être ajoutée quelque part en haut du fichier, habituellement
+juste avant les déclarations d'entités DTD. Dans l'exemple précédent, la
+fenêtre importera un overlay contenu dans le fichier <var>helpoverlay.xul</var>.
+</p>
 
-    <p>L'overlay lui même est un fichier XUL contenant un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/overlay">overlay</a></code>
-      au lieu d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>. À part cette différence,
-      ils sont similaires. Il est possible d'importer des overlays à l'intérieur
-      d'autres overlays. Les overlays peuvent aussi disposer de leurs propres
-      feuilles de styles, fichiers d'entités DTD et scripts. L'exemple ci dessous
-      montre un simple menu Aide placé dans un overlay. </p>
-    <p>Exemple 12.6.1&nbsp;: <a href="exemples/ex_overlay_1.xul.txt">Source</a></p>
+<p>L'overlay lui même est un fichier XUL contenant un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/overlay">overlay</a></code>
+au lieu d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>. 
+À part cette différence, ils sont similaires. Il est possible d'importer des overlays à l'intérieur
+d'autres overlays. Les overlays peuvent aussi disposer de leurs propres
+feuilles de styles, fichiers d'entités DTD et scripts. L'exemple ci dessous
+montre un simple menu Aide placé dans un overlay.</p>
+
+<p>Exemple 12.6.1&nbsp;:
+<a href="exemples/ex_overlay_1.xul.txt">Source</a></p>
 
 <pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
 
@@ -88,23 +90,23 @@
 
 &lt;/overlay&gt;</code></pre>
 
-    <p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/overlay">overlay</a></code> entoure le contenu de l'overlay.
-      Les mêmes espaces de noms sont utilisés qu'avec les fichier de fenêtres
-      XUL. Un simple menu comprenant trois items a été défini dans l'overlay.
-      L'attribut <code class="attribut">id</code> de ce menu est <var>help-menu</var>.
-      Cela signifie que son contenu sera ajouté à une fenêtre dans laquelle un
-      élément similaire existe avec la même valeur d'attribut <code class="attribut">id</code>.
-      Si un tel élément n'existe pas, cette partie de l'overlay sera ignoré. L'overlay
-      peut contenir autant d'éléments que nécessaire. Notez que le fichier d'entités
-      DTD doit être inclus dans l'overlay. Nous avons utilisé ici le même que
-      celui de la fenêtre principale, mais normalement vous devez créer des fichiers
-      DTD séparés pour chaque overlay. </p>
+<p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/overlay">overlay</a></code> entoure le contenu de l'overlay.
+Les mêmes espaces de nommage sont utilisés qu'avec les fichier de fenêtres
+XUL. Un simple menu comprenant trois items a été défini dans l'overlay.
+L'attribut <code class="attribut">id</code> de ce menu est <var>help-menu</var>.
+Il signifie que son contenu sera ajouté à une fenêtre dans laquelle un
+élément similaire existe avec la même valeur d'attribut <code class="attribut">id</code>.
+Si un tel élément n'existe pas, cette partie de l'overlay sera ignoré. L'overlay
+peut contenir autant d'éléments que nécessaire. Notez que le fichier d'entités
+DTD doit être inclus dans l'overlay. Nous avons utilisé ici le même que
+celui de la fenêtre principale, mais normalement vous devez créer des fichiers
+DTD séparés pour chaque overlay.</p>
 
 <p>Ensuite, nous allons ajouter le menu Aide à notre boîte de dialogue de recherche
-  de fichiers. Pour cela, ajoutez simplement un menu avec le même attribut id
-  au bon endroit. Il se trouvera sa juste place après le menu Edition. </p>
+de fichiers. Ajoutez simplement un menu avec le même attribut <code class="attribut">id</code>
+au bon endroit. Il trouvera sa juste place après le menu Edition.</p>
 
-    <pre><code>  &lt;menu id=&quot;edit-menu&quot; label=&quot;Edition&quot; accesskey=&quot;e&quot;&gt;
+<pre><code>  &lt;menu id=&quot;edit-menu&quot; label=&quot;Edition&quot; accesskey=&quot;e&quot;&gt;
     &lt;menupopup id=&quot;edit-popup&quot;&gt;
       &lt;menuitem label=&quot;&amp;cutCmd.label;&quot; accesskey=&quot;&amp;cutCmd.accesskey;&quot;
                 key=&quot;cut_cmd&quot;/&gt;
@@ -118,11 +120,11 @@
         accesskey=&quot;&amp;helpCmd.accesskey;&quot;/&gt;</strong>
 &lt;/menubar&gt;</code></pre>
 
-      <p>Ici, l'élément du menu Aide n'a aucun contenu. Les items du menu proviennent
-        de l'overlay car leurs attributs <code class="attribut">id</code> correspondent.
-        Nous pouvons importer l'overlay dans d'autres fenêtres et n'avoir défini
-        le contenu du menu Aide qu'à un seul endroit. Nous devons aussi ajouter
-        quelques lignes au fichier d'entités DTD&nbsp;:</p>
+<p>Ici, l'élément du menu Aide n'a aucun contenu. Les items du menu proviennent
+de l'overlay car leurs attributs <code class="attribut">id</code> correspondent.
+Nous pouvons importer l'overlay dans d'autres fenêtres et n'avoir défini
+le contenu du menu Aide qu'à un seul endroit. Nous devons aussi ajouter
+quelques lignes au fichier d'entités DTD&nbsp;:</p>
 
 <pre><code>&lt;!ENTITY helpCmd.label &quot;Aide&quot;&gt;
 &lt;!ENTITY helpCmd.accesskey &quot;a&quot;&gt;
@@ -135,37 +137,39 @@
 &lt;!ENTITY findfilehelpCmd.label &quot;Aide sur la recherche de fichiers&quot;&gt;
 &lt;!ENTITY findfilehelpCmd.accesskey &quot;f&quot;&gt;</code></pre>
 
+<p>Nous utiliserons les deux dernières entités dans un moment.</p>
 
-<p>Nous utiliserons les deux dernières entités dans un moment. </p>
 <p><img src="images/overlay1.png" alt="Menu Aide" class="screenshot"/></p>
 
-    <p>Nous pouvons réduire encore la quantité de code dans la fenêtre en mettant
-      les attributs du menu Aide directement dans l'overlay (<code class="attribut">label</code>
-      et <code class="attribut">accesskey</code> dans cet exemple). Ces attributs
-      seront hérités par l'élément. Si l'élément et celui de la fenêtre partage
-      le même attribut, la valeur dans l'overlay aura priorité sur celle de l'élément. </p>
+<p>Nous pouvons réduire encore la quantité de code dans la fenêtre en mettant
+les attributs du menu Aide directement dans l'overlay (<code class="attribut">label</code>
+et <code class="attribut">accesskey</code> dans cet exemple). Ces attributs
+seront hérités par l'élément. Si l'élément et celui de la fenêtre partage
+le même attribut, la valeur dans l'overlay aura priorité sur celle de l'élément. </p>
 
-    <p>Changeons notre menu Aide de cette manière&nbsp;:</p>
+<p>Changeons notre menu Aide de cette manière&nbsp;:</p>
 
-    <pre><code><b>findfile.xul:</b>
+<pre><code><b>findfile.xul :</b>
 
 <strong>&lt;menu id=&quot;help-menu&quot;/&gt;</strong>
 
-<b>helpoverlay.xul:</b>
+<b>helpoverlay.xul :</b>
 
 &lt;menu id=&quot;help-menu&quot; <strong>label=&quot;&amp;helpCmd.label;&quot;
       accesskey=&quot;&amp;helpCmd.accesskey;&quot;</strong>&gt;</code></pre>
 
+</div>
 
-   </div>
+<p>Si la fenêtre XUL et l'overlay ont du contenu, celui de la fenêtre sera
+utilisé comme tel et celui de l'overlay sera ajouté à la fin. L'exemple
+suivant en est une illustration&nbsp;:</p>
 
+<p>Source&nbsp;:
+<a href="exemples/stopandgo.xul.txt">stopandgo</a>
+<a href="exemples/toverlay.xul.txt">toverloay</a>
+<a href="exemples/stopandgo.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
-    <p>Si la fenêtre XUL et l'overlay ont du contenu, celui de la fenêtre sera
-      utilisé comme tel et celui de l'overlay sera ajouté à la fin. L'exemple
-      suivant en est une illustration&nbsp;:</p>
-    <p>Source&nbsp;: <a href="exemples/stopandgo.xul.txt">stopandgo</a> <a href="exemples/toverlay.xul.txt">toverloay</a>
-      <a href="exemples/stopandgo.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
-    <pre><code><b>stopandgo.xul:</b>
+<pre><code><b>stopandgo.xul :</b>
 
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;
 
@@ -183,7 +187,7 @@
 
 &lt;/window&gt;
 
-<b>toverlay.xul:</b>
+<b>toverlay.xul :</b>
 
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;
 
@@ -197,20 +201,21 @@
 
 &lt;/overlay&gt;</code></pre>
 
-    <p><img src="images/overlay2.png" alt="Exemple Marche - Arrêt" class="screenshot" /></p>
-    <p>Dans cet exemple, la boîte avec l'identifiant <var>singlebox</var> dispose
-      de son propre contenu. Les éléments sont combinés et les deux boutons de
-      l'overlay sont ajoutés à la fin de cette boîte. </p>
+<p><img src="images/overlay2.png" alt="Exemple Marche - Arrêt" class="screenshot" /></p>
 
+<p>Dans cet exemple, la boîte avec l'identifiant <var>singlebox</var> dispose
+de son propre contenu. Les éléments sont combinés et les deux boutons de
+l'overlay sont ajoutés à la fin de cette boîte.</p>
 
-   <div class="task">
-    <p>Nous pouvons aussi utiliser cette technique dans notre boîte de dialogue
-      de recherche de fichiers.</p>
+<div class="task">
+<p>Nous pouvons aussi utiliser cette technique dans notre boîte de dialogue
+de recherche de fichiers.</p>
 
-    <p>findfile.xul&nbsp;: <a href="exemples/findfile/findfile-overlay.xul.txt">Source</a>
+<p>findfile.xul&nbsp;:
+<a href="exemples/findfile/findfile-overlay.xul.txt">Source</a>
+<a href="exemples/findfile/findfile-overlay.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
-    <a href="exemples/findfile/findfile-overlay.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
-    <pre><code>  <strong>&lt;menu id=&quot;help-menu&quot;&gt;
+<pre><code>  <strong>&lt;menu id=&quot;help-menu&quot;&gt;
     &lt;menupopup id=&quot;help-popup&quot;&gt;
       &lt;menuitem id=&quot;help-findfiles&quot; label=&quot;&amp;findfilehelpCmd.label;&quot;
                 accesskey=&quot;&amp;findfilehelpCmd.accesskey;&quot;/&gt;
@@ -219,93 +224,96 @@
 &lt;/menubar&gt;
 </code></pre>
 
-    <p>L'attribut <code class="attribut">id</code> de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>
-      correspond à celui de l'overlay. Il en résulte l'ajout des items dans le
-      même menu déroulant. Les overlays vont réunir les items de même <code class="attribut">id</code>
-      même s'ils sont situés à l'intérieur d'autres éléments. </p>
-    <p><img src="images/overlay3.png" alt="Menu Aide" class="screenshot" /></p>
+<p>L'attribut <code class="attribut">id</code> de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>
+correspond à celui de l'overlay. Il en résulte l'ajout des items dans le
+même menu déroulant. Les overlays vont réunir les items de même <code class="attribut">id</code>
+même s'ils sont situés à l'intérieur d'autres éléments.</p>
+
+<p><img src="images/overlay3.png" alt="Menu Aide" class="screenshot" /></p>
+
 </div>
 
+<h2>Placement des éléments d'un overlay</h2>
 
-    <h2>Placement des éléments d'un overlay</h2>
+<p>Dans l'exemple précédent, nous aurions voulu que les items du
+menu de l'overlay soient placés au début du menu plutôt qu'à la fin. XUL
+offre un mécanisme permettant de ne pas seulement placer les éléments en
+tête, mais d'en placer certains en premier et le reste à la fin (ou n'importe
+où entre). Il vous permet de positionner exactement où vous le souhaitez
+les overlays de menus, barres d'outils et autres éléments graphiques.</p>
 
-    <p>Dans l'exemple précédent, nous aurions voulu que les items du
-      menu de l'overlay soient placés au début du menu plutôt qu'à la fin. XUL
-      offre un mécanisme permettant de ne pas seulement placer les éléments en
-      tête, mais d'en placer certains en premier et le reste à la fin (ou n'importe
-      où entre). Cela vous permet de positionner exactement où vous le souhaitez
-      les overlays de menus, barres d'outils et autres éléments graphiques. </p>
+<p>Pour cela, utilisez l'attribut <code class="attribut">insertbefore</code>
+sur les éléments <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>.
+Leurs valeurs doivent être l'identifiant <code class="attribut">id</code> de l'élément
+avant lequel insérer les éléments.
+De même, vous pouvez utilisez l'attribut <code class="attribut">insertafter</code>
+pour indiquer quels éléments insérer après. Seul l'élément contenant ces attributs
+est affecté. Si un élément est marqué par un attribut <code class="attribut">insertbefore</code>,
+les autres continueront à être placés à la fin. Si vous voulez que tous
+les éléments soient placés avant, vous devez mettre l'attribut <code class="attribut">insertbefore</code>
+sur tous les éléments. </p>
 
-    <p>Pour cela, utilisez l'attribut <code class="attribut">insertbefore</code>
-      sur les éléments <code class="tag"><a
-      href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>.
-      Sa valeur doit être l'identifiant <code class="attribut">id</code> de l'élément
-      avant lequel on veut les insérer.
-      De même, vous pouvez utilisez l'attribut <code class="attribut">insertafter</code>
-      pour indiquer quel élément insérer après. Seul l'élément contenant ces attributs
-      est affecté. Si un élément est marqué par un attribut <code class="attribut">insertbefore</code>,
-      les autres continueront à être placés à la fin. Si vous voulez que tous
-      les éléments soient placés avant, vous devez mettre l'attribut <code class="attribut">insertbefore</code>
-      sur tous les éléments. </p>
+<p>De plus, vous pouvez utiliser l'attribut <code class="attribut">position</code>
+pour spécifier une position d'index, numérotée à partir de <var>1</var>.</p>
 
-    <p>De plus, vous pouvez utiliser l'attribut <code class="attribut">position</code>
-      pour spécifier une position d'index numérotée à partir de 1.</p>
+<p>Disons que nous souhaitons que les items de menu <var>Contenus</var> et <var>Index</var> de l'exemple
+précédent apparaissent avant l'item <var>Aide sur la recherche de fichiers</var>, et
+que l'item <var>À propos de</var> apparaisse ensuite. Il suffit d'ajouter l'attribut
+<code class="attribut">insertbefore</code> sur les deux items du menu <var>Contenus</var>
+et <var>Index</var>. Pour être complet, vous devriez aussi ajouter un attribut <code class="attribut">insertafter</code>
+sur le menu <var>A propos de</var>, mais ce n'est pas nécessaire car le menu apparaîtra
+par défaut à la fin. </p>
 
-    <p>Disons que nous souhaitons que les items de menu "Contenus" et "Index" de l'exemple
-      précédent apparaissent avant l'item "Aide sur la recherche de fichiers", et
-      que l'item "À propos de" apparaisse ensuite. Il suffit d'ajouter l'attribut
-      <code class="attribut">insertbefore</code> sur les deux items du menu Contenus
-      et Index. Pour être complet, vous devriez aussi ajouter un attribut <code class="attribut">insertafter</code>
-      sur le menu A propos de, mais il n'est pas nécessaire car le menu apparaîtra
-      par défaut à la fin. </p>
+<p>Dans cet exemple ci dessus, l'identifiant <code class="attribut">id</code>
+de l'item du menu est <var>help-findfiles</var>. De ce fait, nous devons
+associer les attributs <code class="attribut">insertbefore</code> à cet
+<code class="attribut">id</code>. voici les changements&nbsp;:</p>
 
-    <p>Dans cet exemple ci dessus, l'identifiant <code class="attribut">id</code>
-      de l'item du menu est <var>help-findfiles</var>. De ce fait, nous devons
-      associer les attributs <code class="attribut">insertbefore</code> à cet
-      <code class="attribut">id</code>. voici les changements : </p>
-
-    <pre><code>&lt;menupopup id=&quot;help-popup&quot;&gt;
+<pre><code>&lt;menupopup id=&quot;help-popup&quot;&gt;
   &lt;menuitem id=&quot;help-contents&quot; label=&quot;Contenus&quot; <strong>insertbefore=&quot;help-findfiles&quot;</strong>/&gt;
   &lt;menuitem id=&quot;help-index&quot; label=&quot;Index&quot; <strong>insertbefore=&quot;help-findfiles&quot;</strong>/&gt;
   &lt;menuitem id=&quot;help-about&quot; label=&quot;A propos de...&quot;/&gt;
 &lt;/menupopup&gt;</code></pre>
 
-    <p>Maintenant, lorsqu'une fenêtre utilisant l'overlay Aide (comme notre exemple
-      de recherche de fichiers) est ouverte, les évènements suivants se produisent&nbsp;:</p>
+<p>Maintenant, lorsqu'une fenêtre utilisant l'overlay Aide (comme notre exemple
+de recherche de fichiers) est ouverte, les évènements suivants se produisent&nbsp;:</p>
 
-    <ol>
-      <li>Pour chaque élément de l'overlay, qui sont tous les enfants de l'élément
-        <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/overlay">overlay</a></code>,
-        un élément de la fenêtre principale est recherché avec le même
-        identifiant <code class="attribut">id</code>. S'il n'est pas
-        trouvé, cet élément est ignoré. Dans cet exemple, les éléments avec les
-        identifiants <var>help-menu</var> et <var>help-popup</var> sont recherchés.
-      </li>
-      <li> Si un élément est trouvé, les attributs de l'élément de l'overlay lui
-        sont ajoutés. </li>
-      <li> Les enfants de l'élément overlay, ici chaque élément <code class="tag"><a
-        href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>,
-        sont insérés comme enfants de l'élément de la fenêtre.
-        <ul>
-          <li> Si l'élément de l'overlay contient un attribut <code class="attribut">insertafter</code>,
+<ol>
+  <li>Pour tous les éléments de l'overlay, qui sont tous les enfants de l'élément
+      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/overlay">overlay</a></code>,
+      un élément de la fenêtre principale est recherché avec le même
+      identifiant <code class="attribut">id</code>. S'il n'est pas
+      trouvé, cet élément est ignoré. Dans cet exemple, les éléments avec les
+      identifiants <var>help-menu</var> et <var>help-popup</var> sont trouvés.</li>
+  <li>Si un élément est trouvé, les attributs de l'élément de l'overlay lui
+      sont ajoutés.</li>
+  <li>Les enfants de l'élément overlay, ici chaque élément <code class="tag"><a
+      href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>,
+      sont insérés comme enfants de l'élément de la fenêtre.
+      <ul>
+        <li>Si l'élément de l'overlay contient un attribut <code class="attribut">insertafter</code>,
             il est ajouté juste après celui de la fenêtre principale ayant le
-            même attribut <code class="attribut">id</code>. </li>
-         <li> Si l'élément de l'overlay contient un attribut <code class="attribut">insertbefore</code>,
+            même attribut <code class="attribut">id</code>.</li>
+        <li>Si l'élément de l'overlay contient un attribut <code class="attribut">insertbefore</code>,
             il est ajouté juste avant celui de la fenêtre principale ayant le
-            même attribut <code class="attribut">id</code>. </li>
-          <li> Si l'élément de l'overlay contient un attribut <code class="attribut">position</code>,
+            même attribut <code class="attribut">id</code>.</li>
+        <li>Si l'élément de l'overlay contient un attribut <code class="attribut">position</code>,
             il est ajouté à son emplacement indexé par la valeur de l'attribut
-            compté à partir de <var>1</var>. </li>
-          <li> Dans les autres cas, l'élément est ajouté comme le dernier enfant.
-          </li>
-   </ul></li></ol>
+            compté à partir de <var>1</var>.</li>
+        <li>Dans les autres cas, l'élément est ajouté comme le dernier enfant.
+        </li>
+      </ul>
+  </li>
+</ol>
 
-    <p>En réalité, <code class="attribut">insertbefore</code> et <code class="attribut">insertafter</code>
-      peuvent contenir des listes de valeurs séparées par des virgules, où le
-      premier identifiant trouvé dans la liste est utilisé pour déterminer la
-      position dans la fenêtre. </p>
+<p>En réalité, <code class="attribut">insertbefore</code> et <code class="attribut">insertafter</code>
+peuvent contenir des listes de valeurs séparées par des virgules, où le
+premier identifiant trouvé dans la liste est utilisé pour déterminer la
+position dans la fenêtre. </p>
 
-     <hr />
-    <p>Nous allons voir comment appliquer des overlays à des fenêtres dans
-      différents paquetages. </p>
+<hr />
+
+<p>Nous allons voir ensuite comment appliquer des overlays à des fenêtres dans
+différents paquetages.</p>
 
