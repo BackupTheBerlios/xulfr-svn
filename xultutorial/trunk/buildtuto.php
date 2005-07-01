@@ -89,7 +89,7 @@ $article_list=array(
  'advrules'=>array('9.5 Règles avançées',                               array('Julien Etaix'=>'22/07/2004'),'datasrc','persist'),
      'persist' =>array('9.6 Données persistantes',                          array('Alain B.'=> '20/02/2004'),'advrules','style'),
 
- 'style'=>array('10.1 Ajouter des feuilles de style',                    array('Dkoo'=>'19/07/2004'),'persist','treestyle'),
+ 'style'=>array('10.1 Ajouter des feuilles de styles',                    array('Dkoo'=>'19/07/2004'),'persist','treestyle'),
  'treestyle'=>array('10.2 Styler un arbre',                              array('Durandal'=>'13/08/2004'),'style','defskin'),
  'defskin'=>array('10.3 Modification du thème par défaut',               array('Durandal'=>'21/07/2004'),'treestyle','cskin'),
  'cskin'=>array('10.4 Créer un thème',                                   array('Durandal'=>'29/07/2004'),'defskin','locale'),
