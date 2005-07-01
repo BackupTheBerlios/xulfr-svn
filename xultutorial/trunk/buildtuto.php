@@ -281,10 +281,11 @@ ob_start();
 $footer = ob_get_contents();
 ob_clean();
 
-
     $page_url_from='src/'.$basename.'.html';
-    //$page_url_to='builds/'.$basename.'.html';
-    $page_url_to='../../../../www/xulplanet/xultu_cvs/'.$basename.'.html';
+    $page_url_to='builds/'.$basename.'.html';
+
+    echo 'Page : ',$page_url_from , ' --> ', $page_url_to ,"\n";
+
     $file = implode('',file($page_url_from));
 
     if($basename == 'index'){
