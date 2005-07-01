@@ -17,7 +17,7 @@ function addButton()
 </script>
 
 <box id="aBox" width="200">
-  <button label="Add" oncommand="addButton();"/>
+  <button label="Ajouter" oncommand="addButton();"/>
 </box>
 
 
