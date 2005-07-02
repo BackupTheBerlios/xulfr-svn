@@ -15,8 +15,8 @@
    <checkbox id="chk" label="Se souvenir de moi"/>
 </hbox>
 <hbox>
-   <button label="ok" />
-   <button label="cancel" />
+   <button label="Ok" />
+   <button label="Annuler" />
 </hbox>
 
 </window>
