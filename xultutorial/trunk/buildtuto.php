@@ -75,7 +75,7 @@ $article_list=array(
 
  'trees' =>array('8.1 Arbres',                                          array('Damien Hardy'=> '10/04/2004'),'xpcomex','advtrees'),
  'advtrees' =>array('8.2 Autres caractéristiques des arbres',           array('Laurent Jouanneau'=> '24/06/2004', 'Gerard L.'=>'25/03/2005'),'trees','seltree'),
- 'seltree'=>array('8.3 Selection dans les arbres',                      array('Medspx'=>'17/07/2004'),'advtrees','treeview'),
+ 'seltree'=>array('8.3 Selection dans les arbres',                      array('Medspx'=>'17/07/2004', 'Alain B.'=>'03/07/2005'),'advtrees','treeview'),
  'treeview'=>array('8.4 Vues d\'arbre personnalisées',                  array('Chaddaï Fouché'=>'20/07/2004'),'seltree','treeviewdet'),
         'treeviewdet'=>array('8.5 Détails sur les vues d\'arbres',     array('Romain D.'=>'03/05/2005'),'treeview','treeboxobject'),
         'treeboxobject'=>array('8.6 Les objets boîtes des arbres',     array('Alain B.'=>'15/06/2005'),'treeviewdet','intrordf'),
