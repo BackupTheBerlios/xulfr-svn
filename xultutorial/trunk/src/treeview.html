@@ -1,35 +1,34 @@
 
-
 <p>Les vues sous formes d'arbres permettent d'afficher des données dans une arborescence.</p>
 
 <h2>Créer une vue personnalisée</h2>
 
-<!-- à remplacer avec la traduction ...
-<p>
-Jusqu'ici, nous avons vu deux méthodes pour spécifier le contenu d'un arbre. Vous pouvez
-placer des lignes et des colonnes statiques ou utiliser une source de données RDF. La
-première méthode fonctionne bien si vous avez une petite quantité de donnée à
-présenter. Utiliser une source de donnée est une bonne idée lorsque vous disposez
-d'une source fournie par Mozilla ou que vous avez créée vous même. Dans certains
-cas, vous pourriez vouloir stocker les données dans d'autres formats ou effectuer
-des traitements sur ces données. XUL fournit une troisième méthode, qui implique
-de créer un objet de vue personnalisée via un script.
-</p>
+<p>Jusqu'à présent, nous avons utilisé la construction interne d'une vue d'arbre. Dans 
+cette section, nous verrons la création d'une vue personnalisée. Elle devient nécessaire 
+dès lors que la quantité de données devient trop importante ou que celles-ci soient arrangées 
+de manière trop complexe. Par exemple, l'utilisation d'éléments 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code> 
+ne serait plus viable en terme de performance avec plusieurs milliers de lignes. Vous pouvez 
+également utiliser une vue personnalisée pour afficher des données obtenues par calculs. 
+Puisque la vue peut stocker et récupérer de la meilleure manière possible les données en 
+fonction de leur type, l'arbre peut être utilisé même si plusieurs milliers de lignes doivent être affichées.</p>
 
-<p>
-Cette méthode peut être utilisée pour stocker des centaines de milliers de lignes
-que l'arbre peut afficher instantanément. Pour faire ainsi, implémentez un arbre
-exactement comme avant mais laissez l'élément
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
-vide. L'exemple suivant montre ceci&nbsp;:
-</p>
-
-//-->
+<p>Pour implémenter une vue personnalisée, vous devez créer un objet qui implémente l'interface 
+<a href="http://xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">nsITreeView</a>. 
+Vous pouvez créer ces objets en javascript, mais vous aurez besoin d'un objet séparé pour 
+chaque arbre. Naturellement, comme la vue d'arbre personnalisée est utilisée, la vue de 
+contenu d'arbre ne le sera pas, donc les éléments 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code>, 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code> et 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecell">treecell</a></code> 
+n'auront aucun sens car la vue d'arbre obtient ses données ailleurs. Ainsi, vous pouvez 
+simplement laisser l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code> 
+vide. L'exemple suivant vous le montre&nbsp;:</p>
 
 <pre><code>&lt;tree id="my-tree" flex="1"&gt;
   &lt;treecols&gt;
     &lt;treecol id="namecol" label="Nom" flex="1"/&gt;
-
     &lt;treecol id="datecol" label="Date" flex="1"/&gt;
   &lt;/treecols&gt;
   &lt;treechildren/&gt;
@@ -38,34 +37,32 @@ vide. L'exemple suivant montre ceci&nbsp;:
 <p>
 Pour assigner les données à afficher dans l'arbre, un objet de visualisation doit être créé, 
 il sera utilisé pour indiquer la valeur de chaque cellule, le nombre total de lignes plus 
-d'autres informations éventuellement. L'arbre appellera les méthodes de visualisation pour 
+d'autres informations optionnelles. L'arbre appellera des méthodes de visualisation pour 
 obtenir les informations dont il a besoin pour son affichage.
 </p>
 
 <p>
-En général, bien que l'arbre de vue dispose de plus de 30 fonctions pouvant être implémentées, 
+En général, bien que la vue d'arbre dispose de plus d'une trentaine de fonctions pouvant être implémentées, 
 il vous suffira de ne définir que celles appelées par l'arbre. Les trois méthodes que vous 
-aurez à implémenter sont décrites ci-dessous&nbsp;:
+devrez implémenter sont décrites ci-dessous&nbsp;:
 </p>
 
 <dl>
   <dt><code>rowCount</code></dt>
-  <dd>Cette propriété doit se voir assigner le nombre total de lignes dans l'arbre.</dd>
+    <dd>Cette propriété doit se voir assigner le nombre total de lignes dans l'arbre.</dd>
   <dt><code>getCellText( ligne, colonne )</code></dt>
-  <dd>Cette méthode doit retourner le texte contenu à la ligne et la colonne
-    spécifiées. Elle sera appelée pour afficher les données de chaque cellule.
-    Les lignes sont spécifiées par des valeurs numériques qui commencent à
-    <var>0</var>. Les colonnes sont spécifiées par les valeurs de l'attribut
-    <code class="attribut">id</code> de la colonne. A partir de Mozilla 1.8, les 
-    colonnes sont définies par un objet TreeColumn.</dd>
+    <dd>Cette méthode doit retourner le texte contenu à la ligne et la colonne
+        spécifiées. Elle sera appelée pour afficher les données de chaque cellule.
+        Les lignes sont spécifiées par des valeurs numériques qui commencent à
+        <var>0</var>. Les colonnes sont spécifiées par les valeurs de l'attribut
+        <code class="attribut">id</code> de la colonne. À partir de Mozilla 1.8, les 
+        colonnes sont définies par un objet TreeColumn.</dd>
   <dt><code>setTree( arbre )</code></dt>
-  <dd>Cette méthode est appelée une fois pour changer l'élément arbre auquel est
-  associé la vue.</dd>
+    <dd>Cette méthode est appelée une seule fois pour affecter l'objet arbre à
+        la vue.</dd>
 </dl>
 
-<p>
-Voici un exemple de définition d'un tel objet qui peut avoir le nom que vous souhaitez&nbsp;:
-</p>
+<p>Voici un exemple de définition d'un tel objet qui peut avoir le nom que vous souhaitez&nbsp;:</p>
 
 <pre><code>var treeView = {
     rowCount : 10000,
@@ -86,24 +83,24 @@ Voici un exemple de définition d'un tel objet qui peut avoir le nom que vous sou
 
 <p>
 Les fonctions de l'exemple ci-dessus que nous n'avons pas décrites n'ont
-pas besoin d'effectuer une quelconque action, mais elle doivent être
-définie car l'arbre les appelle pour rassembler des informations
+pas besoin d'effectuer une quelconque action, mais elles doivent être
+définies car l'arbre les appelle pour rassembler des informations
 supplémentaires.
 </p>
 
 <p>
 Cet exemple peut-être utilisé pour un arbre avec 10000 lignes. Le contenu des cellules
 de la première colonne sera <var>Ligne X</var> où X sera le numéro de la ligne. Le contenu des
-cellules de la seconde colonne sera <var>20 juillet</var>. La structure if dans la fonction
+cellules de la seconde colonne sera <var>20 juillet</var>. La structure <code>if</code> dans la fonction
 <code>getCellText</code> compare la colonne au texte <var>namecol</var>. Ce texte
-'<var>namecol</var>' correspond à l'<code class="attribut">id</code> du premier
+<var>namecol</var> correspond à l'<code class="attribut">id</code> du premier
 élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>
 dans l'exemple précédent. Cet exemple est très simplifié bien sûr - en réalité vous
-auriez des données bien plus complexes dans chaque cellule.
+aurez des données bien plus complexes dans chaque cellule.
 </p>
 
 <p>
-L'étape finale est d'associer l'objet vue avec l'arbre. L'arbre a une propriété
+L'étape finale est d'associer l'objet de vue avec l'arbre. L'arbre a une propriété
 <code class="attribut">view</code>, à laquelle on peut assigner l'objet déclaré
 ci-dessus. Nous pouvons assigner une valeur à cette propriété à tout moment pour
 attribuer une vue à l'arbre, ou en changer.
@@ -115,14 +112,15 @@ attribuer une vue à l'arbre, ou en changer.
 }</code></pre>
 
 <p>
-Le source suivant présente l'exemple en entier. Un script interne (intégré au fichier
-XUL) a été utilisé ici pour simplifier l'exemple. En temps normal vous mettriez le
+Le code source suivant présente l'exemple en entier. Un script intégré au fichier
+XUL a été utilisé ici pour simplifier l'exemple. En temps normal vous mettriez le
 script dans un fichier de script externe.
 </p>
 
-<p>Exemple 8.4.1&nbsp;: <a href="exemples/ex_treeview_1.xul.txt">Source</a>
- <a href="exemples/ex_treeview_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
-</p>
+<p>Exemple 8.4.1&nbsp;:
+<a href="exemples/ex_treeview_1.xul.txt">Source</a>
+<a href="exemples/ex_treeview_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+
 <pre><code>&lt;?xml version="1.0"?&gt;
 
 &lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
@@ -157,7 +155,6 @@ function setView()
 
 &lt;tree id="my-tree" flex="1"&gt;
   &lt;treecols&gt;
-
     &lt;treecol id="namecol" label="Nom" flex="1"/&gt;
     &lt;treecol id="datecol" label="Date" flex="1"/&gt;
   &lt;/treecols&gt;
@@ -167,8 +164,8 @@ function setView()
 &lt;/window&gt;</code></pre>
 
 <p>
-<img src="images/treeview1.png" class="screenshot-right" alt="capture d'écran de l'exemple 7.6.1" />
-Sur l'image, vous voyez deux colonnes, chacune avec ses données obtenues par l'intermédiaire de
+<img src="images/treeview1.png" class="screenshot-right" alt="Exemple de vue d'arbre personnalisée" />
+Sur l'image, vous voyez deux colonnes, chacune obtenant ses données par l'intermédiaire de
 la fonction <code>getCellText</code>. La fonction <code>setView</code> a été appelée par le
 gestionnaire <code class="attribut">onload</code> de la fenêtre
 (<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>), 
@@ -181,23 +178,16 @@ Il faut noter que la fonction <code>getCellText</code> est seulement appelée qua
 nécessaire pour afficher le contenu. Dans l'exemple de 10000 lignes ci-dessus,
 <code>getCellText</code> est seulement appelée pour les cellules qui sont actuellement
 affichées. Sur cette image, seules quatre lignes sont affichées, donc la fonction 
-<code>getCellText</code> a été appelée 8 fois. Elle est appelée pour les autres lignes 
-lorsque l'utilisateur les fait défiler. Ceci rend l'arbre beaucoup plus efficace.
+<code>getCellText</code> a été appelée 8 fois. Elle sera appelée pour les autres lignes 
+lorsque l'utilisateur les fera défiler. Cette méthode rend l'arbre beaucoup plus efficace.
 </p>
 
-<p class="note">
-Notez que l'objet vue est aussi disponible pour des arbres prédéfinis dans votre installation. 
-Vous pouvez les utiliser pour récupérer les libellés de leurs cellules et d'autres informations.
-</p>
+<p class="note">Notez que l'objet de vue est aussi disponible pour des arbres prédéfinis dans votre installation. 
+Vous pouvez les utiliser pour récupérer les libellés de leurs cellules et d'autres informations.</p>
 
-<p>
-L'<a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">interface nsITreeView</a> 
-liste toutes les méthodes et propriétés que vous pouvez implémenter pour la vue d'un arbre.
-</p>
+<p>L'<a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">interface nsITreeView</a> 
+liste toutes les méthodes et propriétés que vous pouvez implémenter pour la vue d'un arbre.</p>
+
 <hr />
 
-<p>
-Dans la prochaine section, nous verrons comment RDF sert à remplir des arbres automatiquement.
-</p>
-
-
+<p>Dans la prochaine section, nous verrons comment RDF sert à remplir des arbres automatiquement.</p>
