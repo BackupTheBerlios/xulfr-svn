@@ -99,7 +99,7 @@ var treeView = {
   performActionOnCell: function(action, index, column) {},
   getRowProperties: function(idx, column, prop) {},
   getCellProperties: function(idx, column, prop) {},
-  getColumnProperties: function(column, element, prop) {},
+  getColumnProperties: function(column, element, prop) {}
 };
 
 function init() {

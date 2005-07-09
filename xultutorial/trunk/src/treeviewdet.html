@@ -313,7 +313,10 @@ Elles sont placées à la fin de notre exemple complet, comme montré ici&nbsp;:</p
 
 <p>Exemple 8.5.1&nbsp;:
 <a href="exemples/ex_treeviewdet_1.xul.txt">Source</a>
-<a href="exemples/ex_treeviewdet_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<!-- L'exemple ne fonctionne que dans le chrome
+<a href="exemples/ex_treeviewdet_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+-->
+</p>
 
 <pre><code>&lt;?xml version="1.0" encoding="iso-8859-1" ?&gt;
 &lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
@@ -415,7 +418,7 @@ var treeView = {
   performActionOnCell: function(action, index, column) {},
   getRowProperties: function(idx, column, prop) {},
   getCellProperties: function(idx, column, prop) {},
-  getColumnProperties: function(column, element, prop) {},
+  getColumnProperties: function(column, element, prop) {}
 };
 
 function init() {
