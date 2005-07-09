@@ -129,7 +129,7 @@ foreach($article_list as $basename => $article){
         $header_links='
         <link rel="up"   href="index.html" title="Sommaire" />
         <link rel="chapter" href="index.html" title="Tutoriel XUL principal" />
-        ';
+';
 
 
 
