@@ -1,27 +1,27 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
-<window id="example-window" title="Exemple 6.3.1"
+<window id="example-window" title="Exemple 8.1.2"
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <tree flex="1">
   <treecols>
-    <treecol id="expediteur" label="Expéditeur" flex="1"/>
-    <treecol id="sujet" label="Sujet" flex="2"/>
+    <treecol id="sender" label="Expéditeur" flex="1"/>
+    <treecol id="subject" label="Sujet" flex="2"/>
   </treecols>
 
   <treechildren>
     <treeitem>
       <treerow>
         <treecell label="joe@somewhere.com"/>
-        <treecell label="Plans top secrets"/>
+        <treecell label="Plans Top secret"/>
       </treerow>
     </treeitem>
     <treeitem>
       <treerow>
         <treecell label="mel@whereever.com"/>
-        <treecell label="Allons manger"/>
+        <treecell label="Invitation à déjeuner"/>
       </treerow>
     </treeitem>
   </treechildren>
@@ -29,3 +29,4 @@
 
 
 </window>
+
