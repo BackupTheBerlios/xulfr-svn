@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 4.4.5"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<grid>
+  <columns>
+    <column flex="1"/>
+    <column flex="1"/>
+  </columns>
+
+  <rows>
+    <row>
+      <label value="Nord Ouest"/>
+      <label value="Nord Est"/>
+    </row>
+    <button label="Équateur"/>
+
+    <row>
+      <label value="Sud Ouest"/>
+      <label value="Sud Est"/>
+    </row>
+  </rows>
+</grid>
+
+</window>

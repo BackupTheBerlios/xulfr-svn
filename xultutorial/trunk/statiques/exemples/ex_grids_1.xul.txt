@@ -14,7 +14,7 @@
    <rows>
      <row>
        <button label="Lapin"/>
-       <button label="Eléphant"/>
+       <button label="Éléphant"/>
      </row>
      <row>
        <button label="Koala"/>

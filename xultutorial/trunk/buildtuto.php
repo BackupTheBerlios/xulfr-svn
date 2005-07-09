@@ -42,7 +42,7 @@ $article_list=array(
  'stacks' =>array('4.1 Piles et Paquets',                               array('Alain B.'=> '14/02/2004'),'boxfinal','bulletins'),
  'bulletins' =>array('4.2 Positionnement dans une pile',                array('Alain B.'=> '15/02/2004'),'stacks','tabpanel'),
  'tabpanel' =>array('4.3 Onglets',                                      array('Alain B.'=> '18/02/2004'),'bulletins','grids'),
-     'grids' =>array('4.4 Grilles',                                         array('Alain B.'=> '14/04/2004'),'tabpanel','cpanels'),
+     'grids' =>array('4.4 Grilles',                                         array('Alain B.'=> '14/04/2004', 'Alain B.'=>'09/07/2005'),'tabpanel','cpanels'),
  'cpanels' =>array('4.5 Cadres de contenu',                             array('Alain B.'=> '19/02/2004', 'Gerard L.'=>'26/03/2005'),'grids','splitter'),
  'splitter' =>array('4.6 Séparateurs',                                  array('Alain B.'=> '20/02/2004'),'cpanels','scroll'),
  'scroll' =>array('4.7 Barres de défilement',                           array('Alain B.'=> '09/02/2004'),'splitter','toolbar'),
@@ -134,18 +134,18 @@ foreach($article_list as $basename => $article){
 
 
         if($prev != '')
-            $header_links.='<link rel="prev" href="'.$prev.'.html" title="'.$article_list[$prev][0].'" />'."\n";
+            $header_links.='        <link rel="prev" href="'.$prev.'.html" title="'.$article_list[$prev][0].'" />'."\n";
         if($next != '')
-            $header_links.='<link rel="next" href="'.$next.'.html" title="'.$article_list[$next][0].'" />'."\n";
+            $header_links.='        <link rel="next" href="'.$next.'.html" title="'.$article_list[$next][0].'" />'."\n";
 
         reset($article_list);
         $first=current($article_list);
         if($basename !=key($article_list))
-            $header_links.='<link rel="first" href="'.key($article_list).'.html" title="'.$first[0].'" />'."\n";
+            $header_links.='        <link rel="first" href="'.key($article_list).'.html" title="'.$first[0].'" />'."\n";
 
         $last=end($article_list);
         if($basename !=key($article_list))
-            $header_links.='<link rel="last" href="'.key($article_list).'.html" title="'.$last[0].'" />'."\n";
+            $header_links.='        <link rel="last" href="'.key($article_list).'.html" title="'.$last[0].'" />'."\n";
 
         $page_traduction_auteur='';
         foreach($auteurs as $auteur=>$datetraduc){
@@ -171,7 +171,6 @@ foreach($article_list as $basename => $article){
 <!--*headinfo*-->
 <?php  if($basename != 'index'){ ?>
    <title><?php echo $page_chapitre?>, tutoriel XUL - xulfr.org/xulplanet.com</title>
-   <link rel="up"   href="index.html" title="Sommaire" />
 <?php
     echo $header_links;
 }else{

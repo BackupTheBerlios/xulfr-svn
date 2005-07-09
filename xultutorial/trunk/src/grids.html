@@ -1,52 +1,50 @@
 
+<p>XUL dispose d'une série d'éléments pour créer des grilles sous forme de tableaux.</p>
 
+<h2>Disposition tabulaire XUL</h2>
 
-    <p>XUL dispose d'une série d'éléments pour créer des grilles sous forme de
-      tableaux.</p>
+<p>XUL dispose d'un jeu d'éléments pour la mise en page sous la forme d'une grille en 
+utilisant l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>. 
+Il a quelques similitudes avec la balise HTML <code class="tag">table</code>. La grille n'affiche rien 
+du tout&nbsp;; elle ne sert qu'à positionner d'autres éléments en ligne et en colonne.</p>
 
-    <h2>Disposition tabulaire XUL</h2>
+<p>Une grille contient des éléments qui sont alignés comme avec des tableaux.
+À l'intérieur d'un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>,
+vous déclarez deux choses, les colonnes et les lignes qui sont utilisées.
+À l'instar des tableaux HTML, vous pouvez mettre du contenu tels que des
+libellés et des boutons à l'intérieur des lignes. Toutefois, la grille permet un 
+arrangement soit en ligne, soit en colonne pour y mettre votre contenu. Il est fréquent 
+de l'utiliser en ligne comme avec un tableau. Mais vous pouvez utiliser des colonnes 
+pour définir la taille et l'apparence des colonnes dans une grille. Autrement, vous 
+pouvez mettre du contenu à l'intérieur de colonnes, et utiliser les lignes pour définir
+l'apparence. Nous étudierons d'abord comment organiser les éléments par ligne. </p>
 
-    <p>XUL dispose d'un jeu d'éléments pour la mise en page sous la forme d'une grille en 
-     utilisant l'élément <code class="tag">
-     <a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>. Il a quelques 
-     similitudes avec la balise HTML <code class="tag">table</code>. La grille n'affiche rien 
-     du tout&nbsp;; elle ne sert qu'à positionner d'autres éléments en ligne et en colonne.</p>
+<p>Pour déclarer une série de lignes, utilisez l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rows">rows</a></code>,
+qui doit être un élément enfant de
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>.
+À l'intérieur, vous devez ajouter les éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>,
+qui représentent chacune des lignes. À l'intérieur d'un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>,
+vous devez mettre le contenu que vous souhaitez sur cette ligne. </p>
 
-     <p>Une grille contient des éléments qui sont alignés comme avec des tableaux.
-      À l'intérieur d'un élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>,
-      vous déclarez deux choses, les colonnes et les lignes qui sont utilisées.
-      À l'instar des tableaux HTML, vous pouvez mettre du contenu tels que des
-      libellés et des boutons à l'intérieur des lignes. Toutefois, la grille permet un 
-      arrangement soit en ligne, soit en colonne pour y mettre votre contenu. Il est fréquent 
-      de l'utiliser en ligne comme avec un tableau. Mais vous pouvez utiliser des colonnes 
-      pour définir la taille et l'apparence des colonnes dans une grille. Autrement, vous 
-      pouvez mettre du contenu à l'intérieur de colonnes, et utiliser les lignes pour définir
-      l'apparence. Nous étudierons d'abord comment organiser les éléments par ligne. </p>
+<p>De même, les colonnes sont déclarées avec l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">columns</a></code>,
+qui doit être un élément enfant de
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>.
+À l'intérieur de cet élément viennent les éléments
+individuels <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">column</a></code>,
+un pour chaque colonne que vous voulez dans la grille.
+</p>
 
-    <p>Pour déclarer une série de lignes, utilisez l'élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rows">rows</a></code>,
-      qui doit être un élément enfant de
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>.
-      À l'intérieur, vous devez ajouter les éléments
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>,
-      qui représentent chacune des lignes. À l'intérieur d'un élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>,
-      vous devez mettre le contenu que vous souhaitez sur cette ligne. </p>
+<p>Il est plus simple de comprendre avec un exemple.</p>
 
-    <p>De même, les colonnes sont déclarées avec l'élément
-    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">columns</a></code>,
-    qui doit être un élément enfant de
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>.
-     À l'intérieur de cet élément viennent les éléments
-      individuels <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">column</a></code>,
-      un pour chaque colonne que vous voulez dans la grille.
-    </p>
+<p>Exemple 4.4.1&nbsp;:
+<a href="exemples/ex_grids_1.xul.txt">Source</a>
+<a href="exemples/ex_grids_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
-    <p>Il est plus simple de comprendre avec un exemple. </p>
-
-    <p>Exemple 4.4.1 : <a href="exemples/ex_grids_1.xul.txt">Source</a>
-    <a href="exemples/ex_grids_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 <pre><code>&lt;grid flex=&quot;1&quot;&gt;
    &lt;columns&gt;
      &lt;column flex=&quot;2&quot;/&gt;
@@ -56,7 +54,7 @@
    &lt;rows&gt;
      &lt;row&gt;
        &lt;button label=&quot;Lapin&quot;/&gt;
-       &lt;button label=&quot;El&eacute;phant&quot;/&gt;
+       &lt;button label=&quot;Éléphant&quot;/&gt;
      &lt;/row&gt;
      &lt;row&gt;
        &lt;button label=&quot;Koala&quot;/&gt;
@@ -65,31 +63,32 @@
    &lt;/rows&gt;
 &lt;/grid&gt;</code></pre>
 
-    <p><img src="images/grids1.png" class="screenshot-left" alt="" />Deux lignes
-      et deux colonnes ont été ajoutées dans une grille. Chaque colonne est déclarée
-      avec l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">column</a></code>.
-      Un attribut <code class="attribut">flex</code> a été assignée à chacune
-      des colonnes. Chaque ligne contient deux éléments qui sont des boutons.
-      Le premier élément de chaque élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>
-      est placé dans la première colonne de la grille, et le second élément de
-      chaque ligne est placé dans la seconde colonne. </p>
+<p><img src="images/grids1.png" class="screenshot-left" alt="" />Deux lignes
+et deux colonnes ont été ajoutées dans une grille. Chaque colonne est déclarée
+avec l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">column</a></code>.
+Un attribut <code class="attribut">flex</code> a été assigné à chacune
+des colonnes. Chaque ligne contient deux éléments qui sont des boutons.
+Le premier élément de chaque élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>
+est placé dans la première colonne de la grille, et le second élément de
+chaque ligne est placé dans la seconde colonne. </p>
 
-    <p class="note">Notez que vous n'avez pas d'élément pour définir une cellule
-      (il n'y a pas d'équivalent à l'élément HTML <code class="tag">td</code>).
-      Au lieu de cela, vous placez vos contenus de cellules directement dans les
-      éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>.
-    </p>
+<p class="note">Notez que vous n'avez pas d'élément pour définir une cellule
+(il n'y a pas d'équivalent à l'élément HTML <code class="tag">td</code>).
+Au lieu de cela, vous placez vos contenus de cellules directement dans les
+éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>.
+</p>
 
-    <p>Bien entendu, vous pouvez utiliser n'importe quel autre élément que l'élément
-    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>. Si vous
-    voulez une cellule particulière contenant de multiples éléments, vous pouvez utiliser une boîte
-    imbriquée <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> 
-    ou tout autre élément boîte. Une boîte <code class="tag">
-    <a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> représente un seul élément, 
-    mais qui peut contenir autant d'éléments que vous le souhaitez. Par exemple&nbsp;: </p>
+<p>Bien entendu, vous pouvez utiliser n'importe quel autre élément que l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>. Si vous
+voulez une cellule particulière contenant de multiples éléments, vous pouvez utiliser une boîte
+imbriquée <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> 
+ou tout autre élément boîte. Une boîte <code class="tag">
+<a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> représente un seul élément, 
+mais qui peut contenir autant d'éléments que vous le souhaitez. Par exemple&nbsp;:</p>
 
-    <p>Exemple 4.4.2 : <a href="exemples/ex_grids_2.xul.txt">Source</a>
-    <a href="exemples/ex_grids_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<p>Exemple 4.4.2&nbsp;:
+<a href="exemples/ex_grids_2.xul.txt">Source</a>
+<a href="exemples/ex_grids_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;grid flex=&quot;1&quot;&gt;
    &lt;columns&gt;
@@ -103,7 +102,7 @@
        &lt;textbox id=&quot;doctitle&quot; flex=&quot;1&quot;/&gt;
      &lt;/row&gt;
      &lt;row&gt;
-       &lt;label control=&quot;docpath&quot; value=&quot;R&eacute;pertoire:&quot;/&gt;
+       &lt;label control=&quot;docpath&quot; value=&quot;Répertoire:&quot;/&gt;
        &lt;hbox flex=&quot;1&quot;&gt;
          &lt;textbox id=&quot;docpath&quot; flex=&quot;1&quot;/&gt;
          &lt;button label=&quot;Parcourir...&quot;/&gt;
@@ -112,36 +111,36 @@
    &lt;/rows&gt;
 &lt;/grid&gt;</code></pre>
 
-    <p><img src="images/grids2.png" class="screenshot-right" alt="" />Remarquez
-      sur l'image ci-contre comment la première colonne contenant les libellés
-      a seulement un unique élément pour chaque ligne. La seconde colonne contient
-      sur sa seconde ligne une boîte qui elle même contient deux éléments,
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>
-      et <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>.
-      Vous pouvez ajouter d'autres boîtes imbriquées ou une autre grille dans
-      une simple cellule. </p>
+<p><img src="images/grids2.png" class="screenshot-right" alt="" />Remarquez
+sur l'image ci-contre comment la première colonne contenant les libellés
+a seulement un unique élément pour chaque ligne. La seconde colonne contient
+sur sa seconde ligne une boîte qui elle même contient deux éléments,
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>
+et <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>.
+Vous pouvez ajouter d'autres boîtes imbriquées ou une autre grille dans
+une simple cellule.</p>
 
-    <p>Si vous redimensionnez la fenêtre du dernier exemple, vous verrez que les
-      champs de saisie s'ajustent en conséquence, mais pas les autres éléments.
-      En effet, des attributs <code class="attribut">flex</code> ont été ajoutés
-      à ces champs de saisie et à la seconde colonne. La première colonne n'a pas
-      besoin d'être flexible car les libellés n'ont pas besoin de changer de taille.
-    </p>
+<p>Si vous redimensionnez la fenêtre du dernier exemple, vous verrez que les
+champs de saisie s'ajustent en conséquence, mais pas les autres éléments.
+En effet, des attributs <code class="attribut">flex</code> ont été ajoutés
+à ces champs de saisie et à la seconde colonne. La première colonne n'a pas
+besoin d'être flexible car les libellés n'ont pas besoin de changer de taille.
+</p>
 
-    <p>La largeur initiale d'une colonne est déterminée par le plus large de ses
-      éléments. De même, la hauteur d'une ligne est déterminée par la taille des
-      éléments sur cette ligne. Vous pouvez employer des propriétés CSS <code class="attribut">minwidth</code>,
-      <code class="attribut">maxwidth</code> et propriétés similaires pour affiner
-      les dimensions. </p>
+<p>La largeur initiale d'une colonne est déterminée par le plus large de ses
+éléments. De même, la hauteur d'une ligne est déterminée par la taille des
+éléments sur cette ligne. Vous pouvez employer des propriétés CSS <code class="attribut">minwidth</code>,
+<code class="attribut">maxwidth</code> et propriétés similaires pour affiner
+les dimensions.</p>
 
-    <p>Vous pouvez également placer des éléments à l'intérieur des éléments
-    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">column</a></code>
-      au lieu des éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>.
-      En procédant de la sorte, les lignes sont justes
-      déclarées pour définir leur nombre. </p>
+<p>Vous pouvez également placer des éléments à l'intérieur des éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/column">column</a></code>
+au lieu des éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>.
+En procédant de la sorte, les lignes sont justes déclarées pour définir leur nombre.</p>
 
-    <p>Exemple 4.4.3 : <a href="exemples/ex_grids_3.xul.txt">Source</a>
-    <a href="exemples/ex_grids_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<p>Exemple 4.4.3&nbsp;:
+<a href="exemples/ex_grids_3.xul.txt">Source</a>
+<a href="exemples/ex_grids_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;grid&gt;
    &lt;rows&gt;
@@ -165,42 +164,43 @@
 
 &lt;/grid&gt;</code></pre>
 
-    <p>Cette grille a trois lignes et deux colonnes. Les éléments
-    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code> servent
-      juste à définir combien de lignes la grille contient. Vous pouvez ajouter
-      un attribut <code class="attribut">flex</code> à une ligne pour la rendre flexible. Le contenu est placé
-      dans chaque colonne. Le premier élément de chaque élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">column</a></code> est placé
-      sur la première ligne, le second élément sur la seconde ligne et le troisième
-      élément sur la troisième ligne. </p>
+<p>Cette grille a trois lignes et deux colonnes. Les éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code> servent
+juste à définir combien de lignes la grille contient. Vous pouvez ajouter
+un attribut <code class="attribut">flex</code> à une ligne pour la rendre flexible. Le contenu est placé
+dans chaque colonne. Le premier élément de chaque élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">column</a></code> est placé
+sur la première ligne, le second élément sur la seconde ligne et le troisième
+élément sur la troisième ligne.</p>
 
-    <p>Si vous placez du contenu en même temps sur les colonnes et sur les lignes,
-      le contenu va se superposer l'un sur l'autre, même s'il est aligné correctement
-      dans la grille. Cet effet correspondrait à une grille d'éléments
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stack">stack</a></code>.
-    </p>
+<p>Si vous placez du contenu en même temps sur les colonnes et sur les lignes,
+le contenu va se superposer l'un sur l'autre, même s'il est aligné correctement
+dans la grille. Cet effet correspondrait à une grille d'éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stack">stack</a></code>.
+</p>
 
-    <p>L'ordre des éléments dans la grille détermine lequel est affiché au premier
-      plan et lequel est affiché à l'arrière plan. Si l'élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rows">rows</a></code>
-      est placé après l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">columns</a></code>,
-      le contenu des lignes est affiché au premier plan. Si l'élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">columns</a></code>
-      est placé après l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rows">rows</a></code>,
-      le contenu des colonnes est affiché au premier plan. De même, les évènements
-      tels que les clics de souris et les touches de clavier sont seulement envoyés
-      aux objets du premier plan. C'est pour cela que les colonnes sont définies
-      après les lignes dans l'exemple ci dessus. Si les colonnes avaient été placées
-      en premier, les lignes auraient capturées les évènements et aucun texte
-      n'aurait pu être saisi dans les champs de saisie. </p>
+<p>L'ordre des éléments dans la grille détermine lequel est affiché au premier
+plan et lequel est affiché à l'arrière plan. Si l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rows">rows</a></code>
+est placé après l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">columns</a></code>,
+le contenu des lignes est affiché au premier plan. Si l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/columns">columns</a></code>
+est placé après l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rows">rows</a></code>,
+le contenu des colonnes est affiché au premier plan. De même, les évènements
+tels que les clics de souris et les touches de clavier sont seulement envoyés
+aux objets du premier plan. C'est pour cela que les colonnes sont définies
+après les lignes dans l'exemple ci dessus. Si les colonnes avaient été placées
+en premier, les lignes auraient capturées les évènements et aucun texte
+n'aurait pu être saisi dans les champs de saisie. </p>
 
-    <p>Un des avantages des grilles sur une série de boîtes imbriquées
-      est que vous pouvez créer des cellules qui sont flexibles aussi bien horizontalement
-      que verticalement. Il vous suffit de mettre un attribut <code class="attribut">flex</code> sur les lignes
-      et colonnes concernées. L'exemple suivant en fait la démonstration&nbsp;:</p>
+<p>Un des avantages des grilles sur une série de boîtes imbriquées
+est que vous pouvez créer des cellules qui sont flexibles aussi bien horizontalement
+que verticalement. Il vous suffit de mettre un attribut <code class="attribut">flex</code> sur les lignes
+et colonnes concernées. L'exemple suivant en fait la démonstration&nbsp;:</p>
 
-    <p>Exemple 4.4.4 : <a href="exemples/ex_grids_4.xul.txt">Source</a>
-    <a href="exemples/ex_grids_4.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<p>Exemple 4.4.4&nbsp;:
+<a href="exemples/ex_grids_4.xul.txt">Source</a>
+<a href="exemples/ex_grids_4.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;grid flex=&quot;1&quot;&gt;
    &lt;columns&gt;
@@ -217,24 +217,67 @@
      &lt;row flex=&quot;1&quot;&gt;
        &lt;button label=&quot;Fraise&quot;/&gt;
        &lt;button label=&quot;Framboise&quot;/&gt;
-       &lt;button label=&quot;P&ecirc;che&quot;/&gt;
+       &lt;button label=&quot;Pêche&quot;/&gt;
      &lt;/row&gt;
    &lt;/rows&gt;
 &lt;/grid&gt;</code></pre>
 
-    <p>La première colonne et l'ensemble des lignes ont été rendues flexibles.
-      Ainsi, chaque cellule de la première colonne est flexible horizontalement.
-      De plus, chaque cellule est flexible verticalement car l'ensemble des lignes
-      dispose de l'attribut <code class="attribut">flex</code>. La cellule de la première colonne de la première
-      ligne (le bouton Cerise) sera flexible d'un facteur 5 horizontalement et d'un
-      facteur 10 verticalement. La cellule suivante (le bouton Citron) ne sera flexible
-      que verticalement.</p>
+<p>La première colonne et l'ensemble des lignes ont été rendus flexibles.
+Ainsi, chaque cellule de la première colonne est flexible horizontalement.
+De plus, chaque cellule est flexible verticalement car l'ensemble des lignes
+dispose de l'attribut <code class="attribut">flex</code>. La cellule de la première colonne de la première
+ligne (le bouton <var>Cerise</var>) sera flexible d'un facteur 5 horizontalement et d'un
+facteur 10 verticalement. La cellule suivante (le bouton <var>Citron</var>) ne sera flexible
+que verticalement.</p>
 
-    <p>L'attribut <code class="attribut">flex</code> a également été ajouté à l'élément
-    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code> afin que toute
-      la grille soit flexible, autrement elle ne s'agrandirait que dans une seule
-      direction. </p>
+<p>L'attribut <code class="attribut">flex</code> a également été ajouté à l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code> afin que toute
+la grille soit flexible, autrement elle ne s'agrandirait que dans une seule
+direction.</p>
+
+<h2>Étendre une colonne</h2>
+
+<p>Cela n'a aucun sens d'étendre une cellule sur un nombre particulier de colonnes 
+ou de lignes multiples. Toutefois, il est possible de faire qu'une ligne ou qu'une 
+colonne s'étende sur toute la largeur ou la hauteur de la grille. Il vous suffit 
+d'ajouter un élément à l'intérieur d'un élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rows">rows</a></code> 
+et qui ne soit pas à l'intérieur d'un élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/row">row</a></code>. 
+Vous pouvez utiliser un type de boîte par exemple, d'y placer dedans d'autres éléments 
+si vous devez en utiliser plusieurs. Voici un exemple simple&nbsp;:</p>
+
+<p>Exemple 4.4.4&nbsp;:
+<a href="exemples/ex_grids_4.xul.txt">Source</a>
+<a href="exemples/ex_grids_4.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+
+<pre><code>&lt;grid&gt;
+  &lt;columns&gt;
+    &lt;column flex="1"/&gt;
+    &lt;column flex="1"/&gt;
+  &lt;/columns&gt;
+
+  &lt;rows&gt;
+    &lt;row&gt;
+      &lt;label value="Nord Ouest"/&gt;
+      &lt;label value="Nord Est"/&gt;
+    &lt;/row&gt;
+    &lt;button label="Équateur"/&gt;
+
+    &lt;row&gt;
+      &lt;label value="Sud Ouest"/&gt;
+      &lt;label value="Sud Est"/&gt;
+    &lt;/row&gt;
+  &lt;/rows&gt;
+&lt;/grid&gt;</code></pre>
+
+<p>Le bouton va s'étendre pour s'ajuster sur toute la largeur de la grille comme 
+s'il n'était pas à l'intérieur d'une ligne de la grille. Vous pouvez utiliser une 
+technique similaire pour ajouter un élément entre deux colonnes. Il s'étendra pour 
+s'ajuster sur toute la hauteur de la grille. Vous pouvez combiner les deux si vous 
+le souhaitez.</p>
+
 <hr />
 
-    <p>Dans la section suivante, nous verrons comment ajouter des panneaux de contenu.</p>
+<p>Dans la section suivante, nous verrons comment ajouter des panneaux de contenu.</p>
 
