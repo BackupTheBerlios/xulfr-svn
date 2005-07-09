@@ -8,7 +8,7 @@ un objet de boîte spécial utilisé spécifiquement pour les arbres. La boîte d'arb
 <code>TreeBoxObject</code>.</p>
 
 <p>Nous avons déjà vu la fonction <code>rowCountChanged</code> de l'objet de boîte d'arbre dans 
-la section précédente. Elle est employée pour indiquer qu'une ou plusieurs lignes  de l'arbre ont 
+la section précédente. Elle est employée pour indiquer qu'une ou plusieurs lignes de l'arbre ont 
 été ajoutées ou enlevées. L'arbre rafraîchira l'affichage de la zone affectée. Vous n'avez pas 
 besoin d'appeler la fonction <code>rowCountChanged</code> lorsqu'une ligne a simplement été 
 modifiée, comme par exemple lors du changement du libellé d'une cellule. Dans ce cas, d'autres 
@@ -71,12 +71,12 @@ l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">t
 pour définir que seulement quatre lignes sont affichées à la fois. Ainsi, il est plus facile 
 de se représenter l'exemple. Notez également que la première ligne commence à <var>0</var>.</p>
 
-<p>La fonction doScroll récupère l'objet de boîte et appelle la fonction <code>scrollToRow</code> 
+<p>La fonction <code>doScroll</code> récupère l'objet de boîte et appelle la fonction <code>scrollToRow</code> 
 avec comme argument la valeur saisie dans le champ texte. Vous noterez que l'objet de boîte 
 d'arbre peut être obtenu de la même manière qu'avec d'autres objets de boîte, en utilisant la 
 propriété <code>boxObject</code>, mais nous devons toutefois appeler <code>QueryInterface</code> 
 pour invoquer l'objet de boîte très spécifique qu'est l'arbre. Les fonctions les plus générales 
-de l'objet de boîte sont également disponible pour les arbres.</p>
+de l'objet de boîte sont également disponibles pour les arbres.</p>
 
 <p>Les méthodes supplémentaires de défilement incluent les fonctions <code>scrollByLines</code>, 
 <code>scrollByPages</code>, et <code>ensureRowIsVisible</code>. la fonction <code>scrollByLines</code> 
@@ -192,8 +192,8 @@ Si les coordonnées ne sont pas au dessus d'une ligne de l'arbre, la valeur <code
 sera égale à <var>-1</var>. La variable column est un objet <code>column</code> tel que 
 défini dans Mozilla 1.8 et supérieur. <!-- Alain B: Bizarre, la version actuelle de Mozilla n'est que la 1.7.x --> 
 Dans les versions plus anciennes, les colonnes étaient identifiées avec un chaîne de 
-caractères, l'identifiant <code class="attribut">id</code> de la colonne. Avec les version 
-plus récente, un objet séparé de colonne existe et permet de réalise des requêtes sur les données en colonne.</p>
+caractères, l'identifiant <code class="attribut">id</code> de la colonne. Avec les versions 
+plus récentes, un objet séparé de colonne existe et permet de réaliser des requêtes sur les données en colonne.</p>
 
 <p>La ligne suivante est utilisée pour que l'exemple ci-dessus puisse fonctionner avec toutes les versions.</p>
 
@@ -227,10 +227,10 @@ tree.boxObject.getCoordsForCellItem( row, column, part, x, y, width, height );
 
 <p>Les arguments 'row', 'column' et 'part' sont similaires à ceux retournés par la fonction 
 <code>getCellAt</code>. De nouveau, l'argument column doit soit être une chaîne de caractères, 
-ou soit un objet column, selon la version que vous utilisez. Le type de la zone de la cellule 
-peut être utilisé pour obtenir les coordonnées, soit du texte, de toute la cellule, de la 
-poignée ou de l'image dans la cellule. Les mêmes valeurs que la fonction <code>getCellAt</code> 
-sont utilisées. La fonction <code>getCoordsForCellItem</code> retourne au travers des arguments 
+ou soit être un objet column, selon la version que vous utilisez. Le type de la zone de la cellule 
+peut être utilisé pour obtenir les coordonnées, soit du texte, soit de toute la cellule, soit de la 
+poignée ou soit de l'image dans la cellule. Les mêmes valeurs que la fonction <code>getCellAt</code> 
+sont utilisées. La fonction <code>getCoordsForCellItem</code> retourne, au travers des arguments 
 passés en référence, les coordonnées x et y accompagnées de la largeur et la hauteur.</p>
 
 <hr />
