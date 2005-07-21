@@ -1,15 +1,14 @@
 
-
 <p>XUL possède des éléments qui sont similaires aux champs de formulaires du HTML.</p>
 
 <h2>Les champs de saisie de texte</h2>
 
 <p>Le HTML possède une balise <code class="tag">input</code> pouvant être
 utilisée comme champ de saisie de texte. XUL possède un élément similaire,
-<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a>,
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>,
 utilisé comme champ de saisie de texte.
 Sans aucun attribut, l'élément
-<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a> crée une
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code> crée une
 boîte dans laquelle l'utilisateur peut entrer du texte. Les boîtes de texte
 acceptent plusieurs attributs similaires à la balise <code class="tag">input</code>
 de l'HTML. En voici quelques uns&nbsp;:</p>
@@ -59,7 +58,7 @@ chaque type de champs en XUL. L'exemple suivant montre quelques boîtes de texte&
 peuvent être utilisés que pour la saisie d'une seule ligne de texte. Le HTML possède aussi
 un élément <code class="tag">textarea</code> pour créer une zone de saisie plus grande.
 Dans XUL, vous pouvez utiliser l'élément
-<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a> de la même fa&ccedil;on -- deux éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code> de la même façon -- deux éléments
 distincts ne sont pas nécessaires. Si vous mettez l'attribut
 <code class="attribut">multiline</code> à la valeur <var>true</var>,
 le champ de saisie de texte affichera plusieurs lignes.</p>
@@ -82,7 +81,10 @@ le nombre de lignes et de colonnes de caractères à afficher.</p>
 <div class="task">
 <p>Maintenant, ajoutons un champ de saisie de recherche à la boîte de
 dialogue de recherche de fichiers. Nous allons utiliser l'élément
-<a href="http://xulfr.org/wiki/Reference/Xul/textbox"><code class="tag">textbox</code></a>.</p>
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>.</p>
+
+<p><a href="exemples/findfile/findfile-inputs.xul.txt">Source</a>
+<a onclick="window.open(this.href,'xulff','chrome,resizable'); return false;" href="exemples/findfile/findfile-inputs.xul">Voir</a></p>
 
 <code><pre><strong>&lt;label value="Chercher :" control="find-text"/&gt;
 &lt;textbox id="find-text"/&gt;</strong>
@@ -93,7 +95,7 @@ dialogue de recherche de fichiers. Nous allons utiliser l'élément
 Si vous ouvrez cette fenêtre, vous verrez quelque chose ressemblant à 
 l'image ci-dessous.</p>
 
-<p><img alt="" src="images/inputs1.png"  class="screenshot-right" />
+<p><img alt="" src="images/inputs1.png" class="screenshot-right" />
 Notez que l'étiquette et le champ de saisie de texte sont maintenant apparus dans
 la fenêtre. La boîte de texte est complètement fonctionnelle et vous pouvez taper
 et sélectionner du texte dedans. Notez aussi que l'attribut
@@ -139,8 +141,7 @@ sélectionné dans un <code class="tag"><a href="http://xulfr.org/wiki/Reference/X
 Cliquer sur l'un deux désélectionnera tous les autres du même groupe. C'est ce que démontre
 l'exemple suivant.</p>
 
-
-<p>Exemple 2.4.3:
+<p>Exemple 2.4.3&nbsp;:
 <a href="exemples/ex_inputs_3.xul.txt">Source</a>
 <a onclick="window.open(this.href,'xulex','chrome,resizable'); return false;"
 href="exemples/ex_inputs_3.xul">Voir</a></p>
@@ -174,9 +175,4 @@ Les cases à cocher ont certains attributs communs aux boutons&nbsp;:
 
 <p>Dans la prochaine section, nous allons voir quelques éléments pour la création de
 boîtes de listes.</p>
-
-
-<p>L'exemple de recherche de fichier jusqu'à maintenant&nbsp;:
-<a href="exemples/findfile/findfile-inputs.xul.txt">Source</a>
-<a onclick="window.open(this.href,'xulff','chrome,resizable'); return false;" href="exemples/findfile/findfile-inputs.xul">Voir</a></p>
 
