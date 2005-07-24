@@ -21,7 +21,7 @@ stockés dans des sous-répertoires différents.
   décrit le paquetage. Ce fichier sera placé dans le fichier JAR
   au côté des fichiers qu'il décrit. Le fichier doit s'appeler
   contents.rdf et être un fichier au format RDF (Resource Description Framework).
-  Nous en apprendront plus à propos de RDF ultérieurement.</p>
+  Nous en apprendrons plus à propos de RDF ultérieurement.</p>
 
 <h2>Les fichiers contents.rdf</h2>
 
@@ -177,8 +177,8 @@ ces valeurs sont ajoutées dans le registre chrome.</p>
 
     <h2>Installer un Paquetage</h2>
 
-    <p>La liste des paquetages installés est enregistrée dans le fichier chrome.rdf du le répertoire
-      chrome. Vous devriez ne pas modifier ce fichier directement.
+    <p>La liste des paquetages installés est enregistrée dans le fichier chrome.rdf du répertoire
+      chrome. Vous ne devriez pas modifier ce fichier directement.
       Il est modifié automatiquement quand vous installez un nouveau paquetage.
       Comme pour les fichiers contents.rdf, c'est un fichier au format RDF. À
       première vue, il a l'air tout à fait différent des
@@ -224,7 +224,7 @@ skin,install,url,resource:/chrome/findfile/skin/findfile/</code></pre>
         <dd>Mettez le texte <var>install</var> pour que cette entrée soit installée.
         Pour les thèmes et les localisations, vous pouvez aussi mettre <var>profile</var>
         à la place pour installer cette entrée dans le répertoire
-        profil de l'utilisateur. Elle ne sera installée et déclarée que 
+        profil de l'utilisateur. Elle ne sera installée et déclarée que
         pour un utilisateur en particulier.</dd>
       <dt><code class="attribut">Type d'URL</code></dt>
         <dd>Mettez le texte <var>url</var> pour spécifier une URL indiquant où le
@@ -355,7 +355,7 @@ content,install,url,<strong>file:///main/app/</strong>.
        <li>Effacez le fichier
    &lt;mozilla-directory&gt;/chrome/chrome.rdf .</li>
        <li> Démarrer Mozilla. Vous devriez pouvoir voir n'importe quel fichier que vous mettez
-       dans le répertoire en utilisant une URL de la forme <code>chrome://<strong>applicationid</strong>/content/fichier.xul</code>, 
+       dans le répertoire en utilisant une URL de la forme <code>chrome://<strong>applicationid</strong>/content/fichier.xul</code>,
        où fichier.xul est le nom du fichier. Votre fichier principal xul doit être applicationid.xul ce qui
        vous permet de le charger en utilisant le raccourci <code>chrome://<strong>applicationid</strong>/content/</code>.</li>
 </ol>

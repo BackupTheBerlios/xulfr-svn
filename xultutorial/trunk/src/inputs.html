@@ -41,7 +41,9 @@ de mot de passe.</dd>
 <p class="note">
 Notez que, tandis qu'en HTML différentes sortes de champs peuvent être créées avec
 l'élément <code class="tag">input</code>, il y a un élément différent pour
-chaque type de champs en XUL. L'exemple suivant montre quelques boîtes de texte&nbsp;:</p>
+chaque type de champs en XUL.</p>
+
+<p>L'exemple suivant montre quelques boîtes de texte&nbsp;:</p>
 
 <p>Exemple 2.4.1&nbsp;:
 <a href="exemples/ex_inputs_1.xul.txt">Source</a>
@@ -92,7 +94,7 @@ dialogue de recherche de fichiers. Nous allons utiliser l'élément
 &lt;button id="find-button" label="Rechercher"/&gt;</pre></code>
 
 <p>Ajoutez ces lignes avant les boutons que nous avons créés dans la section précédente.
-Si vous ouvrez cette fenêtre, vous verrez quelque chose ressemblant à 
+Si vous ouvrez cette fenêtre, vous verrez quelque chose ressemblant à
 l'image ci-dessous.</p>
 
 <p><img alt="" src="images/inputs1.png" class="screenshot-right" />
@@ -114,16 +116,16 @@ boutons où un seul d'entre eux peut-être sélectionné à la fois.</p>
 <p>Vous pouvez employer la plupart des attributs des boutons avec les cases à
 cocher et les boutons radio. L'exemple ci-dessous montre des cases à cocher et
 boutons radio simples.</p>
-   
+
 
 <code><pre>&lt;checkbox id="case-sensitive" checked="true" label="Sensible à la casse"/&gt;
 &lt;radio id="orange" label="Orange"/&gt;
 &lt;radio id="violet" selected="true" label="Violet"/&gt;
 &lt;radio id="yellow" label="Jaune"/&gt;</pre></code>
 
-<p>La première ligne crée une simple case à cocher. Quand 
-  l'utilisateur clique sur la case à cocher, son état coché et décoché s'inverse. 
-  L'attribut <code class="attribut">checked</code> peut 
+<p>La première ligne crée une simple case à cocher. Quand
+  l'utilisateur clique sur la case à cocher, son état coché et décoché s'inverse.
+  L'attribut <code class="attribut">checked</code> peut
   être utilisé pour indiquer l'état par défaut. Il
   vous faudra l'initialiser soit à <var>true</var>, soit
   à <var>false</var>. L'attribut <code class="attribut">label</code>
@@ -135,7 +137,7 @@ boutons radio simples.</p>
   par défaut, ou ne le mettez pas pour les autres boutons radio.</p>
 
 <p>Pour grouper des boutons radio, vous avez besoin d'utiliser l'élément
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>. 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>.
 Un seul bouton radio peut-être
 sélectionné dans un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>.
 Cliquer sur l'un deux désélectionnera tous les autres du même groupe. C'est ce que démontre
@@ -153,8 +155,8 @@ href="exemples/ex_inputs_3.xul">Voir</a></p>
 &lt;/radiogroup&gt;</pre></code>
 
 <p>
-Comme pour les boutons, les cases à cocher et les boutons radio sont constitués 
-d'un libellé et d'une image, où l'image change en fonction de l'état coché ou décoché. 
+Comme pour les boutons, les cases à cocher et les boutons radio sont constitués
+d'un libellé et d'une image, où l'image change en fonction de l'état coché ou décoché.
 Les cases à cocher ont certains attributs communs aux boutons&nbsp;:
 </p>
 
