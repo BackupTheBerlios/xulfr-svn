@@ -1,5 +1,4 @@
 
-
 <p>Cette section décrit la façon d'inclure des éléments dans des groupes.</p>
 
 <h2>Les boîtes de groupes</h2>
@@ -35,19 +34,20 @@ Il fonctionne comme l'élément HTML <code class="tag">legend</code>.
 Un simple élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/caption">caption</a></code>
 placé en tant que première balise fille est suffisant.</p>
 
-<p>L'exemple ci-dessous montre un code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> simple&nbsp;:</p>
-<p>Exemple 3.4.1&nbsp;
+<p>L'exemple ci-dessous montre un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> simple&nbsp;:</p>
+
+<p>Exemple 3.4.1&nbsp;:
 <a href="exemples/ex_titledbox_1.xul.txt">Source</a>
 <a href="exemples/ex_titledbox_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
 </p>
 
-<pre><code>&lt;groupbox>
-  &lt;caption label="Réponse"/>
-  &lt;description value="Banane"/>
-  &lt;description value="Mandarine"/>
-  &lt;description value="Cabine téléphonique"/>
-  &lt;description value="Kiwi"/>
-&lt;/groupbox>
+<pre><code>&lt;groupbox&gt;
+  &lt;caption label="Réponse"/&gt;
+  &lt;description value="Banane"/&gt;
+  &lt;description value="Mandarine"/&gt;
+  &lt;description value="Cabine téléphonique"/&gt;
+  &lt;description value="Kiwi"/&gt;
+&lt;/groupbox&gt;
 </code></pre>
 
 <p><img src="images/titledbox1.png" alt="" class="screenshot-right" />
@@ -62,21 +62,21 @@ le panneau de préférence des polices de caractères de mozilla utilise un liste d
 Bien que vous puissiez utiliser n'importe quel contenu, vous utiliserez la plupart du temps
 une case à cocher ou une liste déroulante.</p>
 
-<p>Exemple 3.4.2&nbsp;
+<p>Exemple 3.4.2&nbsp;:
 <a href="exemples/ex_titledbox_2.xul.txt">Source</a>
 <a href="exemples/ex_titledbox_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
 </p>
 
-<pre><code>&lt;groupbox flex="1">
-  &lt;caption>
-    &lt;checkbox label="Activer la sauvegarde"/>
-  &lt;/caption>
-  &lt;hbox>
-    &lt;label control="dir" value="Répertoire :"/>
-    &lt;textbox id="dir" flex="1"/>
-  &lt;/hbox>
-  &lt;checkbox label="Compresser les fichiers archivés"/>
-&lt;/groupbox>
+<pre><code>&lt;groupbox flex="1"&gt;
+  &lt;caption&gt;
+    &lt;checkbox label="Activer la sauvegarde"/&gt;
+  &lt;/caption&gt;
+  &lt;hbox&gt;
+    &lt;label control="dir" value="Répertoire :"/&gt;
+    &lt;textbox id="dir" flex="1"/&gt;
+  &lt;/hbox&gt;
+  &lt;checkbox label="Compresser les fichiers archivés"/&gt;
+&lt;/groupbox&gt;
 </code></pre>
 
 <p><img src="images/groupbox2.png" alt="" class="screenshot-right" />
@@ -100,19 +100,19 @@ seront groupés ensemble, même s'ils sont à l'intérieur de boîtes imbriquées.
 Ce fonctionnement est utilisé pour ajouter des éléments supplémentaires à l'intérieur de
 la structure, comme dans l'exemple suivant&nbsp;:</p>
 
-<p>Exemple 3.4.3&nbsp;
+<p>Exemple 3.4.3&nbsp;:
 <a href="exemples/ex_titledbox_3.xul.txt">Source</a>
 <a href="exemples/ex_titledbox_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
 </p>
 
-<pre><code>&lt;radiogroup>
-  &lt;radio id="no" value="no" label="Pas de nombre"/>
-  &lt;radio id="random" value="random" label="Nombre aléatoire"/>
-  &lt;hbox>
-    &lt;radio id="specify" value="specify" label="Nombre spécifique :"/>
-    &lt;textbox id="specificnumber"/>
-  &lt;/hbox>
-&lt;/radiogroup>
+<pre><code>&lt;radiogroup&gt;
+  &lt;radio id="no" value="no" label="Pas de nombre"/&gt;
+  &lt;radio id="random" value="random" label="Nombre aléatoire"/&gt;
+  &lt;hbox&gt;
+    &lt;radio id="specify" value="specify" label="Nombre spécifique :"/&gt;
+    &lt;textbox id="specificnumber"/&gt;
+  &lt;/hbox&gt;
+&lt;/radiogroup&gt;
 </code></pre>
 
 <p class="note">Notez que l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code> n'a pas de bordure.
@@ -122,5 +122,3 @@ autour si vous voulez une bordure et une légende.</p>
 
 <p>Maintenant, nous allons utiliser tout ce que nous avons appris pour ajouter des éléments
 supplémentaires dans la boîte de dialogue de recherche de fichiers.</p>
-
-
