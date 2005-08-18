@@ -192,8 +192,8 @@ ob_clean();
 
 
     $page_url_from='src/'.$basename.'.html';
-    //$page_url_to='builds/'.$basename.'.html';
-    $page_url_to='../../../../../www/xulplanet/mozsdk_svn/'.$basename.'.html';
+    $page_url_to='builds/'.$basename.'.html';
+    //$page_url_to='../../../../../www/xulplanet/mozsdk_svn/'.$basename.'.html';
     $file = implode('',file($page_url_from));
 
     if($basename == 'index'){
