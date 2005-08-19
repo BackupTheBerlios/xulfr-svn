@@ -1,0 +1,24 @@
+
+<p>Dans cet exemple, nous parcourons un prédicat plutôt que les enfants d'un container. Et plutôt que d'utiliser un attribut <code class="attribut">containment</code>, nous utilisons ici simplement un <code class="tag">triple</code>.</p>
+
+<p><a href="templates/predicate-iterate-triple.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans/robert"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;triple subject="?uri"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                  object="?child"/&gt;
+          &lt;triple subject="?child"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?child" value="?name"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

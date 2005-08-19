@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="descend-parentattribute"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<vbox align="start" datasources="animals.rdf"
+      ref="http://www.some-fictitious-zoo.com/all-animals"
+      xmlns:animals="http://www.some-fictitious-zoo.com/rdf#">
+  <template>
+    <rule iscontainer="true" animals:name="Mammifère">
+      <button type="menu" uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+    </rule>
+    <rule iscontainer="true">
+      <hbox uri="rdf:*">
+        <label class="header" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+      </hbox>
+    </rule>
+    <rule parent="button">
+      <menupopup>
+        <menuitem uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+      </menupopup>
+    </rule>
+    <rule>
+      <label class="indent" uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+    </rule>
+  </template>
+</vbox>
+
+</vbox>
+
+</window>

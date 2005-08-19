@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="mousexy" title="Position de la souris"
+        onmousemove="adjustCoords(event);"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function adjustCoords(event)
+{
+  var pos=document.getElementById("pos");
+
+  // Utilisez les propriétés clientX et clientY pour obtenir
+  // la position de la souris par rapport à la fenêtre. L'objet event
+  // est passé à cette fonction en argument.
+  var lbl="Sur la fenêtre: " + "(" + event.clientX + "," + event.clientY + ")";
+
+  // Calcul la position de la souris survolant un élément.
+  // Pour cela, soustraire la position de l'élément de la position de la souris.
+  // La position de l'élément peut être déterminée grâce à son boxObject.
+  var offsetX = (event.clientX - event.target.boxObject.x);
+  var offsetY = (event.clientY - event.target.boxObject.y);
+
+  // Assigner les offsets au texte du libellé.
+  lbl+=" par rapport à: " + event.target.tagName + "(" + offsetX + "," + offsetY + ")";
+  pos.setAttribute("value",lbl);
+}
+</script>
+
+<label id="pos" value=" "/>
+
+<hbox>
+  <label value="Entrez du texte :"/><textbox/>
+  <button label="OK"/>
+</hbox>
+
+<listbox>
+  <listitem label="Document"/>
+  <listitem label="Image"/>
+  <listitem label="Vidéo"/>
+  <listitem label="Audio"/>
+</listbox>
+
+</window>

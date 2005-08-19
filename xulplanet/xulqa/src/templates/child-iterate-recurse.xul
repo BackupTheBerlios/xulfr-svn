@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="child-iterate-recurse"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals">
+  <template>
+    <rule>
+      <conditions>
+          <content uri="?uri"/>
+          <member container="?uri" child="?animal"/>
+          <triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/>
+      </conditions>
+      <action>
+        <vbox uri="?animal" style="border: 1px solid grey; margin: 1em;">
+          <label value="?name"/>
+        </vbox>
+      </action>
+    </rule>
+  </template>
+</vbox>
+
+</vbox>
+
+</window>

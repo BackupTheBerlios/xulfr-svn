@@ -1,0 +1,20 @@
+
+<p>Cet exemple montre comment créer une boîte de liste avec des colonnes multiples. Chaque colonne affiche la valeur pour un prédicat différent. Les colonnes sont définies en dehors du gabarit mais elles seront ajoutées à l'intérieur de la boîte de liste.</p>
+
+<p><a href="templates/listbox-multicolumn-iterate.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;listbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals"&gt;
+  &lt;listcols&gt;
+    &lt;listcol flex="1"/&gt;
+    &lt;listcol flex="1"/&gt;
+    &lt;listcol flex="1"/&gt;
+  &lt;/listcols&gt;
+  &lt;template&gt;
+    &lt;listitem uri="rdf:*"&gt;
+      &lt;listcell label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+      &lt;listcell label="rdf:http://www.some-fictitious-zoo.com/rdf#species"/&gt;
+      &lt;listcell label="rdf:http://www.some-fictitious-zoo.com/rdf#specimens"/&gt;
+    &lt;/listitem&gt;
+  &lt;/template&gt;
+&lt;/listbox&gt;</code></pre>

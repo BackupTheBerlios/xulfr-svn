@@ -1,0 +1,4 @@
+
+<p>XUL et HTML ont exactement les mêmes permissions avec le respect des opérations réalisables et celles qui ne le sont pas. La seule manière d'exécuter du code nécessitant des privilèges, par exemple de lire les marque-pages de l'utilisateur ou des fichiers du disque dur, est de signer le code avec une signature numérique, ou d'avoir installé le code dans le chrome.</p>
+
+<p>Les fichiers XUL chargés à partir du système de fichiers local sans être chargés depuis le chrome (c'est-à-dire, chargé à partir de file: URL) ont les mêmes permissions que les XUL distants. Seul les fichiers XUL chargés depuis une adresse chrome: URL obtiennent des permissions spéciales. Les mêmes restrictions s'appliquent également à n'importe quel autre type de contenu, par exemple si vous souhaitez charger du HTML depuis le chrome, il aurait les pleines permissions.</p>

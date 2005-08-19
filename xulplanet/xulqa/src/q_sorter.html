@@ -1,0 +1,48 @@
+
+<p>Vous pouvez trier des données dès lors qu'elles sont générées en RDF. Il est habituel de trier du contenu dans un arbre, toutefois vous pouvez trier n'importe quel contenu généré depuis un gabarit.</p>
+
+<p>Vous pouvez utiliser l'attribut <code class="attribut">sortResource</code> pour spécifier la ressource à trier. Utilisez l'attribut <code class="attribut">sortDirection</code> pour spécifier l'ordre du trie. Ces deux attributs doivent être présent pour le trie des données.</p>
+
+<p>L'exemple suivant montre le trie de contenu&nbsp;:</p>
+
+<a href="templates/sorter.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="sort-window" title="Exemple de trie"
+   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;script&gt;
+function changeSort()
+{
+  <strong>// récupère la boîte à trier</strong>
+  var box = document.getElementById("info");
+
+  <strong>// si l'ordre du trie est décroissant, il est modifié en croissant.
+  // Sinon, il est définit en décroissant.</strong>
+  if (box.getAttribute("sortDirection") == "descending")
+    box.setAttribute("sortDirection","ascending");
+  else box.setAttribute("sortDirection","descending");
+
+  <strong>// vous devez reconstruire le contenu après la modification des informations de trie</strong>
+  box.builder.rebuild();
+}
+&lt;/script&gt;
+
+&lt;button label="Inverse" oncommand="changeSort();"/&gt;
+
+&lt;vbox id="info" datasources="animals.rdf"
+      ref="http://www.some-fictitious-zoo.com/mammals" flex="1"
+      sortResource="http://www.some-fictitious-zoo.com/rdf#name" sortDirection="ascending"&gt;
+  &lt;template&gt;
+    &lt;label uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;
+
+&lt;/window&gt;
+</code></pre>
+
+<p>Dans cet exemple, les données sont triées par nom (name), comme indiqué par l'attribut <code class="attribut">sortResource</code>. Toutefois, n'importe quelle propriété peut être utilisée même si elle n'est pas affichée.</p>

@@ -1,0 +1,24 @@
+
+<p>Dans cet exemple, une grille est générée. La première règle trouve les conteneurs et génère une ligne pour chacune des cinq races d'animaux. Le libellé de la race d'un animal sera mise en gras grâce à une classe de style <var>header</var>. La seconde règle génère un libellé pour chaque noeud enfant. Les libellés sont placés dans l'élément conteneur avec l'attribut <code class="attribut">uri</code> qui ici est une ligne. Le résultat est une série de libellés sur une ligne. Notez qu'une seule colonne a été déclarée à la grille, car le résultat pouvant s'afficher sur un nombre indéterminé de colonne, le mécanisme interne d'affichage de la grille se chargera d'en ajouter le nombre nécessaire.</p>
+
+<p><a href="templates/child-cross-grid.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;grid&gt;
+  &lt;columns&gt;
+    &lt;column/&gt;
+  &lt;/columns&gt;
+
+  &lt;rows datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+    &lt;template&gt;
+      &lt;rule iscontainer="true"&gt;
+        &lt;row uri="rdf:*"&gt;
+          &lt;label class="header" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+        &lt;/row&gt;
+      &lt;/rule&gt;
+      &lt;rule&gt;
+        &lt;label uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+      &lt;/rule&gt;
+    &lt;/template&gt;
+  &lt;/rows&gt;
+&lt;/grid&gt;</code></pre>

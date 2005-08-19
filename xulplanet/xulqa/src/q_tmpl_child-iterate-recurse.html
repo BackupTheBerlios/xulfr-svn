@@ -1,0 +1,24 @@
+
+<p>Ce gabarit parcourt une liste d'enfants mais le fait récursivement. Tout d'abord, il génère une liste d'enfants, et ensuite pour chaque noeud, il répète le gabarit pour obtenir les petits-fils des noeuds. La mise en oeuvre nécessite un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code> puisque les éléments imbriqués sont ajoutés comme enfants de la balise avec l'attribut <code class="attribut">uri</code>. Si nous utilisions le libellé à la place, les items imbriqués seraient générés comme enfants du libellé et ils ne s'afficheraient pas à l'écran. Quelques règles de styles ont été utilisées pour montrer la structure du contenu généré.</p>
+
+<p><a href="templates/child-iterate-recurse.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?animal"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;vbox uri="?animal" style="border: 1px solid grey; margin: 1em;"&gt;
+          &lt;label value="?name"/&gt;
+        &lt;/vbox&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

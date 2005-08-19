@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="child-cross-grid"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<grid>
+  <columns>
+    <column/>
+  </columns>
+
+  <rows datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals">
+    <template>
+      <rule iscontainer="true">
+        <row uri="rdf:*">
+          <label class="header" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+        </row>
+      </rule>
+      <rule>
+        <label uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+      </rule>
+    </template>
+  </rows>
+</grid>
+
+
+</vbox>
+
+</window>

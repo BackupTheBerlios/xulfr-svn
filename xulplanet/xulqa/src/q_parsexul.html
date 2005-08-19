@@ -1,0 +1,81 @@
+
+<p>Parfois, vous avez une chaîne de caractères de XUL, soit saisie par l'utilisateur, ou soit transmise par le serveur distant, que vous souhaitez interpréter comme du XUL et l'afficher. Dans ce cas, vous ne pouvez pas utiliser les méthodes d'insertion du DOM mais vous devez interpréter le contenu XUL.</p>
+
+<p>Il y a plusieurs possibilités. Tout d'abord, si le XUL à interpréter contient un document entier, vous pouvez simplement le charger dans un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>. Vous pouvez faire abstraction du cadre et utiliser les fonctions DOM pour récupérer des pièces du document XUL.</p>
+
+<p>Une autre méthode mieux adaptée aux courts fragments de XUL consiste à utiliser l'objet <code>DOMParser</code> pour interpréter la chaîne XUL&nbsp;:</p>
+
+<pre><code>
+var xulString="&lt;button label='Bonjour'
+               xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'/&gt;">
+
+var parser=new DOMParser();
+var resultDoc=parser.parseFromString(xulString,"text/xml");
+
+document.appendChild(resultDoc.documentElement);
+</code></pre>
+
+<p>L'objet <code>DOMParser</code> interprète une chaîne d'un document entier, toutefois vous pouvez également l'utiliser pour interpréter n'importe quel fragment comme indiqué plus haut.</p>
+
+<p>Vous devez vous assurer que vous déclarez les éléments avec un espace de nommage correct, sinon ils seront simplement traités comme des éléments XML. Comme les documents ne peuvent contenir qu'un seul noeud de niveau supérieur, si vous désirez interpréter plusieurs éléments, vous devrez les inclure dans un unique élément tel qu'une boîte. Vous pourrez ensuite utiliser des fonctions DOM pour n'extraire que les pièces dont vous aurez besoin. Lorsque vous travaillerez avec le document interprété, vous pourrez obtenir le noeud de niveau supérieur grâce à la propriété <code>documentElement</code> du document.</p>
+
+<p>Voici un exemple qui permet la saisie d'un contenu XUL quelconque qui sera interprété et affiché&nbsp;:</p>
+
+<a href="templates/parsexul2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="xulParser" title="Interpréteur XUL" align="start"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;script&gt;
+function parseXUL()
+{
+  <strong>// obtenir le contenu du champ de saisie</strong>
+  var xulData=document.getElementById("xulData").value;
+
+  <strong>// vérifie que du contenu n'ait pas déjà été ajouté auparavant.
+  // Dans ce cas, nous effaçons le contenu existant avant d'ajouter l'autre.</strong>
+  var existBox=document.getElementById("dataBox");
+  if (existBox) existBox.parentNode.removeChild(existBox);
+
+  <strong>// encapsule le contenu dans une boîte. C'est nécessaire au cas
+  // où l'utilisateur entre plusieurs noeuds de niveau supérieur.
+  // Nous déclarons également l'espace de nommage afin que l'utilisateur
+  // n'ait pas à le faire lui-même.</strong>
+  xulData="&lt;box id='dataBox' " +
+          "xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'&gt;" +
+          xulData + "&lt;/box&gt;";
+
+  <strong>// crée un nouvel objet DOMParser et interprétre le contenu.
+  // La fonction parseFromString prend deux arguments, la chaîne à interpréter
+  // et le type de contenu. Actuellement, Mozilla ne supporte que HTML et XML
+  // au travers de DOMParser, donc des fonctionnalités qui nécessiteraient
+  // un document XUL tel que des gabarits ou des overlays ne fonctionneraient
+  // pas avec cette méthode.</strong>
+  var parser=new DOMParser();
+  var resultDoc=parser.parseFromString(xulData,"text/xml");
+
+  <strong>// si le noeud de niveau supérieur du document interprété se nomme
+  // <var>parsererror</var>, cela signifie que le XML n'a pas été bien formé.</strong>
+  if (resultDoc.documentElement.tagName == "parsererror")
+    alert("Erreur d'interprétation");
+
+  <strong>// si aucune erreur ne se produit, récupèrer la propriété
+  // documentElement du document interprété et l'ajouter à la fin de la fenêtre.</strong>
+  else document.documentElement.appendChild(resultDoc.documentElement);
+}
+  
+&lt;/script&gt;
+
+&lt;label value="Entrez du code XUL :"/&gt;
+&lt;textbox id="xulData" multiline="true" rows="10" cols="60"/&gt;
+&lt;button label="Interpréter" oncommand="parseXUL();"/&gt;
+
+&lt;/window&gt;
+</code></pre>
+
+<p class="note">Notez que l'emploi de <code>DOMParser</code> utilise simplement un interpréteur XML générique qui ne gère pas les gabarits ou les overlays et bien d'autres choses. Si vous devez gérer ces fonctionnalités, vous devrez utiliser un cadre <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>.</p>
+

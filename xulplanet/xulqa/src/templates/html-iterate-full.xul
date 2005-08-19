@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="html-iterate-full"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<html:div datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals"
+          xmlns:html="http://www.w3.org/1999/xhtml">
+  <template>
+    <rule>
+      <conditions>
+          <content uri="?uri"/>
+          <member container="?uri" child="?animal"/>
+          <triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/>
+          <triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#species"
+                  object="?species"/>
+      </conditions>
+      <action>
+        <html:p uri="?animal">
+          <textnode value="?name"/>
+          (<html:em>
+            <textnode value="?species"/>
+          </html:em>)
+        </html:p>
+      </action>
+    </rule>
+  </template>
+</html:div>
+
+</vbox>
+
+</window>

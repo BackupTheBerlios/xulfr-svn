@@ -1,0 +1,28 @@
+
+<p>Ici, nous voulons déterminer parmi les animaux favoris de Robert lesquels sont des reptiles. Il y a plusieurs façon de procéder. Dans ce cas, nous récupérons d'abord la liste des animaux favoris, et utilisons ensuite une balise <code class="tag">member</code> pour aller sur le noeud parent reptile. Nous avons besoin de comparer les reptiles au non reptiles par nom puisque la balise <code class="tag">member</code> ne peut utiliser que des variables.</p>
+
+<p><a href="templates/predicate-iterate-conditional-parent.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans/robert"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;triple subject="?uri"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                  object="?favoriteAnimal"/&gt;
+          &lt;member container="?reptiles" child="?favoriteAnimal"/&gt;
+          &lt;triple subject="?favoriteAnimal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+          &lt;triple subject="?reptiles"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="Reptiles"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?favoriteAnimal" value="?name"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

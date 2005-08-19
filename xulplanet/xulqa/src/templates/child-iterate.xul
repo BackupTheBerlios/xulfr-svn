@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="child-iterate"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals">
+  <template>
+    <label uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+  </template>
+</vbox>
+
+</vbox>
+
+</window>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:things="http://www.xulplanet.com/rdf/example#">
+
+   <RDF:Description about="urn:things:kitchen" things:name="Cuisine"/>
+   <RDF:Description about="urn:things:bedroom" things:name="Chambre"/>
+   <RDF:Description about="urn:things:basement" things:name="Cave"/>
+
+   <RDF:Description about="urn:things:toaster" things:name="Grille-pain" things:material="Aluminum"/>
+   <RDF:Description about="urn:things:sink" things:name="Évier" things:material="Acier"/>
+   <RDF:Description about="urn:things:spicerack" things:name="Porte épices" things:material="Cèdre"/>
+   <RDF:Description about="urn:things:bed" things:name="Lit" things:material="Chêne"/>
+   <RDF:Description about="urn:things:lavalamp" things:name="Lampe de lave" things:material="Lave"/>
+   <RDF:Description about="urn:things:junk" things:name="Bric-à-Brac" things:material="Inconnu"/>
+   <RDF:Description about="urn:things:morejunk" things:name="D'autres choses" things:material="Inconnu"/>
+   <RDF:Description about="urn:things:coffin" things:name="Cercueil" things:material="Pin"/>
+
+  <RDF:Seq about="urn:things:root">
+    <RDF:li>
+      <RDF:Seq about="urn:things:kitchen">
+        <RDF:li resource="urn:things:toaster"/>
+        <RDF:li resource="urn:things:sink"/>
+        <RDF:li resource="urn:things:spicerack"/>
+       </RDF:Seq>
+       <RDF:Seq about="urn:things:bedroom">
+         <RDF:li resource="urn:things:bed"/>
+         <RDF:li resource="urn:things:lavalamp"/>
+       </RDF:Seq>
+       <RDF:Seq about="urn:things:basement">
+         <RDF:li resource="urn:things:junk"/>
+         <RDF:li resource="urn:things:morejunk"/>
+         <RDF:li resource="urn:things:coffin"/>
+       </RDF:Seq>
+    </RDF:li>
+  </RDF:Seq>
+
+</RDF:RDF>

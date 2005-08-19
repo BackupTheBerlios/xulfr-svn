@@ -1,0 +1,6 @@
+
+<p>Cette erreur survient lorsqu'un script ne dispose pas de suffisamment de permission pour accéder à un composant XPCOM. Pour certaines raisons, Mozilla utilise UnnamedClass pour se référer à un objet composant. Dans les faits, l'erreur devrait être "Permission refusée d'obtenir la propriété Components.classes".</p>
+
+<p>Vous serez incapable de créer ou d'appeler des composants XPCOM avec un code sans privilèges comme c'est le cas sur un site distant. Vous devrez signer le code dans ce cas. Les fichiers installés dans le chrome ne génèrent pas cette erreur.</p>
+
+<p>Vous pouvez également obtenir cette erreur si le XBL sous-jacent implémente un élément qui tente d'appeler un composant XPCOM. Vous ne devriez pas rencontrer cette situation. Ainsi, vous ne pouvez pas appeler les scripts des fonctionnalités du presse-papiers ou du glisser-déposer depuis un site distant.</p>

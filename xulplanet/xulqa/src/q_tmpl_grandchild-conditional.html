@@ -1,0 +1,26 @@
+
+<p>Dans cet exemple, nous essayons de récupérer la race de <var>Lama</var>. Une condition est utilisée avec le petit fils du noeud qui est restreint au seul objet <var>Lama</var>. Toutefois, la base est parcourue sur l'enfant, et non le petit enfant, comme indiqué par <code>uri="?child"</code> dans la section <code class="tag">action</code>.</p>
+
+<p><a href="templates/grandchild-conditional.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?child"/&gt;
+          &lt;triple subject="?child"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+          &lt;member container="?child" child="?grandchild"/&gt;
+          &lt;triple subject="?grandchild"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="Lama"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?child" value="?name"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

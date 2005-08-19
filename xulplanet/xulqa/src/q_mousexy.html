@@ -1,0 +1,58 @@
+
+<p>Lorsqu'un gestionnaire d'évènement tel que <code>mousedown</code> ou <mousemove</code> est appelé, plusieurs propriétés relatives à la position de la souris peuvent être appelées. Vous pouvez obtenir la position du pointeur de la souris à l'endroit de la fenêtre où s'est produit l'évènement en utilisant les propriétés <code class="attribut">clientX</code> et <code class="attribut">clientY</code> de l'objet event. Ces propriétés contiennent la position horizontale et verticale du pointeur de la souris relativement au coin en haut à gauche de la fenêtre (ou du cadre).</p>
+
+<p>La propriété <code class="attribut">target</code> d'event contient l'élément où se trouvait la souris lors du déclenchement de l'évènement. Pour obtenir la position du pointer par rapport à cet élément plutôt que par rapport à la fenêtre, vous pouvez soustraire la position de l'évènement de la position de l'évènement.</p>
+
+<p>Chaque élément XUL dispose d'une propriété <code class="attribut">boxObject</code> pouvant être utilisée pour récupérer la position et la taille de l'élément. L'objet de boîte contient deux propriétés <code class="attribut">x</code> et <code class="attribut">y</code> qui retournent la position de l'élément.</p>
+
+<p>L'exemple ci-dessous a plusieurs éléments. Le déplacement de la souris affichera dans un libellé les coordonnées de la souris par rapport à la fenêtre et par rapport de l'élément survolé par la souris.</p>
+
+<a href="templates/mousexy.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="mousexy" title="Position de la souris"
+        onmousemove="adjustCoords(event);"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;script&gt;
+function adjustCoords(event)
+{
+  var pos=document.getElementById("pos");
+
+  <strong>// Utilisez les propriétés clientX et clientY pour obtenir
+  // la position de la souris par rapport à la fenêtre. L'objet event
+  // est passé à cette fonction en argument.</strong>
+  var lbl="Sur la fenêtre: " + "(" + event.clientX + "," + event.clientY + ")";
+
+  <strong>// Calcul la position de la souris survolant un élément.
+  // Pour cela, soustraire la position de l'élément de la position de la souris.
+  // La position de l'élément peut être déterminée grâce à son boxObject.</strong>
+  var offsetX = (event.clientX - event.target.boxObject.x);
+  var offsetY = (event.clientY - event.target.boxObject.y);
+
+  <strong>// Assigner les offsets au texte du libellé.</strong>
+  lbl+=" par rapport à: " + event.target.tagName + "(" + offsetX + "," + offsetY + ")";
+  pos.setAttribute("value",lbl);
+}
+&lt;/script&gt;
+
+&lt;label id="pos" value=" "/&gt;
+
+&lt;hbox&gt;
+  &lt;label value="Entrez du texte :"/&gt;&lt;textbox/&gt;
+  &lt;button label="OK"/&gt;
+&lt;/hbox&gt;
+
+&lt;listbox&gt;
+  &lt;listitem label="Document"/&gt;
+  &lt;listitem label="Image"/&gt;
+  &lt;listitem label="Vidéo"/&gt;
+  &lt;listitem label="Audio"/&gt;
+&lt;/listbox&gt;
+
+&lt;/window&gt;
+</code></pre>
+

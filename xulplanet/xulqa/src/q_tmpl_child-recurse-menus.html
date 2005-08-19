@@ -1,0 +1,27 @@
+
+<p>Ce gabarit génère un menu récursif. Il utilise deux règles, la première pour les conteneurs et la seconde pour les noeuds isolés. La première règle trouve tous les conteneurs comme indiqué par l'attribut <code class="attribut">iscontainer</code>. Nous créons un seul <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> mais nous répétons un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code> pour chaque résultat. Pour les noeuds isolés, la seconde règle est plutôt utilisée pour générer un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> mais avec un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> dedans à la place. Ces deux règles ont un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> qui sera seulement généré dès lors que le contenu avec l'attribut <code class="attribut">uri</code> sera généré pour chaque résultat.</p>
+
+<p>Pour la première itération (les races d'animaux), tous les items sont des conteneurs, donc un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> et cinq <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code> sont générés. Le constructeur du gabarit parcourera récursivement chaque animal. Les animaux sont tous des noeuds isolés, et donc ils utiliseront la seconde règle. Le contenu sera placé à l'intérieur du conteneur parent ayant l'attribut <code class="attribut">uri</code>, dans ce cas, l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code>. Ainsi, les <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> et <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> de la seconde règle sont ajoutés. De nouveau, l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> n'est généré qu'une seule fois pour tous les items.</p>
+
+<p>Si un conteneur a quelques items qui sont aussi des conteneurs, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> contiendra un mélange de <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code> et de <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>. Cependant, de nouveau, seul un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> sera généré.</p>
+
+<p><a href="templates/child-recurse-menus.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;hbox&gt;
+  &lt;button label="Animaux" type="menu" datasources="animals.rdf"
+          ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+    &lt;template&gt;
+      &lt;rule iscontainer="true"&gt;
+        &lt;menupopup&gt;
+          &lt;menu uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+        &lt;/menupopup&gt;
+      &lt;/rule&gt;
+      &lt;rule&gt;
+        &lt;menupopup&gt;
+          &lt;menuitem uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+        &lt;/menupopup&gt;
+      &lt;/rule&gt;
+    &lt;/template&gt;
+  &lt;/button&gt;
+&lt;/hbox&gt;</code></pre>

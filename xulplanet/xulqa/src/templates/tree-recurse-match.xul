@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="tree-recurse-match"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<tree rows="10" datasources="animals.rdf"
+                ref="http://www.some-fictitious-zoo.com/all-animals">
+  <treecols>
+    <treecol id="name" label="Nom" primary="true" flex="1"/>
+    <treecol id="favorite" label="Compagnon" flex="1"/>
+  </treecols>
+  <template>
+    <rule>
+      <conditions>
+        <content uri="?uri"/>
+        <member container="?uri" child="?animal"/>
+        <triple subject="?human"
+                predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                object="?animal"/>
+        <triple subject="?animal"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?name"/>
+        <triple subject="?human"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?humanname"/>
+      </conditions>
+      <action>
+        <treechildren flex="1">
+          <treeitem uri="?animal">
+            <treerow>
+              <treecell label="?name"/>
+              <treecell label="?humanname"/>
+            </treerow>
+          </treeitem>
+        </treechildren>
+      </action>
+    </rule>
+    <rule>
+      <conditions>
+        <content uri="?uri"/>
+        <member container="?uri" child="?animal"/>
+        <triple subject="?animal"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?name"/>
+      </conditions>
+      <action>
+        <treechildren flex="1">
+          <treeitem uri="?animal">
+            <treerow>
+              <treecell label="?name"/>
+              <treecell label=""/>
+            </treerow>
+          </treeitem>
+        </treechildren>
+      </action>
+    </rule>
+  </template>
+</tree>
+
+</vbox>
+
+</window>

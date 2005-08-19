@@ -1,0 +1,30 @@
+
+<p>Ici, nous essayons de déterminer quel est l'animal de compagnie favori de Robert. En fait, nous cherchons à identifier quels items apparaissent dans deux listes. Les résultats escomptés sont <var>Caméléon</var> et <var>Tarentule</var>. Pour commencer, nous parcourons les animaux de compagnie de Robert en utilisant le premier triplet. Ensuite, nous utilisons un autre triplet et un membre pour parcourir les animaux de Robert. Les deux triplets et le membre sont nécessaires pour obtenir le conteneur 'pets' de Robert et finalement les animaux de compagnie.</p>
+
+<p>La clef ici est que les deux listes utilisent la même variable <var>favoriteAnimal</var>. Elle fait que le gabarit commence par générer la liste des animaux favoris et les ajoute à cette variable puisque cette condition apparaît en premier dans la liste des règles. Ensuite, la liste des animaux est construit, et la même variable est ajustée pour exclure l'animal qui ne correspond pas au deux listes.</p>
+
+<p><a href="templates/predicate-iterate-conditional.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans/robert"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;triple subject="?uri"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                  object="?favoriteAnimal"/&gt;
+          &lt;triple subject="?uri"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#pets"
+                  object="?pets"/&gt;
+          &lt;member container="?pets" child="?favoriteAnimal"/&gt;
+          &lt;triple subject="?favoriteAnimal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?favoriteAnimal" value="?name"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

@@ -1,0 +1,16 @@
+
+<p>Ce gabarit génère du texte provenant de deux prédicats. Le premier est un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> pour le nom de famille et le second est un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code> pour la description de la personne. La balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textnode">textnode</a></code> est utilisable uniquement dans un gabarit où elle crée une zone de description tronquable.</p>
+
+<p><a href="templates/child-iterate-textnode.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans"&gt;
+  &lt;template&gt;
+    &lt;vbox uri="rdf:*"&gt;
+      &lt;label class="header" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+      &lt;description&gt;
+        &lt;textnode value="rdf:http://www.some-fictitious-zoo.com/rdf#description"/&gt;
+      &lt;/description&gt;
+    &lt;/vbox&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

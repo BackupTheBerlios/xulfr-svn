@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="source-iterate-type"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans">
+  <template>
+    <rule>
+      <conditions>
+          <content uri="?uri"/>
+          <member container="?uri" child="?animal"/>
+          <triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/>
+      </conditions>
+      <action>
+        <vbox uri="?animal">
+          <label class="header" value="Les animaux favoris de ?name"/>
+        </vbox>
+      </action>
+    </rule>
+    <rule>
+      <conditions>
+          <content uri="?uri"/>
+          <triple subject="?uri"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                  object="?animal"/>
+          <member container="?animalClass" child="?animal"/>
+          <triple subject="?animalClass"
+                  predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                  object="http://www.some-fictitious-zoo.com/rdf#Class"/>
+          <triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/>
+          <triple subject="?animalClass"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?animalClassName"/>
+      </conditions>
+      <action>
+        <label uri="?animal" class="indent" value="?name qui appartient à la race de ?animalClassName"/>
+      </action>
+    </rule>
+  </template>
+</vbox>
+
+</vbox>
+
+</window>

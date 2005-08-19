@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="child-recurse-menus"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<hbox>
+  <button label="Animals" type="menu" datasources="animals.rdf"
+          ref="http://www.some-fictitious-zoo.com/all-animals">
+    <template>
+      <rule iscontainer="true">
+        <menupopup>
+          <menu uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+        </menupopup>
+      </rule>
+      <rule>
+        <menupopup>
+          <menuitem uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+        </menupopup>
+      </rule>
+    </template>
+  </button>
+</hbox>
+
+</vbox>
+
+</window>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="treeSelect" title="Selection dans un arbre"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function doSelect(event)
+{
+  // l'arbre est la cible (target) de l'évènement (event)
+  var tree=event.target;
+
+  // récupère l'élément label
+  var label=document.getElementById("selectedLabel");
+
+  // récupère le texte de la colonne 'description' sur la ligne sélectionnée.
+  // Il faut appeler la fonction getCellText de l'objet de vue d'arbre.
+  // Nous devons fournir deux paramètres, l'index de la ligne sélectionnée contenu
+  // dans la propriété currentIndex de l'objet tree et l'id de la colonne.
+  var txt=tree.view.getCellText(tree.currentIndex,"description")
+
+  // assigne le texte au libellé.
+  label.setAttribute("value",txt);
+}
+
+</script>
+
+<hbox>
+  <label value="Partie sélectionnée :"/>
+  <label id="selectedLabel" value=""/>
+</hbox>
+
+<tree flex="1" width="350" height="200" onselect="doSelect(event);">
+  <treecols>
+    <treecol id="part" label="Numéro de partie" primary="true" flex="1"/>
+    <treecol id="description" label="Description" flex="1"/>
+  </treecols>
+
+  <treechildren>
+    <treeitem>
+      <treerow>
+        <treecell label="I68-023"/>
+        <treecell label="Flux Capacitor"/>
+      </treerow>
+    </treeitem>
+    <treeitem>
+      <treerow>
+        <treecell label="P34-912"/>
+        <treecell label="Continuum Transfunctioner"/>
+      </treerow>
+    </treeitem>
+    <treeitem>
+      <treerow>
+        <treecell label="Z29-307"/>
+        <treecell label="Deluxe Transmogrifier"/>
+      </treerow>
+    </treeitem>
+  </treechildren>
+</tree>
+
+
+</window>

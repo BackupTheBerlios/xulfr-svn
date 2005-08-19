@@ -1,0 +1,2 @@
+addType application/vnd.mozilla.xul+xml .xul
+addType text/xml .rdf

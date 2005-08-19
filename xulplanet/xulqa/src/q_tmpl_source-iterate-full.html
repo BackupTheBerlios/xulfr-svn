@@ -1,0 +1,24 @@
+
+<p>Ce gabarit génère des résultats à partir d'arcs entrants plutôt que ceux pointant hors d'un noeud. Dans le premier triplet, la variable ?uri est utilisée dans l'objet plutôt que le sujet. Cette écriture permet de trouver toutes les personnes qui ont une tarentule comme animal favori.</p>
+
+<p><a href="templates/source-iterate-full.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/arachnids/tarantula"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                  object="?uri"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?humanname"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?human" value="?humanname"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

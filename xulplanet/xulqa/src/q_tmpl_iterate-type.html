@@ -1,0 +1,30 @@
+
+<p>Ce gabarit parcours tous les animaux, mais les filtres de conteneurs sont basés sur leur type plutôt que sur l'attribut <code class="attribut">iscontainer</code>. Le premier triplet utilise le prédicat RDF de type pour obtenir les noeuds qui sont des classes d'animaux. La seconde règle trouvera tous les animaux.</p>
+
+<p><a href="templates/iterate-type.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?animal"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                  object="http://www.some-fictitious-zoo.com/rdf#Class"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;hbox uri="?animal"&gt;
+          &lt;label class="header" value="?name"/&gt;
+        &lt;/hbox&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;button uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

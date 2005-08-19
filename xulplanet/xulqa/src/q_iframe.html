@@ -1,0 +1,23 @@
+
+<p>Vous pouvez obtenir le contenu de <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code> de deux manières différentes.</p>
+
+<p>Premièrement, vous pouvez utiliser la liste des cadres d'une fenêtre pour obtenir une référence d'un cadre spécifique. Par exemple&nbsp;:</p>
+
+<pre><code>window.frames[0].document</code></pre>
+
+<p>Cette ligne récupère le premier cadre dans la fenêtre et renvoit son objet document. Vous pouvez remplacer l'index avec un nom correspondant à un attribut <code class="attribut">name</code> d'une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>.</p>
+
+<p>Dans les applications chrome enregistrées, vous pouvez également utiliser la propriété <code class="attribut">contentDocument</code> du cadre <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>. L'exemple suivant montre ces méthodes. Les variables '<code>method1</code>' et '<code>method2</code>' auront les mêmes valeurs.</p>
+
+<pre><code>&lt;script&gt;
+function getContent()
+{
+  var method1 = window.frames['hello'].document;
+
+  var iframe=document.getElementById("hello");
+  var method2 = iframe.contentDocument;
+}
+&lt;/script&gt;
+
+&lt;iframe id="hello" name="hello" src="hello.xul"/&gt;
+</code></pre>

@@ -1,0 +1,344 @@
+
+<p>Neil Rashbrook a fournit une exemple complet utilisant une vue d'arbre personnalisée sur un site distant, avec des niveaux hiérarchiques.</p>
+
+<a href="templates/treebview.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window width="500" height="500"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+  &lt;tree class="plain focusring" seltype="single" selstyle="primary" flex="1"&gt;
+    &lt;treecols&gt;
+      &lt;treecol primary="true" flex="1" label="Nombre" id="number"/&gt;
+      &lt;splitter class="tree-splitter"/&gt;
+      &lt;treecol flex="1" label="Carré" id="square"/&gt;
+      &lt;splitter class="tree-splitter"/&gt;
+      &lt;treecol flex="1" label="Cube" id="cube"/&gt;
+    &lt;/treecols&gt;
+    &lt;treechildren/&gt;
+  &lt;/tree&gt;
+
+  &lt;script&gt;&lt;![CDATA[
+
+function nsTreeView() {}
+
+nsTreeView.prototype = {
+  /* déboggage */
+  get wrappedJSObject() { return this; },
+  /* nsISupports */
+  QueryInterface : function QueryInterface(aIID)
+  {
+    if (Components.interfaces.nsIClassInfo.equals(aIID))
+      return nsTreeView.prototype;
+    if (Components.interfaces.nsITreeView.equals(aIID) ||
+        Components.interfaces.nsISupportsWeakReference.equals(aIID) ||
+        Components.interfaces.nsISupports.equals(aIID))
+      return this;
+    throw 0x80004002; // Components.results.NS_NOINTERFACE;
+  },
+  /* nsIClassInfo */
+  getInterfaces: function getInterfaces(count) {
+    count.value = 4;
+    return [Components.interfaces.nsITreeView,
+            Components.interfaces.nsIClassInfo, 
+            Components.interfaces.nsISupportsWeakReference, 
+            Components.interfaces.nsISupports];
+  },
+  getHelperForLanguage: function getHelperForLanguage(language) { return null; },
+  get contractID() { return null; },
+  get classDescription() { return "nsTreeView"; },
+  get classID() { return null; },
+  get implementationLanguage() { return Components.interfaces.nsIProgrammimgLanguage.JAVASCRIPT; },
+  get flags() { return Components.interfaces.nsIClassInfo.DOM_OBJECT; },
+  /* nsITreeView */
+  get rowCount() { return this._subtreeItems.length; },
+  selection: null,
+  getRowProperties: function getRowProperties(index, prop) { },
+  getCellProperties: function getCellProperties(index, column, prop) { },
+  getColumnProperties: function getColumnProperties(column, elem, prop) { },
+  isContainer: function isContainer(index) {
+    if (index in this._subtreeItems)
+      return this._subtreeItems[index]._childItems.length;
+    throw 0x8000FFFF; // Components.results.NS_ERROR_UNEXPECTED;
+  },
+  isContainerOpen: function isContainerOpen(index) { return this._subtreeItems[index]._open; },
+  isContainerEmpty: function isContainerEmpty(index) { return false; },
+  isSeparator: function isSeparator(index) { return false; },
+  isSorted: function isSorted() { return false; },
+  <strong>// d&d n'est pas encore implémenté&nbsp;!</strong>
+  canDropOn: function canDropOn(index) { return false; },
+  canDropBeforeAfter: function canDropBeforeAfter(index, before) { return false; },
+  drop: function drop(index, orientation) { },
+  getParentIndex: function getParentIndex(index) {
+    return this.getIndexOfItem(this._subtreeItems[index]._parentItem);
+  },
+  hasNextSibling: function hasNextSibling(index, after) { return this._subtreeItems[index]._hasNext; },
+  getLevel: function getLevel(index) {
+    if (index in this._subtreeItems) {
+      var level = 0;
+      for (var item = this._subtreeItems[index]; item._parentItem != this; ++level)
+        item = item._parentItem;
+      return level;
+    }
+    throw 0x8000FFFF; // Components.results.NS_ERROR_UNEXPECTED;
+  },
+  getImageSrc: function getImageSrc(index, column) { },
+  getProgressMode : function getProgressMode(index,column) { },
+  getCellValue: function getCellValue(index, column) { },
+  getCellText: function getCellText(index, column) {
+    if (index in this._subtreeItems)
+      return this._subtreeItems[index][column];
+    throw 0x8000FFFF; // Components.results.NS_ERROR_UNEXPECTED;
+  },
+  setTree: function setTree(treeBox) { this._treeBox = treeBox; if (!treeBox) this.selection = null; },
+  cycleHeader: function cycleHeader(col, elem) { },
+  selectionChanged: function selectionChanged() { },
+  cycleCell: function cycleCell(index, column) { },
+  isEditable: function isEditable(index, column) { return false; },
+  performAction: function performAction(action) { },
+  performActionOnCell: function performActionOnCell(action, index, column) { },
+  toggleOpenState: function toggleOpenState(index) { this._subtreeItems[index].toggleState(); },
+  /* Méthodes utiles */
+  getChildCount: function getChildCount() { return this._childItems.length; },
+  getIndexOfItem: function getIndexOfItem(item) {
+    if (!item)
+      throw 0x80004003; // Components.results.NS_ERROR_NULL_POINTER;
+    var index = -1;
+    while (item != this) {
+      var parent = item._parentItem;
+      if (!parent)
+        throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+      for (var i = 0; (tmp = parent._childItems[i]) != item; ++i)
+        if (tmp._open)
+          index += tmp._subtreeItems.length;
+      index += i + 1;
+      item = parent;
+    }
+    return index;
+  },
+  getIndexOfChild: function getIndexOfChild(item) {
+    if (!item)
+      throw 0x80004003; // Components.results.NS_ERROR_NULL_POINTER;
+    if (item._parentItem != this)
+      throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+    for (var i = 0; i &lt; this._childItems.length; ++i)
+      if (this._childItems.length[i] == item)
+        return i;
+    throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+  },
+  getItemAtIndex: function getItemAtIndex(index) {
+    index = parseInt(index) || 0;
+    if (index &lt; 0 || index &gt;= this._subtreeItems.length)
+      throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+    return this._subtreeItems[index];
+  },
+  getChildAtIndex: function getChildAtIndex(index) {
+    index = parseInt(index) || 0;
+    if (index &lt; 0 || index &gt;= this._childItems.length)
+      throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+    return this._childItems[index];
+  },
+  selectItem: function selectItem(item) {
+    for (var parent = item.parentItem(); parent != this; parent = parent.parentItem())
+      if (!parent)
+        throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+      else if (!parent.isOpen())
+        parent.toggleState();
+    var index = this.getIndexOfItem(item);
+    this.selection.select(index);
+    this._treeBox.ensureRowIsVisible(index);
+  },
+  invalidateRow: function invalidate() {
+    var offset = -1;
+    var parent;
+    for (var item = this; parent = item._parentItem; item = parent) {
+      offset += item._getOffset();
+      if (parent._treeBox)
+        parent._treeBox.invalidateRow(offset);
+      if (!parent._open)
+        break;
+    }
+  },
+  invalidatePrimaryCell: function invalidatePrimaryCell() {
+    var offset = -1;
+    var parent;
+    for (var item = this; parent = item._parentItem; item = parent) {
+      offset += item._getOffset();
+      if (parent._treeBox)
+        parent._treeBox.invalidatePrimaryCell(offset);
+      if (!parent._open)
+        break;
+    }
+  },
+  invalidateCell: function invalidateCell(column) {
+    var offset = -1;
+    var parent;
+    for (var item = this; parent = item._parentItem; item = parent) {
+      offset += item._getOffset();
+      if (parent._treeBox)
+        parent._treeBox.invalidateCell(offset);
+      if (!parent._open)
+        break;
+    }
+  },
+  toggleState: function toggleState() {
+    this._open = !this._open;
+    if (this._subtreeItems.length && this._parentItem)
+      if (this._open)
+        this._parentItem._itemExpanded(this._getOffset(), this._subtreeItems);
+      else
+        this._parentItem._itemCollapsed(this._getOffset(), this._subtreeItems.length);
+  },
+  removeItem: function removeItem(item) {
+    if (!item)
+      throw 0x80004003; // Components.results.NS_ERROR_NULL_POINTER;
+    if (item._parentItem != this)
+      throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+    var change = 1;
+    if (item._open)
+      change += item._subtreeItems.length;
+    var offset = 0;
+    var tmp;
+    for (var i = 0; (tmp = this._childItems[i]) != item; ++i)
+      if (tmp._open)
+        offset += tmp._subtreeItems.length;
+    offset += i;
+    this._childItems.splice(i, 1);
+    if (i)
+      this._childItems[i - 1]._hasNext = item._hasNext;
+    item._hasNext = false;
+    this._subtreeItems.splice(offset, change);
+    if (this._treeBox)
+      this._treeBox.rowCountChanged(offset, -change);
+    if (this._parentItem)
+      this._parentItem._itemCollapsed(offset + this._getOffset(),
+        this._open ? change : 0, this._childItems.length);
+    item._parentItem = null;
+  },
+  appendItem: function appendItem(item) {
+    this.insertItem(item, this._childItems.length);
+  },
+  insertItem: function insertItem(item, index) {
+    if (!item)
+      throw 0x80004003; // Components.results.NS_ERROR_NULL_POINTER;
+    var length = this._childItems.length;
+    index = parseInt(index) || 0;
+    if (index &lt; 0 || index &gt; length)
+      throw 0x80004005; // Components.results.NS_ERROR_FAILURE;
+    if (item._parentItem)
+      item._parentItem.removeItem(item);
+    item._parentItem = this;
+    var newItems = [item];
+    var offset = index;
+    if (!length)
+      this._childItems = newItems;
+    else {
+      this._childItems.splice(index, 0, item);
+      if (index == length) {
+        this._childItems[length - 1]._hasNext = true;
+        offset = this._subtreeItems.length;
+      } else {
+        item._hasNext = true;
+        for (var i = 0; i &lt; index; ++i)
+          if (this._childItems[i]._open)
+            offset += this._childItems[i]._subtreeItems.length;
+      }
+    }
+    if (item._open)
+      newItems = newItems.concat(item._subtreeItems);
+    this._subtreeItems = this._subtreeItems.splice(0, offset).concat(newItems).
+                           concat(this._subtreeItems);
+    if (this._treeBox)
+      this._treeBox.rowCountChanged(offset, newItems.length);
+    if (this._parentItem && (this._open || !length))
+      this._parentItem._itemExpanded(offset + this._getOffset(), this._open ? newItems : [], length);
+  },
+  parentItem: function parentItem() {
+    return this._parentItem;
+  },
+  isOpen: function isOpen() {
+    return this._open;
+  },
+  /* Méthodes pour aider */
+  _itemExpanded: function _itemExpanded(offset, newItems, notwisty) {
+    this._subtreeItems = this._subtreeItems.splice(0, offset).concat(newItems).
+                           concat(this._subtreeItems);
+    if (this._treeBox) {
+      this._treeBox.rowCountChanged(offset, newItems.length);
+      if (offset && !notwisty)
+        this._treeBox.invalidatePrimaryCell(offset - 1);
+    }
+    if (this._open && this._parentItem)
+      this._parentItem._itemExpanded(offset + this._getOffset(), newItems);
+  },
+  _itemCollapsed: function _itemCollapsed(offset, change, notwisty) {
+    this._subtreeItems.splice(offset, change);
+    if (this._treeBox) {
+      this._treeBox.rowCountChanged(offset, -change);
+      if (offset && !notwisty)
+        this._treeBox.invalidatePrimaryCell(offset - 1);
+    }
+    if (this._open && this._parentItem)
+      this._parentItem._itemCollapsed(offset + this._getOffset(), change);
+  },
+  _getOffset: function _getOffset() {
+    var offset = 1;
+    var tmp;
+    for (var i = 0; (tmp = this._parentItem._childItems[i]) != this; ++i)
+      if (tmp._open)
+        offset += tmp._subtreeItems.length;
+    return offset + i;
+  },
+  /* Valeurs par défaut */
+  _parentItem: null,
+  _hasNext: false,
+  _childItems: [],
+  _subtreeItems: [],
+  _open: false,
+  _treeBox: null
+};
+
+function Item(parent, value) {
+  this.number = value;
+  this.square = value * value;
+  this.cube = value * value * value;
+  parent.appendItem(this);
+}
+
+Item.prototype = new nsTreeView();
+
+var fib = [2, 1];
+while (fib[0] &lt; 2500)
+  fib.unshift(fib[0] + fib[1]);
+
+var levels = [new nsTreeView()];
+var i = 0;
+var interval = setInterval(nextIndex, 1);
+
+function nextIndex() {
+  var j = ++i, k = 0;
+  for (var l = 0; j; l++)
+    if (fib[l] &lt;= j) {
+      k++;
+      j -= fib[l];
+    }
+  levels[k] = new Item(levels[k - 1], i);
+  if (i &lt; 4180)
+    window.status = i;
+  else {
+    window.status = "";
+    clearInterval(interval);
+  }
+}
+
+window.onload = function onload() {
+  document.documentElement.firstChild.view = levels[0];
+  dump(document.documentElement.firstChild.view + "\n");
+}
+
+  ]]&gt;&lt;/script&gt;
+
+&lt;/window&gt;
+</code></pre>

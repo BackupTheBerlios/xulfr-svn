@@ -1,0 +1,61 @@
+
+<p>Il existe différentes manières d'ajouter une image dans une cellule d'un arbre. La plus simple consiste simplement à ajouter un attribut <code class="attribut">src</code> sur un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecell">treecell</a></code>. Une image apparaîtra dans la cellule correspondante. S'il y a un libellé et une image, l'image s'affichera à gauche du libellé.</p>
+
+<p>Voici un exemple d'arbre avec des images&nbsp;:</p>
+
+<a href="templates/treeimage.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="treeImage" title="Arbres avec des images"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;tree flex="1" width="350" height="200"&gt;
+  &lt;treecols&gt;
+    &lt;treecol id="name" label="Nom" primary="true" flex="1"/&gt;
+    &lt;treecol id="emotion" label="Émoticone" flex="1"/&gt;
+  &lt;/treecols&gt;
+
+  &lt;treechildren&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="Jim Richards"/&gt;
+        &lt;treecell label="Gai" src="happy.png"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="Mary Sandman"/&gt;
+        &lt;treecell label="Gai" src="happy.png"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="Lindsey Waters"/&gt;
+        &lt;treecell label="Inconnu"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+  &lt;/treechildren&gt;
+&lt;/tree&gt;
+
+&lt;/window&gt;</code></pre>
+
+<p>La propriété CSS <code class="attribut">background</code> peut aussi être utilisée pour définir une image dans une cellule, une ligne ou une colonne. Toutefois, vous devez employer une syntaxe spéciale pour les arbres parce que le corps de l'arbre n'est pas construit avec de vrais éléments. Seul l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code> est affiché et les lignes et cellules sont dessinées par lui.</p>
+
+<p>Tout d'abord, ajoutez l'attribut <code class="attribut">properties</code> sur la cellule, la ligne ou la colonne sur laquelle vous souhaitez ajouter une image. Définissez lui un nom explicite. Par exemple, si l'image doit apparaître sur une ligne où quelque chose est activé (enabled), vous pouvez nommer la propriété <var>enabled</var>.</p>
+
+<pre><code>&lt;treecell properties="enabled"/&gt;</code></pre>
+
+<p>Ajoutez la propriété sur chaque cellule qui devra afficher l'image. Vous pouvez également ajouter un attribut <code class="attribut">properties</code> sur un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code> ou un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code> bien qu'il se s'appliquera que pour la ligne ou la colonne entière.</p>
+
+<p>Pour définir le style, utilisez la syntaxe suivante&nbsp;:</p>
+
+<pre><code>treechildren:-moz-tree-cell(enabled) {
+  background: url('enabled.png') no-repeat;
+}</code></pre>
+
+<p>L'exemple ci-dessus affichera une image de fond sur toutes les cellules activées, ou toutes les cellules avec la propriété <var>enabled</var>. L'expression <var>no-repeat</var> est nécessaire pour éviter que l'image ne se répète dans toute la cellule. Enlevez la si c'est l'effet recherché.</p>
+
+<p>Vous pouvez également remplacer <var>-moz-tree-cell</var> par <var>-moz-tree-row</var> ou <var>-moz-tree-column</var> pour définir des images pour une ligne ou une colonne.</p>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="treeProgress" title="Arbre avec des barres de progressions"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<tree id="theTree" flex="1" width="300" height="300">
+
+  <treecols>
+    <treecol id="task" label="Tâche" primary="true" flex="1"/>
+    <treecol id="pct" label="Avancement" type="progressmeter" flex="1"/>
+  </treecols>
+
+  <treechildren>
+    <treeitem>
+      <treerow>
+        <treecell label="Résolution du problème 7"/>
+        <treecell value="29" mode="normal"/>
+      </treerow>
+    </treeitem>
+    <treeitem>
+      <treerow>
+        <treecell label="Rédaction de la documentation"/>
+        <treecell value="60" mode="normal"/>
+      </treerow>
+    </treeitem>
+    <treeitem>
+      <treerow>
+        <treecell label="Célébration"/>
+        <treecell label="Terminé"/>
+      </treerow>
+    </treeitem>
+  </treechildren>
+</tree>
+
+</window>

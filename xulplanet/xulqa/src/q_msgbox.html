@@ -1,0 +1,113 @@
+
+<p>Pour de simples messages d'alerte, il vous suffit d'appeler les fonctions JavaScript <code>alert</code>, <code>prompt</code> et <code>confirm</code>. La fonction <code>alert</code> ne prend qu'un argument, la chaîne de caractères à afficher. Elle affiche une boîte de dialogue avec le message et un bouton <var>OK</var>. La fonction <code>confirm</code> est similaire mais elle affiche en plus un bouton <var>Annuler</var>. La fonction <code>confirm</code> renvoie <var>true</var> si le bouton <var>OK</var> est pressé et <var>false</var> si le bouton <var>Annuler</var> est pressé.</p>
+
+<p>La fonction <code>prompt</code> affiche un champ de saisie, un bouton <var>OK</var> et un bouton <var>Annuler</var>. Elle prend deux arguments, le message à afficher et la valeur par défaut du champ de saisie. La valeur par défaut est optionnelle. La fonction <code>prompt</code> retourne le texte que l'utilisateur a saisi ou <var>null</var> si l'utilisateur a pressé le bouton <var>Annuler</var>.</p>
+
+<p>Quelques exemples&nbsp;:</p>
+
+<pre><code>
+alert("Ceci est une alerte");
+
+if (confirm("Voulez-vous gagner la partie ?"){
+  winGame();
+}
+
+var name = prompt("Entrez votre nom");
+</code></pre>
+
+<p>Mozilla fournit également une interface XPCOM, <code>nsIPromptService</code>, qui peut être utilisée dans applications chrome pour des boîtes de messages plus sophistiquées. Vous pouvez toujours créer votre propre boîte de dialogue avec un fichier XUL séparé, mais il est plus pratique d'utiliser le service de messages interne dans la mesure du possible. Le service de messages dispose de plusieurs alertes spéciales que vous pouvez utiliser dont quelques unes sont décrites ci-dessous. Pour les autres, reportez-vous au <a href="http://lxr.mozilla.org/mozilla/source/embedding/components/windowwatcher/public/nsIPromptService.idl">
+code source nsIPromptService</a>.</p>
+
+<p>Les fonctions <code>alert</code> et <code>confirm</code> sont similaires aux fonctions normales sauf que vous pouvez leur affecter un titre de dialogue. Par exemple&nbsp;:</p>
+
+<pre><code>
+<strong>// récupère une référence du composant de service de messages.</strong>
+var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+                    .getService(Components.interfaces.nsIPromptService);
+
+<strong>// affiche l'alerte. Pour le premier argument, la fenêtre parente est fournie.
+// Le second argument est le titre du dialogue et
+// le troisième argument est le message à afficher.</strong>
+promptService.alert(window,"Attention","Votre ordinateur va bientôt exploser.");
+</code></pre>
+
+<p>Deux fonctions similaires, <code>alertCheck</code> et <code>confirmCheck</code>, affichent une boîte de dialogue d'alerte ou de confirmation avec une case à cocher supplémentaire. Elles sont typiquement utilisées pour les options <var>Ne plus afficher ce message</var>.</p>
+
+<pre><code>
+<strong>// récupère une référence du composant de service de messages.</strong>
+var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+                    .getService(Components.interfaces.nsIPromptService);
+
+<strong>// la fonction confirmCheck stockera l'état de la case à cocher
+// dans un objet passé en dernier paramètre.</strong>
+var checkResult = {};
+
+<strong>// affiche une boîte de dialogue de confirmation avec une case à cocher.
+// Les arguments sont dans l'ordre, la fenêtre parente, le titre du dialogue,
+// le message du dialogue, le libellé de la case à cocher et l'objet contenant
+// l'état de la case à cocher.</strong>
+promptService.confirmCheck(window,"Effacer ce fichier ?",
+  "Voulez-vous réellement effacer ce fichier ?",
+  "Ne plus afficher ce message",
+  checkResult);
+
+<strong>// si la case à cocher a été pressée, la propriété value sera <var>true</var>,
+// donc définissez une variable globale</strong>
+if (checkResult.value) gDontShowAgain=true;
+</code></pre>
+
+<p><img class="screenshot" src="msgbox-s1.png" alt="" /> Le dernier argument de la fonction <code>confirmCheck</code> est un objet. Lorsque la fonction se termine, la propriété <code class="attribut">value</code> de l'objet contiendra soit <var>true</var> ou soit <var>false</var>, selon si l'utilisateur a coché ou non la case. Vous pouvez également lui assigner <var>true</var> avant l'appel de la fonction <code>confirmCheck</code> pour que la case à cocher soit cochée par défaut.</p>
+
+<p>La fonction la plus avancée de boîte de message est la fonction <code>confirmEx</code> qui vous permet également de personnaliser les boutons affichés.</p>
+
+<pre><code>
+<strong>// récupère une référence du composant de service de messages.</strong>
+var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
+                    .getService(Components.interfaces.nsIPromptService);
+
+<strong>// définit les boutons qui apparaissent dans la boîte de dialogue.
+// Il s'agit d'une série de constantes multipliées par les constantes définissant
+// la position des boutons. Dans ce cas, trois boutons apparaissent,
+// <var>Sauvegarder</var>, <var>Annuler</var> et un bouton personnalisé.</strong>
+var flags=promptService.BUTTON_TITLE_SAVE * promptService.BUTTON_POS_0 +
+          promptService.BUTTON_TITLE_CANCEL * promptService.BUTTON_POS_1 +
+          promptService.BUTTON_TITLE_IS_STRING * promptService.BUTTON_POS_2;
+
+<strong>// affiche la boîte de dialogue. La variable flags définie ci-dessus est passée
+// comme quatrième argument. Les trois arguments suivants sont les libellés personnalisés
+//  utilisés pour les boutons pour lesquels BUTTON_TITLE_IS_STRING a été assigné.
+// Les deux derniers arguments servent pour une case à cocher optionnelle.</strong>
+promptService.confirmEx(window,"Sauvegarder des fichiers ?",
+  "Un ou plusieurs fichiers n'ont pas été enregistrés.",
+  flags, null, null, "Tout sauvegarder", null, {});
+</code></pre>
+
+<p><img class="screenshot" src="msgbox-s2.png" alt="" /> Le quatrième argument de la fonction <code>confirmEx</code> définit des drapeaux indiquant quels boutons doivent apparaître dans le dialogue. Jusqu'à trois boutons peuvent être affichés. L'ordre dans lequel ils apparaissent dépend de la plate-forme. Chaque bouton est spécifié avec une constante de titre multiplié par une constante de position.</p>
+
+<dl>
+  <dt>Constantes de titre de bouton&nbsp;:</dt>
+    <dd>
+      <ul>
+        <li>BUTTON_POS_0: le premier bouton</li>
+        <li>BUTTON_POS_1: le second bouton</li>
+        <li>BUTTON_POS_2: le troisième bouton</li>
+      </ul>
+    </dd>
+  <dt>Constantes de position de bouton&nbsp;:</dt>
+    <dd>
+      <ul>
+        <li>BUTTON_TITLE_OK : un bouton OK</li>
+        <li>BUTTON_TITLE_CANCEL : un bouton Annuler</li>
+        <li>BUTTON_TITLE_YES : un bouton Oui</li>
+        <li>BUTTON_TITLE_NO : un bouton Non</li>
+        <li>BUTTON_TITLE_SAVE : un bouton Sauvegarder</li>
+        <li>BUTTON_TITLE_DONT_SAVE : un bouton Ne pas sauvegarder</li>
+        <li>BUTTON_TITLE_REVERT : un bouton Annuler la dernière opération</li>
+        <li>BUTTON_TITLE_IS_STRING : un bouton personnalisé</li>
+     </ul>
+  </dd>
+</dl>
+
+<p>Si vous utilisez BUTTON_TITLE_IS_STRING, vous pouvez assigner un libellé personnalisé à un bouton. Vous devez passer le libellé comme cinquième, sixième ou septième argument à la fonction <code>confirmEx</code>. Dans le précédent exemple, le texte <var>Tout sauvegarder</var> est donné au troisième bouton.</p>
+
+<p>Les deux derniers arguments de <code>confirmEx</code> sert pour une éventuelle case à cocher comme décrit plus tôt.</p>

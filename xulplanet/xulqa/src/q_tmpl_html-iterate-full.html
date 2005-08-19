@@ -1,0 +1,33 @@
+
+<p>Cet exemple montre comment générer du contenu HTML à partir d'un gabarit XUL en utilisant la syntaxe de règle complète. Deux éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textnode">textnode</a></code> sont utilisés pour le contenu généré. Les espèces sont mises en valeur en utilisant l'élément HTML <code class="tag">em</code>. Les parenthèses sont également générées pour apparaître autour du texte mis en valeur.</p>
+
+<p>Notez que cet exemple ne fonctionnera que pour des versions compilées de Mozilla postérieures au 6 juillet 2004. Pour les versions antérieures, les parenthèses en ligne devront être enlevées sinon aucun contenu ne sera généré. Certaines compilations ont également besoin que les espaces soient supprimés pour fonctionner.</p>
+
+<p><a href="templates/html-iterate-full.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;html:div datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals"
+          xmlns:html="http://www.w3.org/1999/xhtml"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?animal"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#species"
+                  object="?species"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;html:p uri="?animal"&gt;
+          &lt;textnode value="?name"/&gt;
+          (&lt;html:em&gt;
+            &lt;textnode value="?species"/&gt;
+          &lt;/html:em&gt;)
+        &lt;/html:p&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/html:div&gt;</code></pre>

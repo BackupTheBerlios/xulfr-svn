@@ -1,0 +1,61 @@
+
+<p>Ce long exemple est utilisé pour afficher l'arbre des animaux où la seconde colonne provient d'un arc entrant pointant sur un noeud. Deux règles sont nécessaires, la première pour un animal qui est le compagnon de quelqu'un et l'autre pour une animal qui ne l'est pas. La première règle parcourt les animaux comme indiqué par l'attribut <code class="attribut">uri</code>. La balise <code class="tag">member</code> génère la liste des animaux et lie les résultats à la variable ?animal. Le premier triplet dans la première règle trouve les arcs entrants en utilisant le prédicat 'favoriteAnimal'. Les arcs entrants sont trouvés parce que les valeurs pour la variable '?animal' ont été générées par la balise <code class="tag">member</code> et que la valeur de la variable '?human' n'est pas connue. Le résultat est que la variable '?human' est remplie avec les humains qui ont un animal de compagnie. Deux triplets supplémentaires récupèrent les noms de l'animal et de son propriétaire. Notez que même si deux personnes aiment la <var>Tarentule</var>, un seul sera affiché. La raison est que c'est la liste des animaux qui est parcourue, pas celle des humains. Si nous voulions afficher les deux, nous devrions écrire des règles supplémentaires permettant de parcourir les humains.</p>
+
+<p>La première règle permet seulement de trouver s'il existe un humain ayant l'animal pour compagnon. Ensuite, une seconde règle est nécessaire pour les autres animaux. Elles sont similaires sauf qu'elles n'ont pas les conditions appropriées pour récupérer les données des humains.</p>
+
+<p><a href="templates/tree-recurse-match.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;tree rows="10" datasources="animals.rdf"
+                ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+  &lt;treecols&gt;
+    &lt;treecol id="name" label="Nom" primary="true" flex="1"/&gt;
+    &lt;treecol id="favorite" label="Compagnon" flex="1"/&gt;
+  &lt;/treecols&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+        &lt;content uri="?uri"/&gt;
+        &lt;member container="?uri" child="?animal"/&gt;
+        &lt;triple subject="?human"
+                predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                object="?animal"/&gt;
+        &lt;triple subject="?animal"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?name"/&gt;
+        &lt;triple subject="?human"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?humanname"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;treechildren flex="1"&gt;
+          &lt;treeitem uri="?animal"&gt;
+            &lt;treerow&gt;
+              &lt;treecell label="?name"/&gt;
+              &lt;treecell label="?humanname"/&gt;
+            &lt;/treerow&gt;
+          &lt;/treeitem&gt;
+        &lt;/treechildren&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+        &lt;content uri="?uri"/&gt;
+        &lt;member container="?uri" child="?animal"/&gt;
+        &lt;triple subject="?animal"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;treechildren flex="1"&gt;
+          &lt;treeitem uri="?animal"&gt;
+            &lt;treerow&gt;
+              &lt;treecell label="?name"/&gt;
+              &lt;treecell label=""/&gt;
+            &lt;/treerow&gt;
+          &lt;/treeitem&gt;
+        &lt;/treechildren&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/tree&gt;</code></pre>

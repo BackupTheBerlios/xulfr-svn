@@ -1,0 +1,49 @@
+
+<p>Ce gabarit montre la différence entre le triplet et les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code>. La première boîte utilise un triplet pour trouver les noms des personnes. Le nom de famille de Sarah n'est pas spécifié dans la source de données, donc elle ne répondra pas aux conditions. Toutefois, dans la seconde boîte, elle apparaîtra puisqu'une liaison est utilisée à la place. La liaison permet d'assigner des valeurs à des variables sans tenir compte des conditions de correspondances dans le cas où une valeur n'est pas trouvée.</p>
+
+<p><a href="templates/child-iterate-binding.xul"  onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox style="border: 1px solid red;"
+      datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?human"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#lastName"
+                  object="?lastname"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?human" value="?name ?lastname"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;
+
+&lt;vbox style="border: 1px solid blue;"
+      datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?human"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;bindings&gt;
+          &lt;binding subject="?human"
+                   predicate="http://www.some-fictitious-zoo.com/rdf#lastName"
+                   object="?lastname"/&gt;
+      &lt;/bindings&gt;
+      &lt;action&gt;
+        &lt;label uri="?human" value="?name ?lastname"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

@@ -1,0 +1,64 @@
+
+<p>Mozilla et les applications basées sur Mozilla chargent les préférences de l'utilisateur à partir de plusieurs sources. Chaque source est un fichier JavaScript qui contient quelques fonctions spéciales non accessibles à un code JavaScript normal. Ces fonctions sont utilisées pour assigner des préférences dans le système de gestion des préférences de Mozilla. Les nouvelles versions de Mozilla (après la version 1.4) utilisent un interpréteur plus simple pour les lire, mais les anciennes versions utilisaient l'interpréteur JavaScript pour les lire. Ainsi, les anciennes versions pouvaient contenir du code JavaScript arbitraire en plus du code pour les préférences, mais seules les classes du noyau étaient utilisables. Les fonctions DOM et XPCOM ne pouvaient pas être utilisées.</p>
+
+<p>Les préférences suivantes sont utilisées&nbsp;:</p>
+
+<dl>
+  <dt>Préférences par défaut</dt>
+    <dd>Elles sont stockées dans le répertoire defaults/pref du répertoire d'installation de Mozilla.</dd>
+  <dt>Préférences courantes</dt>
+    <dd>Elles sont stockées dans le répertoire profil avec le nom prefs.js. Il s'agit de l'emplacement où les paramètres utilisateur sont stockés. Ce fichier est réécrit lorsque les préférences sont modifiées.</dd>
+  <dt>Préférences utilisateur</dt>
+    <dd>Le fichier user.js dans le répertoire profil contient des préférences supplémentaires que l'utilisateur a ajouté. Ce fichier n'est jamais réécrit par Mozilla, mais l'utilisateur peut vouloir définir des préférences manuellement dans ce fichier en remplacement d'autres.</dd>
+  <dt>Fichier de paramètres bloqués</dt>
+    <dd>Ces préférences sont stockées dans un fichier habituellement nommé mozilla.cfg ou netscape.cfg. Ce fichier peut être localisé sur un réseau. Il est censé être utilisé par un administrateur ou un FAI pour centraliser le paramétrage. De plus, certaines préférences peuvent être vérouillées de telle sorte que l'utilisateur ne puisse pas les modifier. Les préférences vérouillées seront désactivées dans la boîte de dialogue des préférences de Mozilla.</dd>
+</dl>
+
+<p>Les préférences elles mêmes sont identifiées par un nom constitué par un nombre de mots séparés par des point. Par exemples, <var>browser.startup.homepage</var> est utilisé pour définir la page d'accueil. Le nom de la préférence ou de chaque partie du nom n'a aucune signification. Mozilla ne traite pas les préférences qui commencent par 'browser' d'une manière particulière, toutefois il est fortement recommandé que toutes les préférences soient groupées comme ceci pour éliminer les conflits. Lorsque vous créez votre propre préférence, utilisez le nom de votre application comme mot initial.</p>
+
+<p>Vous pouvez visualiser les préférences actuelles organisées par nom en tapant <var>about:config</var> dans le champ d'adresses du navigateur.</p>
+
+<p>La valeur des préférences sont de trois types, booléens, entiers ou chaînes. Utilisez le type JavaScript correspondant pour assigner des préférences de chaque type. Il existe également un type complexe pour la représentation des objets, mais nous ne l'utiliserez que rarement, voir jamais.</p>
+
+<p>Le système de préférences dans Mozilla est compatible avec celui utilisé par Netscape Communicator 4.x. L'ancienne fonction <code>navigator.preference</code> utilisée pour récupérer et modifier les préférences est encore supportée mais il est recommandé que vous utilisiez l'interface XPCOM à la place. Les interfaces XPCOM décrites ci-dessous et dans <a href="http://www.xulplanet.com/references/xpcomref/group_Preferences.html">la référence XPCOM</a> sont gelées et ne changeront pas.</p>
+
+<p>L'interface des préférences vous permet d'obtenir les préférences en utilisant des 'branches'. Par exemple, si vous sollicitez la branche <var>browser</var>, vous pourrez l'utiliser pour récupérer toutes les préférences commençant par 'browser'. Pour toutes les requêtes sur cette branche, vous pouvez omettre le préfixe pour plus de simplicité. Ceci sera très utile pour faire référence aux préférences de votre application avec le préfixe <var>xulsample</var>. Créez un objet branche, enregistrez le globalement et faites y référence en utilisant la branche sans avoir à spécifier le préfixe <var>xulsample</var> à chaque fois.</p>
+
+<p>Toutefois, vous pouvez également utiliser le système de préférences sans l'emploi des branches. Dans ce cas, vous devrez spécifier la totalité du chemin pour chaque préférence à chaque fois. Vous pouvez récupérer et modifier les préférences en utilisant l'interface <code>nsIPrefBranch</code> qui implémente chaque branche, en incluant le niveau supérieur étant réellement une branche contenant toutes les préférences.</p>
+
+<p>Pour utiliser le système de préférences, vous devez d'abord obtenir une référence du service de préférences. Comme il s'agit d'un service, vous devez utiliser la méthode <code>getService</code>. N'utilisez pas <code>createInstance</code> ou les choses ne fonctionneront pas. Le service de préférences implémente les deux interfaces <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIPrefService.html">nsIPrefService</a> et <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIPrefBranch.html">nsIPrefBranch</a>.</p>
+
+<pre><code>
+  var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+                getService(Components.interfaces.nsIPrefBranch);
+</code></pre>
+
+<p>Cet exemple créera une branche de préférence à partir du niveau supérieur que vous pourrez employer pour récupérer n'importe quelle préférence. Pour obtenir le type d'une préférence donnée, utilisez la fonction <code>getPrefType</code>. Dès que vous connaissez le type, vous pouvez utiliser des fonctions pour obtenir la valeur de la préférence comme valeur de ce type. L'exemple suivant récupérera l'adresse de la page d'accueil&nbsp;:</p>
+
+<pre><code>
+  var homepage;
+  if (prefs.getPrefType("browser.startup.homepage") == prefs.PREF_STRING){
+    homepage = prefs.getCharPref("browser.startup.homepage");
+  }
+</code></pre>
+
+<p>Dans ce cas, vous pouvez probablement éviter de tester le type comme la page d'accueil est présumée être toujours une chaîne de caractères. En plus de <code>getCharPref</code> qui retourne des préférences sous forme de chaîne de caractères, vous avez également <code>getIntPref</code> et <code>getBoolPref</code> qui retournent respectivement des préférences sous forme d'entier et de booléen.</p>
+
+<p>Vous pouvez utiliser diverses fonctions commençant par 'set' pour modifier les préférences. Par exemple, le code suivant désactivera javascript (les applications chrome ne seront pas affectées)&nbsp;:</p>
+
+<pre><code>
+  prefs.setBoolPref("javascript.enabled",false);
+</code></pre>
+
+<p>Voici ici un exemple complet qui affichera la préférence <var>ouvrir les onglets en arrière plan</var>&nbsp;:</p>
+
+<pre><code>
+  var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+                getService(Components.interfaces.nsIPrefBranch);
+
+  var tabsMode;
+  if (prefs.getPrefType("browser.tabs.loadInBackground") == prefs.PREF_BOOL){
+    tabsMode = prefs.getBoolPref("browser.tabs.loadInBackground");
+  }
+  alert(tabsMode);
+</code></pre>

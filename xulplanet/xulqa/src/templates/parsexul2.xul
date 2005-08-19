@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="xulParser" title="Interpréteur XUL" align="start"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function parseXUL()
+{
+  // obtenir le contenu du champ de saisie
+  var xulData=document.getElementById("xulData").value;
+
+  // vérifie que du contenu n'ait pas déjà été ajouté auparavant.
+  // Dans ce cas, nous effaçons le contenu existant avant d'ajouter l'autre.
+  var existBox=document.getElementById("dataBox");
+  if (existBox) existBox.parentNode.removeChild(existBox);
+
+  // encapsule le contenu dans une boîte. C'est nécessaire au cas
+  // où l'utilisateur entre plusieurs noeuds de niveau supérieur.
+  // Nous déclarons également l'espace de nommage afin que l'utilisateur
+  // n'ait pas à le faire lui-même.
+  xulData="&lt;box id='dataBox' " +
+          "xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'&gt;" +
+          xulData + "&lt;/box&gt;";
+
+  // crée un nouvel objet DOMParser et interprétre le contenu.
+  // La fonction parseFromString prend deux arguments, la chaîne à interpréter
+  // et le type de contenu. Actuellement, Mozilla ne supporte que HTML et XML
+  // au travers de DOMParser, donc des fonctionnalités qui nécessiteraient
+  // un document XUL tel que des gabarits ou des overlays ne fonctionneraient
+  // pas avec cette méthode.
+  var parser=new DOMParser();
+  var resultDoc=parser.parseFromString(xulData,"text/xml");
+
+  // si le noeud de niveau supérieur du document interprété se nomme
+  // parsererror, cela signifie que le XML n'a pas été bien formé.
+  if (resultDoc.documentElement.tagName == "parsererror")
+    alert("Erreur d'interprétation");
+
+  // si aucune erreur ne se produit, récupèrer la propriété
+  // documentElement du document interprété et l'ajouter à la fin de la fenêtre.
+  else document.documentElement.appendChild(resultDoc.documentElement);
+}
+  
+</script>
+
+<label value="Entrez du code XUL :"/>
+<textbox id="xulData" multiline="true" rows="10" cols="60"/>
+<button label="Interpréter" oncommand="parseXUL();"/>
+
+</window>

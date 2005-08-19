@@ -1,0 +1,33 @@
+
+<p>Ce gabarit parcourt la liste des races animales. Pour chaque race, il génère un menu déroulant. Il utilise deux règles. La première règle utilise une syntaxe simple pour trouver tous les conteneurs et générer un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code> avec un libellé <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> dedans. Ce libellé est lié avec le nom du prédicat.</p>
+
+<p>La seconde règle trouve tous les non-conteneurs qui seront les animaux individuels. Nous utilisons une syntaxe complète bien qu'une règle simple aurait suffit puisque nous parcourons un conteneur. La condition génère la liste des enfants des races. Tandis que le constructeur du gabarit est automatiquement récursif, la seconde règle s'appliquera à l'intérieur des items. Le contenu sera inséré comme enfant du parent <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> (défini par la première règle). Le menu déroulant et le menu surgissant sont générés une fois pour chaque liste d'enfants car l'attribut <code class="attribut">uri</code> est utilisé sur la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>.</p>
+
+<p><a href="templates/child-recurse-menulists.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+  &lt;template&gt;
+    &lt;rule iscontainer="true"&gt;
+      &lt;hbox align="left" uri="rdf:*"&gt;
+        &lt;label value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+      &lt;/hbox&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?animal"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;menulist&gt;
+          &lt;menupopup&gt;
+            &lt;menuitem uri="?animal" label="?name"/&gt;
+          &lt;/menupopup&gt;
+        &lt;/menulist&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

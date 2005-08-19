@@ -1,0 +1,25 @@
+
+<p>Ce gabarit génère un menu récursif en filtrant tous les animaux où le champ specimens n'est pas à <var>0</var>. Le constructeur de gabarit ne peut pas formuler expressément une négation, donc nous devons utiliser une règle vide. La règle vide trouvera les animaux sans spécimens mais ne générera aucun contenu. Pour tester le champ specimens, nous utilisons un attribut sur la règle, déclaré avec l'espace de nommage, pour trouver le prédicat des spécimens dans la source de données.</p>
+
+<p><a href="templates/child-recurse-menus-filter.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;hbox&gt;
+  &lt;button label="Animals" type="menu" datasources="animals.rdf"
+          ref="http://www.some-fictitious-zoo.com/all-animals"
+          xmlns:animals="http://www.some-fictitious-zoo.com/rdf#"&gt;
+    &lt;template&gt;
+      &lt;rule iscontainer="true"&gt;
+        &lt;menupopup&gt;
+          &lt;menu uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+        &lt;/menupopup&gt;
+      &lt;/rule&gt;
+      &lt;rule animals:specimens="0"/&gt;
+      &lt;rule&gt;
+        &lt;menupopup&gt;
+          &lt;menuitem uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+        &lt;/menupopup&gt;
+      &lt;/rule&gt;
+    &lt;/template&gt;
+  &lt;/button&gt;
+&lt;/hbox&gt;</code></pre>

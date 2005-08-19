@@ -1,0 +1,23 @@
+
+<p>Cet exemple affiche un seul animal pour chaque race. Nous utilisons deux balises <code class="tag">member</code> pour trouver les enfants puis les petits enfants. Le triplet est utilisé pour lier les noms d'animaux à la variable ?animalclass. Toutefois, dans la balise <code class="tag">action</code>, l'attribut <code class="attribut">uri</code> est lié à la variable ?animalclass pour que le constructeur de gabarit parcoure toutes les races au lieu de chaque animal. Les variables supplémentaires ?animal et ?name ne parcourront pas la base, mais elles contiendront le premier résultat.</p>
+
+<p><a href="templates/iterate-onfirst.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+        &lt;content uri="?uri"/&gt;
+        &lt;member container="?uri" child="?animalclass"/&gt;
+        &lt;member container="?animalclass" child="?animal"/&gt;
+        &lt;triple subject="?animal"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?animalclass" value="?name"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

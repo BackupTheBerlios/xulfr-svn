@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="listbox-multicolumn-iterate"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<listbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals">
+  <listcols>
+    <listcol flex="1"/>
+    <listcol flex="1"/>
+    <listcol flex="1"/>
+  </listcols>
+  <template>
+    <listitem uri="rdf:*">
+      <listcell label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+      <listcell label="rdf:http://www.some-fictitious-zoo.com/rdf#species"/>
+      <listcell label="rdf:http://www.some-fictitious-zoo.com/rdf#specimens"/>
+    </listitem>
+  </template>
+</listbox>
+
+</vbox>
+
+</window>

@@ -1,0 +1,146 @@
+
+<p>Pour ajouter une barre de progression à une cellule, définissez l'attribut <code class="attribut">type</code> sur une colonne&nbsp;:</p>
+
+<pre><code>&lt;treecol id="completed" label="Avancement" type="progressmeter"/&gt;</code></pre>
+
+<p>Chaque cellule dans la colonne peut être une barre de progression. Le type de la barre de progression et sa valeur sont déterminés par les cellules. Ainsi, il est possible pour quelques cellules d'être une barre de progression indéterminée, d'avoir des valeurs spécifiques et du texte affiché. Deux propriétés peuvent être ajoutées aux cellules, <code class="attribut">mode</code> et <code class="attribut">value</code>.</p>
+
+<pre><code>&lt;treecell value="30" mode="normal"/&gt;
+&lt;treecell label="Terminé"/&gt;
+&lt;treecell mode="undetermined"/&gt;</code></pre>
+
+<p>La première cellule est une barre de progression normale remplie à 30%. La seconde cellule affiche le texte <var>Terminé</var>. La troisième cellule utilise une barre de progression indéterminée (une barre rayée tournoyante). Vous pouvez les mélanger et utiliser un script pour modifier l'attribut au besoin.</p>
+
+<p>Voici un exemple&nbsp;:</p>
+
+<a href="templates/treeprogress.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="treeProgress" title="Arbre avec des barres de progressions"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;tree id="theTree" flex="1" width="300" height="300"&gt;
+
+  &lt;treecols&gt;
+    &lt;treecol id="task" label="Tâche" primary="true" flex="1"/&gt;
+    &lt;treecol id="pct" label="Avancement" type="progressmeter" flex="1"/&gt;
+  &lt;/treecols&gt;
+
+  &lt;treechildren&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="Résolution du problème 7"/&gt;
+        &lt;treecell value="29" mode="normal"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="Rédaction de la documentation"/&gt;
+        &lt;treecell value="60" mode="normal"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="Célébration"/&gt;
+        &lt;treecell label="Terminé"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+  &lt;/treechildren&gt;
+&lt;/tree&gt;
+
+&lt;/window&gt;
+</code></pre>
+
+<p>La méthode ci-dessus fonctionne également pour arbres construits à partir d'une source RDF, donc vous pouvez assigner la valeur ou même le type de la barre de progression à partir d'une propriété RDF.</p>
+
+<p>Avec l'emploi d'une vue personnalisée, il y a deux fonctions que vous devez définir dans la vue. La première, <code>getProgressMode</code>, doit retourner l'indication du type de barre de progression à utiliser. Les constantes de l'interface nsITreeView peuvent être utilisées&nbsp;:</p>
+
+<pre><code>getProgressMode(row,col){
+  if (row == 0) return Components.interfaces.nsITreeView.progressNormal;
+  else if (row == 1) return Components.interfaces.nsITreeView.progressUndetermined;
+  else return Components.interfaces.nsITreeView.progressNone;
+}
+</code></pre>
+
+<p>Dans l'exemple ci-dessus, la première ligne utilisait une barre de progression normale, la seconde utilisait une barre indéterminée et la troisième n'avait pas de barre de progression. Vous pouvez aussi retourner <var>0</var> pour les cellules sans barre de progression. Utilisez la fonction <code>getCellValue</code> pour retourner la valeur d'une barre de progression normale. Les barres indéterminées et les cellules ne contenant que du texte peuvent simplement retourner <var>0</var>, bien que <code>getCellValue</code> ne sera jamais appelée pour de telles cellules.</p>
+
+<p>Voici un exemple complet&nbsp;:</p>
+
+<a href="templates/treeprogress_view.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="treeProgress" title="Arbres avec des barres de progressions"
+        onload="assignView();"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;script&gt;
+function assignView()
+{
+  <strong>// un objet de vue d'arbre</strong>
+  var treeview = {
+    <strong>// crée un arbre contenant 20 lignes</strong>
+    rowCount: 20,
+
+    <strong>// ces fonctions doivent être définie pour éviter les erreurs,
+    // toutefois elles ne définissent rien de spécial</strong>
+    isContainer: function(row){ return false; },
+    isSeparator: function(row){ return false; },
+    isSorted: function(row){ return false; },
+    getLevel: function(row){ return 0; },
+    getImageSrc: function(row,col){ return null; },
+    getRowProperties: function(row,props){},
+    getCellProperties: function(row,col,props){},
+    getColumnProperties: function(colid,col,props){},
+
+    <strong>// récupère le type de barre de progression à utiliser pour une cellule.
+    // Pour la colonne pourcentage, indiquer pour la barre de progression normale,
+    // une constante de l'interface nsITreeView.
+    // Pour la première colonne, retourner simplement 0
+    // signifiant aucune barre de progression.</strong>
+    getProgressMode: function(row,col){
+      if (col == "pct") return Components.interfaces.nsITreeView.progressNormal;
+      else return 0;
+    },
+
+    <strong>// récupère la valeur de la barre de progression qui dans ce cas est calculée
+    // à partir du numéro de la ligne. La valeur peut être retournée comme une nombre
+    // ou une chaîne de caractères.</strong>
+    getCellValue: function(row,col){
+      if (col == "pct") return (row * 5 + 1);
+      else return null;
+    },
+
+    <strong>// retourne les libellés textes des cellules de la première colonne.</strong>
+    getCellText: function(row,col){
+      if (col == "task") return "Item " + (row + 1);
+      else return "";
+    },
+
+    <strong>// assigne l'élément tree à la vue</strong>
+    setTree: function(treebox){ this.treebox=treebox; }
+
+  };
+
+  <strong>// assigne la vue à l'arbre</strong>
+  document.getElementById("theTree").view=treeview;
+}
+
+&lt;/script&gt;
+
+&lt;tree id="theTree" flex="1" width="300" height="300"&gt;
+
+  &lt;treecols&gt;
+    &lt;treecol id="task" label="Tâche" primary="true" flex="1"/&gt;
+    &lt;treecol id="pct" label="Avancement" type="progressmeter" flex="1"/&gt;
+  &lt;/treecols&gt;
+  &lt;treechildren/&gt;
+&lt;/tree&gt;
+
+&lt;/window&gt;
+</code></pre>

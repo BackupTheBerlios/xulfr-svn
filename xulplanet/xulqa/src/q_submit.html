@@ -1,0 +1,58 @@
+
+<p>XUL ne dispose d'aucun mécanisme pour soumettre les formulaires, car XUL utilise un modèle d'interface graphique différent où la soumission est rarement appliquée. Beaucoup de personnes qui se demandent comment soumettre des formulaires avec XUL, utilisent habituellement simplement la manière dont HTML fonctionne, et espèrent que XUL fonctionne de manière similaire.</p>
+
+<p>De façon spécifique, dans HTML, un document est créé avec des champs dans lesquels l'utilisateur peut saisir des informations. L'utilisateur sélectionne un bouton de soumission (Submit) qui récupère toutes les informations du formulaire et les transmet au serveur distant. Le site distant traite l'information et renvoie une nouvelle page qui remplace la précédente.</p>
+
+<p>Une interface graphique ne fonctionne pas de cette manière. À la place, les actions doivent être traitées continuellement, par exemple après une sélection faite dans une liste, après le déplacement d'éléments, ou après la sélection d'une commande de menu. L'interface graphique n'a pas besoin d'être remplacée avant la fermeture de la fenêtre.</p>
+
+<p>Cela dit, vous devrez certainement transmettre des informations vers le site distant, mais vous n'avez pas forcément besoin d'un formulaire. Il existe plusieurs possibilités&nbsp;:</p>
+
+<h2>XMLHttpRequest</h2>
+
+<p>Mozilla supporte un objet <code><a href="http://www.xulplanet.com/references/elemref/ref_XMLHttpRequest.html">XMLHttpRequest</a></code> servant à faire des requêtes arbitraires vers un site distant. Vous pouvez transmettre des données avec une requête et vous pouvez faire la requête en tâche de fond ou attendre qu'une réponse soit retournée. L'objet <code>XMLHttpRequest</code> dispose aussi de la capacité d'interpréter le contenu XML. L'exemple suivant vous montre comment il fonctionne&nbsp;:</p>
+
+<pre></code>
+var url="http://www.example.com/test.xml";
+
+<strong>// crée un nouvel objet XMLHttpRequest</strong>
+var xrequest=new XMLHttpRequest();
+
+<strong>// ouvre une connexion vers le site distant. Vous pouvez utiliser un GET ou un POST.
+// Le second argument pour la fonction open doit être l'URL à ouvrir.
+// Le troisième argument doit être false pour une connexion synchrone signifiant
+// que la méthode open attendra de recevoir la réponse. Si le troisième argument
+// est défini à true, la méthode open n'attendra pas. Vous pouvez assigner un script
+// à la propriété onload de XMLHttpRequest dans ce cas et il sera exécuté lorsque
+// la réponse est disponible.</strong>
+xrequest.open("GET",url,false);
+
+<strong>// La requête n'est pas terminée tant que la fonction send n'est pas appelée.
+// Si vous faites un POST, vous pouvez passer une chaîne de caractères ou
+// un objet document qui sera transmis comme le contenu d'un POST.</strong>
+xrequest.send(null);
+
+<strong>// La réponse sera renvoyée dans les propriétés responseText et responseXML.
+// La première contient la version en texte plein tandis que la seconde retourne
+// le XML interprété comme un document si le contenu est en XML. S'il ne l'est pas,
+// vous pouvez toujours utiliser responseText pour obtenir le contenu.</strong>
+var result=xrequest.responseXML;
+</code></pre>
+
+<p>Mozilla supporte plusieurs autres mécanismes pour transmettre les données à distance tels que XML-RPC et SOAP.</p>
+
+<p>Toutefois, si vous le devez absolument, vous pouvez toujours inclure un formulaire HTML dans une fenêtre XUL en utilisant l'espace de nommage HTML. Notez que seuls les éléments de formulaire HTML peuvent être soumis de cette manière -- les éléments XUL ne sont pas soumis.</p>
+
+<pre><code>
+&lt;html:form xmlns:html="http://www.w3.org/1999/xhtml"
+           method="post" action="http://www.example.com/handleForm"&gt;
+  &lt;html:select name="time"&gt;
+    &lt;html:option value="morning"&gt;Matin&lt;/html:option&gt;
+    &lt;html:option value="noon"&gt;Midi&lt;/html:option&gt;
+    &lt;html:option value="midnight"&gt;Soir&lt;/html:option&gt;
+  &lt;/html:select&gt;
+  &lt;html:input type="submit" value="Go"/&gt;
+&lt;/html:form&gt;
+</code></pre>
+
+<p>Cet exemple ressemble à un formulaire HTML à l'exception de l'utilisation de l'espace de nommage HTML. Notez également que les balises doivent être fermées proprement, donc les balises option fermantes sont nécessaires.</p>
+

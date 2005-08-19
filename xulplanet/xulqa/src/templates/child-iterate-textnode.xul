@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="child-iterate-textnode"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<vbox flex="1" style="overflow: auto;">
+
+<vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans">
+  <template>
+    <vbox uri="rdf:*">
+      <label class="header" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+      <description>
+        <textnode value="rdf:http://www.some-fictitious-zoo.com/rdf#description"/>
+      </description>
+    </vbox>
+  </template>
+</vbox>
+
+</vbox>
+
+</window>

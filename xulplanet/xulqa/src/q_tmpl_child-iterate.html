@@ -1,0 +1,11 @@
+
+<p>Voici le gabarit le plus simple et le plus courant utilisant une syntaxe simple dans laquelle une liste d'enfants est parcourue.</p>
+
+<p><a href="templates/child-iterate.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals"&gt;
+  &lt;template&gt;
+    &lt;label uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

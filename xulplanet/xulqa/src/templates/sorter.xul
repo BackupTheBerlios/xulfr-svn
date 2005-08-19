@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="sort-window" title="Exemple de trie"
+   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function changeSort()
+{
+  // récupère la boîte à trier
+  var box = document.getElementById("info");
+
+  // si l'ordre du trie est décroissant, il est modifié en croissant.
+  // Sinon, il est définit en décroissant.
+  if (box.getAttribute("sortDirection") == "descending")
+    box.setAttribute("sortDirection","ascending");
+  else box.setAttribute("sortDirection","descending");
+
+  // vous devez reconstruire le contenu après la modification des informations de trie
+  box.builder.rebuild();
+}
+</script>
+
+<button label="Inverse" oncommand="changeSort();"/>
+
+<vbox id="info" datasources="animals.rdf"
+      ref="http://www.some-fictitious-zoo.com/mammals" flex="1"
+      sortResource="http://www.some-fictitious-zoo.com/rdf#name" sortDirection="ascending">
+  <template>
+    <label uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/>
+  </template>
+</vbox>
+
+</window>

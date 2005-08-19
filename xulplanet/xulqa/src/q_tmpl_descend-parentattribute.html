@@ -1,0 +1,30 @@
+
+<p>Dans cet exemple, nous voulons afficher une série de libellés pour tous les animaux excepté les mammifères que nous voulons afficher dans bouton de menu. Pour cela, quatre règles sont nécessaires, les deux premières pour les conteneurs et les deux autres pour les noeuds isolés. Dans la première règle, une condition filtre tous les animaux qui ne sont pas des mammifères. Ceux des autres types tombent dans la seconde règle. Pour les mammifères, un bouton de menu est utilisé. Pour les autres types, un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> contenant un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> est utilisé.</p>
+
+<p>Lors du parcours récursif des noeuds isolés des animaux, la troisième règle est utilisée pour les mammifères et la quatrième règle pour les autres types. La troisième règle utilise un attribut <code class="attribut">parent</code> permettant à la règle de de trouver et placer le contenu à l'intérieur du bouton. Elle ne s'applique qu'aux mammifères avec l'attribut conteneur dans le bouton. Les autres seront insérés dans la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> avec l'utilisation de la quatrième règle. La dernière règle génère un libellé.</p>
+
+<p><a href="templates/descend-parentattribute.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox align="start" datasources="animals.rdf"
+      ref="http://www.some-fictitious-zoo.com/all-animals"
+      xmlns:animals="http://www.some-fictitious-zoo.com/rdf#"&gt;
+  &lt;template&gt;
+    &lt;rule iscontainer="true" animals:name="Mammals"&gt;
+      &lt;button type="menu" uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+    &lt;/rule&gt;
+    &lt;rule iscontainer="true"&gt;
+      &lt;hbox uri="rdf:*"&gt;
+        &lt;label class="header" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+      &lt;/hbox&gt;
+    &lt;/rule&gt;
+    &lt;rule parent="button"&gt;
+      &lt;menupopup&gt;
+        &lt;menuitem uri="rdf:*" label="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;label class="indent" uri="rdf:*" value="rdf:http://www.some-fictitious-zoo.com/rdf#name"/&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

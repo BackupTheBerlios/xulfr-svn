@@ -1,0 +1,23 @@
+
+<p>Dans cet exemple, nous parcourons un prédicat plutôt que les enfants d'un container. Nous souhaitons parcourir tous les animaux préférés de Robert qui en a quatre. Nous spécifions le prédicat <var>favoriteAnimal</var> en utilisant l'attribut <code class="attribut">containment</code>. Il fait que la balise <code class="tag">member</code> va parcourir ce prédicat.</p>
+
+<p><a href="templates/predicate-iterate.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans/robert"
+      containment="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?child"/&gt;
+          &lt;triple subject="?child"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?child" value="?name"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

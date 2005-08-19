@@ -1,0 +1,39 @@
+
+<p>Cet arbre affiche deux colonnes, un pour le nom de l'animal et l'autre pour le nombre de spécimens. Une liaison est utilisée pour les spécimens au lieu d'un triplet car seuls les animaux ont ce prédicat, pas les conteneurs.</p>
+
+<p><a href="templates/tree-recurse.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;tree rows="10" datasources="animals.rdf"
+                ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
+  &lt;treecols&gt;
+    &lt;treecol id="name" label="Nom" primary="true" flex="1"/&gt;
+    &lt;treecol id="specimens" label="Spécimens" flex="1"/&gt;
+  &lt;/treecols&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+        &lt;content uri="?uri"/&gt;
+        &lt;member container="?uri" child="?animal"/&gt;
+        &lt;triple subject="?animal"
+                predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;bindings&gt;
+        &lt;binding subject="?animal"
+                 predicate="http://www.some-fictitious-zoo.com/rdf#specimens"
+                 object="?specimens"/&gt;
+      &lt;/bindings&gt;
+      &lt;action&gt;
+        &lt;treechildren flex="1"&gt;
+          &lt;treeitem uri="?animal"&gt;
+            &lt;treerow&gt;
+              &lt;treecell label="?name"/&gt;
+              &lt;treecell label="?specimens"/&gt;
+            &lt;/treerow&gt;
+          &lt;/treeitem&gt;
+        &lt;/treechildren&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/tree&gt;</code></pre>

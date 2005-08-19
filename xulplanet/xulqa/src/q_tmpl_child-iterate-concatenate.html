@@ -1,0 +1,12 @@
+
+<p>Ce gabarit génère une liste d'animaux en affichant deux valeurs dans un seul libellé.</p>
+
+<p><a href="templates/child-iterate-concatenate.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/mammals"&gt;
+  &lt;template&gt;
+    &lt;label uri="rdf:*"
+           value="rdf:http://www.some-fictitious-zoo.com/rdf#name rdf:http://www.some-fictitious-zoo.com/rdf#specimens"/&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

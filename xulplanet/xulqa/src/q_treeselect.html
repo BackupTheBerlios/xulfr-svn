@@ -1,0 +1,78 @@
+
+<p>Pour obtenir le texte de la cellule sélectionnée dans un arbre, utilisez le code suivant&nbsp;:</p>
+
+<pre><code>
+tree.view.getCellText(tree.currentIndex,column)
+</code></pre>
+
+<p>La propriété <code class="attribut">currentIndex</code> de l'arbre contient l'index de la ligne sélectionnée de l'arbre. Passez cette ligne, en complément de l'identifiant <code class="attribut">id</code> de la colonne, à la fonction <code>getCellValue</code>. Notez que la ligne est un nombre tandis que la colonne est un identifiant, et spécifiquement, l'identifiant de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>.</p>
+
+<p>Utilisez l'attribut <code class="attribut">onselect</code> sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> pour lancer un script lorsque une ligne est sélectionnée. L'exemple suivant vous montre comment la sélection d'une ligne affichera le texte de la cellule correspondante dans un libellé situé au dessus.</p>
+
+<a href="templates/treeselect.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="treeSelect" title="Selection dans un arbre"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;script&gt;
+function doSelect(event)
+{
+  <strong>// l'arbre est la cible (target) de l'évènement (event)</strong>
+  var tree=event.target;
+
+  <strong>// récupère l'élément label</strong>
+  var label=document.getElementById("selectedLabel");
+
+  <strong>// récupère le texte de la colonne 'description' sur la ligne sélectionnée.
+  // Il faut appeler la fonction getCellText de l'objet de vue d'arbre.
+  // Nous devons fournir deux paramètres, l'index de la ligne sélectionnée contenu
+  // dans la propriété currentIndex de l'objet tree et l'id de la colonne.</strong>
+  var txt=tree.view.getCellText(tree.currentIndex,"description")
+
+  <strong>// assigne le texte au libellé.</strong>
+  label.setAttribute("value",txt);
+}
+
+&lt;/script&gt;
+
+&lt;hbox&gt;
+  &lt;label value="Partie sélectionnée :"/&gt;
+  &lt;label id="selectedLabel" value=""/&gt;
+&lt;/hbox&gt;
+
+&lt;tree flex="1" width="350" height="200" onselect="doSelect(event);"&gt;
+  &lt;treecols&gt;
+    &lt;treecol id="part" label="Numéro de partie" primary="true" flex="1"/&gt;
+    &lt;treecol id="description" label="Description" flex="1"/&gt;
+  &lt;/treecols&gt;
+
+  &lt;treechildren&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="I68-023"/&gt;
+        &lt;treecell label="Flux Capacitor"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="P34-912"/&gt;
+        &lt;treecell label="Continuum Transfunctioner"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+    &lt;treeitem&gt;
+      &lt;treerow&gt;
+        &lt;treecell label="Z29-307"/&gt;
+        &lt;treecell label="Deluxe Transmogrifier"/&gt;
+      &lt;/treerow&gt;
+    &lt;/treeitem&gt;
+  &lt;/treechildren&gt;
+&lt;/tree&gt;
+
+
+&lt;/window&gt;
+</code></pre>

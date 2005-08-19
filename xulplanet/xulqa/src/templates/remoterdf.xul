@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="treeRDF" title="Arbre RDF"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<label value="Les choses dans ma maison :"/>
+
+<tree flex="1" width="350" height="200"
+      datasources="things.rdf" ref="urn:things:root">
+
+  <treecols>
+    <treecol id="name" label="Nom" primary="true" flex="1"/>
+    <treecol id="material" label="Matériel" flex="1"/>
+  </treecols>
+
+  <template>
+    <treechildren>
+      <treeitem uri="rdf:*">
+        <treerow>
+          <treecell label="rdf:http://www.xulplanet.com/rdf/example#name"/>
+          <treecell label="rdf:http://www.xulplanet.com/rdf/example#material"/>
+        </treerow>
+      </treeitem>
+    </treechildren>
+  </template>
+</tree>
+
+</window>

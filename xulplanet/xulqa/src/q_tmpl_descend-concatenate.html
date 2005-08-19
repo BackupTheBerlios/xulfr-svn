@@ -1,0 +1,30 @@
+
+<p>Cet exemple génère un libellé listant les animaux favoris. Nous utilisons une série de triplets pour obtenir les noms des humains, la liste des animaux et les noms des animaux. Dans le libellé, vous plaçons plusieurs variables pour afficher une chaîne de caractères formatée. Le symbole <var>^</var> signifie une concaténation sans espace, et il est utilisé ici pour mettre au pluriel le nom des animaux. Naturellement, cette technique ne fonctionnera que si les mots au pluriel prennent un <var>s</var>.</p>
+
+<p>Les résultats sont affichés dans un ordre arbitraire puisque la liste des animaux favoris n'est pas une séquence. Notez que les noms des humains et les noms des animaux sont affichés correctement bien que nous parcourons les animaux favoris. En fait, le constructeur de gabarit maintient les variables de liaisons pour chaque étape du processus.</p>
+
+<p><a href="templates/descend-concatenate.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?human"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?humanname"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                  object="?favoriteAnimal"/&gt;
+          &lt;triple subject="?favoriteAnimal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?animalname"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?favoriteAnimal" value="?humanname aime les ?animalname^s"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

@@ -1,0 +1,50 @@
+
+<p>Chaque élément XUL dispose de deux attributs permettant de le masquer ou de montrer. Le premier est <code class="attribut">hidden</code> qui enlève l'élément de l'affichage. Si cet attribut a la valeur <var>true</var>, l'élément sera invisible. Il est équivalent à la propriété CSS <code class="attribut">display</code> mise à la valeur <var>none</var>.</p>
+
+<p>La seconde propriété est <code class="attribut">collapsed</code> qui réduit l'élément de telle manière qu'il n'est plus affiché. Vous pouvez obtenir l'effet similaire avec la propriété CSS <code class="attribut">visibility</code> mise à la valeur <var>collapse</code>.</p>
+
+<p>Dans la plupart des situations, vous pouvez employer l'un ou l'autre attribut, quoiqu'il existe des différences entre eux. Le masquage d'un élément fait que Mozilla ne créera rien à l'affichage tandis que la réduction d'un élément changera sa hauteur et sa largeur à <var>0</var>. Vous noterez qu'un élément masqué ne dispose d'aucune position, tandis qu'un élément réduit aura une position. Vous pouvez obtenir la position d'un élément grâce à ses propriétés <code>boxObject.x</code> et <code>boxObject.y</code>.</p>
+
+<p>L'exemple suivant montre l'utilisation des deux attributs. Cliquer sur le bouton permet de récupérer la position des deux libellés et alors les rendre visible.</p>
+
+<a href="templates/hideshow.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+
+<pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="hideshow" title="Masque/Montre" width="300" height="200"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+&lt;script&gt;
+function checkPositions()
+{
+  <strong>// Récupère les références des libellés masqués et réduits</strong>
+  var hidden=document.getElementById("hiddenLabel");
+  var collapsed=document.getElementById("collapsedLabel");
+
+  <strong>// Récupère la position du libellé masqué en utilisant
+  // les propriétés x et y de l'objet boxObject. Ces valeurs renseigne un libellé.
+  // Le libellé masqué n'ayant pas de position, le résulat sera (0,0).</strong>
+  var val="Position de l'élément hidden : "+
+          hidden.boxObject.x+","+hidden.boxObject.y;
+  hidden.setAttribute("value",val);
+
+  <strong>// Enlève l'attribut hidden pour rendre le libellé visible.</strong>
+  hidden.removeAttribute("hidden");
+
+  <strong>// Récupère la position du libellé réduit.
+  // Contrairement au libellé masqué, l'élément réduit dispose d'une position.</strong>
+  val="Position de l'élément collapsed : "+
+          hidden.boxObject.x+","+hidden.boxObject.y;
+  collapsed.setAttribute("value",val);
+
+  <strong>// Enlève l'attribut collapsed pour rendre le libellé visible.</strong>
+  collapsed.removeAttribute("collapsed");
+}
+&lt;/script&gt;
+
+&lt;button label="Vérifie les positions" oncommand="checkPositions();"/&gt;
+&lt;label id="hiddenLabel" hidden="true"/&gt;
+&lt;label id="collapsedLabel" collapsed="true"/&gt;
+
+&lt;/window&gt;</code></pre>

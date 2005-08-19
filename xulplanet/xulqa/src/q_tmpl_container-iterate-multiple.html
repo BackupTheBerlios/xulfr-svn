@@ -1,0 +1,26 @@
+
+<p>Dans cet exemple, nous récupérons tous les animaux de compagnie de Sarah et Robert. Pour cela, nous parcourons les deux séries de listes. Tout d'abord, nous devons atteindre, pour les deux personnes, les noeuds qui seront stockés dans la variable 'human', et ensuite nous devons atteindre la liste des animaux qui sera stockée dans la variable "animal'.</p>
+
+<p><a href="templates/container-iterate-multiple.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?human"/&gt;
+          &lt;triple subject="?human"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#pets"
+                  object="?pets"/&gt;
+          &lt;member container="?pets" child="?animal"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?animal" value="?name"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

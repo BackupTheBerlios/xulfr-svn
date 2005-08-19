@@ -1,0 +1,47 @@
+
+<p>Ce gabarit parcourt la liste des humains pour ensuite parcourir récursivement leurs animaux favoris. Les animaux sont affichés à côté de leur race. La race est récupérée en utilisant une arc interne pointant vers l'animal. Une balise <code class="tag">member</code> est utilisée dans le seconde règle. La liste des animaux est stockée dans la variable ?animal, et la valeur de toutes les ressources parentes de chaque animal est stockée dans la variable ?animalClass. Le triplet suivant filtre tous les noeuds qui ne sont pas du type d'une race. Cela est nécessaire car certains animaux ont plusieurs parents puisqu'ils sont des enfants d'une race et de la liste des animaux de compagnie.</p>
+
+<p>Notez que la variable ?animal est utilisée dans l'attribut <code class="attribut">uri</code> pour les deux règles, même si la première génère une liste d'humains. Il est nécessaire que la variable utilisée dans l'attribut <code class="attribut">uri</code> soit la même dans toutes les règles bien que chaque règle générera des données différentes pour la variable.</p>
+
+<p><a href="templates/source-iterate-type.xul" onclick="window.open(this.href,'xulex','chrome,resizable,width=500,height=220'); return false;">Voir</a>&nbsp;&nbsp;
+<a href="templates/animals.txt">Voir la source de données</a></p>
+
+<pre><code>&lt;vbox datasources="animals.rdf" ref="http://www.some-fictitious-zoo.com/humans"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;member container="?uri" child="?animal"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;vbox uri="?animal"&gt;
+          &lt;label class="header" value="Les animaux favoris de ?name"/&gt;
+        &lt;/vbox&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+          &lt;content uri="?uri"/&gt;
+          &lt;triple subject="?uri"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#favoriteAnimal"
+                  object="?animal"/&gt;
+          &lt;member container="?animalClass" child="?animal"/&gt;
+          &lt;triple subject="?animalClass"
+                  predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                  object="http://www.some-fictitious-zoo.com/rdf#Class"/&gt;
+          &lt;triple subject="?animal"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?name"/&gt;
+          &lt;triple subject="?animalClass"
+                  predicate="http://www.some-fictitious-zoo.com/rdf#name"
+                  object="?animalClassName"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?animal" class="indent" value="?name qui appartient à la race de ?animalClassName"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="treeProgress" title="Arbres avec des barres de progressions"
+        onload="assignView();"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function assignView()
+{
+  // un objet de vue d'arbre
+  var treeview = {
+    // crée un arbre contenant 20 lignes
+    rowCount: 20,
+
+    // ces fonctions doivent être définie pour éviter les erreurs,
+    // toutefois elles ne définissent rien de spécial
+    isContainer: function(row){ return false; },
+    isSeparator: function(row){ return false; },
+    isSorted: function(row){ return false; },
+    getLevel: function(row){ return 0; },
+    getImageSrc: function(row,col){ return null; },
+    getRowProperties: function(row,props){},
+    getCellProperties: function(row,col,props){},
+    getColumnProperties: function(colid,col,props){},
+
+    // récupère le type de barre de progression à utiliser pour une cellule.
+    // Pour la colonne pourcentage, indiquer pour la barre de progression normale,
+    // une constante de l'interface nsITreeView.
+    // Pour la première colonne, retourner simplement 0
+    // signifiant aucune barre de progression.
+    getProgressMode: function(row,col){
+      if (col == "pct") return Components.interfaces.nsITreeView.progressNormal;
+      else return 0;
+    },
+
+    // récupère la valeur de la barre de progression qui dans ce cas est calculée
+    // à partir du numéro de la ligne. La valeur peut être retournée comme une nombre
+    // ou une chaîne de caractères.
+    getCellValue: function(row,col){
+      if (col == "pct") return (row * 5 + 1);
+      else return null;
+    },
+
+    // retourne les libellés textes des cellules de la première colonne.
+    getCellText: function(row,col){
+      if (col == "task") return "Item " + (row + 1);
+      else return "";
+    },
+
+    // assigne l'élément tree à la vue
+    setTree: function(treebox){ this.treebox=treebox; }
+
+  };
+
+  // assigne la vue à l'arbre
+  document.getElementById("theTree").view=treeview;
+}
+
+</script>
+
+<tree id="theTree" flex="1" width="300" height="300">
+
+  <treecols>
+    <treecol id="task" label="Tâche" primary="true" flex="1"/>
+    <treecol id="pct" label="Avancement" type="progressmeter" flex="1"/>
+  </treecols>
+  <treechildren/>
+</tree>
+
+</window>
