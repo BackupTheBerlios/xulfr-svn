@@ -17,15 +17,15 @@
 
 $article_list=array(
  'index'      =>array('Guide API Mozilla de XulPlanet.com',       array('différents contributeurs de xulfr.org'=>'') ,'',''),
- 'rdfstart'   =>array('1.1 Introduction au modèle RDF',              array('René-Luc D.'=>'13/06/2005') ,'','rdfsyntax'),
- 'rdfsyntax'  =>array('1.2 La syntaxe RDF/XML',                      array('René-Luc D.'=>'13/06/2005') ,'rdfstart','rdfsources'),
- 'rdfsources' =>array('1.3 Sources de données RDF',                  array('René-Luc D.'=>'13/06/2005') ,'rdfsyntax','rdfsrcdetails'),
- 'rdfsrcdetails'=>array('1.4 Détails des sources de données RDF',    array('René-Luc D.'=>'13/06/2005') ,'rdfsources','rdfresources'),
- 'rdfresources' =>array('1.5 Ressources et literals RDF',            array('René-Luc D.'=>'13/06/2005') ,'rdfsrcdetails','rdfquery'),
- 'rdfquery'   =>array('1.6 Interroger les sources de données RDF',   array('René-Luc D.'=>'13/06/2005') ,'rdfresources','rdfmods'),
- 'rdfmods'    =>array('1.7 Modification de sources de données RDF',  array('René-Luc D.'=>'13/06/2005') ,'rdfquery','rdfcontain'),
- 'rdfcontain' =>array('1.8 Conteneurs RDF',                          array('René-Luc D.'=>'13/06/2005') ,'rdfmods','rdfsave'),
- 'rdfsave'    =>array('1.9 Sauvegarde RDF',                          array('René-Luc D.'=>'13/06/2005') ,'rdfcontain','')
+ 'rdfstart'   =>array('1.1 Introduction au modèle RDF',              array('René-Luc D\'Hont'=>'13/06/2005') ,'','rdfsyntax'),
+ 'rdfsyntax'  =>array('1.2 La syntaxe RDF/XML',                      array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfstart','rdfsources'),
+ 'rdfsources' =>array('1.3 Sources de données RDF',                  array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfsyntax','rdfsrcdetails'),
+ 'rdfsrcdetails'=>array('1.4 Détails des sources de données RDF',    array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfsources','rdfresources'),
+ 'rdfresources' =>array('1.5 Ressources et literals RDF',            array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfsrcdetails','rdfquery'),
+ 'rdfquery'   =>array('1.6 Interroger les sources de données RDF',   array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfresources','rdfmods'),
+ 'rdfmods'    =>array('1.7 Modification de sources de données RDF',  array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfquery','rdfcontain'),
+ 'rdfcontain' =>array('1.8 Conteneurs RDF',                          array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfmods','rdfsave'),
+ 'rdfsave'    =>array('1.9 Sauvegarde RDF',                          array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfcontain','')
 
 );
 

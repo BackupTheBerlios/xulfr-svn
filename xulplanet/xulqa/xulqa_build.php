@@ -175,7 +175,27 @@ foreach($tb as $chapitre=>$sections) {
   }
   $html.= "  </ul>\n";
 }
-$html.= '</div>
+$html.= '
+<h2>Contributeurs</h2>
+<p id="contributeurs">Ce tutoriel a été traduit par des contributeurs au
+projet de traduction de <a href="http://xulfr.org/">xulfr.org</a>.</p>
+<dl>
+    <dt>Coordinateur de la traduction</dt>
+    <dd>Laurent Jouanneau</dd>
+    <dt>Traducteurs</dt>
+    <dd>Alain Boquet</dd>
+    <dt>Relecteurs et correcteurs</dt>
+    <dd>Alain Boquet, Laurent Jouanneau.</dd>
+</dl>
+
+<h2>Éditions successives</h2>
+
+<dl>
+    <dt>19 août 2005</dt>
+    <dd>Première publication du guide traduit</dd>
+</dl>
+
+</div>
 <!--*navbox*-->
 
 </div>
