@@ -87,7 +87,7 @@ foreach($article_list as $basename => $article){
 
 ob_start();
 ?>
-<h1><?php echo $page_chapitre?></h1>
+<?php echo '<h1 id="'.$basename.'.html">'.$page_chapitre?></h1>
 <div class="contenuinfo">
 <?php  if($basename != 'index'){ ?>
     <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>.
@@ -132,8 +132,8 @@ ob_clean();
 
     if($basename == 'index'){
         $file = str_replace("@@DATE_MISEAJOUR@@", date("d/m/Y"),$file);
+        $file = preg_replace('/<\/strong> <a href="(.+)">/i', '</strong> <a href="#$1">', $file);
     }
-
 
     $file = $header . $file;
 
