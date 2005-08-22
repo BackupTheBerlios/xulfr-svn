@@ -139,7 +139,7 @@ foreach($article_list as $basename => $article){
    ?>.
    <br />
     Page originale&nbsp;:
-    <a href="http://www.xulplanet.com/tutorials/xultu/<?php echo $basename?>.html">http://www.xulplanet.com/tutorials/xultu/<?php echo $basename?>.html</a>
+    <a href="http://www.xulplanet.com/tutorials/mozsdk/<?php echo $basename?>.html">http://www.xulplanet.com/tutorials/mozsdk/<?php echo $basename?>.html</a>
     <a href="http://www.xulplanet.com/"><img src="xulplanet_little.png" alt="xulplanet.com" style="vertical-align:middle"/></a>
     </p>
 
