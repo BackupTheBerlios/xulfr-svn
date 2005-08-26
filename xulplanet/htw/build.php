@@ -66,6 +66,14 @@ foreach($article_list as $sect=>$tb) {
 ///  echo "      <li><strong>$sect</strong> <a href=\"$sect.html\">".$tb[1]."</a></li>\n";
 }
 
+/*Génération automatique du sommaire*/
+$sommaire_html = "<ol>\n";;
+foreach($article_list as $sect=>$tb) {
+  if ($sect!='index') $sommaire_html.= "  <li><a href=\"$sect.html\">".$tb[1]."</a>".(is_file("src/$sect.html")?'':' (traduction en cours)')."</li>\n";
+}
+$sommaire_html.= "</ol>\n";
+
+/*Génération de tous les pages*/
 foreach($article_list as $basename => $article){
 
    list($num_index, $page_chapitre, $auteurs, $prev, $next)
@@ -82,7 +90,7 @@ foreach($article_list as $basename => $article){
         if($prev != '')
             $header_links.='<link rel="prev" href="'.$prev.'.html" title="'.$article_list[$prev][1].'" />'."\n";
         if($next != '')
-            $header_links.='<link rel="next" href="'.$next.'.html" title="'.$article_list[$next][1].'" />'."\n";
+            $header_links.='<link rel="next" href="'.$next.'.html" title="u'.$article_list[$next][1].'" />'."\n";
 
         reset($article_list);
         $first=current($article_list);
@@ -231,10 +239,12 @@ ob_clean();
     $page_url_from='src/'.$basename.'.html';
     $page_url_to='builds/'.$basename.'.html';
     //$page_url_to='../../../../../www/xulplanet/mozsdk_svn/'.$basename.'.html';
-    $file = implode('',file($page_url_from));
+    if (is_file($page_url_from)) $file = implode('',file($page_url_from));
+    else $file = "<em>(Traduction en cours)</em>\n";
 
     if($basename == 'index'){
         $file = str_replace("@@DATE_MISEAJOUR@@", date("d/m/Y"),$file);
+        $file = str_replace("@@SOMMAIRE@@", $sommaire_html, $file);
     }
 
 
@@ -244,7 +254,7 @@ ob_clean();
     fwrite($fp,$file);
     fclose($fp);
     chmod($page_url_to, 0666);
-
+echo "page $basename créée<br />\n";
 }
 
 ?>
