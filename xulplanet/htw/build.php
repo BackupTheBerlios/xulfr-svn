@@ -22,7 +22,7 @@ $article_list=array(
  'HTW II'     =>array(301, 'HTW Partie II',       array('Julien Appert'=>'02/08/2005') ),
  'HTW III'    =>array(302, 'HTW Partie III',      array('Alain B.'=>'02/08/2005') ),
  'HTW IV'     =>array(303, 'HTW Partie IV',       array(''=>'') ),
- 'HTW V'      =>array(304, 'HTW Partie V',        array(''=>'') ),
+ 'HTW V'      =>array(304, 'HTW Partie V',        array('Alain B.'=>'26/08/2005') ),
  'HTW VI'     =>array(305, 'HTW Partie VI',       array(''=>'') ),
  'HTW VII'    =>array(306, 'HTW Partie VII',      array(''=>'') ),
  'HTW VIII'   =>array(307, 'HTW Partie VIII',     array(''=>'') ),
