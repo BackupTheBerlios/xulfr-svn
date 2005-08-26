@@ -1,163 +1,165 @@
 
-<p>Cette section décrit le modèle RDF (Resource Description Framework,
-cadre de description de ressource)</p>
+<p>Cette section décrit le modèle RDF (Resource Description Framework)</p>
 
 <h2>Ressources</h2>
 
-<p>Le RDF (Resource Description Framework, cadre de description de
-ressource) est un modèle de stockage de graphiques d'informations.
+<p>Le RDF (Resource Description Framework) est un modèle pour le stockage d'informations sous forme de graphes.
 Le RDF est employé pour créer des rapports entre différentes ressources,
 chaque ressource étant une chose, telle qu'une personne, une chanson, une
-page Web ou un signet (bookmark). Certains considèrent le RDF comme un
+page Web ou un marque-page. Certains considèrent le RDF comme un
 langage XML de description de données. Cependant, le format RDF/XML est
 juste une méthode pour stocker du RDF dans un fichier. Si vous essayez
 d'apprendre le RDF, il peut être déroutant de l'apprendre par
-l'intermédiaire de la syntaxe RDF/XML; c'est pourquoi le modèle RDF
-est décrit ci-dessous,dans assez de détail pour le comprendre sans
+l'intermédiaire de la syntaxe RDF/XML&nbsp;; c'est pourquoi le modèle RDF
+est décrit ci-dessous, dans assez de détail pour le comprendre sans
 discuter de la syntaxe RDF/XML.</p>
 
 <p>Imaginez un enchaînement ou un graphique de noeuds interconnectés.
-Les noeuds sont reliés par l'intermédiaire de divers relations. Par
+Les noeuds sont reliés par l'intermédiaire de diverses relations. Par
 exemple, disons que chaque noeud représente une personne. Chaque personne
-pourrait être liée à une autre personne parce qu'ils sont des enfants de
-mêmes parents, des parents, des conjoints, des employés ou des ennemis.
+pourrait être liée à une autre personne parce qu'elles sont enfants de mêmes parents,
+parents, conjoints, employés ou des ennemis.
 Chaque connexion porte le nom de la relation entre les noeuds.</p>
 
 <p>Un autre type de relations est les propriétés physiques d'un noeud.
 Par exemple, le nom ou l'âge d'une personne. Ces relations seraient
-nommés par 'nom' et 'âge' au lieu de 'enfant de mêmes parents' ou
+nommées par 'nom' et 'âge' au lieu de 'enfant de mêmes parents' ou
 'parent'.</p>
 
 <p>le RDF est employé pour décrire ces relations. Il n'inclut pas
 réellement directement les noeuds, mais indirectement grâce aux
 relations pointant vers les noeuds. À tout moment, nous pourrions ajouter
 un nouveau noeud, tel qu'un enfant nouveau-né, et tout ce que nous devons
-faire c'est ajouter deux liens 'parent', un pour chaque parent.</p>
+faire est d'ajouter deux liens parents, un pour chaque parent.</p>
 
 <p>Dans le RDF, les noeuds peuvent être de deux types très généraux,
 ressource ou literal. Un literal est une valeur réelle, telle que le nom
 'Sandra' ou le nombre '7'. Vous pourriez penser à un literal comme une
 chaîne de caractères une fois utilisé dans un langage de programmation.
-Une ressource représente quelque chose, plus comme un objet dans un
+Une ressource se rapprocherait plus d'un objet dans un
 langage de programmation. Par exemple, une personne serait une ressource,
 mais le nom de la personne serait un literal.</p>
 
-<p>Dans le RDF, des ressources sont associées à des URIs de sorte que
-nous puissions les identifier. Puisqu'une URI est unique, nous pouvons
-identifier une ressource spécifique. La valeur de l'Uri n'est pas vraiment
+<p>Dans le RDF, des ressources sont associées à des URIs permettant de les identifier.
+Puisqu'un URI est unique, nous pouvons
+identifier une ressource spécifique. La valeur de l'URI n'est pas vraiment
 importante dans le RDF puisqu'elle est juste employée comme identifiant.
-Vous pourriez vouloir employer une certaine convention comme un URI qui
-inclut un numéro de série permettant d'identifier un objet physique.</p>
+Vous pouvez employer une certaine convention tel qu'un URI qui
+inclurait un numéro de série permettant d'identifier un objet physique.</p>
 
-<h2>Triplets (triples)</h2>
+<h2>Triplets</h2>
 
 <p>Nous pouvons ajouter des relations entre deux ressources ou entre une
 ressource et un literal. Ces liens s'appellent souvent des triplets ou
-des arcs. Voici quelques exemples:</p>
+des arcs. Voici quelques exemples&nbsp;:</p>
 
 <pre><code>
 &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  name     -&gt;  Sandra
-&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  gender   -&gt;  female
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  gender   -&gt;  femelle
 &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  sibling  -&gt;
       &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
 &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;   -&gt;  gender   -&gt;  male
 </code></pre>
-<p>Dans cette documentation, nous emploierons la convention que les thèmes
-écrits entre tags sont des ressources, et ceux qui ne le sont pas sont des
-literals. Ci-dessus, sont définis quatre triplets. Le premier indique qu'il
-y a une ressource &lt;http://www.xulplanet.com/rdf/people/Sandra&gt; avec
-pour nom 'Sandra'. Le second indique que la même ressource a un genre
-'femelle'. Le troisième triplet indique que l'enfant de mêmes parents
-est une autre ressource &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;.
+
+<p>Par convention dans cette documentation, les items écrits entre les signes supérieurs
+et inférieurs seront les ressources tandis que les autres seront les literals.
+Quatre triplets sont définis ci-dessus. Le premier indique que
+la ressource &lt;http://www.xulplanet.com/rdf/people/Sandra&gt; a
+pour nom <var>Sandra</var>. Le second indique que la même ressource a un genre
+<var>femelle</var>. Le troisième triplet indique que l'enfant de mêmes parents
+est une autre ressource <var>&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;</var>.
 Le triplet final indique un genre pour la ressource
 &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;.</p>
 
-<p>Un nom n'a pas été fourni pour la ressource
+<p>Aucun nom n'a été fourni pour la ressource
 &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;. En tant que lecteur
 humain, nous pourrions supposer que le nom est probablement le literal
-'Kevin ', mais le système informatique n'aura aucune manière de le savoir.
-Nous pourrions employer n'importe quelle forme d'Uri pour la ressource;
-par exemple ce qui suit serait juste et acceptable :</p>
+'Kevin ', mais le système informatique n'a aucune manière de le savoir.
+Nous pourrions employer n'importe quelle forme d'URI pour la ressource&nbsp;;
+par exemple ce qui suit serait juste et acceptable&nbsp;:</p>
 
 <pre><code>
 &lt;urn:x-person:S1&gt;  -&gt;  name  -&gt;   Sandra
 </code></pre>
+
 <p>La ressource &lt;urn:x-person:S1&gt; ne veut rien dire pour un humain,
 et serait juste et compréhensible par un système informatique. En fait,
-une URI moins significative pour un humain pourrait être meilleur puisque
+un URI moins significatif pour un humain pourrait être meilleur puisque
 l'arrangement utilisé avec &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;
-ne fonctionnerait pas si quelqu'un d'autre s'appelait Sandra. Notez que le
-fait qu'une URI HTTP soit employé n'indique pas qu'elle est associée à un
-site Web accessible par le protocole HTTP, bien que vous pourriez mettre
-quelque chose reliée à cet URL en téléchargement. Au lieu de cela, vous
-pourriez juste employer le nom de votre site Web en créant des URIs avec
-pour assurer l'unicité de vos informations puisque d'autres ne devraient
-pas l'employer.</p>
+ne fonctionnerait pas si quelqu'un d'autre s'appelait Sandra.</p>
 
-<p>L'Uri est juste un identifiant. Le RDF ne s'inquiète pas de ce qu'il est.
-Mais si la même URI est employée en plusieurs endroits, le RDF comprendra
+<p class="note">Notez que le fait qu'un URI HTTP soit employé ne signifie pas
+qu'il soit associé à un site Web par le protocole HTTP, bien qu'il vous soit
+possible de prévoir un téléchargement à cette adresse. En fait, vous devriez
+utiliser le nom de votre Web pour créer les URIs afin de garantir leur unicité
+et éviter à d'autres de les utilisés.</p>
+
+<p>L'URI est juste un identifiant. Le RDF ne s'inquiète pas de ce qu'il est.
+Mais si le même URI est employé en plusieurs endroits, le RDF comprendra
 que tous se rapportent à la même ressource. Dans le premier exemple,
-&lt;http://www.xulplanet.com/rdf/people/Sandra&gt; était présent plusieurs
-fois, mais ils représentaient tous une même chose.</p>
+plusieurs &lt;http://www.xulplanet.com/rdf/people/Sandra&gt; étaient présents,
+mais ils représentaient tous une même chose.</p>
 
-<p>Quoique nous n'ayons pas indiqué un nom pour la ressource
-&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;, ceci ne signifie pas
-qu'il n'en a pas un. Si un triplet n'est pas indiqué dans le graphique,
-il ne signifie pas que la valeur n'existe pas, au lieu de cela il peut
-signifier que la valeur n'est pas connue, ou qu'on lui fournira plus
-tard.</p>
+<p>Le fait de ne pas avoir spécifié de nom pour la ressource 
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt; ne signifie pas 
+qu'il n'y en a pas. Si le triplet n'est pas spécifié dans le graphe, 
+il ne faut pas considérer que la valeur n'existe pas, mais plutôt que 
+la valeur n'est pas connue ou qu'elle sera fournie plus tard.</p>
 
-<p>Une chose que nous n'avons pas indiqué dans l'exemple est si Kevin est
-un frère ou une soeur de Sandra, nous avons juste employé un terme plus
-générique 'enfant de mêmes parents'. Cependant, le système peut figurer
-ceci en employant seulement les informations fournies et un peu de logique.
-Par exemple, si il était dit au système qu'un frère est un enfant de mêmes
-parents qui est masculin, il pourrait déterminer que Kevin est le frère de
-Sandra en utilisant seulement les deux triplets suivants:</p>
+<p>Dans l'exemple, vous aurez noté que nous n'avons pas précisé si 
+Kevin est un frère ou une soeur de Sandra. Nous l'avons simplement 
+défini comme 'enfant de mêmes parents'. Toutefois, le système peut 
+le déterminer grâce aux informations fournies et un peu de logique. 
+Par exemple, si le système sait qu'un frère est un enfant male de 
+mêmes parents, il peut déterminer que Kevin est le frère de Sandra 
+en utilisant seulement deux triplets&nbsp;:</p>
 
-<pre><code>
-&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  sibling  -&gt;
+<pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  sibling  -&gt;
       &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
-&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;   -&gt;  gender   -&gt;  male
-</code></pre>
-<p>Cependant, avec juste ces deux règles, le système ne peut pas déterminer
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt;   -&gt;  genre   -&gt;  male</code></pre>
+
+<p>Cependant, ces deux règles ne permettent pas au système de déterminer 
 si Sandra est un frère ou une soeur de Kevin, puisque ces deux règles
-n'indiquent pas le genre de Sandra. Pour ceci, nous aurions besoin de
-la règle appropriée de l'exemple précédent.</p>
+n'indiquent pas le genre de Sandra. Pour cela, nous aurions besoin de
+la règle appropriée d'un des exemples précédents.</p>
 
-<p>RDF nous laisse composer des ressources, des literals, et même les
-étiquettes des arcs (tels que 'enfant de mêmes parents '). Ainsi, nous
-pouvons composer une nouvelle étiquette à tout moment:</p>
+<p>RDF nous permet de composer des ressources, des literals, et même les
+étiquettes des arcs (tels que 'enfant de mêmes parents'). Ainsi, nous
+pouvons créer une nouvelle étiquette à tout moment&nbsp;:</p>
 
-<pre><code>
-&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt; bestFriend  -&gt;
-      &lt;http://www.xulplanet.com/rdf/people/Christine&gt;
-</code></pre>
-<p>L'étiquette 'bestFriend ', et les autres utilisées ci-dessus s'appelle
+<pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt; bestFriend  -&gt;
+      &lt;http://www.xulplanet.com/rdf/people/Christine&gt;</code></pre>
+      
+<p>L'étiquette <var>bestFriend</var>, et les autres utilisées ci-dessus s'appellent
 des prédicats. L'élément à gauche de chaque triplet s'appelle le sujet et
-à droite il s'appelle l'objet ou la cible. Le sujet sera toujours une
-ressource, alors que la cible peut être une ressource ou un literal.
-Vous n'aurez jamais un literal en rapport avec un literal.</p>
+celui à droite s'appelle l'objet ou la cible. Le sujet sera toujours une
+ressource, alors que la cible peut être soit une ressource ou soit un literal.
+Vous n'aurez jamais un literal en relation avec un autre literal.</p>
 
 <p>Pour assurer l'unicité de l'information, les prédicats sont également
 identifiés par des URIs. Il y aura un URI unique pour chaque prédicat.
-Par exemple, l'Uri pour 'enfant de mêmes parents' pourrait être
+Par exemple, l'URI pour 'enfant de mêmes parents' pourrait être
 &lt;http://www.xulplanet.com/rdf/people/sibling&gt;. Habituellement,
-les étiquettes de prédicat relatif seront semblables de sorte que les
-namespaces du XML-modèle puissent être employés pour se rapporter à
-elles. Le dernier exemple serait représenté ainsi:</p>
+les étiquettes de prédicats ayant un rapport entre eux auront des espaces de nommage semblables avec le style XML.
+Le dernier exemple serait ainsi représenté&nbsp;:</p>
 
-<pre><code>
-&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;
+<pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;
       &lt;http://www.xulplanet.com/rdf/people/bestFriend&gt;  -&gt;
-            &lt;http://www.xulplanet.com/rdf/people/Christine&gt;
-</code></pre>
-<p>Dans les propos de cette documentation, nous omettrons parfois le
-namespace des prédicats pour simplifier les exemples. Les prédicats sont
-également des ressources et vous pourriez créer des rapports entre un
-prédicat et autre chose. Ceci est généralement fait pour définir les
-propriétés qui décrivent un prédicat, formant un vocabulaire formel
+            &lt;http://www.xulplanet.com/rdf/people/Christine&gt;</code></pre>
+
+<p>Pour les besoins de cette documentation, nous omettrons parfois l'espace 
+de nommage des prédicats pour simplifier les exemples. Les prédicats étant
+également des ressources, vous pouvez créer des rapports entre un
+prédicat et autre chose. Cette utilisation sert généralement à définir des
+propriétés décrivant la signification d'un prédicat, en formant un vocabulaire formel
 pour ce prédicat.</p>
+
+<p>Vous pouvez avoir de multiples triplets avec le même sujet si vous le souhaitez&nbsp;:</p>
+
+<pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  name  -&gt;  Sandra
+&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  name  -&gt;  Sandy</code></pre>
+
+<p>###</p>
 
 <p>Disons que nous décidons d'ajouter une autre personne également
 appelé Sandra:</p>
