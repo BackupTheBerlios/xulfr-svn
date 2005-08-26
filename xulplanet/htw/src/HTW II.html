@@ -1,0 +1,65 @@
+
+<p>RDF est, en termes mathématiques, un graphique directionnel étiqueté. Cela signifie que RDF est un graphique de noeuds 
+et de flèches et chaque noeud et flèche possède une étiquette. Puisque c'est un graphique, les flèches peuvent pointer 
+vers n'importe quel endroit et les noeuds peuvent avoir un certain nombre de flèches pointant vers eux ou à partir d'eux.
+ Et aussi parce que c'est un graphique, il n'y a pas de réel point de départ ou de noeud racine, donc vous pouvez partir
+ de n'importe où. Dans l'image ci-dessous, vous pouvez voir que le noeud A, en haut, a des arcs pointant sur B, C et D.
+ De même, C a un arc pointant sur D. Vous pouvez avoir des arcs pointant n'importe où, par exemple le noeud D peut avoir
+ un arc pointant à son tour vers A. Pour parcourir le graphique, vous pouvez démarrer au noeud A et parcourir le graphique
+ en suivant les flèches de B, C ou D. Ou bien pouvez démarrer sur B et aller jusqu'à A, puis aller jusqu'à C et D.
+ Il n'existe pas d'obligation à suivre les flèches dans la direction qu'elles pointent&nbsp;; vous pouvez aisément aller
+ dans l'autre sens. Cette image a été générée à partir du validateur RDF du W3C, un bon endroit pour vérifier si votre
+ RDF est valide.</p>
+
+<img src="images/template-guide-p2.png" class="screenshot" />
+
+<p>Le texte en rouge sont les étiquettes pour les flèches, nommées attributs. Dans cet exemple, toutes les flèches 
+ont la même étiquette. D'ordinaire, ce n'est pas le cas. Les gabarits fournissent une manière de parcourir en utilisant
+ uniquement les flèches avec des étiquettes spécifiques. Voici le RDF/XML adapté à ce graphique&nbsp;:</p>
+
+<pre><code>
+&lt;?xml version="1.0"?&gt;
+&lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rel="http://www.xulplanet.com/rdf/"&gt;
+  &lt;rdf:Description rdf:about="http://www.xulplanet.com/rdf/A"&gt;
+    &lt;rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/B"/&gt;
+    &lt;rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/C"/&gt;
+
+    &lt;rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/D"/&gt;
+  &lt;/rdf:Description&gt;
+  &lt;rdf:Description rdf:about="http://www.xulplanet.com/rdf/C"&gt;
+    &lt;rel:relatedItem rdf:resource="http://www.xulplanet.com/rdf/D"/&gt;
+  &lt;/rdf:Description&gt;
+&lt;/rdf:RDF&gt;
+</code></pre>
+
+<p>Pour une requête sur un gabarit XUL, vous avez d'abord besoin de sélectionner un point de départ dans le graphique RDF.
+ Une fois que vous avez sélectionné un point de départ, vous utilisez un nombre d'états qui indiquent où aller ensuite
+ lorsque le graphique est parcouru. Finalement, vous concluerez avec un lot de noeuds que vous considérez comme les
+ terminus de votre requête. Ils deviennent vos résultats et du contenu sera généré pour chacun de ces résultats.
+ Disons que vous partez de A. Vous pouvez naviguer jusqu'à B, C et D et générer trois blocs de sortie. Ou bien vous
+ pouvez commencer sur D et remonter deux flèches. Cela produira deux résultats, A et B. Regardez le graphique pour voir
+ si vous pouvez comprendre pourquoi deux résultats seront générés dans ce cas.</p>
+
+<p>Dans la terminologie des modèles XUL, le point de départ est appelé le conteneur ou le point de référence,
+ et le terminus est appelé le membre. Il est nommé ainsi parce qu'il est très usité de rassembler la liste des membres,
+ ou enfants, d'un conteneur. Mais ça ne doit pas être obligatoirement le cas. Tout peut être point de départ ou de fin.</p>
+
+<p>Les noeuds, en RDF, sont identifiés par une chaîne de caractères. Il y a deux types de noeuds en RDF, 'resources'
+ qui représentent en général des "choses", et 'literals' qui sont des valeurs telles que les noms des choses, les
+ dates des choses, les tailles des choses, et ainsi de suite. Une valeur de 'literal' est, par exemple, le nom de
+ la chose, tel que "Fred". Une valeur de 'resource' est une URI que, pour votre propre donnée RDF, vous pouvez inventer.
+ Nous utiliserons l'URI des noeuds 'resource' dans un gabarit. Dans l'image, l'URI de la 'resource' sont les étiquettes
+ bleues de chaque noeud. Il n'y a pas de 'literals' dans cet exemple, mais nous les verrons plus tard.</p>
+
+<p>Disons que nous voulons que le point de départ soit A, sur l'exemple graphique ci-dessus. L'URI de A
+ (http://www.xulplanet.com/rdf//A) est la référence du point de départ. Dans un gabarit XUL, vous spécifiez
+ le point de départ en utilisant l'attribut 'ref'. Voici un exemple&nbsp;:</p>
+
+<pre><code>
+&lt;vbox datasources="http://www.xulplanet.com/ds/sample.rdf"
+      ref="http://www.xulplanet.com/rdf/A" flex="1"&gt;
+</code></pre>
+
+<p>C'est un indicateur que nous désirons construire un gabarit XUL en utilisant le point de référence possédant
+ l'URI <var>"http://www.xulplanet.com/rdf/A"</var>. Nous allons voir ensuite comme construire le gabarit.</p>
