@@ -54,7 +54,8 @@ $article_list=array(
  'HTW XXXIV'  =>array(335, 'La reconstruction de gabarits',    array(''=>'') ),
  'HTW XXXV'   =>array(336, 'Les observateurs de gabarits',     array(''=>'') ),
  'HTW XXXVI'  =>array(337, 'Les observateurs du constructeur d\'arbres',    array(''=>'') ),
- 'HTW XXXVII' =>array(338, 'Modifications RDF',   array(''=>'') )
+ 'HTW XXXVII' =>array(338, 'Modifications RDF',   array(''=>'') ),
+ 'HTW XXXXIX' =>array(341, 'Modifications RDF - complément',   array(''=>'') )
 );
 
 /*Autocomplétion des clés 4 et 5*/
