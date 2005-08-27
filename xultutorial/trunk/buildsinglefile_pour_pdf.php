@@ -132,10 +132,9 @@ ob_clean();
 
     if($basename == 'index'){
         $file = str_replace("@@DATE_MISEAJOUR@@", date("d/m/Y"),$file);
-        $file = str_replace("\n", '', $file);
         $file = preg_replace('/<\/strong> <a href="(.+)">/i', '</strong> <a href="#$1">', $file);
         $file = preg_replace('/<h2>Sommaire<\/h2>/i', '', $file);
-        $file = preg_replace('/<ul>.+<\/ul>/i', '', $file);
+        $file = preg_replace('/<ul>.+<\/ul>/s', '', $file);
     }
 
     $file = $header . $file;
