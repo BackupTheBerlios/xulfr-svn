@@ -111,9 +111,9 @@ $article_list=array(
  'overlay'=>array('12.6 Overlays',                                      array('Alain B.'=>'24/07/2004'),'advwiz','crosspov'),
  'crosspov'=>array('12.7 Overlays inter-paquetage',                     array('Alain B.'=>'25/07/2004'),'overlay','xpinstall'),
 
- 'xpinstall' =>array('13.1 - Création d\'un programme d\'installation', array('Alain B.'=> '01/03/2004'),'crosspov','xpiscript'),
- 'xpiscript' =>array('13.2 - Les scripts d\'installation',              array('Alain B.'=> '14/03/2004'),'xpinstall','xpiadv'),
- 'xpiadv' =>array('13.3 - Fonctions additionnelles d\'installation',          array('Alain B.'=> '17/03/2004'),'xpiscript','')
+ 'xpinstall' =>array('13.1 Création d\'un programme d\'installation', array('Alain B.'=> '01/03/2004'),'crosspov','xpiscript'),
+ 'xpiscript' =>array('13.2 Les scripts d\'installation',              array('Alain B.'=> '14/03/2004'),'xpinstall','xpiadv'),
+ 'xpiadv' =>array('13.3 Fonctions additionnelles d\'installation',          array('Alain B.'=> '17/03/2004'),'xpiscript','')
 
 );
 
