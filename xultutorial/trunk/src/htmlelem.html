@@ -84,11 +84,11 @@
       dans l'exemple ci-dessous.</p>
     <p>Exemple 2.7.1&nbsp;: <a href="exemples/ex_htmlelem_1.xul.txt">Source</a>
       <a href="exemples/ex_htmlelem_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
-    <pre>&lt;html:p&gt;
+    <pre><code>&lt;html:p&gt;
    Rechercher :
    &lt;html:input id="find-text"/&gt;
    &lt;button id="okbutton" label="OK"/&gt;
-&lt;/html:p&gt;</pre>
+&lt;/html:p&gt;</code></pre>
     <p>Ce code va afficher le texte <var>Rechercher&nbsp;:</var>, suivi d'un champ de saisie
       de texte et d'un bouton OK. Notez que le bouton XUL peut apparaître dans
       un bloc de balise HTML, comme c'est le cas ici. Du texte ne sera
@@ -125,14 +125,14 @@
     <h3>2. Texte en dehors de blocs HTML</h3>
     <p>Exemple 2.7.3&nbsp;: <a href="exemples/ex_htmlelem_3.xul.txt">Source</a>
     <a href="exemples/ex_htmlelem_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
-    <pre>&lt;html:div&gt;
+    <pre><code>&lt;html:div&gt;
    Voulez vous sauvegarder les documents suivants&nbsp;?
    &lt;html:hr/&gt;
 &lt;/html:div&gt;
 Rapport de dépense 1
 que j'ai fait l'été dernier
 &lt;button id="yes" label="Oui"/&gt;
-&lt;button id="no" label="Non"/&gt;</pre>
+&lt;button id="no" label="Non"/&gt;</code></pre>
     <p><img src="images/htmlelem2.png" alt="" class="screenshot" /></p>
     <p>Comme vous pouvez le voir sur cette image, le texte placé à l'intérieur
       des balises <code class="tag">div</code> a été affiché mais l'autre texte
@@ -144,9 +144,9 @@ que j'ai fait l'été dernier
       balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code>.</p>
 
     <h3>3. Les éléments HTML invalides</h3>
-    <pre>&lt;html:po&gt;Cas 1&lt;/html:po&gt;
+    <pre><code>&lt;html:po&gt;Cas 1&lt;/html:po&gt;
 &lt;div&gt;Cas 2&lt;/div&gt;
-&lt;html:description value="Cas 3"/&gt;</pre>
+&lt;html:description value="Cas 3"/&gt;</code></pre>
     <p>Aucun des trois cas ci-dessus ne s'affichera pour les raisons suivantes&nbsp;:</p>
 
     <dl>
