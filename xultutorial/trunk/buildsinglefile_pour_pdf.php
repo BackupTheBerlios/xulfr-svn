@@ -6,6 +6,21 @@
  */
 
 include 'liste_articles.php';
+$chapitres = array(
+  1=>'Introduction',
+  2=>'Élements simples',
+  3=>'Le modèle de boîte',
+  4=>'Éléments communs',
+  5=>'Menus et barres d\'outils',
+  6=>'Évènements et scripts',
+  7=>'Modèle Objet de Document (DOM)',
+  8=>'Arbres',
+  9=>'RDF et templates',
+  10=>'Thèmes et localisation',
+  11=>'Bindings',
+  12=>'Fenêtres spécialisées',
+  13=>'Installation'
+);
 
 $fichier ='builds/xultu.html';
 $fp=fopen($fichier, 'w');
@@ -33,7 +48,7 @@ ob_start();
    <meta name="author" content="Neil Deakin, traduit par les contributeurs au projet de traduction de Xulfr.org" />
    <meta name="description" content="tutoriel XUL de Xulplanet" />
 
-   <title>tutoriel XUL - xulfr.org/xulplanet.com</title>
+   <title>Tutoriel XUL - xulfr.org/xulplanet.com</title>
    <link rel="stylesheet" type="text/css" href="main.css" media="screen" />
    <link rel="stylesheet" type="text/css" href="print.css" media="print" />
 </head>
@@ -69,7 +84,7 @@ fwrite($fp,$header);
 /****************************
 boucle sur chaque articles
 *****************************/
-
+$ex_chap = '';
 foreach($article_list as $basename => $article){
 
    list($page_chapitre, $auteurs, $prev, $next) = $article_list[$basename];
@@ -84,10 +99,21 @@ foreach($article_list as $basename => $article){
         $page_traduction_auteur=substr($page_traduction_auteur,2);
 
     }
-
 ob_start();
 ?>
-<?php echo '<h1 id="'.$basename.'.html">'.preg_replace('/^(\d{1,2}\.)(\d{1,2}bis|\d{1,2})(.+)/i', '$3', $page_chapitre); ?></h1>
+<?php 
+if (ereg('^([0-9]{1,2})(\..+)',$page_chapitre, $reg)) {
+  if ($reg[1]!=$ex_chap) {
+    echo "<h1>$reg[1]. ".$chapitres[$reg[1]]."</h1>\n";
+    $ex_chap = $reg[1];
+  }
+//  $page_chapitre = $reg[0];
+} else {
+  echo "<h1>Préface</h1>\n";
+}
+
+//echo '<h2 id="'.$basename.'.html">'.preg_replace('/^(\d{1,2}\.)(\d{1,2}bis|\d{1,2})(.+)/i', '$3', $page_chapitre); </h2>
+echo '<h2 id="'.$basename.'.html">'.$page_chapitre; ?></h2>
 <div class="contenuinfo">
 <?php  if($basename != 'index'){ ?>
     <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>.
@@ -136,6 +162,8 @@ ob_clean();
         $file = preg_replace('/<h2>Sommaire<\/h2>/i', '', $file);
         $file = preg_replace('/<ul>.+<\/ul>/s', '', $file);
     }
+    $file = preg_replace(array('/<h2>/i','/<\/h2>/i'), array('<h3>','</h3>'), $file);    //Déplace les niveaux de titre h2
+    $file = preg_replace('/<a[^<]+exemples\/[^<]+<\/a>/si', '', $file);    //Supprime les liens exemples
 
     $file = $header . $file;
 
