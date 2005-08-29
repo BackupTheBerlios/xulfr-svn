@@ -139,7 +139,7 @@ foreach($article_list as $basename => $article){
    ?>.
    <br />
     Page originale&nbsp;:
-    <a href="http://www.xulplanet.com/tutorials/mozsdk/<?php echo $basename?>.html">http://www.xulplanet.com/tutorials/mozsdk/<?php echo $basename?>.html</a>
+    <a href="http://www.xulplanet.com/tutorials/mozsdk/<?php echo $basename?>.php">http://www.xulplanet.com/tutorials/mozsdk/<?php echo $basename?>.php</a>
     <a href="http://www.xulplanet.com/"><img src="xulplanet_little.png" alt="xulplanet.com" style="vertical-align:middle"/></a>
     </p>
 
@@ -207,7 +207,7 @@ ob_clean();
     fwrite($fp,$file);
     fclose($fp);
     chmod($page_url_to, 0666);
-
+    echo "page $page_url_to créée<br />\n";
 }
 
 ?>
