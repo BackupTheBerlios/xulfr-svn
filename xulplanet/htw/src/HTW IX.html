@@ -1,0 +1,42 @@
+
+<p>L'exemple précédent ne générait qu'un ensemble de boutons, mais le corps d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> peut contenir d'autres contenus. Par exemple, vous pourriez ajouter un libellé à chaque item.</p>
+
+<pre><code>&lt;action&gt;
+  &lt;hbox uri="?relateditem"&gt;
+    &lt;label value="Items liés :"/&gt;
+    &lt;button label="?relateditem"/&gt;
+  &lt;/hbox&gt;
+&lt;/action&gt;</code></pre>
+
+<p>Dans cet exemple, l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> sera généré pour chaque résultat en ayant un <code class="attribut">id</code> égal à la valeur de ?relatedItem, et il contiendra un libellé et un bouton. Le libellé du bouton sera la valeur de la variable ?relatedItem. Vous ne pouvez utiliser l'attribut <code class="attribut">uri</code> que sur un seul élément puisqu'un seul des éléments générés ne peut obtenir un identifiant <code class="attribut">id</code> donné.</p>
+
+<p>Bien que l'attribut <code class="attribut">uri</code> ne doit être placé que sur un seul élément, d'autres éléments peuvent être inclus dans le corps d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>. Vous pouvez mettre d'autres éléments autour de celui avec l'attribut <code class="attribut">uri</code> pour servir de conteneur à tous les résultats. La seule différence est que ce contenu supplémentaire n'est généré qu'une seule fois, et non pour chaque résultat. Seul le contenu de l'élément avec l'attribut <code class="attribut">uri</code> et ses enfants est dupliqué pour chaque résultat. Par exemple, si l'exemple était modifié comme ceci&nbsp;:</p>
+
+<pre><code>&lt;action&gt;
+  &lt;toolbar&gt;
+    &lt;button uri="?relateditem" label="?relateditem"/&gt;
+  &lt;/toolbar&gt;
+&lt;/action&gt;</code></pre>
+
+<p>Ici, seul le bouton sera répété pour chaque résultat&nbsp;; l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/toolbar">toolbar</a></code> ne sera répété qu'une seule fois. La barre d'outils <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/toolbar">toolbar</a></code> est créée juste avant que le contenu pour le premier résultat ne soit généré. Le résultat final sera une barre d'outils avec à l'intérieur une série de trois boutons. Bien sûr, dans cet exemple simple, vous devriez placer le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/toolbar">toolbar</a></code> comme l'élément externe avec l'attribut <code class="attribut">datasources</code> plutôt que de le placer à l'intérieur d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>.</p>
+
+<p>Jusque là, nous avons simplement utilisé la variable ?relatedItem puisqu'elle était la seule variable disponible. Nous pourrions également utiliser la variable ?start. Souvenez vous des résultats&nbsp;:</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/B)
+(?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/C)
+(?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/D)</code></pre>
+
+<p>Nous pourrions afficher la valeur de la variable ?start disponible dans les résultats&nbsp;:</p>
+
+<pre><code>&lt;action&gt;
+  &lt;hbox uri="?relateditem"&gt;
+    &lt;button label="?start"/&gt;
+    &lt;button label="?relateditem"/&gt;
+  &lt;/hbox&gt;
+&lt;/action&gt;</code></pre>
+
+<p>Pour le premier bouton, la valeur de la variable ?start montrera les résultats des données tandis que le second bouton utilisera la variable ?relatedItem. Puisque les trois résultats ont la même valeur pour la variable ?start, les trois premiers boutons de chaque ligne auront le même libellé. Voici une image de <a href="exemples/template-guide-ex2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a>&nbsp;:</p>
+
+<img src="images/template-guide-p9.png" alt="Capture d'écran" class="screenshot" />
+
+<p>Vous noterez que la seconde ligne contient deux boutons surnuméraires. Nous verrons par la suite la raison.</p>
