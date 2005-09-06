@@ -56,7 +56,8 @@ $article_list=array(
  'HTW XXXVI'  =>array(337, 'Les observateurs du constructeur d\'arbres',    array(''=>'') ),
  'HTW XXXVII' =>array(338, 'Modifications RDF',   array(''=>'') ),
  'HTW XXXXIX' =>array(341, 'Modifications RDF - complément',   array(''=>'') ),
- 'HTW XL'     =>array(342, 'Tri des résultats',   array(''=>'') )
+ 'HTW XL'     =>array(342, 'Tri des résultats',   array(''=>'') ),
+ 'HTW XLI'    =>array(343, 'Tri des résultats d\'un arbre',   array(''=>'') )
 );
 
 /*Autocomplétion des clés 4 et 5*/
