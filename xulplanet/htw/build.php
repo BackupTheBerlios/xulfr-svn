@@ -31,7 +31,7 @@ $article_list=array(
  'HTW XI'     =>array(310, 'HTW Partie XI',       array('Alain B.'=>'11/09/2005') ),
  'HTW XII'    =>array(311, 'Les liaisons',      array('Alain B.'=>'17/09/2005') ),
  'HTW XIII'   =>array(312, 'Autre syntaxe d\'Action',     array('Alain B.'=>'17/09/2005') ),
- 'HTW XIV'    =>array(313, 'Litérals dans les triplets',      array(''=>'') ),
+ 'HTW XIV'    =>array(313, 'Littéraux dans les triplets',      array('Alain B.'=>'17/09/2005') ),
  'HTW XV'     =>array(314, 'Navigation dans la source',       array(''=>'') ),
  'HTW XVI'    =>array(315, 'Navigation supplémentaire et filtrage',      array(''=>'') ),
  'HTW XVII'   =>array(316, 'Générer un menu avec des filtres',     array(''=>'') ),
