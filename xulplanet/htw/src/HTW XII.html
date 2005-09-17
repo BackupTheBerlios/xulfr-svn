@@ -1,0 +1,62 @@
+
+<p>Nous pouvons ajouter d'autres triplets dans l'exemple précédent pour afficher plus d'informations. Par exemple, une description pourrait être ajoutée à une photo. Pour cela, tout ce que nous avons à faire est d'ajouter les données nécessaires dans la source de données RDF et d'ajouter un autre élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> dans les conditions du gabarit.</p>
+
+<pre><code>&lt;conditions&gt;
+
+  &lt;content uri="?start"/&gt;
+  &lt;member container="?start" child="?photo"/&gt;
+  &lt;triple subject="?photo"
+          predicate="http://purl.org/dc/elements/1.1/title"
+          object="?title"/&gt;
+  &lt;triple subject="?photo"
+          predicate="http://purl.org/dc/elements/1.1/description"
+          object="?description"/&gt;
+&lt;/conditions&gt;</code></pre>
+
+<p>Il fonctionne de manière similaire au <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> précédent. La variable ?photo est remplie avec la valeur connue et ensuite, l'arc est recherché dans la source de données afin de remplir la valeur de la variable ?description. La variable ?description sera alors utilisée dans le corps d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>. Supposons maintenant que nous avons juste commencé à renseigner une seule description des photos&nbsp;; les deux autres photos n'ayant pas de description. Cela signifie que la description n'est pas connue, ou qu'elle n'a pas été renseignée par l'utilisateur.</p>
+
+<pre><code>
+&lt;rdf:Description rdf:about="http://www.xulplanet.com/ndeakin/images/t/palace.jpg"
+  dc:title="Le palais vu de dessus"
+  dc:description="Prise de vue à partir du sommet de la tour en regardant vers l'Est du palais des Doges"/&gt;</code></pre>
+
+<p>Si vous essayez d'ouvrir <a href="exemples/template-guide-ex12.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">un exemple complet</a> basé sur <a href="exemples/template-guide-photos2.rdf">ces données</a>, vous constaterez qu'un seul résultat a été généré. Ceci s'explique parce qu'un seul item a une description. Voici les données après que le premier <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> ait été évalué, mais avant que celui des descriptions ne le soit&nbsp;:</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/myphotos,
+ ?photo = http://www.xulplanet.com/ndeakin/images/t/palace.jpg,
+ ?title = 'Le palais vu de dessus')
+(?start = http://www.xulplanet.com/rdf/myphotos,
+ ?photo = http://www.xulplanet.com/ndeakin/images/t/canal.jpg,
+ ?title = 'Canal')
+(?start = http://www.xulplanet.com/rdf/myphotos,
+ ?photo = http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg,
+ ?title = 'Obelisque')</code></pre>
+
+<p>Le second <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> ajoutera une ?description pour la première photo, en ajoutant une quatrième paire variable-valeur aux données existantes. Toutefois, lorsque le constructeur ne trouve pas de valeur pour une condition, tout le résultat potentiel est écarté. Pour la seconde photo, la source de données ne trouve aucune correspondance pour la description, donc le résultat potentiel est supprimé. La même chose se produit avec la troisième photo. Au final, une seule photo subsiste.</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/myphotos,
+ ?photo = http://www.xulplanet.com/ndeakin/images/t/palace.jpg,
+ ?title = 'Le palais vu de dessus',
+ ?description = 'Prise de vue à partir du sommet de la tour en regardant vers l'Est du palais des Doges')</code></pre>
+
+<p>Ainsi, une seule correspondance existe, donc une seule série de contenu est générée.</p>
+
+<p>Parfois, il peut être utile d'obtenir des triplets selon des correspondances conditionnelles, c'est-à-dire, d'avoir un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> qui ne rejette pas un résultat lors d'une correspondance possible. Dans ce cas, il faut utiliser un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code>. Cet élément ne se place pas dans un bloc <tag>conditions/tag> mais plutôt à l'intérieur de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/bindings">bindings</a></code>. La syntaxe est la suivante&nbsp;:</p>
+
+<pre><code>&lt;rule&gt;
+  &lt;conditions&gt;
+    ...
+  &lt;/conditions&gt;
+  &lt;bindings&gt;
+    &lt;binding subject="?photo"
+             predicate="http://purl.org/dc/elements/1.1/description"
+             object="?description"/&gt;
+
+  &lt;/bindings&gt;
+&lt;/rule&gt;</code></pre>
+
+<p>Le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> pour la description a été modifié en un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code>, mais les attributs restent les mêmes. Ceci permet à une correspondance de se produire même si la description n'est pas spécifiée dans la source de données. Le constructeur de gabarits examine les liaisons <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code> après que toutes les conditions aient été appliquées. Dans cet exemple, il a déjà été déterminé que trois correspondances ont été trouvées. Le constructeur continue à compléter les valeurs pour chacune des liaisons. Elles sont évaluées de manière similaire, quoique plus simplement, aux <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code>. La valeur de la variable ?photo est connue pour chaque correspondance, et la valeur de la variable ?description est déterminée à partir de l'examen de la source de données. L'effet obtenu est trois correspondances dont une seule affichera une description. Les photos qui n'ont pas de description seront traitées comme si la description était vide. C'est-à-dire que la variable ?description sera remplacée avec une chaîne de caractères vide lors de l'analyse des attributs dans le corps d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>.</p>
+
+<p>En voici l'<a href="exemples/template-guide-ex12b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">exemple</a>.</p>
+
+<p>Vous pouvez avoir plus d'une liaison si vous le souhaiter. Les autres seront évaluées de manière similaire. Par exemple, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> 'title' pourrait être déplacé vers une liaison afin de rendre également le titre facultatif.</p>
