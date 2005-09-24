@@ -1,0 +1,77 @@
+
+<p>La création dans la liste de filtrage d'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> permettant de voir tous les items est relativement simple. Cet item n'a pas besoin d'être généré par la source de données. Il sera un contenu statique appelé par le gabarit. Le contenu statique est créé par tous les contenus voisins de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/template">template</a></code> et de même niveau. Ce contenu est affiché tel quel sans affecter le contenu généré par le gabarit.</p>
+
+<pre><code>&lt;menulist datasources="template-guide-photos4.rdf"
+           ref="http://www.daml.org/2001/09/countries/country-ont#Country"
+           oncommand="applyFilter(event.target.value);"&gt;
+
+  &lt;menupopup&gt;
+     &lt;menuitem label="Tous"/&gt;
+  &lt;/menupopup&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+
+        &lt;content uri="?start"/&gt;
+        &lt;triple subject="?country"
+                predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                object="?start"/&gt;
+        &lt;triple subject="?country"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?countrytitle"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;menupopup&gt;
+
+          &lt;menuitem uri="?country" label="?countrytitle" value="?country"/&gt;
+        &lt;/menupopup&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/menulist&gt;</code></pre>
+
+<p>La seule différence entre l'exemple précédent et celui-ci est que l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code> a du contenu supplémentaire avant le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/template">template</a></code>. Ce contenu sera affiché comme si le gabarit n'existait pas. Ainsi, avant que le gabarit ne soit examiné, la liste déroulante contiendra un premier item avec le libellé <var>Tous</var>. Le gabarit génère ensuite deux résultats comme précédemment, un pour chaque pays, et les ajoute au <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code>.</p>
+
+<p>La chose intéressante avec cet exemple est qu'un seul <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> sera créé même s'il y en a deux dans le code, un en dehors du gabarit et un autre à l'intérieur du corps d'action. Ceci vous montre comment le constructeur de gabarit génère du contenu, et ce cas spécifique devient important lorsque vous traitez du contenu récursif et des règles multiples.</p>
+
+<p>Ici, l'analyseur XUL commence par créer l'élément externe <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code>. Le contenu statique en dehors du gabarit sera également créé. Le résultat sera l'affichage d'un code XUL similaire à celui ci-dessus, à l'exception du gabarit et de son contenu qui sont absents. À ce stade, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code> aura un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> comme fils, et le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> aura à son tour qu'un seul fils <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>. Ensuite, le gabarit est examiné et deux résultats sont générés. Souvenez vous que seul le contenu à partir de l'attribut <code class="attribut">uri</code> à l'intérieur d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> est dupliqué pour chaque résultat.</p>
+
+<p>Lors du traitement du corps d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>, le constructeur regardera le premier élément à l'intérieur d'<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>, dans ce cas, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>. Cet élément n'a pas d'attribut <code class="attribut">uri</code>, donc le constructeur sait qu'il ne doit créer cet élément qu'une seule fois. Vous devez penser que le constructeur va alors créer un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>, mais il n'en est rien. En fait, il vérifie si un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> existe déjà à l'emplacement où il aurait dû être créé. Dans notre cas, il y en a déjà un, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> statique défini en dehors du gabarit. Plutôt que de créer un autre <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>, le constructeur utilise l'existant. Il est ainsi pratique de combiner des résultats statiques et ceux d'un gabarit dans une seule liste.</p>
+
+<p>Le constructeur passe ensuite à l'endroit où le contenu aurait dû être généré et continue avec la partie suivante d'action, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>. Cet élément a l'attribut <code class="attribut">uri</code> donc son contenu sera dupliqué pour chaque résultat.</p>
+
+<p>La technique de recherche d'un élément existant s'applique à n'importe quel type de contenu. Le constructeur traitera l'élément comme étant présent aussi longtemps qu'un autre élément avec la même balise existe. Si vous changiez l'élément statique par un élément autre qu'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>, le constructeur en créera un nouveau lors du traitement du corps d'action. Ce principe devient utile lors de l'emploi de multiples règles et nous verrons divers exemples plus tard.</p>
+
+<p>Voici <a href="exemples/template-guide-ex18.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">l'exemple</a> que vous pouvez tester.</p>
+
+<p class="note">Notez que l'astuce résolvant le problème de chargement de la source de données mentionnée lors du précédent exemple n'est plus nécessaire, car l'existence d'un contenu statique est une autre astuce contournant ce problème. Donc, si vous utilisez des <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code> avec des gabarits et que les données ne s'affichent pas correctement lors du chargement, essayez d'utiliser un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> statique. Il n'est pas nécessaire d'y ajouter des items.</p>
+
+<p>Le contenu statique peut être placé avant ou après le gabarit, bien qu'il soit généralement placé en premier. Notez qu'ici le contenu statique est placé avant le contenu généré, donc l'item <var>Tous</var> sera le premier item dans le menu.</p>
+
+<p>Étudions un autre exemple invoquant des boutons radios. En réalité, cet exemple est similaire, mais il utilise simplement un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code> au lieu d'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code> pour afficher la liste des pays.</p>
+
+<pre><code>&lt;radiogroup datasources="template-guide-photos4.rdf"
+            ref="http://www.daml.org/2001/09/countries/country-ont#Country"
+            onselect="applyFilter(event.target.value);"&gt;
+  &lt;radio label="Tous" selected="true"/&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+
+      &lt;conditions&gt;
+        &lt;content uri="?start"/&gt;
+        &lt;triple subject="?country"
+                predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                object="?start"/&gt;
+        &lt;triple subject="?country"
+                predicate="http://purl.org/dc/elements/1.1/title"
+                object="?countrytitle"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+
+        &lt;radio uri="?country" label="?countrytitle" value="?country"/&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/radiogroup&gt;</code></pre>
+
+<p>Cet <a href="exemples/template-guide-ex18b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">exemple</a> ne n'a pas à générer d'autre contenu en dehors de l'élément avec l'attribut <code class="attribut">uri</code>, donc il sera copié tel quel. Le bouton radio statique <var>Tous</var> sera le premier item radio.</p>
