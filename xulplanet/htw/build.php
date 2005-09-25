@@ -37,7 +37,7 @@ $article_list=array(
  'HTW XVII'   =>array(316, 'Générer un menu avec des filtres',     array('Alain B.'=>'18/09/2005') ),
  'HTW XVIII'  =>array(317, 'Contenu statique',    array('Alain B.'=>'23/09/2005') ),
  'HTW XIX'    =>array(318, 'Syntaxe d\'une règle simplifiée',      array('Alain B.'=>'25/09/2005') ),
- 'HTW XX'     =>array(319, 'Conditions d\'une règle simplifiée',       array(''=>'') ),
+ 'HTW XX'     =>array(319, 'Conditions d\'une règle simplifiée',       array('Alain B.'=>'25/09/2005') ),
  'HTW XXI'    =>array(320, 'Propriétés de conteneurs',      array(''=>'') ),
  'HTW XXII'   =>array(321, 'Utilisation de règles multiples',     array(''=>'') ),
  'HTW XXIII'  =>array(322, 'Règles multiples simples',    array(''=>'') ),
