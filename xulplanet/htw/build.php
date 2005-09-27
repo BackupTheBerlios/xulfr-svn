@@ -38,7 +38,7 @@ $article_list=array(
  'HTW XVIII'  =>array(317, 'Contenu statique',    array('Alain B.'=>'23/09/2005') ),
  'HTW XIX'    =>array(318, 'Syntaxe d\'une règle simplifiée',      array('Alain B.'=>'25/09/2005') ),
  'HTW XX'     =>array(319, 'Conditions d\'une règle simplifiée',       array('Alain B.'=>'25/09/2005') ),
- 'HTW XXI'    =>array(320, 'Propriétés de conteneurs',      array(''=>'') ),
+ 'HTW XXI'    =>array(320, 'Propriétés de conteneurs',      array('Alain B.'=>'27/09/2005') ),
  'HTW XXII'   =>array(321, 'Utilisation de règles multiples',     array(''=>'') ),
  'HTW XXIII'  =>array(322, 'Règles multiples simples',    array(''=>'') ),
  'HTW XXIV'   =>array(323, 'Autre exemple de règles multiples',     array(''=>'') ),

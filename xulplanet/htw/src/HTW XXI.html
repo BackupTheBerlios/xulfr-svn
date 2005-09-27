@@ -1,0 +1,50 @@
+
+<p>Jusqu'à présent, nous avons vu comment des règles simplifiées peuvent générer des résultats à partir des fils d'un conteneur RDF. Toutefois, les règles simplifiées peuvent aussi parcourir un unique prédicat pointant vers une ressource, plutôt que d'utiliser un fils. Cette méthode vous permet de parcourir les données n'étant pas dans un conteneur. Pour cela, utilisez l'attribut <code class="attribut">containment</code> sur le noeud racine, en lui affectant le prédicat à parcourir.</p>
+
+<p>Regardons de nouveau <a href="images/template-guide-p2.png">le tout premier exemple</a>. Il ne contient aucun conteneur, mais nous voulons parcourir le prédicat 'relatedItem' en utilisant la syntaxe de règle simplifiée. Nous pouvons ajouter l'attribut <code class="attribut">containment</code> comme ceci&nbsp;:</p>
+
+<pre><code>&lt;vbox datasources="template-guide-ex1.rdf"
+         ref="http://www.xulplanet.com/rdf/A"
+         containment="http://www.xulplanet.com/rdf/relatedItem"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;label uri="rdf:*" value="rdf:*"/&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+
+&lt;/vbox&gt;</code></pre>
+
+<p>Plutôt que de parcourir un conteneur, <a href="exemples/template-guide-ex21.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a> parcourt un prédicat spécifique. Cet attribut est utile lorsque les données RDF sont structurées d'une telle manière qu'un conteneur RDF n'est pas employé.</p>
+
+<p>Le constructeur traite le prédicat dans l'attribut <code class="attribut">containment</code> comme un indicateur qu'un élément est un conteneur. Si le noeud de départ (ou <code class="attribut">ref</code>) a ce prédicat comme l'un de ses triplets dans la source de données RDF, le constructeur l'utilisera en plus de vérifier s'il s'agit d'un conteneur. Notez la distinction ici. L'attribut <code class="attribut">containment</code> ne remplace pas la vérification de l'existence d'un conteneur. Si la ressource <var>http://www.xulplanet.com/rdf/A</var> était également un Seq RDF avec quelques fils, alors ces fils seraient également ajoutés aux résultats. <a href="exemples/template-guide-ex21b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Cet exemple</a> vous le démontre. La seule différence avec l'exemple précédent est une paire de lignes supplémentaires ajouté au <a href="exemples/template-guide-ex3.rdf">RDF/XML</a>&nbsp;:</p>
+
+<pre><code>&lt;rdf:Seq rdf:about="http://www.xulplanet.com/rdf/A"&gt;
+  &lt;rdf:li rdf:resource="http://www.xulplanet.com/rdf/E"/&gt;
+  &lt;rdf:li rdf:resource="http://www.xulplanet.com/rdf/F"/&gt;
+&lt;/rdf:Seq&gt;</code></pre>
+
+<p>L'effet serait qu'il y aurait cinq résultats au lieu de trois. Trois générés via l'utilisation de l'attribut <code class="attribut">containment</code>, et deux générés parce que la ressource de départ est un conteneur avec deux fils. Effectivement, l'attribut <code class="attribut">containment</code> vous permet de spécifier des prédicats supplémentaires fournis par les fils.</p>
+
+<p>Vous pouvez définir de multiples prédicats dans l'attribut <code class="attribut">containment</code> en les séparant par des espaces. Chacun d'eux sera appliqué de façon séquentielle.</p>
+
+<p>L'attribut <code class="attribut">containment</code> s'applique également aux tests dans <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> lors de l'emploi de la syntaxe étendue de gabarit. Ainsi, en plus de parcourir les fils, il permet de parcourir les prédicats listés dans l'attribut <code class="attribut">containment</code>. Par exemple, l'exemple suivant est équivalent au précédent, excepté que c'est la syntaxe de règles étendues qui est utilisée&nbsp;:</p>
+
+<pre><code>&lt;vbox datasources="template-guide-ex3.rdf"
+         ref="http://www.xulplanet.com/rdf/A"
+         containment="http://www.xulplanet.com/rdf/relatedItem"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+
+        &lt;content uri="?start"/&gt;
+        &lt;member container="?start" child="?child"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;label uri="?child" value="?child"/&gt;
+      &lt;/action&gt;
+
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p>Essayez <a href="exemples/template-guide-ex21c.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a>. Il se produit que le constructeur génère des valeurs possibles supplémentaires pour la variable ?child, donc il crée un résultat supplémentaire pour chacune d'elle.</p>
