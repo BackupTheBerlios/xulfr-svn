@@ -41,7 +41,7 @@ $article_list=array(
  'HTW XXI'    =>array(320, 'Propriétés de conteneurs',      array('Alain B.'=>'27/09/2005') ),
  'HTW XXII'   =>array(321, 'Utilisation de règles multiples',     array('Alain B.'=>'27/09/2005') ),
  'HTW XXIII'  =>array(322, 'Règles multiples simples',    array('Alain B.'=>'30/09/2005') ),
- 'HTW XXIV'   =>array(323, 'Autre exemple de règles multiples',     array(''=>'') ),
+ 'HTW XXIV'   =>array(323, 'Autre exemple de règles multiples',     array('Alain B.'=>'30/09/2005') ),
  'HTW XXV'    =>array(325, 'Règles multiples avec récursivité',      array(''=>'') ),
  'HTW XXVI'   =>array(326, 'Générer un menu récursivement',     array(''=>'') ),
  'HTW XXVII'  =>array(327, 'Tests de conteneurs',    array(''=>'') ),
