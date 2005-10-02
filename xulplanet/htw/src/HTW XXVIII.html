@@ -1,0 +1,34 @@
+
+<p>Parfois, vous souhaitez simplement générer un bloc de contenu au niveau le plus haut et un contenu différent dans les niveaux récursifs. Par exemple, la barre d'outils des Marque-pages dans Firefox affiche un bouton au premier niveau, mais des menus et sous-menus ensuite. La totalité de la barre d'outils des Marque-pages est générée par un gabarit XUL.</p>
+
+<p>Les gabarits peuvent permettre à une règle de tester si le contenu généré sera inséré à l'intérieur d'un élément ayant un nom précis de balise. Par exemple, si le conteneur était un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>, une règle peut être créée pour ne correspondre qu'à cet élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>. Cette technique est très utile pour des gabarits récursifs, puisque les itérations internes peuvent utiliser du contenu différent. Il est plus utile de distinguer entre les niveaux externes et internes pendant le processus de génération du gabarit. Dans le cas de la barre d'outils des Marque-pages, le contenu externe est inséré à l'intérieur d'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code>, mais au niveau inférieur, le contenu sera inséré à l'intérieur d'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code>.</p>
+
+<p>Au cas où ce n'est pas clair, la balise devant correspondre à l'itération externe est l'élément racine, celui contenant l'attribut <code class="attribut">datasources</code>. Pour les itérations internes, il s'agira de l'élément contenant l'attribut <code class="attribut">uri</code> de l'itération précédente.</p>
+
+<p>Pour réaliser ce type de correspondance dans une syntaxe simplifiée de gabarit, placez un attribut <code class="attribut">parent</code> sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code> en lui affectant le nom de la balise à tester. Par exemple, nous pourrions utiliser le code suivant&nbsp;:</p>
+
+<pre><code>&lt;vbox datasources="template-guide-streets.rdf"
+            ref="http://www.xulplanet.com/rdf/myneighbourhood"&gt;
+  &lt;template&gt;
+    &lt;rule parent="vbox"&gt;
+      &lt;groupbox uri="rdf:*"&gt;
+
+        &lt;caption label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+      &lt;/groupbox&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;label uri="rdf:*" value="rdf:http://www.xulplanet.com/rdf/address"/&gt;
+    &lt;/rule&gt;
+
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p>Lors de la première passe, le conteneur dans lequel le contenu généré sera inséré est un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>, donc la première règle va s'appliquer et un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> titré sera créé. Lors de la passe suivante, le conteneur parent sera l'élément avec l'attribut <code class="attribut">uri</code> de la passe précédente, et dans ce cas, il s'agira du <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code>. Ce n'est donc plus la première règle qui ne va correspondre, mais la seconde règle en créant un libellé. Le résultat peut être observé si vous essayez <a href="exemples/template-guide-ex28.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a>.</p>
+
+<p>Une balise de test peut également être utilisée avec la syntaxe étendue, bien que l'écriture soit différente. Plutôt que de mettre l'attribut <code class="attribut">parent</code> sur la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>, vous placez un attribut <code class="attribut">tag</code> sur la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code> dans les conditions. Par exemple, le test équivalent à l'exemple précédent utilisant l'attribut <code class="attribut">tag</code> dans une syntaxe étendue est le suivant&nbsp;:</p>
+
+<pre><code>&lt;content uri="?start" tag="vbox"&gt;</code></pre>
+
+<p><a href="exemples/template-guide-ex28b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Cet exemple</a> génère le même contenu en sortie que celui utilisant la syntaxe simplifiée.</p>
+
+<p>Comme nous l'avons vu dans les quelques exemples précédents, il existe plusieurs manières différentes de structurer les deux règles pour réagir différemment selon les niveaux. Des tests généraux sur des triplets, des tests sur un type RDF, des tests de conteneur et des tests sur les balises parentes, tous ces tests fournissent une grande variété de méthodes de filtrage spécifique. Bien entendu, dans les exemples simples que nous avons utilisé, les avantages d'une sorte de condition sur une autre ne sont pas évidents. Dans des exemples plus complexes toutefois, vous verrez le bénéfice d'un test sur les autres en fonction de la structure des données et de l'interface utilisateur que vous voulez créer. En combinant les différents types de conditions, des interfaces plus complexes peuvent être créées simplement avec des gabarits.</p>
