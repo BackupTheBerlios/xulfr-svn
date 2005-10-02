@@ -1,0 +1,42 @@
+
+<p>La syntaxe de règle simplifiée supporte deux tests conditionnels spéciaux habituellement utilisés avec de multiples règles. Le premier de ces tests sert à tester si un élément est un conteneur ou non. Pour l'utiliser, placez un attribut <code class="attribut">iscontainer</code> sur un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>. L'attribut <code class="attribut">iscontainer</code> doit être défini à <var>true</var> si vous ne voulez trouver que des conteneurs, et à <var>false</var> si vous ne voulez trouver que des non-conteneurs. Un conteneur est un conteneur RDF tel qu'un Seq.</p>
+
+<p>L'attribut <code class="attribut">iscontainer</code> facilite la gestion des contenus récursifs puisque vous pouvez avoir une règle pour tous les conteneurs et une autre règle pour tous les non-conteneurs. Vous n'avez plus besoin de filtrer selon un type ou selon quelques prédicats. Il vous permet une récursivité plus profonde vers des niveaux plus importants sans avoir recours à des règles supplémentaires. Il est communément utilisé avec des menus, et nous pouvons réécrire <a href="exemples/template-guide-ex26.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">l'exemple précédent</a> en utilisant l'attribut <code class="attribut">iscontainer</code> à la place.</p>
+
+<pre><code>&lt;button label="Les maisons de mon quartier" type="menu"
+        datasources="template-guide-streets.rdf"
+        ref="http://www.xulplanet.com/rdf/myneighbourhood"&gt;
+  &lt;template&gt;
+    &lt;rule iscontainer="true"&gt;
+      &lt;menupopup&gt;
+        &lt;menu uri="rdf:*" label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+      &lt;/menupopup&gt;
+
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;menupopup&gt;
+        &lt;menuitem uri="rdf:*" label="rdf:http://www.xulplanet.com/rdf/address"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/rule&gt;
+
+  &lt;/template&gt;
+&lt;/button&gt;</code></pre>
+
+<p>La seule différence dans le code de <a href="exemples/template-guide-ex27.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a> est que l'ordre des règles a été inversé, que la condition testant les maisons a été supprimée et que l'attribut <code class="attribut">iscontainer</code> a été ajouté. Comme l'attribut <code class="attribut">iscontainer</code> est défini à <var>true</var>, la règle sera vérifiée pour la valeur membre ou le fils d'un noeud de départ qui sont des conteneurs RDF. Nous pourrions également laisser les règles dans l'ordre originel et définir sur la première règle l'attribut <code class="attribut">iscontainer</code> à <var>false</var>. La seule chose dont nous devons être certain, est que les règles soient dans l'ordre approprié afin que les données attendues correspondent à la bonne règle. Souvenez vous que les règles les plus spécifiques doivent être placées avant les règles moins spécifiques.</p>
+
+<p class="note">Notez que l'omission de l'attribut <code class="attribut">iscontainer</code> ne signifie pas la même chose que de le définir à <var>true</var> ou à <var>false</var>. Si vous n'utilisez pas l'attribut <code class="attribut">iscontainer</code>, tous les noeuds correspondront à la règle, qu'ils soient un conteneur ou non.</p>
+
+<p>L'attribut <code class="attribut">iscontainer</code> trouvera également les conteneurs convenablement si vous avez placé un attribut <code class="attribut">containment</code> dans le gabarit pour définir les prédicats modifiés en conteneur. Si le noeud a un de ces prédicats listés dans l'attribut <code class="attribut">containment</code> et pointant vers celui-ci, il sera aussi considéré comme étant un conteneur. Par exemple, nous pourrions ajouter le code suivant à l'exemple précédent&nbsp;:</p>
+
+<pre><code>&lt;button label="Les maisons de mon quartier" type="menu"
+        datasources="template-guide-streets.rdf"
+        containment="http://www.xulplanet.com/rdf/address"
+        ref="http://www.xulplanet.com/rdf/myneighbourhood"&gt;</code></pre>
+
+<p>Les maisons ont une valeur pour le prédicat <var>http://www.xulplanet.com/rdf/address</var>, donc elles seront également considérées comme des conteneurs, ce qui entraînera la création <a href="exemples/template-guide-ex27b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">d'un autre niveau de menus</a>. Bien entendu, vous devrons mettre à jour les prédicats et les libellés pour obtenir un rendu correct. Mais cet exemple illustre ce qui s'est réellement produit.</p>
+
+<p>Le second attribut conditionnel spécial teste les conteneurs vides. Il nécessite de placer l'attribut <code class="attribut">isempty</code> sur une règle avec la valeur <var>true</var> ou <var>false</var>. Avec la valeur <var>true</var>, tous les conteneurs vides correspondront, c'est-à-dire les conteneurs n'ayant aucun enfant. Avec la valeur <var>false</var>, tous les conteneurs ayant au moins un enfants correspondront. Sans cet attribut <code class="attribut">isempty</code>, tout pourra correspondre. Ce test conditionnel est communément utilisé pour afficher du contenu généré de façon différente selon qu'il s'agit de conteneurs vides ou non vides.</p>
+
+<p>De façon courante, vous utiliserez les deux attributs <code class="attribut">iscontainer</code> et <code class="attribut">isempty</code> ensemble selon différentes combinaisons pour créer l'effet désiré. Typiquement, cela signifie une règle pour un conteneur avec enfants, une seconde règle pour des conteneurs vides, et une troisième règle pour des non-conteneurs. Dans le cas des Marque-pages, les deux premières règles trouvent les dossiers, tandis que la troisième règle trouve les marque-pages. Naturellement, le test <code class="attribut">isempty</code> ne s'applique pas aux noeuds qui ne sont pas des conteneurs.</p>
+
+<p class="note">Notez que les deux attributs <code class="attribut">iscontainer</code> et <code class="attribut">isempty</code> ne sont disponibles que pour des règles utilisant la syntaxe simplifiée.</p>
