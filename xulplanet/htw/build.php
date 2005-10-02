@@ -43,7 +43,7 @@ $article_list=array(
  'HTW XXIII'  =>array(322, 'Règles multiples simples',    array('Alain B.'=>'30/09/2005') ),
  'HTW XXIV'   =>array(323, 'Autre exemple de règles multiples',     array('Alain B.'=>'30/09/2005') ),
  'HTW XXV'    =>array(325, 'Règles multiples avec récursivité',      array('Alain B.'=>'30/09/2005') ),
- 'HTW XXVI'   =>array(326, 'Générer un menu récursivement',     array(''=>'') ),
+ 'HTW XXVI'   =>array(326, 'Générer un menu récursivement',     array('Alain B.'=>'01/10/2005') ),
  'HTW XXVII'  =>array(327, 'Tests de conteneurs',    array(''=>'') ),
  'HTW XXVIII' =>array(329, 'Appliquer des conditions de parent',   array(''=>'') ),
  'HTW XXIX'   =>array(330, 'Utilisation de règles multiples pour plus de résultats',     array(''=>'') ),
