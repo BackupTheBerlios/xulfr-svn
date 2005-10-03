@@ -1,0 +1,42 @@
+
+<p>L'élément le plus commun utilisé avec un gabarit est l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code>. Vous pouvez utiliser un gabarit avec un arbre aussi simplement de n'importe quel autre gabarit. Cependant, puisque les gabarits sont souvent utilisés avec des arbres, en particulier avec de grandes quantités de données, le système de gabarits supporte un constructeur spécial dédié à la création d'arbres. Plutôt que le contenu ne soit généré pour chaque ligne dans l'arbre, les résultats sont simplement stockés dans une liste à l'intérieur du constructeur. Cela signifie que les noeuds du DOM ne sont pas construits pour tous les items. Cette méthode est plus efficace car la création de nombreux noeuds du DOM entraînerait une charge de traitement excessive. Cet avantage en performance est rendu possible par le fait que les arbres ne peuvent afficher que du texte, donc le constructeur ne doit conserver que très peu d'informations.</p>
+
+<p>Pour utiliser le constructeur d'arbre, vous devez ajouter un attribut <code class="attribut">flags</code> sur le noeud racine&nbsp;:</p>
+
+<pre><code>&lt;tree datasources="template-guide-streets.rdf"
+      ref="http://www.xulplanet.com/rdf/myneighbourhood"
+      flags="dont-build-content"&gt;</code></pre>
+
+<p>Le drapeau <var>dont-build-content</var> signifie que le contenu ne doit pas être construit. Cependant, sa fonction est en réalité de faire utiliser par le constructeur principal un sous-type spécifique aux arbres. Sans ce drapeau, le gabarit serait traité par l'autre type de constructeur appelé constructeur de contenu, car il génère le contenu.</p>
+
+<p class="note">Notez qu'un constructeur d'arbre ne peut être utilisé qu'avec des arbres, mais qu'un constructeur de contenu peut être utilisé avec n'importe quel type de contenu.</p>
+
+<p>Vous pouvez également choisir d'utiliser un constructeur de contenu pour un arbre si vous le souhaitez. Il peut servir à cela, en particulier pour de petites quantités de données. Toutefois, vous constaterez que le constructeur de contenu sera plus lent au fur et à mesure que la quantité de données augmentera.</p>
+
+<p>Excepté cet attribut <code class="attribut">flags</code>, la syntaxe du gabarit est exactement la même pour le constructeur d'arbre que pour le constructeur de contenu. Comme le constructeur d'arbre a besoin d'une forme très spécifique du corps d'action, Il est donc impératif que le corps d'action contienne un seul <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code> avec sa ligne et ses colonnes. Voici un exemple&nbsp;:</p>
+
+<pre><code>&lt;tree id="photosList" flex="1" datasources="template-guide-photos5.rdf"
+      ref="http://www.xulplanet.com/rdf/myphotos" flags="dont-build-content"&gt;
+  &lt;treecols&gt;
+    &lt;treecol id="name" label="Nom" flex="1"/&gt;
+    &lt;treecol id="date" label="Date" flex="1"/&gt;
+
+  &lt;/treecols&gt;
+  &lt;template&gt;
+    &lt;treechildren&gt;
+      &lt;treeitem uri="rdf:*"&gt;
+        &lt;treerow&gt;
+          &lt;treecell label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+
+          &lt;treecell label="rdf:http://purl.org/dc/elements/1.1/date"/&gt;
+        &lt;/treerow&gt;
+      &lt;/treeitem&gt;
+    &lt;/treechildren&gt;
+  &lt;/template&gt;
+&lt;/tree&gt;</code></pre>
+
+<p>Les colonnes de l'arbre sont déclarées comme du contenu statique puisqu'elles ne doivent être déclarées qu'une seule fois. Ce gabarit utilise la syntaxe de règles simplifiée, bien que la syntaxe étendue aurait pu être utilisée. L'attribut <code class="attribut">uri</code> doit être déclaré sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code> et défini à <var>rdf:*</var> pour la syntaxe simplifiée ou la variable membre pour la syntaxe étendue. Les balises restantes sont similaires à la syntaxe d'un arbre d'une seule ligne. Cette ligne est utilisée pour les données du gabarit par le constructeur d'arbre. Au lieu de générer du contenu, le constructeur va utiliser les attributs de cellules pour déterminer ce qui devra être affiché. Le constructeur d'arbre implémente l'interface <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">nsITreeView</a>, donc il devient la vue d'arbre (ainsi, la vue d'arbre et le constructeur d'arbre sont le même objet). Lorsque l'arbre est affiché, il réclame à la vue le contenu pour chaque cellule. Le constructeur étudie le libellé pour chaque cellule correspondante, traduit chaque variable ou prédicat en valeurs, et retourne la valeur.</p>
+
+<p>Dans l'exemple ci-dessus, la première cellule doit afficher le titre. Le constructeur n'analyse pas les libellés tant que la vue ne les lui demande pas. Lorsque la vue appelle un libellé pour la première cellule, le constructeur récupère le prédicat <var>http://purl.org/dc/elements/1.1/title</var> de la ligne en question et le retourne.</p>
+
+<p>Le constructeur de contenu va générer le contenu dans le corps du gabarit et faire la substitution immédiate des prédicats RDF. Cependant, il va créer le même résultat sur l'écran pour l'utilisateur qu'avec le constructeur d'arbre. Comparez l'exemple avec le <a href="exemples/template-guide-ex30.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">constructeur d'arbre</a> et le même exemple avec le <a href="exemples/template-guide-ex30b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">constructeur de contenu</a>.</p>
