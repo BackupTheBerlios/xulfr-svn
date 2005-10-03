@@ -46,7 +46,7 @@ $article_list=array(
  'HTW XXVI'   =>array(326, 'Générer un menu récursivement',     array('Alain B.'=>'01/10/2005') ),
  'HTW XXVII'  =>array(327, 'Tests de conteneurs',    array('Alain B.'=>'01/10/2005') ),
  'HTW XXVIII' =>array(329, 'Appliquer des conditions de parent',   array('Alain B.'=>'02/10/2005') ),
- 'HTW XXIX'   =>array(330, 'Utilisation de règles multiples pour plus de résultats',     array(''=>'') ),
+ 'HTW XXIX'   =>array(330, 'Utilisation de règles multiples pour plus de résultats',     array('Alain B.'=>'03/10/2005') ),
  'HTW XXX'    =>array(331, 'Construction d\'arbres',      array(''=>'') ),
  'HTW XXXI'   =>array(332, 'Fonctionnalités du constructeur d\'arbres',     array(''=>'') ),
  'HTW XXXII'  =>array(333, 'Arbres hiérarchiques',    array(''=>'') ),
