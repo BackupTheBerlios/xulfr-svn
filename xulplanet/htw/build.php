@@ -50,7 +50,7 @@ $article_list=array(
  'HTW XXX'    =>array(331, 'Construction d\'arbres',      array('Alain B.'=>'03/10/2005') ),
  'HTW XXXI'   =>array(332, 'Fonctionnalités du constructeur d\'arbres',     array('Alain B.'=>'03/10/2005') ),
  'HTW XXXII'  =>array(333, 'Arbres hiérarchiques',    array('Alain B.'=>'04/10/2005') ),
- 'HTW XXXIII' =>array(334, 'Attachement d\'un constructeur de gabarits',   array(''=>'') ),
+ 'HTW XXXIII' =>array(334, 'Attachement d\'un constructeur de gabarits',   array('Alain B.'=>'04/10/2005') ),
  'HTW XXXIV'  =>array(335, 'La reconstruction de gabarits',    array(''=>'') ),
  'HTW XXXV'   =>array(336, 'Les observateurs de gabarits',     array(''=>'') ),
  'HTW XXXVI'  =>array(337, 'Les observateurs du constructeur d\'arbres',    array(''=>'') ),
