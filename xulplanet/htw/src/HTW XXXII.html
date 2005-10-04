@@ -1,0 +1,55 @@
+
+<p>Un gabarit peut être utilisé pour générer des arbres hiérarchiques. Il fonctionne comme un constructeur de contenu basé sur une génération récursive. Chaque niveau de l'arbre est créé par itération successive du processus de construction du gabarit. Si les items sont des conteneurs, le constructeur d'arbre marquera les lignes concernées comme étant des conteneurs, donc elles pourront être développées ou refermées avec les petits icônes à gauche de la colonne. Pensez à définir la colonne de gauche comme étant une colonne primaire afin que ces icônes apparaissent.</p>
+
+<p>Pour procéder ainsi, le constructeur d'arbre doit savoir si un item est un conteneur. Habituellement, l'arbre est affiché à partir de données dans un conteneur RDF tel qu'un Seq. Dans ce cas, il est facile de savoir si un noeud est un conteneur. Si un noeud est un conteneur RDF, l'item de l'arbre devient également un conteneur que l'utilisateur peut ouvrir en double-cliquant dessus.</p>
+
+<p class="note">Notez que ce test est effectué sur la valeur membre et non sur la valeur de référence.</p>
+
+<p>Par exemple, dans l'exemple des photos, nous disposons d'un conteneur <var>http://www.xulplanet.com/rdf/myphotos</var> avec trois photos. Trois résultats seront générés à partir d'une seule règle sans conditions supplémentaires. C'est le résultat, ou la photo, qui sera testé, pas le conteneur des photos. Puisqu'une photo n'est pas un conteneur, les trois lignes ne deviendront pas des conteneurs et vous ne serez pas capable de les ouvrir. Comme les lignes ne sont pas des conteneurs, le constructeur d'arbre ne cherche pas de données supplémentaires par récursivité. Le constructeur d'arbre crée des lignes paresseusement, donc un conteneur fermé n'inclura aucune donnée générée tant que la ligne ne sera pas ouverte. Lorsque l'utilisateur ouvre la ligne d'un arbre, le niveau suivant des lignes est construit à partir du gabarit et affiché dans l'arbre. De façon similaire, lorsque l'utilisateur réduit une ligne d'un arbre, les lignes sous-jacentes sont enlevées de telle sorte qu'elles devront être générées de nouveau la prochaine fois que la ligne est ouverte.</p>
+
+<p>Si vous désirez insérer des lignes dans les lignes de photos, vous devrez soit faire de chaque photo un conteneur RDF, ou soit utiliser un attribut <code class="attribut">containment</code> pour spécifier des propriétés supplémentaires définissant des conteneurs. Si une photo particulière a une de ses propriétés faisant partie de l'attribut <code class="attribut">containment</code>, elle sera acceptée comme un conteneur et l'utilisateur pourra ouvrir la ligne. Lorsque l'utilisateur ouvre la ligne, le gabarit va reconstruire les résultats en utilisant la photo comme point de départ plutôt que de reprendre la valeur <code class="attribut">ref</code> du niveau le plus élevé.</p>
+
+<p>Voici un exemple pour <a href="exemples/template-guide-streets.rdf">la source de données</a> des rues&nbsp;:</p>
+
+<pre><code>&lt;tree id="photosList" flex="1" datasources="template-guide-streets.rdf"
+      ref="http://www.xulplanet.com/rdf/myneighbourhood" flags="dont-build-content"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;
+  &lt;treecols&gt;
+    &lt;treecol id="address" primary="true" label="Adresse" flex="1"/&gt;
+    &lt;treecol id="floors" label="Appartement" flex="1"/&gt;
+
+  &lt;/treecols&gt;
+  &lt;template&gt;
+    &lt;rule rdf:type="http://www.xulplanet.com/rdf/House"&gt;
+      &lt;treechildren&gt;
+        &lt;treeitem uri="rdf:*"&gt;
+          &lt;treerow&gt;
+
+            &lt;treecell label="rdf:http://www.xulplanet.com/rdf/address"/&gt;
+            &lt;treecell label="rdf:http://www.xulplanet.com/rdf/floors"/&gt;
+          &lt;/treerow&gt;
+        &lt;/treeitem&gt;
+      &lt;/treechildren&gt;
+    &lt;/rule&gt;
+
+    &lt;rule&gt;
+      &lt;treechildren&gt;
+        &lt;treeitem uri="rdf:*"&gt;
+          &lt;treerow&gt;
+            &lt;treecell label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+          &lt;/treerow&gt;
+
+        &lt;/treeitem&gt;
+      &lt;/treechildren&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/tree&gt;</code></pre>
+
+<p>Cet exemple est similaire à <a href="exemples/template-guide-ex25.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">ce précédent exemple</a> excepté qu'il utilise un arbre. La première règle traite les maisons comme indiqué par la condition de la règle, et la seconde règle traite les rue. Comme vous pouvez le voir ci-dessous avec cet extrait de la source de données, les rues sont des Seq, donc elles deviennent des conteneurs. Les maisons n'étant pas des conteneurs ne vont générer aucun enfant dans l'arbre.</p>
+
+<pre><code>&lt;rdf:Bag rdf:about="http://www.xulplanet.com/rdf/myneighbourhood"&gt;
+  &lt;rdf:li&gt;
+    &lt;rdf:Seq rdf:about="http://www.xulplanet.com/rdf/marion"
+               dc:title="rue Marion"&gt;</code></pre>
+
+<p>Le résultat est <a href="exemples/template-guide-ex32.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">un arbre hiérarchique</a> à deux niveaux et à de deux colonnes.</p>

@@ -49,7 +49,7 @@ $article_list=array(
  'HTW XXIX'   =>array(330, 'Utilisation de règles multiples pour plus de résultats',     array('Alain B.'=>'03/10/2005') ),
  'HTW XXX'    =>array(331, 'Construction d\'arbres',      array('Alain B.'=>'03/10/2005') ),
  'HTW XXXI'   =>array(332, 'Fonctionnalités du constructeur d\'arbres',     array('Alain B.'=>'03/10/2005') ),
- 'HTW XXXII'  =>array(333, 'Arbres hiérarchiques',    array(''=>'') ),
+ 'HTW XXXII'  =>array(333, 'Arbres hiérarchiques',    array('Alain B.'=>'04/10/2005') ),
  'HTW XXXIII' =>array(334, 'Attachement d\'un constructeur de gabarits',   array(''=>'') ),
  'HTW XXXIV'  =>array(335, 'La reconstruction de gabarits',    array(''=>'') ),
  'HTW XXXV'   =>array(336, 'Les observateurs de gabarits',     array(''=>'') ),
