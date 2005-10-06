@@ -1,0 +1,36 @@
+
+<p>Pendant le processus de construction d'un gabarit, plusieurs scrutateurs (ou observateurs) sont utilisés, chacun pour des usages différents. Ils implémentent tous une interface XPCOM différente comme listée ci-après&nbsp;:</p>
+
+<ul>
+  <li><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULBuilderListener.html">nsIXULBuilderListener</a> - utilisée pour scruter les reconstructions du gabarit.</li>
+  <li><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULTreeBuilderObserver.html">nsIXULTreeBuilderObserver</a> - utilisée pour scruter des opérations particulières sur les arbres.</li>
+  <li><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIRDFObserver.html">nsIRDFObserver</a> - utilisée pour scruter des modifications sur la source de données RDF sous-jacente.</li>
+</ul>
+
+<p>La première de ces interfaces est la plus simple et invoque deux méthodes, <code>willRebuild</code> et <code>didRebuild</code>. Vous implémenterez cet objet lorsque vous souhaitez être prévenu que le gabarit est reconstruit avec l'appel de la méthode <code>rebuild</code>. Le constructeur de gabarit peut également forcer une reconstruction lorsqu'une notification de modification des données sous-jacentes est signalée. La première utilisation de ce scrutateur est de stocker quelques états avant que le gabarit ne soit reconstruit, afin de les restaurer par la suite. Souvenez vous que lorsqu'un gabarit est reconstruit, tout son contenu existant est effacé et généré à neuf. La méthode <code>willRebuild</code> d'un scrutateur sera appelée avant que le contenu ne soit effacé, et la méthode <code>didRebuild</code> sera appelée après que le contenu ne soit re-généré. Ce scrutateur fonctionne également avec les constructeurs d'arbres, et appellera les méthodes appropriées avant et après que l'arbre ne soit généré.</p>
+
+<p>Pour assigner un scrutateur de construction à un constructeur, utilisez la méthode <code>addListener</code>&nbsp;:</p>
+
+<pre>var someListener = {
+  item: null,
+  willRebuild : function(builder) {
+    this.item = builder.getResourceAtIndex(builder.root.currentIndex);
+  },
+  didRebuild : function(builder) {
+    if (this.item) {
+      var idx = builder.getIndexOfResource(this.item)
+      if (idx != -1) builder.root.view.selection.select(idx);
+    }
+  }
+};
+tree.builder.addListener(someListener);</code></pre>
+
+<p>Cet exemple est très simple. Il mémorise et restaure la sélection après un <code>rebuild</code>. Comme le contenu disparaît pendant la reconstruction, la sélection est perdue, donc elle est récupérée au cours de la méthode <code>didRebuild</code>. Le gestionnaire des Marque-pages de Firefox utilise cette technique. Si vous essayez <a href="exemples/template-guide-ex35.xul.txt">un exemple</a> en utilisant le code ci-dessus, vous noterez que seul le premier arbre conserve sa sélection lorsque le bouton <var>Reconstruire</var> est pressé, le second arbre la perdant. La cause en est que le scrutateur n'est seulement attaché qu'au premier arbre.</p>
+
+<p>L'exemple ci-dessus fait usage des méthodes <code>getResourceAtIndex</code> et <code>getIndexOfResource</code>. Ces deux méthodes sont disponibles pour les constructeurs d'arbres et convertiront un index dans l'arbre en sa ressource membre associée et vice-versa. Naturellement, nous ne pouvons mémoriser l'index d'un item car cet item peut changer de position, ou la ressource peut ne plus faire partie des résultats, ce qui nécessite de tester la valeur retournée par la méthode <code>getIndexOfResource</code>.</p>
+
+<p class="note">Comme cet exemple utilise les ressources RDF directement, il nécessite pour pouvoir le tester des niveaux de permissions élevés que vous n'obtiendrez qu'au travers d'une URL chrome.</p>
+
+<p>Vous devez aussi songer que la propriété <code>root</code> du constructeur, telle qu'elle est utilisée ci-dessus, fait référence à l'arbre. Avec un constructeur de contenu, elle retournerait l'élément ayant l'attribut <code class="attribut">datasources</code> qui est assimilé à un élément racine dans un constructeur de gabarit.</p>
+
+<p>Finalement, vous pourrez supprimer un scrutateur en utilisant la méthode <code>removeListener</code> du constructeur.</p>

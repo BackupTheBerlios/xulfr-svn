@@ -52,7 +52,7 @@ $article_list=array(
  'HTW XXXII'  =>array(333, 'Arbres hiérarchiques',    array('Alain B.'=>'04/10/2005') ),
  'HTW XXXIII' =>array(334, 'Attachement d\'un constructeur de gabarits',   array('Alain B.'=>'04/10/2005') ),
  'HTW XXXIV'  =>array(335, 'La reconstruction de gabarits',    array('Alain B.'=>'06/10/2005') ),
- 'HTW XXXV'   =>array(336, 'Les observateurs de gabarits',     array(''=>'') ),
+ 'HTW XXXV'   =>array(336, 'Les observateurs de gabarits',     array('Alain B.'=>'06/10/2005') ),
  'HTW XXXVI'  =>array(337, 'Les observateurs du constructeur d\'arbres',    array(''=>'') ),
  'HTW XXXVII' =>array(338, 'Modifications RDF',   array(''=>'') ),
  'HTW XXXVIII'=>array(339, 'Ajout de triplets RDF',   array(''=>'') ),
