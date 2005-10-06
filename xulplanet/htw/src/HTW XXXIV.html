@@ -1,0 +1,34 @@
+
+<p>La source de données associée au gabarit peut être obtenue en utilisant la propriété <code>database</code> de l'élément. Elle implémente <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIRDFCompositeDataSource.html">l'interface nsIRDFCompositeDataSource</a>. Puisqu'il peut s'agir d'une source de données composite, elle peut contenir plus d'une source de données. Dans ce cas, ces sources seront listées dans l'attribut <code class="attribut">datasources</code>, séparées par des virgules. Par exemple&nbsp;:</p>
+
+<pre><code>&lt;vbox datasources="template-guide-photos5.rdf template-guide-streets.rdf"&gt;</code></pre>
+
+<p>Parfois, vous souhaitez calculer au préalable la source de données et l'attacher ensuite au gabarit. Vous pouvez réaliser cette opération en utilisant la méthode <code>AddDataSource</code> de la source de données composite. Vous pouvez ajouter autant de sources de données que vous le désirez, et vous pouvez en enlever grâce à la méthode <code>RemoveDataSource</code>. Une utilisation classique est la suivante&nbsp;:</p>
+
+<pre><code>var RDF = Components.classes["@mozilla.org/rdf/rdf-service;1"].
+            getService(Components.interfaces.nsIRDFService);
+var ds = RDF.GetDataSource("http://www.xulplanet.com/ndeakin/tests/xul/template-guide-streets.rdf");
+var tree = document.getElementById("theTree");
+tree.database.AddDataSource(ds);
+tree.builder.rebuild();</code></pre>
+
+<p>Il s'agit d'une manière typique d'ajouter une source de données à un élément, dans ce cas l'arbre ayant un <code class="attribut">id</code> <var>theTree</var>. La source de données est obtenue par la méthode <code>GetDataSource</code> du service RDF. Après l'ajout de la source de données, la méthode <code>rebuild</code> du constructeur d'arbre est invoquée pour reconstruire le gabarit avec les nouvelles données. Cette opération ne s'effectue pas automatiquement lorsque vous ajoutez la source de données, ce qui est utile si vous devez en ajouter ou enlever plusieurs à la fois.</p>
+
+<p>L'accès à la source de données composite et sa manipulation nécessitent des privilèges, indépendamment de quelles sources elle contient. Heureusement dans cette situation, vous pouvez simplement définir l'attribut <code class="attribut">datasources</code> (ou la propriété correspondante) avec les sources de données voulues. Par exemple&nbsp;:</p>
+
+<pre><code>var tree = document.getElementById("theTree");
+tree.datasources = "template-guide-photos5.rdf template-guide-streets.rdf";</code></pre>
+
+<p>Ce code va également modifier les sources de données en cours d'utilisation. Dans ce cas, le gabarit va se reconstruire automatiquement car vous définissez d'un coup toutes les sources de données de cette manière. Vous n'avez donc pas à appeler la méthode <code>rebuild</code>. Vous pouvez procéder de la même façon avec l'attribut <code class="attribut">ref</code> (ou la propriété <code>ref</code>) et le gabarit subira également une reconstruction automatique. Dans l'exemple ci-dessus, il y a deux sources de données attachées à l'arbre. Elles seront chargées toutes les deux et le gabarit sera reconstruit. Notez que si une des sources de données est déjà chargées, elle ne sera pas chargée de nouveau. C'est une manière pratique d'ajouter simplement une nouvelle source de données à un gabarit existant sans avoir à recharger les données existantes. Si vous souhaitez recharger les données, il vous suffit d'appeler la méthode <code>refresh</code> du constructeur&nbsp;:</p>
+
+<pre><code>tree.builder.refresh();</code></pre>
+
+<p>Ce code va recharger la source de données attachée au gabarit. S'il y a plus d'une source de données, comme dans l'exemple ci-dessus, elles seront toutes rechargées. À cause de la façon dont les gabarits sont mis à jour, vous n'avez normalement pas besoin de reconstruire un gabarit après l'appel de cette méthode <code>refresh</code>. Il existe toutefois des situations où cela est nécessaire.</p>
+
+<p>Si vous prévoyez l'utilisation de sources de données dynamiques, il est fréquent de commencer avec une source de données vide grâce à l'URI spécial <var>rdf:null</var>.</p>
+
+<pre><code>&lt;tree datasources="rdf:null" ref="http://www.xulplanet.com/rdf/myphotos"&gt;</code></pre>
+
+<p>Une source de données composite sera créée mais ne contiendra aucune source. Cette syntaxe est nécessaire car sinon vous ne pourrez pas définir une valeur pour l'attribut <code class="attribut">datasources</code> et aucun constructeur de gabarit ne sera attaché à l'élément. Dans un contexte chrome, la source de données <var>rdf:local-store</var> est toujours inclue même si vous ne l'avez pas spécifié. Il faut en tenir compte si vous devez manipuler la source de données composite.</p>
+
+<p>Un autre point&nbsp;: L'attribut <code class="attribut">datasources</code> peut utiliser des URLs absolues ou relatives. Les URLs relatives le sont par rapport au document XUL contenant l'élément correspondant. La méthode <code>GetDataSource</code> du service RDF n'accepte toutefois que des URLs absolues. Vous devrez donc vous servir d'un chemin complet dans cette situation.</p>
