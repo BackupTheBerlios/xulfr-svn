@@ -1,0 +1,47 @@
+
+<p>Mettons que nous ajoutions le triplet ci-dessous à la source de données.</p>
+
+<pre><code>subject: http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg
+predicate: http://purl.org/dc/elements/1.1/description
+object: Un sur la trentaine ou plus d'obélisques égyptiens</code></pre>
+
+<p>Le constructeur de gabarits sera notifié de la modification au travers du mécanisme d'observateur RDF. Il devra alors tester toutes les règles pour vérifier si le triplet entraînera une modification dans l'affichage. Si le triplet n'entraîne aucun changement, le constructeur ne fera aucun changement. Si l'affichage doit être modifiée, le constructeur devra ajuster la sortie, soit par l'ajout d'un nouveau résultat, la suppression d'un ancien résultat, ou par la modification d'une partie des valeurs des résultats. Le constructeur est suffisamment intelligent pour ne modifier que l'essentiel en laissant les parties restantes intactes. Supposons que nous avons une seule règle avec les conditions suivantes&nbsp;:</p>
+
+<pre><code>&lt;conditions&gt;
+  &lt;content uri="?start"/&gt;
+  &lt;member container="?start" child="?photo"/&gt;
+  &lt;triple subject="?photo"
+             predicate="http://purl.org/dc/elements/1.1/title"
+             object="?title"/&gt;
+  &lt;triple subject="?photo"
+             predicate="http://purl.org/dc/elements/1.1/description"
+             object="?description"/&gt;
+&lt;/conditions&gt;</code></pre>
+
+<p>Ces conditions vont afficher toutes les photos ayant à la fois un titre et une description. Supposons que la photo 'obélisque' n'a pas encore de description, l'ajout du triplet décrit plus haut entraînera un nouveau résultat disponible pour cette photo. Le constructeur analyse les conditions une par une.</p>
+
+<p>La balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code> peut être sautée sans problème à ce stade du processus, donc le constructeur continue sur la condition <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code>. Ce type de condition ne peut entraîner une modification que si un item est ajouté ou retiré d'un conteneur. Puisque nous avons un nouveau triplet RDF qui n'est pas ajouté ou retiré d'un conteneur, cette condition peut être sautée. Effectivement, si le processus de génération des résultats devait évaluer cette condition membre, les mêmes résultats seraient produits pour la variable ?photo que la nouvelle données en fasse partie ou non. Ainsi, la condition membre peut être sautée.</p>
+
+<p>La condition suivante est un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> impliquant le prédicat <var>http://purl.org/dc/elements/1.1/title</var>. Nous se sommes pas en train d'ajouter un arc impliquant ce triplet donc nous pouvons ignorer également cette condition. Le second triplet, toutefois, peut entraîner des modifications puisque l'attribut <code class="attribut">predicate</code> correspondant au prédicat ajouté. Le sujet et l'objet sont des variables que le constructeur accepte comme modification possible, et continue vers l'étape suivante. Si le prédicat était différent, le constructeur aurait continué jusqu'à la fin des conditions et se serait arrêté là. Par exemple, si le prédicat du triplet ajouté était <var>http://purl.org/dc/elements/1.1/date</var>, le constructeur l'aurait ignoré car le gabarit ne met en pas jeu de champ date. De même, si le triplet n'utilise pas de variable mais une valeur statique, cette valeur devrait correspondre pour que le processus continue.</p>
+
+<p>Maintenant que nous connaissons les conditions pouvant entraîner une modification dans le gabarit, la seconde étape est de remplir les variables pour cette condition avec ce qui devrait être potentiellement le nouveau résultat. Dans cette situation, les variables ?photo et ?description sont remplies en utilisant les valeurs du triplet nouvellement ajouté.</p>
+
+<pre><code>(?photo = http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg,
+ ?description = 'Un sur la trentaine ou plus d'obélisques égyptiens')</code></pre>
+
+<p>Ensuite, le constructeur va parcourir les règles en sens inverse afin de remplir les variables restantes. Il procède de façon similaire lorsqu'il génère les résultats mais en traversant les règles dans le sens opposé. Le triplet précédent sera rempli d'une valeur pour la variable ?title puisque nous connaissons une valeur pour la variable ?photo faisant référence à l'attribut <code class="attribut">subject</code> du triplet. Ensuite, la condition <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> est examinée, et dans cette situation, le constructeur remplit la variable ?photo connue et cherche un conteneur parent contenant cette valeur. Il existe un conteneur <var>http://www.xulplanet.com/rdf/myphotos</var>, donc la variable ?start sera remplie avec cette valeur. Maintenant, les résultats potentiels sont à ce stade les suivants&nbsp;:</p>
+
+<pre><code>(?photo = http://www.xulplanet.com/ndeakin/images/t/obelisk.jpg,
+ ?description = 'Un sur la trentaine ou plus d'obélisques égyptiens',
+ ?start = http://www.xulplanet.com/rdf/myphotos,
+ ?title = 'Obélisque')</code></pre>
+
+<p>Comme vous pouvez le voir, le résultat semble disposer de toutes les informations nécessaires pour créer un nouvel item à l'affichage. Si une condition n'avait pas généré un résultat, par exemple si la photo n'avait pas de titre ou n'était pas incluse dans un conteneur parent, il n'y aurait pas eu de correspondance et le constructeur aurait interrompu le processus pour ce nouveau triplet. Par exemple, nous aurions pu ajouter une description pour un nouvelle photo mais sans inclure cette photo dans une ressource conteneur. Dès lors qu'elle est ajoutée à un conteneur avec une autre assertion RDF, le processus décrit ci-dessus est appliqué de nouveau et une correspondance sera atteinte cette fois.</p>
+
+<p>Il y a encore deux choses à faire avant qu'un résultat ne soit accepté comme nouvelle correspondance. Tout d'abord, quand le constructeur atteint la condition <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code>, il vérifie quel est le conteneur ou la variable de référence, dans ce cas ?start, comme défini par l'attribut <code class="attribut">uri</code>. La valeur calculée pour notre nouvelle correspondance potentielle est <var>http://www.xulplanet.com/rdf/myphotos</var>. Le constructeur regarde si cette ressource est susceptible d'être employée comme point de départ dans le gabarit. Lorsque c'est le cas, cette ressource est en cours d'utilisation, puisqu'elle est la valeur de l'attribut <code class="attribut">ref</code> dans ces exemples. Ce serait également le cas pour n'importe quels points de départ dans la génération récursive. Si la variable calculée ?start était différente, nous n'aurions naturellement aucun changement à l'affichage car cette ressource ne serait pas en cours d'utilisation dans le gabarit.</p>
+
+<p>Finalement, le constructeur traite les autres conditions après celle où nous en étions resté afin de remplir les variables restantes. Dans ce cas, il n'y a pas d'autres conditions, donc le constructeur accepte ce résultat comme nouvelle correspondance. Puisque toutes les variables ont été remplies, le corps d'action des règles peut être traité et un nouveau bloc de contenu peut être généré et inséré à l'affichage. Nous verrons dans une prochaine section comment le constructeur détermine où insérer le nouveau contenu. Cependant, vous verrez comment le constructeur de gabarits peut mettre à jour l'affichage lors de modifications sans devoir reconstruire tout le gabarit.</p>
+
+<p>Lors de l'utilisation de la fonction <code>Unassert</code>, ou qu'une donnée soit supprimée de la source de données, un processus différent est utilisé. Dans ce cas, le constructeur étudie les résultats et détermine lequel a été supprimé. Lorsqu'il a généré en premier les résultats, le constructeur a mémorisé des informations supplémentaires pour spécifier quelles parties du graphe étaient concernées. Ces informations l'aide à déterminer les résultats qui ne sont plus nécessaires.</p>
+
+<p>Nous détaillerons ensuite un peu plus comment les modifications RDF affectent le gabarit.</p>

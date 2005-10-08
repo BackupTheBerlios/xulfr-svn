@@ -55,7 +55,7 @@ $article_list=array(
  'HTW XXXV'   =>array(336, 'Les observateurs de gabarits',     array('Alain B.'=>'06/10/2005') ),
  'HTW XXXVI'  =>array(337, 'Les observateurs du constructeur d\'arbres',    array('Alain B.'=>'07/10/2005') ),
  'HTW XXXVII' =>array(338, 'Modifications RDF',   array('Alain B.'=>'08/10/2005') ),
- 'HTW XXXVIII'=>array(339, 'Ajout de triplets RDF',   array(''=>'') ),
+ 'HTW XXXVIII'=>array(339, 'Ajout de triplets RDF',   array('Alain B.'=>'08/10/2005') ),
  'HTW XXXXIX' =>array(341, 'modifications RDF - complément',   array(''=>'') ),
  'HTW XL'     =>array(342, 'Tri des résultats',   array(''=>'') ),
  'HTW XLI'    =>array(343, 'Tri des résultats d\'un arbre',   array(''=>'') ),
