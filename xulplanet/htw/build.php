@@ -57,7 +57,7 @@ $article_list=array(
  'HTW XXXVII' =>array(338, 'Modifications RDF',   array('Alain B.'=>'08/10/2005') ),
  'HTW XXXVIII'=>array(339, 'Ajout de triplets RDF',   array('Alain B.'=>'08/10/2005') ),
  'HTW XXXIX' =>array(341, 'modifications RDF - complément',   array('Alain B.'=>'09/10/2005') ),
- 'HTW XL'     =>array(342, 'Tri des résultats',   array(''=>'') ),
+ 'HTW XL'     =>array(342, 'Tri des résultats',   array('Alain B.'=>'09/10/2005') ),
  'HTW XLI'    =>array(343, 'Tri des résultats d\'un arbre',   array(''=>'') ),
  'HTW XLII'   =>array(344, 'Tri du contenu',   array(''=>'') ),
  'HTW XLIII'  =>array(345, 'Gabarit additionnel',   array(''=>'') )
