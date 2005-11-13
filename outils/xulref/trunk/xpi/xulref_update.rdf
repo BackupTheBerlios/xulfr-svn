@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+ 
+ <RDF:Description about="urn:mozilla:extension:{cd8781d3-a655-467c-b756-c19fb685892b}">
+    <em:updates>
+      <!-- liste des mises à jour disponibles  -->
+      <RDF:Seq>
+        <RDF:li resource="urn:mozilla:extension:{cd8781d3-a655-467c-b756-c19fb685892b}:0.2.1"/>
+      </RDF:Seq>
+    </em:updates>
+
+
+    <em:version>0.2.1</em:version>
+    <em:updateLink>http://xulfr.org/outils/extensions/xulref_0.2.1.xpi</em:updateLink>
+
+
+ </RDF:Description>
+
+ <RDF:Description about="urn:mozilla:extension:{cd8781d3-a655-467c-b756-c19fb685892b}:0.2.1">
+    <em:version>0.2.1</em:version>
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>0.9</em:minVersion>
+        <em:maxVersion>1.0</em:maxVersion>
+        <em:updateLink>http://xulfr.org/outils/extensions/xulref_0.2.1.xpi</em:updateLink>
+      </Description>
+    </em:targetApplication>
+  </RDF:Description>
+
+
+ </RDF:RDF>

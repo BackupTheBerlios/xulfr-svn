@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xbref="http://xulfr.org/xblref#">
+
+
+<rdf:Description about="http://xulfr.org/xblref/1"  xbref:label="Contenu"  xbref:link=""/>
+<rdf:Description about="http://xulfr.org/xblref/2"  xbref:label="Implementation"  xbref:link=""/>
+<rdf:Description about="http://xulfr.org/xblref/3"  xbref:label="Ressources"  xbref:link=""/>
+<rdf:Description about="http://xulfr.org/xblref/4"  xbref:label="Évènements"  xbref:link=""/>
+
+</rdf:RDF>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xref="http://xulfr.org/xulref#">
+
+<!-- categories -->
+<rdf:Description about="http://xulfr.org/xulref/1" xref:label="root" xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/2" xref:label="layout" xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/3" xref:label="widgets" xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/4" xref:label="templates"  xref:link=""/>
+<rdf:Description about="http://xulfr.org/xulref/5" xref:label="scripts"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/6" xref:label="boxes"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/7" xref:label="specific boxes"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/8" xref:label="grids"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/9" xref:label="main widgets"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/10" xref:label="text"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/11" xref:label="list"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/12" xref:label="tree"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/13" xref:label="frame"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/14" xref:label="scroll"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/15" xref:label="menu"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/16" xref:label="popup"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/17" xref:label="toolbar"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/18" xref:label="tabs"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/19" xref:label="status bar"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/20" xref:label="advanced"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/21" xref:label="wizard"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/22" xref:label="resources"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/23" xref:label="commands"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/24" xref:label="keys"  xref:link="" />
+<rdf:Description about="http://xulfr.org/xulref/25" xref:label="broadcast"  xref:link="" />
+
+</rdf:RDF>

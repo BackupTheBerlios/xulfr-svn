@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xbref="http://xulfr.org/xblref#">
+
+  <rdf:Seq about="http://xulfr.org/xblref/root">
+     <rdf:li resource="http://xulfr.org/xblref/tag/bindings" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/binding" />
+     <rdf:li resource="http://xulfr.org/xblref/1" />
+     <rdf:li resource="http://xulfr.org/xblref/2" />
+     <rdf:li resource="http://xulfr.org/xblref/3" />
+     <rdf:li resource="http://xulfr.org/xblref/4" />
+  </rdf:Seq>
+
+
+  <rdf:Seq about="http://xulfr.org/xblref/1">
+     <rdf:li resource="http://xulfr.org/xblref/tag/content" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/children" />
+  </rdf:Seq>
+
+  <rdf:Seq about="http://xulfr.org/xblref/2">
+     <rdf:li resource="http://xulfr.org/xblref/tag/implementation" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/constructor" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/destructor" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/property" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/getter" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/setter" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/field" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/method" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/body" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/parameter" />
+  </rdf:Seq>
+
+  <rdf:Seq about="http://xulfr.org/xblref/3">
+     <rdf:li resource="http://xulfr.org/xblref/tag/resources" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/stylesheet" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/image" />
+  </rdf:Seq>
+
+  <rdf:Seq about="http://xulfr.org/xblref/4">
+     <rdf:li resource="http://xulfr.org/xblref/tag/handlers" />
+     <rdf:li resource="http://xulfr.org/xblref/tag/handler" />
+  </rdf:Seq>
+
+</rdf:RDF>

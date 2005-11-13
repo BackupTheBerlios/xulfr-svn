@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xref="http://xulfr.org/xulref#">
+
+   <!-- list of categories -->
+  <rdf:Seq about="http://xulfr.org/xulref/root">
+     <rdf:li resource="http://xulfr.org/xulref/tag/commonattr" />
+     <rdf:li resource="http://xulfr.org/xulref/1" />
+     <rdf:li resource="http://xulfr.org/xulref/2" />
+     <rdf:li resource="http://xulfr.org/xulref/3" />
+     <rdf:li resource="http://xulfr.org/xulref/4" />
+     <rdf:li resource="http://xulfr.org/xulref/5" />
+  </rdf:Seq>
+
+ <!-- subcategories -->
+
+
+
+  <!-- list of tag in each categories -->
+
+  <rdf:Seq about="http://xulfr.org/xulref/1">
+     <rdf:li resource="http://xulfr.org/xulref/tag/window" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/dialog" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/overlay" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/page" />
+  </rdf:Seq>
+
+
+  <rdf:Seq about="http://xulfr.org/xulref/2">
+     <rdf:li resource="http://xulfr.org/xulref/6" />
+     <rdf:li resource="http://xulfr.org/xulref/7" />
+     <rdf:li resource="http://xulfr.org/xulref/8" />
+  </rdf:Seq>
+
+    <rdf:Seq about="http://xulfr.org/xulref/6">
+     <rdf:li resource="http://xulfr.org/xulref/tag/box" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/hbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/vbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/bbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/splitter" />
+   </rdf:Seq>
+   <rdf:Seq about="http://xulfr.org/xulref/7">
+     <rdf:li resource="http://xulfr.org/xulref/tag/stack" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/deck" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/scrollbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/groupbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/caption" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/autorepeatbutton" />
+   </rdf:Seq>
+   <rdf:Seq about="http://xulfr.org/xulref/8">
+     <rdf:li resource="http://xulfr.org/xulref/tag/grid" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/rows" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/row" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/columns" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/column" />
+   </rdf:Seq>
+
+
+  <rdf:Seq about="http://xulfr.org/xulref/3">
+     <rdf:li resource="http://xulfr.org/xulref/9" />
+     <rdf:li resource="http://xulfr.org/xulref/10" />
+     <rdf:li resource="http://xulfr.org/xulref/11" />
+     <rdf:li resource="http://xulfr.org/xulref/12" />
+     <rdf:li resource="http://xulfr.org/xulref/13" />
+     <rdf:li resource="http://xulfr.org/xulref/14" />
+     <rdf:li resource="http://xulfr.org/xulref/15" />
+     <rdf:li resource="http://xulfr.org/xulref/16" />
+     <rdf:li resource="http://xulfr.org/xulref/17" />
+     <rdf:li resource="http://xulfr.org/xulref/18" />
+     <rdf:li resource="http://xulfr.org/xulref/19" />
+     <rdf:li resource="http://xulfr.org/xulref/20" />
+     <rdf:li resource="http://xulfr.org/xulref/21" />
+  </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/9">
+     <rdf:li resource="http://xulfr.org/xulref/tag/button" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/radio" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/radiogroup" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/checkbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/image" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/separator" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/spacer" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/10">
+     <rdf:li resource="http://xulfr.org/xulref/tag/textbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/description" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/label" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/11">
+     <rdf:li resource="http://xulfr.org/xulref/tag/listbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/listitem" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/listcols" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/listcol" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/listcell" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/listhead" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/12">
+     <rdf:li resource="http://xulfr.org/xulref/tag/tree" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/treecols" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/treecol" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/treechildren" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/treeitem" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/treerow" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/treecell" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/treeseparator" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/13">
+     <rdf:li resource="http://xulfr.org/xulref/tag/iframe" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/browser" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/tabbrowser" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/editor" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/14">
+     <rdf:li resource="http://xulfr.org/xulref/tag/scrollbar" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/scrollbarbutton" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/thumb" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/slider" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/arrowscrollbox" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/15">
+     <rdf:li resource="http://xulfr.org/xulref/tag/menu" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/menuitem" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/menubar" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/menupopup" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/menulist" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/menuseparator" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/16">
+     <rdf:li resource="http://xulfr.org/xulref/tag/popup" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/popupset" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/tooltip" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/17">
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbar" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbarbutton" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbargrippy" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbaritem" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbarpalette" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbarseparator" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbarset" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/toolbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/grippy" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/18">
+     <rdf:li resource="http://xulfr.org/xulref/tag/tabbox" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/tabs" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/tab" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/tabpanel" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/tabpanels" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/19">
+     <rdf:li resource="http://xulfr.org/xulref/tag/statusbar" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/statusbarpanel" />
+   </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/20">
+     <rdf:li resource="http://xulfr.org/xulref/tag/colorpicker" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/progressmeter" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/titlebar" />
+   </rdf:Seq>
+
+    <rdf:Seq about="http://xulfr.org/xulref/21">
+     <rdf:li resource="http://xulfr.org/xulref/tag/wizard" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/wizardpage" />
+   </rdf:Seq>
+
+   <rdf:Seq about="http://xulfr.org/xulref/4">
+     <rdf:li resource="http://xulfr.org/xulref/tag/template" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/rule" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/conditions" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/member" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/triple" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/content" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/bindings" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/binding" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/action" />
+   </rdf:Seq>
+
+    <rdf:Seq about="http://xulfr.org/xulref/5">
+     <rdf:li resource="http://xulfr.org/xulref/tag/script" />
+     <rdf:li resource="http://xulfr.org/xulref/22" />
+     <rdf:li resource="http://xulfr.org/xulref/23" />
+     <rdf:li resource="http://xulfr.org/xulref/24" />
+     <rdf:li resource="http://xulfr.org/xulref/25" />
+   </rdf:Seq>
+
+    <rdf:Seq about="http://xulfr.org/xulref/22">
+     <rdf:li resource="http://xulfr.org/xulref/tag/stringbundle" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/stringbundleset" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/resourcebundle" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/textnode" />
+  </rdf:Seq>
+    <rdf:Seq about="http://xulfr.org/xulref/23">
+     <rdf:li resource="http://xulfr.org/xulref/tag/commands" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/commandset" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/command" />
+  </rdf:Seq>
+
+    <rdf:Seq about="http://xulfr.org/xulref/24">
+     <rdf:li resource="http://xulfr.org/xulref/tag/key" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/keyset" />
+  </rdf:Seq>
+
+    <rdf:Seq about="http://xulfr.org/xulref/25">
+     <rdf:li resource="http://xulfr.org/xulref/tag/broadcaster" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/broadcasterset" />
+     <rdf:li resource="http://xulfr.org/xulref/tag/observes" />
+  </rdf:Seq>
+
+</rdf:RDF>

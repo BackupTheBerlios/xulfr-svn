@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xbref="http://xulfr.org/xblref#">
+
+
+<rdf:Description about="http://xulfr.org/xblref/tag/bindings"  xbref:label="bindings"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/binding"  xbref:label="binding"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/content"  xbref:label="content"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/children"  xbref:label="children"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/implementation"  xbref:label="implementation"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/constructor"  xbref:label="constructor"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/destructor"  xbref:label="destructor"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/property"  xbref:label="property"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/getter"  xbref:label="getter"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/setter"  xbref:label="setter"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/field"  xbref:label="field"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/method"  xbref:label="method"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/body"  xbref:label="body"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/parameter"  xbref:label="parameter"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/resources"  xbref:label="resources"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/stylesheet"  xbref:label="stylesheet"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/image"  xbref:label="image"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/handlers"  xbref:label="handlers"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/handler"  xbref:label="handler"/>
+
+</rdf:RDF>

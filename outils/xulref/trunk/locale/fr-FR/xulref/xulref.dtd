@@ -1,0 +1,6 @@
+<!ENTITY xulref.commandkey    "9">
+<!ENTITY xulrefButton.label   "XulRef">
+<!ENTITY xulrefButton.tooltip "Affiche la référence des balises XUL dans une sidebar">
+<!ENTITY xulref.sidebarTitle  "XulRef 0.2.1">
+<!ENTITY xulref.menuItem      "Référence Xul">
+<!ENTITY xulrefLabel.siteselection "sur :">

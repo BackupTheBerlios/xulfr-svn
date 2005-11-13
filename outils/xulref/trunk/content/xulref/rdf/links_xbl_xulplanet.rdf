@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xbref="http://xulfr.org/xblref#">
+
+<rdf:Description about="http://xulfr.org/xblref/tag/bindings" xbref:link="ref_xblbindings.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/binding" xbref:link="ref_xblbinding.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/content" xbref:link="ref_xblcontent.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/children" xbref:link="ref_xblchildren.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/implementation" xbref:link="ref_xblimplementation.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/constructor" xbref:link="ref_xblconstructor.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/destructor" xbref:link="ref_xbldestructor.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/property" xbref:link="ref_xblproperty.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/getter" xbref:link="ref_xblgetter.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/setter" xbref:link="ref_xblsetter.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/field" xbref:link="ref_xblfield.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/method" xbref:link="ref_xblmethod.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/body" xbref:link="ref_xblbody.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/parameter" xbref:link="ref_xblparameter.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/resources" xbref:link="ref_xblresources.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/stylesheet" xbref:link="ref_xblstylesheet.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/image" xbref:link="ref_xblimage.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/handlers" xbref:link="ref_xblhandlers.html"/>
+<rdf:Description about="http://xulfr.org/xblref/tag/handler" xbref:link="ref_xblhandler.html"/>
+
+</rdf:RDF>
