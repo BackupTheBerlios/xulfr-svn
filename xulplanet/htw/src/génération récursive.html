@@ -1,0 +1,59 @@
+
+<p>Dans l'exemple précédent, le constructeur de gabarits générait une série de deux boutons supplémentaires sur la seconde ligne. Toutefois, les libellés de cette seconde série de boutons étaient différents de la première série. Si vous regardez de nouveau <a href="images/template-guide-p2.png">le graphe</a>, vous commencerez à comprendre pourquoi. Dans le graphe, une flèche relatedItem relie l'item C à l'item D. Cette flèche supplémentaire à B ou D est la cause de la création de cette série supplémentaire de boutons.</p>
+
+<p>Après avoir généré le contenu, le constructeur de gabarits continue de répéter la génération pour les niveaux intérieurs aussi loin que possible. Ainsi, le constructeur génère récursivement le contenu à partir du graphe. Après la création du contenu d'un résultat, le constructeur recommence en utilisant un nouveau parent et un nouveau point de départ. Naturellement, le parent sera un nouveau contenu plutôt qu'une inclusion dans un élément, et le point de départ sera le point d'arrivée de l'itération précédente. Dans cet exemple, le point d'insertion initial parent pour le niveau de génération le plus élevé est l'élément avec l'attribut <code class="attribut">datasources</code>, un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>. Pour les résultats imbriqués, le point d'insertion est l'élément généré. Voici ci-après, le contenu qui a été généré après une seule itération &nbsp;:</p>
+
+<pre><code>&lt;vbox datasources="http://www.xulplanet.com/ds/sample.rdf"
+         ref="http://www.xulplanet.com/rdf/A"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+        &lt;content uri="?start"/&gt;
+        &lt;triple subject="?start"
+                predicate="http://www.xulplanet.com/rdf/relatedItem"
+                object="?relateditem"/&gt;
+      &lt;/conditions&gt;
+      &lt;action&gt;
+        &lt;hbox uri="?relateditem"&gt;
+          &lt;button label="?start"/&gt;
+          &lt;button label="?relateditem"/&gt;
+        &lt;/hbox&gt;
+      &lt;/action&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+  &lt;hbox id="http://www.xulplanet.com/rdf/B"&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/A"/&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/B"/&gt;
+  &lt;/hbox&gt;
+  &lt;hbox id="http://www.xulplanet.com/rdf/C"&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/A"/&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/C"/&gt;
+  &lt;/hbox&gt;
+  &lt;hbox id="http://www.xulplanet.com/rdf/D"&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/A"/&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/D"/&gt;
+  &lt;/hbox&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p>Pour l'itération suivante, le point d'insertion sera les trois éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code>. Toutefois, puisque C est le seul élément qui se termine en ayant encore du contenu supplémentaire, seul le second élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> se verra ajouté des fils.</p>
+
+<p>Pour un item imbriqué, le constructeur traite les règles de la même manière que d'habitude, sauf qu'au lieu d'utiliser l'attribut <code class="attribut">ref</code> comme graine de départ, il utilise le point d'arrivée ou le membre. Cela correspond à l'attribut <code class="attribut">id</code> de l'élément approprié dans le contenu généré ci-avant. Pour commencer, B est évalué et rempli avec la valeur correcte&nbsp;:</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/B)</code></pre>
+
+<p>La condition <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> est ensuite examinée, mais l'item B n'ayant pas d'arc relatedItem, le résultat est rejeté. Comme il n'y a pas de résultat potentiel, le constructeur ne génère aucun contenu. La même situation se produit avec D. Pour l'item C toutefois, le triplet trouve un item correspondant, donc les données sont ajoutées au résultat potentiel&nbsp;:</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/C, ?relateditem = http://www.xulplanet.com/rdf/D)</code></pre>
+
+<p>Une correspondance a été trouvée, donc le contenu à l'intérieur de la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> sera créé et ajouté à l'intérieur de l'item C. Puisque la variable ?start pointe l'item C et que la variable ?relatedItem pointe D, les boutons seront créés avec ces libellés. Si vous regardez l'<a href="images/template-guide-p9.png">image de l'exemple</a>, vous constaterez que les boutons ont ces libellés. Le contenu résultant pour la ligne C ressemblerait à ceci&nbsp;:</p>
+
+<pre><code>&lt;hbox id="http://www.xulplanet.com/rdf/C"&gt;
+  &lt;button label="http://www.xulplanet.com/rdf/A"/&gt;
+  &lt;button label="http://www.xulplanet.com/rdf/C"/&gt;
+  &lt;hbox id="http://www.xulplanet.com/rdf/D"&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/C"/&gt;
+    &lt;button label="http://www.xulplanet.com/rdf/D"/&gt;
+  &lt;/hbox&gt;
+&lt;/hbox&gt;</code></pre>
+
+<p>La nature récursive des gabarits permet de nombreuses applications utiles pour des menus et des arbres où des séries de contenu itératif peut être généré automatiquement. Nous verrons d'autres gabarits récursifs plus tard, mais la section suivante traitera d'un exemple plus pratique.</p>

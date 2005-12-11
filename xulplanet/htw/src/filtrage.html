@@ -1,0 +1,89 @@
+
+<h3>Ajustement des conditions</h3>
+
+<p>Parfois, vous pouvez vouloir modifier les conditions ultérieurement. Par exemple, l'utilisateur peut choisir une valeur dans une liste, et les résultats du gabarit devront être filtrés à partir de cette valeur. Il suffit de modifier les noeuds DOM à l'intérieur des conditions et de reconstruire le gabarit. Par exemple, pour appliquer un filtre, vous pouvez ajouter un nouvel élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code>. Pour enlever le filtre, ce <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> devra être supprimé. Supposons que nous ayons attribué un id <code class="attribut">cond</code> sur la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/conditions">conditions</a></code>.</p>
+
+<pre><code>function applyFilter(country)
+{
+  var cond = document.getElementById("cond");
+  var triple = document.getElementById("filterTriple");
+  if (country) {
+    if (!triple) {
+      triple = document.createElement("triple");
+      triple.id = "filterTriple";
+      triple.setAttribute("subject", "?photo");
+      triple.setAttribute("predicate", "http://www.daml.org/2001/09/countries/iso-3166-ont#Country");
+    }
+    triple.setAttribute("object", country);
+    cond.appendChild(triple);
+  }
+  else if (triple) {
+    cond.removeChild(triple);
+  }
+  document.getElementById("photosList").builder.rebuild();
+}</code></pre>
+
+<p>L'argument 'country' de la fonction <code>applyFilter</code> contient la valeur du filtre. Si cette valeur est définie, nous ajoutons un filtre, autrement il est supprimé. Le code est particulièrement direct. Un nouvel élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> est créé et l'attribut <code class="attribut">object</code> est défini avec la valeur servant de filtre. Par exemple, le triplet résultant d'un filtre sur les Pays bas serait&nbsp;:</p>
+
+<pre><code>&lt;triple subject="?photo"
+        predicate="http://www.daml.org/2001/09/countries/iso-3166-ont#Country"
+        object="http://www.daml.org/2001/09/countries/iso#NL"/&gt;</code></pre>
+
+<p>Ce triplet est ajouté aux conditions. Un identifiant id est attribué au triplet afin de pouvoir le retrouver si un filtre différent est appliqué. Naturellement, un seul filtre est appliqué à la fois, donc nous pouvons réutiliser le même triplet pour chaque filtre. Pour supprimer le filtre, nous devons simplement ôter le triplet des conditions. Cet exemple n'ajoute qu'un seul triplet, mais vous pouvez en ajouter d'autres, ou bien même des éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code>. Dès lors qu'un triplet ou un membre est ajouté ou supprimé, le gabarit doit être reconstruit en appelant la méthode <code>rebuild</code>. Cette méthode supprimera tout le contenu généré existant, effacera toutes les informations internes appartenant aux résultats, et redémarrera comme si le gabarit venait tout juste d'être examiné pour la première fois. Le gabarit sera analysé de nouveau et les données seront examinées pour de nouveaux résultats.</p>
+
+<p>Vous pouvez <a href="exemples/template-guide-ex16.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">voir l'exemple complet</a> de cette action. Un menu déroulant permet à l'utilisateur de sélectionner soit un pays spécifique, ou soit l'affichage de toutes les photos. Lorsque le choix est effectué, la fonction <code>applyFilter</code> telle que montrée ci-dessus, est appelée et le contenu du gabarit est reconstruit selon le filtre désiré qui a été appliqué.</p>
+
+<p>Dans cet exemple, le menu déroulant est écrit "en dur" pour contenir les items que nous savons être dans la source de données. Par la suite, nous verrons comment générer également cette liste en utilisant un gabarit.</p>
+
+<h3>Générer un menu avec des filtres</h3>
+
+<p>Les gabarits peuvent être utilisés pour générer n'importe quel type de contenu. Habituellement, un gabarit est utilisé pour générer les items d'un menu, d'une liste de choix ou d'un arbre. La syntaxe est la même quelque soit le type de contenu devant être créé. Dans le précédent exemple, nous avions codé "en dur" un menu déroulant avec la liste des pays, mais nous aurions pu générer cette liste à partir de la source de données. La même source de données peut être utilisée à la fois pour la liste des photos et le menu déroulant. Même si la même source de données est utilisée, elle ne sera chargée qu'une seule fois et les deux gabarits seront informés lorsque les données sont chargées.</p>
+
+<p>Nous devrons ajouter quelques informations à la source de données afin de spécifier la liste des pays disponibles. Il y a deux possibilités. Premièrement, un Seq séparé peut être ajouté pour lister les pays. Deuxièmement, nous pouvons utiliser un type RDF pour spécifier les pays. Ensuite, il nous suffit de rechercher toutes les ressources ayant le type <var>Country</var>. Nous utiliserons cette méthode ici puisque nous avons déjà vu des exemples la génération de contenu depuis un conteneur.</p>
+
+<p>Un type RDF peut être assigné à un noeud par l'emploi du prédicat <var>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</var> défini vers une ressource de ce type. En RDF/XML, une syntaxe raccourcie permet de remplacer la balise Description avec le type. Nous allons ajouter les deux pays dans le source de données, après s'être assuré que l'espace de nommage a été déclaré dans la balise RDF racine&nbsp;:</p>
+
+<pre><code>&lt;nso:Country about="http://www.daml.org/2001/09/countries/iso#IT"
+             dc:title="Italy"/&gt;
+&lt;nso:Country about="http://www.daml.org/2001/09/countries/iso#NL"
+             dc:title="Netherlands"/&gt;</code></pre>
+
+<p>Le type des ces deux ressources, après complétion de l'espace de nommage (non montré ici), sera <var>http://www.daml.org/2001/09/countries/country-ont#Country</var>. Les triplets RDF résultants pour le premier pays seront&nbsp;:</p>
+
+<pre><code>http://www.daml.org/2001/09/countries/iso#IT
+  -> http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+  -> http://www.daml.org/2001/09/countries/country-ont#Country
+http://www.daml.org/2001/09/countries/iso#IT
+  -> http://purl.org/dc/elements/1.1/title
+  -> Italie</code></pre>
+
+<p>Le type ressemble à tous ceux des autres triplets dans <a href="exemples/template-guide-photos4.rdf">la source de données</a>, donc aucune syntaxe spéciale n'est requise pour naviguer dans celle-ci. Il suffit simplement d'utiliser le prédicat adéquat pour rechercher tous les pays. On peut se demander comment doit être défini l'attribut <code class="attribut">ref</code> ou le point de départ puisque les pays n'ont pas de conteneur. En fait, le type servira de point de départ.</p>
+
+<pre><code>&lt;menulist datasources="template-guide-photos4.rdf"
+          ref="http://www.daml.org/2001/09/countries/country-ont#Country"&gt;</code></pre>
+
+<p>Souvenez vous que la seule nécessité est d'avoir une ressource comme point de départ, quelque soit cette ressource. Les conditions auront besoin de parcourir les arcs pointant vers les ressources de type. Puisque les arcs pointent vers le type, nous devons déterminer la source ou le sujet du triplet. Regardez une nouvelle fois les triplets RDF obtenus ci-avant si ce n'est pas clair. Le noeud de départ est <var>http://www.daml.org/2001/09/countries/country-ont#Country</var>. Nous devons parcourir les données selon le prédicat 'type' pour trouver les pays individuellement. Un second triplet est utilisé pour obtenir le titre du pays.</p>
+
+<pre><code>&lt;conditions&gt;
+  &lt;content uri="?start"/&gt;
+  &lt;triple subject="?country"
+          predicate="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+          object="?start"/&gt;
+  &lt;triple subject="?country"
+          predicate="http://purl.org/dc/elements/1.1/title"
+          object="?countrytitle"/&gt;
+&lt;/conditions&gt;</code></pre>
+
+<p>Le corps d'action devra ensuite générer un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> pour chaque résultat. Il devra également inclure un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> autour de ces items. Comme un seul <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> devra être généré, il devra être placé en dehors de l'élément ayant l'attribut <code class="attribut">uri</code>. Seul le contenu à partir de l'élément ayant l'attribut <code class="attribut">uri</code> et ceux qu'il contient seront dupliqués pour chaque résultat. Les éléments en dehors ne le seront pas.</p>
+
+<pre><code>&lt;action&gt;
+  &lt;menupopup&gt;
+    &lt;menuitem uri="?country" label="?countrytitle" value="?country"/&gt;
+  &lt;/menupopup&gt;
+&lt;/action&gt;</code></pre>
+
+<p>Le résultat sera deux <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> générés, un pour chaque pays, à l'intérieur d'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>. L'attribut <code class="attribut">value</code> reçoit la variable ?country afin que la fonction <code>applyFilter</code> puisse facilement se servir de cette valeur lors du filtrage. <a href="exemples/template-guide-ex17.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">L'exemple complet</a> en montre le fonctionnement.</p>
+
+<p class="note">Notez qu'à cause d'un bogue avec la génération des listes de menu dans les gabarits alors que la source de données n'est pas encore chargée, vous devez charger l'exemple une deuxième fois pour qu'il fonctionne. Le problème affecte seulement l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code>. Plusieurs solutions peuvent être utilisées dans ce simple exemple. Tout d'abord, vous pouvez déplacer l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> en dehors du gabarit et de lui affecter l'attribut <code class="attribut">datasources</code> à la place de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code>. Cela fonctionnera dans cet exemple simple, mais aura l'inconvénient que le constructeur ne générera paresseusement le contenu que lorsque le menu déroulant sera ouvert. Une autre méthode consisterait à reconstruire le gabarit dès que les données ont été chargées.</p>
+
+<p>Ensuite, nous verrons comment ajouter le choix de tous les pays au menu, cette indication ne figurant pas dans la source de données.</p> 

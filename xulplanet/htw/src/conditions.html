@@ -1,0 +1,64 @@
+
+<p>Étudions une règle simple avec deux conditions. Les conditions sont insérées dans une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/conditions">conditions</a></code> qui est elle même placée directement à l'intérieur d'une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>. Chaque condition est placée dans une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/conditions">conditions</a></code>.</p>
+
+<pre><code>&lt;vbox datasources="http://www.xulplanet.com/ds/sample.rdf"
+         ref="http://www.xulplanet.com/rdf/A" hidden="true"&gt;
+  &lt;template&gt;
+    &lt;rule&gt;
+      &lt;conditions&gt;
+        &lt;content uri="?start"/&gt;
+        &lt;triple subject="?start"/&gt;
+
+                predicate="http://www.xulplanet.com/rdf/relatedItem"/&gt;
+                object="?relateditem"/&gt;
+      &lt;/conditions&gt;
+      ...
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p>Cette règle a deux conditions, chacune définie par une balise différente. Le gabarit ne va rien générer puisque la partie correspondante au contenu n'a pas été remplie au delà des conditions. Cependant, le constructeur de gabarit sera capable de compiler les règles et de les examiner comme décrit précédemment.</p>
+
+<p>Pour démarrer, le constructeur a besoin d'un unique résultat en tant que graine. Celle-ci sera obtenue grâce à la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code>. Elle indique que nous allons utiliser un point de départ pour la navigation dans le graphe. Évidemment, comme vous devez démarrer quelque part, vous devez utiliser une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code> qui sera votre première condition. De plus, comme nous ne pouvons avoir qu'un seul point de départ, une seule balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code> ne peut être utilisée. La graine résultante sera créée comme ceci&nbsp;:</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/A)</code></pre>
+
+<p>La variable ?start est déterminée à partir de l'attribut <code class="attribut">uri</code> de la balise. Vous pouvez utiliser n'importe quelle variable que vous désirez&nbsp;; il est fréquent d'employer la variable ?uri. Toutefois, toutes les règles doivent utiliser la même variable définissant le point de départ. Donc, si une seconde règle était utilisée, elle devrait également utiliser la variable ?start. La valeur de ?start est initialisée à <var>http://www.xulplanet.com/rdf/A</var>. Vous noterez qu'il s'agit de la valeur de l'attribut <code class="attribut">ref</code> qui est le noeud de départ souhaité dans le graphe RDF. Ainsi, la variable ?start devient le conteneur ou la variable de référence.</p>
+
+<p>La balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code> n'a plus d'autre utilité à ce stade, c'est-à-dire qu'elle n'ajoute rien d'autre au réseau d'information des résultats potentiels, donc le processus continue avec la condition suivante, le triplet <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code>.</p>
+
+<p>Dans l'implémentation actuelle des gabarits, la description ci-dessus n'est pas tout à fait correcte. La graine est actuellement une variable interne attachée au conteneur, dans ce cas l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>, et la variable ?start est initialisée avec la valeur de ref plus tard. Mais il s'agit d'un détail mineur qui n'en rend pas moins compréhensibles les gabarits. Pour cette discussion, nous supposerons que nous disposons déjà de d'un unique résultat potentiel comme mentionné ci-dessus.</p>
+
+<p>Après avoir examiné la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code>, le constructeur se déplace vers la condition suivante, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> qui ressemble à ceci&nbsp;:</p>
+
+<pre><code>&lt;triple subject="?start"
+        predicate="http://www.xulplanet.com/rdf/relatedItem"
+        object="?relateditem"/&gt;</code></pre>
+
+<p>La condition <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> est utilisée pour suivre les arcs et les flèches dans un graphe RDF. L'attribut <code class="attribut">predicate</code> spécifie les libellés des flèches à suivre. Dans le triplet utilisé ici, le prédicat est <var>http://www.xulplanet.com/rdf/relatedItem</var>, donc nous savons que le constructeur cherchera une flèche ayant ce libellé. Le constructeur peut suivre les flèches soit vers l'avant ou soit vers l'arrière, mais dans une seule direction par condition. Il détermine la direction à prendre en examinant quelles données sont connues et lesquelles ne le sont pas encore. Rappelez vous de la donnée dans le jeu de résultats potentiels&nbsp;:</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/A)</code></pre>
+
+<p>Il s'agit de la donnée représentant la graine créée par la condition <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code>. Vous êtes capable de deviner que le constructeur va remplir la valeur de la variable ?start dans le sujet du triplet, ce qui donnera quelque chose comme ceci&nbsp;:</p>
+
+<pre><code>&lt;triple subject="http://www.xulplanet.com/rdf/A"
+        predicate="http://www.xulplanet.com/rdf/relatedItem"
+        object="?relateditem"/&gt;</code></pre>
+
+<p>En fait, le constructeur ne modifie pas le triplet, mais cette présentation vous explique clairement comment il procède. Le constructeur examine le sujet et l'objet du prédicat et tente de résoudre l'une ou l'autre variable en fonction des données connues. La variable ?start contient la valeur <var>http://www.xulplanet.com/rdf/A</var>, elle sera substituée par cette valeur. La variable ?relatedItem ne contient aucune valeur connue, elle sera laissée comme telle. Une fois que les variables ont été substituées, le constructeur peut lancer une requête sur le graphe RDF.</p>
+
+<p>La requête cherchera toutes les flèches commençant sur le noeud <var>http://www.xulplanet.com/rdf/A</var> avec comme prédicat, ou flèche, libellé <var>http://www.xulplanet.com/rdf/relatedItem</var>. Puisque la variable ?relatedItem n'est pas connue, le constructeur testera les noeuds vers lesquels la flèche pointe et déterminera à partir de la source de données toutes les valeurs possibles. Dans une condition <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code>, le sujet est toujours le début d'un arc, tandis que l'objet en est l'extrémité. Pour ce triplet, le constructeur suivra les flèches vers l'avant. Voici de nouveau le graphe RDF&nbsp;:</p>
+
+<img src="images/template-guide-p2.png" alt="Graphe RDF" class="screenshot" />
+
+<p>À partir du noeud A et en suivant les arcs 'relatedItem', nous voyons qu'il y a trois valeurs possibles pour la variable ?relatedItem, B, C et D. Ce sont des nouvelles données que le constructeur ajoute au graphe. Puisque ces trois valeurs ont été trouvées, le réseau d'information aura maintenant trois résultats potentiels&nbsp;:</p>
+
+<pre><code>(?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/B)
+(?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/C)
+(?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/D)</code></pre>
+
+<p>Vous noterez que la variable ?start est répétée pour chaque résultat. EN fait, le constructeur copie les données connues pour chaque nouveau résultat potentiel et ajoute les nouvelles données. Au niveau du processus d'exécution, ce n'est pas tout à fait vrai&nbsp;; le constructeur maintient en réalité une seule copie des données similaires et utilise des structures de données qui apparaissent comme étant dupliquées.</p>
+
+<p>Tout ceci peut vous paraître un peu confus, mais quelques exemples pratiques et spécifiques devraient vous éclairer.</p>
+
+<p>Comme le triplet <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> était la dernière condition, le constructeur continue à avancer pour entamer la phase de génération de contenu, en créant les correspondances pour les trois résultats potentiels.</p>

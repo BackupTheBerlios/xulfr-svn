@@ -1,0 +1,51 @@
+
+<p>Une technique intéressante est d'utiliser plusieurs règles pour combiner ensemble deux séries de données sans rapport entre elles. Il suffit de créer une règle pour générer une série de résultats et une seconde règle pour générer une autre série de résultats. Si un résultat de la seconde règle correspond également à la première règle, c'est cette dernière règle qui créera son contenu. Souvenez vous que lorsque la ressource membre d'une règle correspond à plusieurs règles, c'est la première règle rencontrée qui générera son contenu. Si les ressources ne se chevauchent pas, nous pouvons générer du contenu pour deux parties distinctes des données RDF. Cette technique n'est pas couramment employée. Habituellement, toutes les règles sont similaires avec des filtres différents basés sur divers critères.</p>
+
+<p>Ajoutons <a href="exemples/template-guide-streets2.rdf">les données suivantes</a> concernant les gens à la source de données du quartier&nbsp;:</p>
+
+<pre><code>  &lt;rdf:Description rdf:about="http://www.xulplanet.com/rdf/myneighbourhood"&gt;
+    &lt;r:people&gt;
+      &lt;rdf:Seq&gt;
+        &lt;rdf:li rdf:resource="http://www.xulplanet.com/rdf/person/1"/&gt;
+        &lt;rdf:li rdf:resource="http://www.xulplanet.com/rdf/person/2"/&gt;
+      &lt;/rdf:Seq&gt;
+    &lt;/r:people&gt;
+  &lt;/rdf:Description&gt;
+
+  &lt;rdf:Description rdf:about="http://www.xulplanet.com/rdf/person/1"
+                   dc:title="Nathan"/&gt;
+
+  &lt;rdf:Description rdf:about="http://www.xulplanet.com/rdf/person/2"
+                   dc:title="Karen"/&gt;</code></pre>
+
+<p>Nous pouvons alors utiliser deux règles pour générer des résultats à partir de différentes parties de la source de données. La première règle correspond aux rues comme avant, mais la seconde règle va générer un résultat pour chaque personne. Une classe <var>header</var> est utilisée pour distinguer le contenu, bien que vous pouvez utiliser le même contenu si vous le souhaitez.</p>
+
+<pre><code>&lt;template&gt;
+  &lt;rule&gt;
+    &lt;conditions&gt;
+      &lt;content uri="?start"/&gt;
+      &lt;member container="?start" child="?item"/&gt;
+    &lt;/conditions&gt;
+    &lt;bindings&gt;
+      &lt;binding subject="?item" predicate="http://purl.org/dc/elements/1.1/title" object="?title"/&gt;
+    &lt;/bindings&gt;
+    &lt;action&gt;
+      &lt;label uri="?item" value="?title" class="header"/&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+  &lt;rule&gt;
+    &lt;conditions&gt;
+      &lt;content uri="?start"/&gt;
+      &lt;triple subject="?start" predicate="http://www.xulplanet.com/rdf/people" object="?people"/&gt;
+      &lt;member container="?people" child="?item"/&gt;
+    &lt;/conditions&gt;
+    &lt;bindings&gt;
+      &lt;binding subject="?item" predicate="http://purl.org/dc/elements/1.1/title" object="?title"/&gt;
+    &lt;/bindings&gt;
+    &lt;action&gt;
+      &lt;label uri="?item" value="?title"/&gt;
+    &lt;/action&gt;
+  &lt;/rule&gt;
+&lt;/template&gt;</code></pre>
+
+<p><a href="exemples/template-guide-ex29.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir cet exemple</a>.</p>

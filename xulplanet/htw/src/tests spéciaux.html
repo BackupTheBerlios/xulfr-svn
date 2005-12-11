@@ -1,0 +1,78 @@
+
+<h3>Tests de conteneurs</h3>
+
+<p>La syntaxe de règle simplifiée supporte deux tests conditionnels spéciaux habituellement utilisés avec de multiples règles. Le premier de ces tests sert à tester si un élément est un conteneur ou non. Pour l'utiliser, placez un attribut <code class="attribut">iscontainer</code> sur un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>. L'attribut <code class="attribut">iscontainer</code> doit être défini à <var>true</var> si vous ne voulez trouver que des conteneurs, et à <var>false</var> si vous ne voulez trouver que des non-conteneurs. Un conteneur est un conteneur RDF tel qu'un Seq.</p>
+
+<p>L'attribut <code class="attribut">iscontainer</code> facilite la gestion des contenus récursifs puisque vous pouvez avoir une règle pour tous les conteneurs et une autre règle pour tous les non-conteneurs. Vous n'avez plus besoin de filtrer selon un type ou selon quelques prédicats. Il vous permet une récursivité plus profonde vers des niveaux plus importants sans avoir recours à des règles supplémentaires. Il est communément utilisé avec des menus, et nous pouvons réécrire <a href="exemples/template-guide-ex26.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">l'exemple précédent</a> en utilisant l'attribut <code class="attribut">iscontainer</code> à la place.</p>
+
+<pre><code>&lt;button label="Les maisons de mon quartier" type="menu"
+        datasources="template-guide-streets.rdf"
+        ref="http://www.xulplanet.com/rdf/myneighbourhood"&gt;
+  &lt;template&gt;
+    &lt;rule iscontainer="true"&gt;
+      &lt;menupopup&gt;
+        &lt;menu uri="rdf:*" label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;menupopup&gt;
+        &lt;menuitem uri="rdf:*" label="rdf:http://www.xulplanet.com/rdf/address"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/button&gt;</code></pre>
+
+<p>La seule différence dans le code de <a href="exemples/template-guide-ex27.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a> est que l'ordre des règles a été inversé, que la condition testant les maisons a été supprimée et que l'attribut <code class="attribut">iscontainer</code> a été ajouté. Comme l'attribut <code class="attribut">iscontainer</code> est défini à <var>true</var>, la règle sera vérifiée pour la valeur membre ou le fils d'un noeud de départ qui sont des conteneurs RDF. Nous pourrions également laisser les règles dans l'ordre originel et définir sur la première règle l'attribut <code class="attribut">iscontainer</code> à <var>false</var>. La seule chose dont nous devons être certain, est que les règles soient dans l'ordre approprié afin que les données attendues correspondent à la bonne règle. Souvenez vous que les règles les plus spécifiques doivent être placées avant les règles moins spécifiques.</p>
+
+<p class="note">Notez que l'omission de l'attribut <code class="attribut">iscontainer</code> ne signifie pas la même chose que de le définir à <var>true</var> ou à <var>false</var>. Si vous n'utilisez pas l'attribut <code class="attribut">iscontainer</code>, tous les noeuds correspondront à la règle, qu'ils soient un conteneur ou non.</p>
+
+<p>L'attribut <code class="attribut">iscontainer</code> trouvera également les conteneurs convenablement si vous avez placé un attribut <code class="attribut">containment</code> dans le gabarit pour définir les prédicats modifiés en conteneur. Si le noeud a un de ces prédicats listés dans l'attribut <code class="attribut">containment</code> et pointant vers celui-ci, il sera aussi considéré comme étant un conteneur. Par exemple, nous pourrions ajouter le code suivant à l'exemple précédent&nbsp;:</p>
+
+<pre><code>&lt;button label="Les maisons de mon quartier" type="menu"
+        datasources="template-guide-streets.rdf"
+        containment="http://www.xulplanet.com/rdf/address"
+        ref="http://www.xulplanet.com/rdf/myneighbourhood"&gt;</code></pre>
+
+<p>Les maisons ont une valeur pour le prédicat <var>http://www.xulplanet.com/rdf/address</var>, donc elles seront également considérées comme des conteneurs, ce qui entraînera la création <a href="exemples/template-guide-ex27b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">d'un autre niveau de menus</a>. Bien entendu, vous devrons mettre à jour les prédicats et les libellés pour obtenir un rendu correct. Mais cet exemple illustre ce qui s'est réellement produit.</p>
+
+<h3>Tests de conteneurs vides</h3>
+
+<p>Le second attribut conditionnel spécial teste les conteneurs vides. Il nécessite de placer l'attribut <code class="attribut">isempty</code> sur une règle avec la valeur <var>true</var> ou <var>false</var>. Avec la valeur <var>true</var>, tous les conteneurs vides correspondront, c'est-à-dire les conteneurs n'ayant aucun enfant. Avec la valeur <var>false</var>, tous les conteneurs ayant au moins un enfants correspondront. Sans cet attribut <code class="attribut">isempty</code>, tout pourra correspondre. Ce test conditionnel est communément utilisé pour afficher du contenu généré de façon différente selon qu'il s'agit de conteneurs vides ou non vides.</p>
+
+<p>De façon courante, vous utiliserez les deux attributs <code class="attribut">iscontainer</code> et <code class="attribut">isempty</code> ensemble selon différentes combinaisons pour créer l'effet désiré. Typiquement, cela signifie une règle pour un conteneur avec enfants, une seconde règle pour des conteneurs vides, et une troisième règle pour des non-conteneurs. Dans le cas des Marque-pages, les deux premières règles trouvent les dossiers, tandis que la troisième règle trouve les marque-pages. Naturellement, le test <code class="attribut">isempty</code> ne s'applique pas aux noeuds qui ne sont pas des conteneurs.</p>
+
+<p class="note">Notez que les deux attributs <code class="attribut">iscontainer</code> et <code class="attribut">isempty</code> ne sont disponibles que pour des règles utilisant la syntaxe simplifiée.</p>
+
+<h3>Tests de balises parentes</h3>
+
+<p>Parfois, vous souhaitez simplement générer un bloc de contenu au niveau le plus haut et un contenu différent dans les niveaux récursifs. Par exemple, la barre d'outils des Marque-pages dans Firefox affiche un bouton au premier niveau, mais des menus et sous-menus ensuite. La totalité de la barre d'outils des Marque-pages est générée par un gabarit XUL.</p>
+
+<p>Les gabarits peuvent permettre à une règle de tester si le contenu généré sera inséré à l'intérieur d'un élément ayant un nom précis de balise. Par exemple, si le conteneur était un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>, une règle peut être créée pour ne correspondre qu'à cet élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>. Cette technique est très utile pour des gabarits récursifs, puisque les itérations internes peuvent utiliser du contenu différent. Il est plus utile de distinguer entre les niveaux externes et internes pendant le processus de génération du gabarit. Dans le cas de la barre d'outils des Marque-pages, le contenu externe est inséré à l'intérieur d'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code>, mais au niveau inférieur, le contenu sera inséré à l'intérieur d'un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code>.</p>
+
+<p>Au cas où ce n'est pas clair, la balise devant correspondre à l'itération externe est l'élément racine, celui contenant l'attribut <code class="attribut">datasources</code>. Pour les itérations internes, il s'agira de l'élément contenant l'attribut <code class="attribut">uri</code> de l'itération précédente.</p>
+
+<p>Pour réaliser ce type de correspondance dans une syntaxe simplifiée de gabarit, placez un attribut <code class="attribut">parent</code> sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code> en lui affectant le nom de la balise à tester. Par exemple, nous pourrions utiliser le code suivant&nbsp;:</p>
+
+<pre><code>&lt;vbox datasources="template-guide-streets.rdf"
+            ref="http://www.xulplanet.com/rdf/myneighbourhood"&gt;
+  &lt;template&gt;
+    &lt;rule parent="vbox"&gt;
+      &lt;groupbox uri="rdf:*"&gt;
+        &lt;caption label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+      &lt;/groupbox&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;label uri="rdf:*" value="rdf:http://www.xulplanet.com/rdf/address"/&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p>Lors de la première passe, le conteneur dans lequel le contenu généré sera inséré est un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>, donc la première règle va s'appliquer et un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> titré sera créé. Lors de la passe suivante, le conteneur parent sera l'élément avec l'attribut <code class="attribut">uri</code> de la passe précédente, et dans ce cas, il s'agira du <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code>. Ce n'est donc plus la première règle qui ne va correspondre, mais la seconde règle en créant un libellé. Le résultat peut être observé si vous essayez <a href="exemples/template-guide-ex28.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a>.</p>
+
+<h3>Tests de balises parents en utilisant la syntaxe étendue</h3>
+
+<p>Une balise de test peut également être utilisée avec la syntaxe étendue, bien que l'écriture soit différente. Plutôt que de mettre l'attribut <code class="attribut">parent</code> sur la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>, vous placez un attribut <code class="attribut">tag</code> sur la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/content">content</a></code> dans les conditions. Par exemple, le test équivalent à l'exemple précédent utilisant l'attribut <code class="attribut">tag</code> dans une syntaxe étendue est le suivant&nbsp;:</p>
+
+<pre><code>&lt;content uri="?start" tag="vbox"&gt;</code></pre>
+
+<p><a href="exemples/template-guide-ex28b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Cet exemple</a> génère le même contenu en sortie que celui utilisant la syntaxe simplifiée. Comme nous l'avons vu dans les quelques exemples précédents, il existe plusieurs manières différentes de structurer les deux règles pour réagir différemment selon les niveaux. Des tests généraux sur des triplets, des tests sur un type RDF, des tests de conteneur et des tests sur les balises parentes, tous ces tests fournissent une grande variété de méthodes de filtrage spécifique. Bien entendu, dans les exemples simples que nous avons utilisé, les avantages d'une sorte de condition sur une autre ne sont pas évidents. Dans des exemples plus complexes toutefois, vous verrez le bénéfice d'un test sur les autres en fonction de la structure des données et de l'interface utilisateur que vous voulez créer. En combinant les différents types de conditions, des interfaces plus complexes peuvent être créées simplement avec des gabarits.</p>

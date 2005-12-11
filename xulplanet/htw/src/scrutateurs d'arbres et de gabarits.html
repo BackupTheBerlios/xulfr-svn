@@ -1,0 +1,64 @@
+
+<p>Pendant le processus de construction d'un gabarit, plusieurs scrutateurs (ou observateurs) sont utilisés, chacun pour des usages différents. Ils implémentent tous une interface XPCOM différente comme listée ci-après&nbsp;:</p>
+
+<ul>
+  <li><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULBuilderListener.html">nsIXULBuilderListener</a> - utilisée pour scruter les reconstructions du gabarit.</li>
+  <li><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULTreeBuilderObserver.html">nsIXULTreeBuilderObserver</a> - utilisée pour scruter des opérations particulières sur les arbres.</li>
+  <li><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIRDFObserver.html">nsIRDFObserver</a> - utilisée pour scruter des modifications sur la source de données RDF sous-jacente.</li>
+</ul>
+
+<h3>Scruter les reconstruction d'arbres</h3>
+
+<p>La première de ces interfaces est la plus simple et invoque deux méthodes, <code>willRebuild</code> et <code>didRebuild</code>. Vous implémenterez cet objet lorsque vous souhaitez être prévenu que le gabarit est reconstruit avec l'appel de la méthode <code>rebuild</code>. Le constructeur de gabarit peut également forcer une reconstruction lorsqu'une notification de modification des données sous-jacentes est signalée. La première utilisation de ce scrutateur est de stocker quelques états avant que le gabarit ne soit reconstruit, afin de les restaurer par la suite. Souvenez vous que lorsqu'un gabarit est reconstruit, tout son contenu existant est effacé et généré à neuf. La méthode <code>willRebuild</code> d'un scrutateur sera appelée avant que le contenu ne soit effacé, et la méthode <code>didRebuild</code> sera appelée après que le contenu ne soit re-généré. Ce scrutateur fonctionne également avec les constructeurs d'arbres, et appellera les méthodes appropriées avant et après que l'arbre ne soit généré.</p>
+
+<p>Pour assigner un scrutateur de construction à un constructeur, utilisez la méthode <code>addListener</code>&nbsp;:</p>
+
+<pre>var someListener = {
+  item: null,
+  willRebuild : function(builder) {
+    this.item = builder.getResourceAtIndex(builder.root.currentIndex);
+  },
+  didRebuild : function(builder) {
+    if (this.item) {
+      var idx = builder.getIndexOfResource(this.item)
+      if (idx != -1) builder.root.view.selection.select(idx);
+    }
+  }
+};
+tree.builder.addListener(someListener);</code></pre>
+
+<p>Cet exemple est très simple. Il mémorise et restaure la sélection après un <code>rebuild</code>. Comme le contenu disparaît pendant la reconstruction, la sélection est perdue, donc elle est récupérée au cours de la méthode <code>didRebuild</code>. Le gestionnaire des Marque-pages de Firefox utilise cette technique. Si vous essayez <a href="exemples/template-guide-ex35.xul.txt">un exemple</a> en utilisant le code ci-dessus, vous noterez que seul le premier arbre conserve sa sélection lorsque le bouton <var>Reconstruire</var> est pressé, le second arbre la perdant. La cause en est que le scrutateur n'est seulement attaché qu'au premier arbre.</p>
+
+<p>L'exemple ci-dessus fait usage des méthodes <code>getResourceAtIndex</code> et <code>getIndexOfResource</code>. Ces deux méthodes sont disponibles pour les constructeurs d'arbres et convertiront un index dans l'arbre en sa ressource membre associée et vice-versa. Naturellement, nous ne pouvons mémoriser l'index d'un item car cet item peut changer de position, ou la ressource peut ne plus faire partie des résultats, ce qui nécessite de tester la valeur retournée par la méthode <code>getIndexOfResource</code>.</p>
+
+<p class="note">Comme cet exemple utilise les ressources RDF directement, il nécessite pour pouvoir le tester des niveaux de permissions élevés que vous n'obtiendrez qu'au travers d'une URL chrome.</p>
+
+<p>Vous devez aussi songer que la propriété <code>root</code> du constructeur, telle qu'elle est utilisée ci-dessus, fait référence à l'arbre. Avec un constructeur de contenu, elle retournerait l'élément ayant l'attribut <code class="attribut">datasources</code> qui est assimilé à un élément racine dans un constructeur de gabarit.</p>
+
+<p>Finalement, vous pourrez supprimer un scrutateur en utilisant la méthode <code>removeListener</code> du constructeur.</p>
+
+<h3>Scruter les modifications dans l'arbre</h3>
+
+<p>Le second type de scrutateur est utilisé pour traiter des actions particulières relatives aux arbres. Le constructeur d'arbres implémente l'interface <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">nsITreeView</a>, donc il gère l'assemblage et la transmission des données vers l'arbre. Les composants graphiques de l'arbre informe la vue d'arbre lorsque certaines opérations pouvant affecter les données sont réalisées. La vue d'arbre gère toutes ces opérations, mais elle permet que soit attaché un observateur qui est invoqué pendant ces opérations. Par exemple, l'observateur peut avoir une méthode <code>onToggleOpenState</code> qui sera appelée quand l'utilisateur ouvre ou ferme une ligne. Le constructeur d'arbres assurera la gestion des lignes ajoutées ou enlevées, mais il appellera aussi l'observateur qui pourra réaliser d'autres tâches.</p>
+
+<p>L'observateur du constructeur d'arbres implémente l'interface <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULTreeBuilderObserver.html">nsIXULTreeBuilderObserver</a> et il doit être attaché au constructeur d'arbres en utilisant la méthode <code>addObserver</code> de la propriété <code>builder</code>. Vous pouvez ajouter plus d'un observateur si nécessaire, et vous pouvez en supprimer grâce à la méthode <code>removeObserver</code>.</p>
+
+<p>L'observateur est toujours invoqué avant que l'opération appropriée soit exécutée. Par exemple, la méthode <code>onToggleOpenState</code> de n'importe quel observateur sera appelée avant que l'item de l'arbre ne soit ouvert. Après que les observateurs aient fini, le constructeur d'arbres ouvre la ligne et ajoute toutes les lignes filles dedans.</p>
+
+<p class="note">Notez que vous ne pouvez pas annuler l'opération à partir d'un observateur.</p>
+
+<p>Les quelques fonctions utiles des observateurs sont les fonctions de rappel du glisser-déposer qui traitent le cas d'un item déplacé vers un arbre. Elles rendent la gestion du glisser-déposer vers un arbre particulièrement simple. Tout ce que vous avez à faire est d'implémenter deux méthodes, <code>canDrop</code> et <code>onDrop</code>. Notez qu'avec Firefox 1.0 (Mozilla 1.7) et précédente, les fonctions glisser-déposer sont légèrement différentes. Pour ces versions, trois fonctions étaient utilisées, <code>canDropOn</code>, <code>canDropBeforeAfter</code> et <code>onDrop</code>. Les deux fonctions 'can' ont été combinées en une seule avec un argument supplémentaire. Si vous désirez supporter les anciennes et les nouvelles versions, vous pouvez implémenter toutes ces fonctions dans un observateur en partageant le code si nécessaire.</p>
+
+<p>L'observateur d'arbre reçoit les évènements relatifs au glisser-déposer à trois endroits&nbsp;: au dessus d'un conteneur de ligne, avant une ligne, et après une ligne. Ces trois cas vous permettent d'accéder à une plus grande souplesse de gestion du glisser-déposer. Par exemple, dans certaines situations, vous aurez à glisser quelque chose vers un type dossier d'une ligne. Dans d'autres situations, vous souhaiterez permettre à des items d'être déplacés entre (avant ou après) des lignes. Il peut s'agir d'une situation où vous déplacez des items d'un point à un autre de l'arbre, comme par exemple le déplacement d'un marque-page d'un endroit vers un autre. Le composant graphique de l'arbre dessinera une petite ligne entre les lignes lors du déplacement. Tout ce que vous avez à faire est d'ajouter un observateur pour le constructeur d'arbre qui retourne <var>true</var> pour la méthode <code>canDrop</code>. Notez que le cas du déplacement n'est seulement permis qu'au dessus de conteneurs, mais pas de lignes ordinaires.</p>
+
+<pre><code>var treeBuilderObserver = {
+  canDropBeforeAfter : function(idx, orient) { return false; },
+  canDropOn : function(idx, orient) { return true; },
+  canDrop : function(idx, orient) { return !orient; },
+  onDrop : function(idx, orient) {
+    // faire quelque chose ici
+  },
+};
+tree.builder.addObserver(treeBuilderObserver);</code></pre>
+
+<p>Cet observateur implémente à la fois les anciennes et les nouvelles méthodes et ne peut servir que pour des glisser sur des lignes. La méthode <code>canDropBeforeAfter</code> retourne <var>false</var> puisque nous ne voulons pas déposer des items avant et après des lignes. La méthode <code>canDropOn</code> retourne <var>true</var>. La méthode <code>canDrop</code> de Mozilla&nbsp;1.8 teste l'orientation et retourne son opposé. Elle fonctionne comme si la valeur 'au dessus' est <var>0</var> et les valeurs 'entre' sont <var>-1</var> et <var>1</var>. Évidemment, ce code est bien plus simple qu'il ne serait en réalité -- nous devrions tester le contenu qui est en train d'être glissé pour être certain qu'il soit compatible avec l'arbre, ou ne permettre de déposer que sur des lignes spécifiques. Les méthodes pour déposer sont fournies avec un argument index pouvant servir aux tests.</p>

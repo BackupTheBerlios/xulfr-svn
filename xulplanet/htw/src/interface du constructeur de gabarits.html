@@ -1,0 +1,67 @@
+
+<p>Tout élément inséré dans un document XUL est vérifié pour voir s'il contient un attribut <code class="attribut">datasources</code>. Si c'est le cas, un constructeur de gabarits sera créé pour cet élément et lui sera attaché. Si l'élément est un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> avec un attribut <var>dont-build-content</var>, un constructeur d'arbre sera créé. Autrement, c'est un constructeur de contenu qui sera créé. Ces deux types de constructeur partage sensiblement le même code sauf la méthode leur servant à l'affichage. Ils implémentent tous les deux <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULTemplateBuilder.html">l'interface nsIXULTemplateBuilder</a>, mais le constructeur d'arbre implémente également <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULTreeBuilder.html">l'interface nsIXULTreeBuilder</a>.
+
+<p>Le constructeur associé à un élément est accessible via la propriété <code>builder</code> de l'élément aussi bien pour les constructeurs de contenu que pour les constructeurs d'arbre. Un élément qui n'est pas associé à un constructeur a cette propriété définit à <var>null</var>. Le processus de création de cette propriété <code>builder</code> pour un élément s'applique après que la fenêtre soit chargée lorsque un élément est créé, et lorsqu'un élément est inséré dynamiquement.</p>
+
+<p>Les gabarits ne peuvent être utilisés que dans des documents XUL, toutefois rien n'oblige à ce qu'ils génèrent des éléments XUL. Ils pourraient également servir, par exemple, à générer des éléments HTML. Il ne s'agit cependant pas d'une pratique courante. Voici un exemple de cet usage&nbsp;:</p>
+
+<pre><code>&lt;html:div id="photosList" datasources="template-guide-photos5.rdf"
+          ref="http://www.xulplanet.com/rdf/myphotos"
+          xmlns:html="http://www.w3.org/1999/xhtml"&gt;
+  &lt;html:h1&gt;Mes Photos&lt;/html:h1&gt;
+  &lt;template&gt;
+    &lt;html:p uri="rdf:*"&gt;&lt;textnode value="rdf:http://purl.org/dc/elements/1.1/title"/&gt;&lt;/html:p&gt;
+  &lt;/template&gt;
+&lt;/html:div&gt;</code></pre>
+
+<p><a href="exemples/template-guide-ex33.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Cet exemple</a> génère trois paragraphes. Du contenu statique placé avant l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/template">template</a></code> affiche un en-tête &lt;h1&gt;. Puisque les gabarits ont été conçus pour la création de contenu XUL, des résultats inattendus peuvent se produire avec l'utilisation du HTML. Parfois, cela est dû à la gestion différente des espaces vides entre HTML et XUL, et qui explique pourquoi dans l'exemple ci-avant, le contenu généré se trouve sur une seule ligne. Si vous prévoyez de générer du contenu non-XUL avec un gabarit, pensez à ce problème.</p>
+
+<p class="note">Notez que les versions plus récentes de Mozilla ont corrigé ce problème particulier d'espaces vides.</p>
+
+<p>Vous noterez que l'attribut <code class="attribut">datasources</code> a été placé sur un élément non-XUL. Cela est également permis. Cependant, sachez que les éléments non-XUL n'auront pas leur contenu généré paresseusement et que par conséquence, tout le contenu sera généré immédiatement. Soyez prudent que la récursivité de vos gabarits ne soit pas trop profonde.</p>
+
+<p>La propriété <code>builder</code> est une propriété de <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIDOMXULElement.html">l'interface nsIDOMXULElement</a>, donc tous les éléments XUL en disposeront, bien que comme mentionné juste avant, elle sera défini à <var>null</var> pour la plupart des éléments. Pour des éléments non-XUL, le constructeur de gabarits assignera une propriété <code>builder</code> à l'élément en utilisant une propriété JavaScript standard à la place.</p>
+
+<h3>Reconstruire et rafraîchir un gabarit</h3>
+
+<p>La raison principale d'accéder à la propriété <code>builder</code> d'un élément est de pouvoir appeler sa méthode "<code>rebuild</code>". Cette méthode supprime tout le contenu généré existant et efface toutes les données dans le réseau d'information des règles. Ensuite, la méthode recompile les règles et régénère le contenu. Plus précisément, la méthode <code>rebuild</code> informe le constructeur de supprimer toutes les informations existantes et de les reconstruire depuis le début. La seule différence est que les données sont les mêmes puisque la source de données est déjà chargée. Toutefois, cette méthode est souvent utilisée quand vous modifiez la source de données ou les règles.</p>
+
+<p>La méthode <code>refresh</code> de la propriété <code>builder</code> va cependant recharger les sources de données. Il ne s'agit pas d'une reconstruction des gabarits, mais nous verrons dans une section ultérieure pourquoi ce n'est pas nécessaire. Pour résumer, la méthode <code>refresh</code> recharge les données tandis que la méthode <code>rebuild</code> reconstruit le contenu.</p>
+
+<p>La propriété <code>builder</code> est accessible aux codes sans privilèges, donc les méthodes <code>rebuild</code> et <code>refresh</code> peuvent être appelées par du code distant.</p>
+
+<h3>Modification de la source de données</h3>
+
+<p>La source de données associée au gabarit peut être obtenue en utilisant la propriété <code>database</code> de l'élément. Elle implémente <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIRDFCompositeDataSource.html">l'interface nsIRDFCompositeDataSource</a>. Puisqu'il peut s'agir d'une source de données composite, elle peut contenir plus d'une source de données. Dans ce cas, ces sources seront listées dans l'attribut <code class="attribut">datasources</code>, séparées par des virgules. Par exemple&nbsp;:</p>
+
+<pre><code>&lt;vbox datasources="template-guide-photos5.rdf template-guide-streets.rdf"&gt;</code></pre>
+
+<p>Parfois, vous souhaitez calculer au préalable la source de données et l'attacher ensuite au gabarit. Vous pouvez réaliser cette opération en utilisant la méthode <code>AddDataSource</code> de la source de données composite. Vous pouvez ajouter autant de sources de données que vous le désirez, et vous pouvez en enlever grâce à la méthode <code>RemoveDataSource</code>. Une utilisation classique est la suivante&nbsp;:</p>
+
+<pre><code>var RDF = Components.classes["@mozilla.org/rdf/rdf-service;1"].
+            getService(Components.interfaces.nsIRDFService);
+var ds = RDF.GetDataSource("http://www.xulplanet.com/ndeakin/tests/xul/template-guide-streets.rdf");
+var tree = document.getElementById("theTree");
+tree.database.AddDataSource(ds);
+tree.builder.rebuild();</code></pre>
+
+<p>Il s'agit d'une manière typique d'ajouter une source de données à un élément, dans ce cas l'arbre ayant un <code class="attribut">id</code> <var>theTree</var>. La source de données est obtenue par la méthode <code>GetDataSource</code> du service RDF. Après l'ajout de la source de données, la méthode <code>rebuild</code> du constructeur d'arbre est invoquée pour reconstruire le gabarit avec les nouvelles données. Cette opération ne s'effectue pas automatiquement lorsque vous ajoutez la source de données, ce qui est utile si vous devez en ajouter ou enlever plusieurs à la fois.</p>
+
+<p>L'accès à la source de données composite et sa manipulation nécessitent des privilèges, indépendamment de quelles sources elle contient. Heureusement dans cette situation, vous pouvez simplement définir l'attribut <code class="attribut">datasources</code> (ou la propriété correspondante) avec les sources de données voulues. Par exemple&nbsp;:</p>
+
+<pre><code>var tree = document.getElementById("theTree");
+tree.datasources = "template-guide-photos5.rdf template-guide-streets.rdf";</code></pre>
+
+<p>Ce code va également modifier les sources de données en cours d'utilisation. Dans ce cas, le gabarit va se reconstruire automatiquement car vous définissez d'un coup toutes les sources de données de cette manière. Vous n'avez donc pas à appeler la méthode <code>rebuild</code>. Vous pouvez procéder de la même façon avec l'attribut <code class="attribut">ref</code> (ou la propriété <code>ref</code>) et le gabarit subira également une reconstruction automatique. Dans l'exemple ci-dessus, il y a deux sources de données attachées à l'arbre. Elles seront chargées toutes les deux et le gabarit sera reconstruit. Notez que si une des sources de données est déjà chargées, elle ne sera pas chargée de nouveau. C'est une manière pratique d'ajouter simplement une nouvelle source de données à un gabarit existant sans avoir à recharger les données existantes. Si vous souhaitez recharger les données, il vous suffit d'appeler la méthode <code>refresh</code> du constructeur&nbsp;:</p>
+
+<pre><code>tree.builder.refresh();</code></pre>
+
+<p>Ce code va recharger la source de données attachée au gabarit. S'il y a plus d'une source de données, comme dans l'exemple ci-dessus, elles seront toutes rechargées. À cause de la façon dont les gabarits sont mis à jour, vous n'avez normalement pas besoin de reconstruire un gabarit après l'appel de cette méthode <code>refresh</code>. Il existe toutefois des situations où cela est nécessaire.</p>
+
+<p>Si vous prévoyez l'utilisation de sources de données dynamiques, il est fréquent de commencer avec une source de données vide grâce à l'URI spécial <var>rdf:null</var>.</p>
+
+<pre><code>&lt;tree datasources="rdf:null" ref="http://www.xulplanet.com/rdf/myphotos"&gt;</code></pre>
+
+<p>Une source de données composite sera créée mais ne contiendra aucune source. Cette syntaxe est nécessaire car sinon vous ne pourrez pas définir une valeur pour l'attribut <code class="attribut">datasources</code> et aucun constructeur de gabarit ne sera attaché à l'élément. Dans un contexte chrome, la source de données <var>rdf:local-store</var> est toujours inclue même si vous ne l'avez pas spécifié. Il faut en tenir compte si vous devez manipuler la source de données composite.</p>
+
+<p>Un autre point&nbsp;: L'attribut <code class="attribut">datasources</code> peut utiliser des URLs absolues ou relatives. Les URLs relatives le sont par rapport au document XUL contenant l'élément correspondant. La méthode <code>GetDataSource</code> du service RDF n'accepte toutefois que des URLs absolues. Vous devrez donc vous servir d'un chemin complet dans cette situation.</p>

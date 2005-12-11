@@ -1,0 +1,91 @@
+
+<p>Vous devez garder à l'esprit que les gabarits génèrent leur contenu récursivement. Après qu'une série de données aient été générées, chaque résultat est utilisé comme nouveau point de référence pour une autre étape récursive du gabarit. L'utilisation habituelle est la génération du contenu d'un arbre ou d'un menu. L'itération interne utilise les mêmes règles que l'itération externe. Cependant, Il est possible que vous préfériez faire apparaître les noeuds enfants ou orphelins de manière différente de leurs parents. Les règles multiples sont utiles dans cette situation. Dans ce cas, une règle sera utilisée pour trouver les données externes et une autre règle sera utilisée pour trouver les données internes. Le constructeur appliquera toutes les règles dans tous les cas, mais si les règles ont été correctement créées, les données devraient y correspondre comme souhaité.</p>
+
+<p>Par exemple, nous pouvons imaginer une source de données représentée par les maisons d'un quartier. Le noeud principal contient plusieurs fils, un pour chaque rue. Chaque rue contient également des fils, un pour chaque maison. Naturellement, vous désirez que les rues d'affichent différemment des maisons. La nature récursive des gabarits peut être utilisée pour cet exemple. La passe externe débutera au noeud principal et générera le contenu pour chaque rue. La passe suivante utilisera une rue comme point de départ et générera le contenu pour chaque maison. Vous pourriez continuer et générer les données pour chaque pièce de chaque maison en ajoutant d'autres règles.</p>
+
+<p>Voici <a href="exemples/template-guide-ex25.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">un exemple</a> affichant un échantillon de <a href="exemples/template-guide-streets.rdf">données</a> d'un quartier d'habitation.</p>
+
+<pre><code>&lt;hbox datasources="template-guide-streets.rdf"
+      ref="http://www.xulplanet.com/rdf/myneighbourhood"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;
+  &lt;template&gt;
+    &lt;rule rdf:type="http://www.xulplanet.com/rdf/House"&gt;
+      &lt;vbox uri="rdf:*" class="box-padded"&gt;
+        &lt;label value="Adresse : rdf:http://www.xulplanet.com/rdf/address"/&gt;
+        &lt;label value="Appartement : rdf:http://www.xulplanet.com/rdf/floors"/&gt;
+      &lt;/vbox&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;groupbox uri="rdf:*" class="box-padded"&gt;
+        &lt;caption label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+      &lt;/groupbox&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/hbox&gt;</code></pre>
+
+<p>La première règle recherche seulement les items ayant un type RDF <var>http://www.xulplanet.com/rdf/House</var>. La seconde règle n'a aucun filtre conditionnel et va ainsi trouver tous les résultats. Le point de départ indiqué par l'attribut <code class="attribut">ref</code> est <var>http://www.xulplanet.com/rdf/myneighbourhood</var>. Dans les <a href="exemples/template-guide-streets.rdf">données RDF</a>, il s'agit d'un Bag RDF avec deux fils. Puisque les deux règles utilisent la syntaxe simplifiée, le constructeur va parcourir les fils des résultats générés. Lors de cette passe, les deux fils de <var>http://www.xulplanet.com/rdf/myneighbourhood</var> sont des rues et non des maisons, donc aucun d'eux ne correspondra à la première règle. Toutefois, ils vont correspondre à la seconde règle. Ainsi, deux correspondances seront créées en utilisant la seconde règle. Celle-ci crée un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> avec un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/caption">caption</a></code>. Si vous regardez l'image de l'exemple, vous noterez que deux boîtes de groupe ont été créées.</p>
+
+<p><img src="images/template-guide-p25.png" alt="" class="screenshot" /></p>
+
+<p>Le constructeur va boucler récursivement en utilisant le résultat obtenu comme nouveau point de départ. Pour la première rue, le nouveau point de départ sera <var>http://www.xulplanet.com/rdf/marion</var>. Le constructeur réapplique les règles à partir de ce nouvel emplacement dans le graphe RDF. Le nouveau noeud est un Seq RDF avec des enfants, donc les règles simplifiées peuvent générer quelques résultats. Cependant, ces résultats sont des maisons qui correspondront à la première règle. Ils correspondront également à la seconde règle puisqu'elle n'a pas de conditions, mais comme la première règle est prioritaire sur la seconde, ces règles ne seront jamais appliquées. Il en résulte que le contenu de la première règle sera utilisé pour chaque maison. Ce contenu est inséré à l'intérieur du contenu externe déjà généré pour les rues. En clair, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code> et les deux libellés seront placés à l'intérieur de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> généré lors de la passe précédente.</p>
+
+<p>Nous pourrions être plus précis et spécifier un type pour les rues dans la source de données. Cela n'affectera pas l'affichage de cet exemple mais des gabarits plus complexes deviendront plus optimaux par l'écriture de conditions bien spécifiques. S'il y avait d'autres types de construction sur une rue particulière, vous pourrions ajouter une règle supplémentaire pour cela. Par exemple, nous pourrions ajouter une autre règle après la première&nbsp;:</p>
+
+<pre><code>&lt;rule rdf:type="http://www.xulplanet.com/rdf/Store"&gt;
+  &lt;vbox uri="rdf:*" class="box-padded"&gt;
+    &lt;label value="Adresse : rdf:http://www.xulplanet.com/rdf/address"/&gt;
+    &lt;label value="Enseigne : rdf:http://www.xulplanet.com/rdf/sells"/&gt;
+  &lt;/vbox&gt;
+&lt;/rule&gt;</code></pre>
+
+<p>Cette règle est similaire à la première, toutefois seuls les items ayant un type RDF <var>http://www.xulplanet.com/rdf/Store</var> y correspondront.</p>
+
+<h3>Générer un menu récursif</h3>
+
+<p>Lors de la création de menus récursifs, vous devrez employer de multiples règles puisque les items feuilles devront être créés différemment des items branches. Les items feuilles devront utiliser un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> tandis que les items branches devront utiliser un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code>. Deux règles sont nécessaires, bien que vous pourriez en ajouter d'autres si vous aviez d'autres différences à gérer.</p>
+
+<pre><code>&lt;button label="Les maisons de mon quartier" type="menu"
+        datasources="template-guide-streets.rdf"
+        ref="http://www.xulplanet.com/rdf/myneighbourhood"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;
+  &lt;template&gt;
+    &lt;rule rdf:type="http://www.xulplanet.com/rdf/House"&gt;
+      &lt;menupopup&gt;
+        &lt;menuitem uri="rdf:*" label="rdf:http://www.xulplanet.com/rdf/address"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/rule&gt;
+    &lt;rule&gt;
+      &lt;menupopup&gt;
+        &lt;menu uri="rdf:*" label="rdf:http://purl.org/dc/elements/1.1/title"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/rule&gt;
+  &lt;/template&gt;
+&lt;/button&gt;</code></pre>
+
+<p>La première règle recherche toutes les maisons, alors que la seconde règle est utilisée pour les rues. Le contenu généré par chaque règle diffère seulement sur deux aspects. Tout d'abord, la balise du menu est différente (<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> contre <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code>), et le libellé est donné par un autre prédicat. Lors de la première passe, la seconde règle trouve les rues, donc des éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> et <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code> sont créés. L'attribut <code class="attribut">uri</code> est placé sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code> car nous ne devons pas répéter le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/popup">popup</a></code> pour chaque résultat. Après la première passe, le contenu sera équivalent à ce qui suit (en ignorant le contenu associé au gabarit)&nbsp;:</p>
+
+<pre><code>&lt;button label="Les maisons de mon quartier" type="menu"&gt;
+  &lt;menupopup&gt;
+    &lt;menu uri="http://www.xulplanet.com/rdf/marion" label="rue Marion"/&gt;
+    &lt;menu uri="http://www.xulplanet.com/rdf/garden" label="Avenue du Jardin"/&gt;
+  &lt;/menupopup&gt;
+&lt;/button&gt;</code></pre>
+
+<p>La passe interne à travers les données gère les maisons. Les maisons correspondent à la première règle, donc un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> et <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code> sont générés et insérés à l'intérieur du contenu des rues (l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code>). Une nouvelle fois, le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code> est créé une seule fois puisque l'attribut <code class="attribut">uri</code> est placé sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>. L'effet obtenu est un menu avec un sous menu. Il n'y a rien de spécial sur le fonctionnement des menus -- le constructeur procède de la même méthode pour n'importe quel type de contenu. Cependant, la nature des menus peut être difficile à appréhender. Voici le résultat de <a href="exemples/template-guide-ex26.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">l'exemple ci-dessus</a> avec que les deux niveaux aient été traités&nbsp;:</p>
+
+<pre><code>&lt;button label="Les maisons de mon quartier" type="menu"&gt;
+  &lt;menupopup&gt;
+    &lt;menu uri="http://www.xulplanet.com/rdf/marion" label="rue Marion"&gt;
+      &lt;menupopup&gt;
+        &lt;menuitem uri="http://www.xulplanet.com/rdf/garden/16" label="16"/&gt;
+        &lt;menuitem uri="http://www.xulplanet.com/rdf/garden/18" label="18"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/menu&gt;
+    &lt;menu uri="http://www.xulplanet.com/rdf/garden" label="Avenue du Jardin"&gt;
+      &lt;menupopup&gt;
+        &lt;menuitem uri="http://www.xulplanet.com/rdf/garden/25" label="25"/&gt;
+        &lt;menuitem uri="http://www.xulplanet.com/rdf/garden/37" label="37"/&gt;
+      &lt;/menupopup&gt;
+    &lt;/menu&gt;
+  &lt;/menupopup&gt;
+&lt;/button&gt;</code></pre>
