@@ -41,7 +41,7 @@
 
 <p>Ainsi, une seule correspondance existe, donc une seule série de contenu est générée.</p>
 
-<p>Parfois, il peut être utile d'obtenir des triplets selon des correspondances conditionnelles, c'est-à-dire, d'avoir un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> qui ne rejette pas un résultat lors d'une correspondance possible. Dans ce cas, il faut utiliser un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code>. Cet élément ne se place pas dans un bloc <tag>conditions/tag> mais plutôt à l'intérieur de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/bindings">bindings</a></code>. La syntaxe est la suivante&nbsp;:</p>
+<p>Parfois, il peut être utile d'obtenir des triplets selon des correspondances conditionnelles, c'est-à-dire, d'avoir un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> qui ne rejette pas un résultat lors d'une correspondance possible. Dans ce cas, il faut utiliser un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code>. Cet élément ne se place pas dans un bloc <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/conditions/tag"></a></code> mais plutôt à l'intérieur de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/bindings">bindings</a></code>. La syntaxe est la suivante&nbsp;:</p>
 
 <pre><code>&lt;rule&gt;
   &lt;conditions&gt;
@@ -51,7 +51,6 @@
     &lt;binding subject="?photo"
              predicate="http://purl.org/dc/elements/1.1/description"
              object="?description"/&gt;
-
   &lt;/bindings&gt;
 &lt;/rule&gt;</code></pre>
 

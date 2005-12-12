@@ -7,13 +7,13 @@
   <li><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIRDFObserver.html">nsIRDFObserver</a> - utilisée pour scruter des modifications sur la source de données RDF sous-jacente.</li>
 </ul>
 
-<h3>Scruter les reconstruction d'arbres</h3>
+<h3>Scruter les reconstructions d'arbres</h3>
 
 <p>La première de ces interfaces est la plus simple et invoque deux méthodes, <code>willRebuild</code> et <code>didRebuild</code>. Vous implémenterez cet objet lorsque vous souhaitez être prévenu que le gabarit est reconstruit avec l'appel de la méthode <code>rebuild</code>. Le constructeur de gabarit peut également forcer une reconstruction lorsqu'une notification de modification des données sous-jacentes est signalée. La première utilisation de ce scrutateur est de stocker quelques états avant que le gabarit ne soit reconstruit, afin de les restaurer par la suite. Souvenez vous que lorsqu'un gabarit est reconstruit, tout son contenu existant est effacé et généré à neuf. La méthode <code>willRebuild</code> d'un scrutateur sera appelée avant que le contenu ne soit effacé, et la méthode <code>didRebuild</code> sera appelée après que le contenu ne soit re-généré. Ce scrutateur fonctionne également avec les constructeurs d'arbres, et appellera les méthodes appropriées avant et après que l'arbre ne soit généré.</p>
 
 <p>Pour assigner un scrutateur de construction à un constructeur, utilisez la méthode <code>addListener</code>&nbsp;:</p>
 
-<pre>var someListener = {
+<pre><code>var someListener = {
   item: null,
   willRebuild : function(builder) {
     this.item = builder.getResourceAtIndex(builder.root.currentIndex);
