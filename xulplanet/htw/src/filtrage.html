@@ -39,16 +39,16 @@
 
 <p>Les gabarits peuvent être utilisés pour générer n'importe quel type de contenu. Habituellement, un gabarit est utilisé pour générer les items d'un menu, d'une liste de choix ou d'un arbre. La syntaxe est la même quelque soit le type de contenu devant être créé. Dans le précédent exemple, nous avions codé "en dur" un menu déroulant avec la liste des pays, mais nous aurions pu générer cette liste à partir de la source de données. La même source de données peut être utilisée à la fois pour la liste des photos et le menu déroulant. Même si la même source de données est utilisée, elle ne sera chargée qu'une seule fois et les deux gabarits seront informés lorsque les données sont chargées.</p>
 
-<p>Nous devrons ajouter quelques informations à la source de données afin de spécifier la liste des pays disponibles. Il y a deux possibilités. Premièrement, un Seq séparé peut être ajouté pour lister les pays. Deuxièmement, nous pouvons utiliser un type RDF pour spécifier les pays. Ensuite, il nous suffit de rechercher toutes les ressources ayant le type <var>Country</var>. Nous utiliserons cette méthode ici puisque nous avons déjà vu des exemples la génération de contenu depuis un conteneur.</p>
+<p>Nous devrons ajouter quelques informations à la source de données afin de spécifier la liste des pays disponibles. Il y a deux possibilités. Premièrement, un Seq séparé peut être ajouté pour lister les pays. Deuxièmement, nous pouvons utiliser un type RDF pour spécifier les pays. Ensuite, il nous suffit de rechercher toutes les ressources ayant le type <var>Country</var>. Nous utiliserons cette méthode ici puisque nous avons déjà vu des exemples de la génération de contenu depuis un conteneur.</p>
 
-<p>Un type RDF peut être assigné à un noeud par l'emploi du prédicat <var>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</var> défini vers une ressource de ce type. En RDF/XML, une syntaxe raccourcie permet de remplacer la balise Description avec le type. Nous allons ajouter les deux pays dans le source de données, après s'être assuré que l'espace de nommage a été déclaré dans la balise RDF racine&nbsp;:</p>
+<p>Un type RDF peut être assigné à un noeud par l'emploi du prédicat <var>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</var> défini vers une ressource de ce type. En RDF/XML, une syntaxe raccourcie permet de remplacer la balise Description avec le type. Nous allons ajouter les deux pays dans la source de données, après s'être assuré que l'espace de nommage a été déclaré dans la balise RDF racine&nbsp;:</p>
 
 <pre><code>&lt;nso:Country about="http://www.daml.org/2001/09/countries/iso#IT"
              dc:title="Italy"/&gt;
 &lt;nso:Country about="http://www.daml.org/2001/09/countries/iso#NL"
              dc:title="Netherlands"/&gt;</code></pre>
 
-<p>Le type des ces deux ressources, après complétion de l'espace de nommage (non montré ici), sera <var>http://www.daml.org/2001/09/countries/country-ont#Country</var>. Les triplets RDF résultants pour le premier pays seront&nbsp;:</p>
+<p>Le type de ces deux ressources, après complétion de l'espace de nommage (non montré ici), sera <var>http://www.daml.org/2001/09/countries/country-ont#Country</var>. Les triplets RDF résultants pour le premier pays seront&nbsp;:</p>
 
 <pre><code>http://www.daml.org/2001/09/countries/iso#IT
   -> http://www.w3.org/1999/02/22-rdf-syntax-ns#type
@@ -62,7 +62,7 @@ http://www.daml.org/2001/09/countries/iso#IT
 <pre><code>&lt;menulist datasources="template-guide-photos4.rdf"
           ref="http://www.daml.org/2001/09/countries/country-ont#Country"&gt;</code></pre>
 
-<p>Souvenez vous que la seule nécessité est d'avoir une ressource comme point de départ, quelque soit cette ressource. Les conditions auront besoin de parcourir les arcs pointant vers les ressources de type. Puisque les arcs pointent vers le type, nous devons déterminer la source ou le sujet du triplet. Regardez une nouvelle fois les triplets RDF obtenus ci-avant si ce n'est pas clair. Le noeud de départ est <var>http://www.daml.org/2001/09/countries/country-ont#Country</var>. Nous devons parcourir les données selon le prédicat 'type' pour trouver les pays individuellement. Un second triplet est utilisé pour obtenir le titre du pays.</p>
+<p>Souvenez vous que la seule nécessité est d'avoir une ressource comme point de départ, quelque soit cette ressource. Les conditions auront besoin de parcourir les arcs pointant vers les ressources de type. Puisque les arcs pointent vers le type, nous devons déterminer la source ou le sujet du triplet. Regardez une nouvelle fois les triplets RDF obtenus ci-avant si ce n'est pas clair. Le sommet initial est <var>http://www.daml.org/2001/09/countries/country-ont#Country</var>. Nous devons parcourir les données selon le prédicat 'type' pour trouver les pays individuellement. Un second triplet est utilisé pour obtenir le nom du pays.</p>
 
 <pre><code>&lt;conditions&gt;
   &lt;content uri="?start"/&gt;

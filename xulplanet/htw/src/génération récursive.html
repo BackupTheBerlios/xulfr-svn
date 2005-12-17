@@ -1,5 +1,5 @@
 
-<p>Dans l'exemple précédent, le constructeur de gabarits générait une série de deux boutons supplémentaires sur la seconde ligne. Toutefois, les libellés de cette seconde série de boutons étaient différents de la première série. Si vous regardez de nouveau <a href="images/template-guide-p2.png">le graphe</a>, vous commencerez à comprendre pourquoi. Dans le graphe, une flèche relatedItem relie l'item C à l'item D. Cette flèche supplémentaire à B ou D est la cause de la création de cette série supplémentaire de boutons.</p>
+<p>Dans l'exemple précédent, le constructeur de gabarits générait une série de deux boutons supplémentaires sur la seconde ligne. Toutefois, les libellés de cette seconde série de boutons étaient différents de la première série. Si vous regardez de nouveau <a href="images/template-guide-p2.png">le graphe</a>, vous commencerez à comprendre pourquoi. Dans le graphe, un arc 'relatedItem' relie l'item C à l'item D. Cet arc supplémentaire que B ou D n'ont pas, est la cause de la création de cette série supplémentaire de boutons.</p>
 
 <p>Après avoir généré le contenu, le constructeur de gabarits continue de répéter la génération pour les niveaux intérieurs aussi loin que possible. Ainsi, le constructeur génère récursivement le contenu à partir du graphe. Après la création du contenu d'un résultat, le constructeur recommence en utilisant un nouveau parent et un nouveau point de départ. Naturellement, le parent sera un nouveau contenu plutôt qu'une inclusion dans un élément, et le point de départ sera le point d'arrivée de l'itération précédente. Dans cet exemple, le point d'insertion initial parent pour le niveau de génération le plus élevé est l'élément avec l'attribut <code class="attribut">datasources</code>, un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>. Pour les résultats imbriqués, le point d'insertion est l'élément généré. Voici ci-après, le contenu qui a été généré après une seule itération &nbsp;:</p>
 
@@ -45,6 +45,8 @@
 
 <pre><code>(?start = http://www.xulplanet.com/rdf/C, ?relateditem = http://www.xulplanet.com/rdf/D)</code></pre>
 
+<img src="images/template-guide-p9.png" alt="Capture d'écran" class="screenshot" />
+
 <p>Une correspondance a été trouvée, donc le contenu à l'intérieur de la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> sera créé et ajouté à l'intérieur de l'item C. Puisque la variable ?start pointe l'item C et que la variable ?relatedItem pointe D, les boutons seront créés avec ces libellés. Si vous regardez l'<a href="images/template-guide-p9.png">image de l'exemple</a>, vous constaterez que les boutons ont ces libellés. Le contenu résultant pour la ligne C ressemblerait à ceci&nbsp;:</p>
 
 <pre><code>&lt;hbox id="http://www.xulplanet.com/rdf/C"&gt;
@@ -56,4 +58,4 @@
   &lt;/hbox&gt;
 &lt;/hbox&gt;</code></pre>
 
-<p>La nature récursive des gabarits permet de nombreuses applications utiles pour des menus et des arbres où des séries de contenu itératif peut être généré automatiquement. Nous verrons d'autres gabarits récursifs plus tard, mais la section suivante traitera d'un exemple plus pratique.</p>
+<p>La nature récursive des gabarits permet de nombreuses applications utiles pour des menus et des arbres où des séries de contenu itératif peuvent être générées automatiquement. Nous verrons d'autres gabarits récursifs plus tard, mais la section suivante traitera d'un exemple plus pratique.</p>

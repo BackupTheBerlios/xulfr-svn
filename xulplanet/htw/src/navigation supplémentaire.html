@@ -1,7 +1,7 @@
 
 <h3>Obtention des littéraux</h3>
 
-<p>Les triplets utilisés jusqu'à présent ont tous employés des variables à la fois dans leurs sujets et leurs objets. Toutefois, une chaîne de caractères peut être utilisée. Puisque le sujet d'un arc RDF est toujours une ressource, le sujet peut être une ressource URI. L'attribut <code class="attribut">object</code> peut être une ressource URI ou une valeur littérale. L'utilisation d'un objet littéral dans un triplet est une manière classique de filtrer des items spécifiques. Par exemple, si les items ont un type identifiable, les données pourront être filtrées pour n'inclure que les items d'un type particulier.</p>
+<p>Les triplets utilisés jusqu'à présent ont tous employé des variables à la fois dans leurs sujets et leurs objets. Toutefois, une chaîne de caractères peut être utilisée. Puisque le sujet d'un arc RDF est toujours une ressource, le sujet peut être une ressource URI. L'attribut <code class="attribut">object</code> peut être une ressource URI ou une valeur littérale. L'utilisation d'un objet littéral dans un triplet est une manière classique de filtrer des items spécifiques. Par exemple, si les items ont un type identifiable, les données pourront être filtrées pour n'inclure que les items d'un type particulier.</p>
 
 <p>Voici un exemple de triplet que nous pourrions utiliser dans l'exemple des photos&nbsp;:</p>
 
@@ -35,7 +35,7 @@
 
 <p>Naturellement, nous devons ajouter une liaison <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code> pour la variable ?title si nous voulons l'afficher, ou nous pourrions inclure sa valeur dans le code puisque nous savons que sa valeur est <var>Canal</var>. Habituellement, vous ne filtrerez pas sur un titre, mais plutôt sur une valeur définissant ce type.</p>
 
-<p>Il doit y avoir au moins dans un triplet une variable employée soit dans l'attribut <code class="attribut">subject</code> ou soit dans l'attribut <code class="attribut">object</code>. Vous ne pouvez pas avoir un triplet sans variables. Il ne constituerait pas un problème, mais il n'aurait aucune utilité particulière. De même, vous ne pouvez pas mettre de variable dans le prédicat. Seuls les attributs <code class="attribut">subject</code> et <code class="attribut">object</code> peuvent avoir des variables. Un autre cas que vous ne pouvez pas avoir est d'avoir un triplet dans lequel les variables utilisées seraient inconnues comme dans l'exemple suivant&nbsp;:</p>
+<p>Il doit y avoir au moins dans un triplet une variable employée soit dans l'attribut <code class="attribut">subject</code> ou soit dans l'attribut <code class="attribut">object</code>. Vous ne pouvez pas avoir un triplet sans variables. Il ne constituerait pas un problème, mais il n'aurait aucune utilité particulière. De même, vous ne pouvez pas mettre de variable dans le prédicat. Seuls les attributs <code class="attribut">subject</code> et <code class="attribut">object</code> peuvent avoir des variables. Un autre proscris est un triplet dans lequel les variables utilisées seraient inconnues comme dans l'exemple suivant&nbsp;:</p>
 
 <pre><code>&lt;conditions&gt;
   &lt;content uri="?start"/&gt;
@@ -45,13 +45,13 @@
           object="?title"/&gt;
 &lt;/conditions&gt;</code></pre>
 
-<p>Dans ce cas, lorsque le constructeur de gabarits en arrive au traitement du triplet, aucune des variables ?category et ?title ne sont remplies, donc le constructeur ne sait pas ce qu'il doit généré. Dans cette situation, aucun contenu ne sera généré.</p>
+<p>Dans ce cas, lorsque le constructeur de gabarits en arrive au traitement du triplet, aucune des variables ?category et ?title ne sont remplies, donc le constructeur ne sait pas ce qu'il doit générer. Dans cette situation, aucun contenu ne sera généré.</p>
 
 <p>La balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> doit avoir des variables à la fois pour les attributs <code class="attribut">container</code> et <code class="attribut">child</code>. Il ne serait pas courant de filtrer un fils spécifique.</p>
 
 <h3>Navigation dans la source</h3>
 
-<p>Les triplets peuvent être utilisés pour naviguer en remontant dans un graphe aussi bien qu'en le descendant, en suivant les flèches du graphe en sens inverse. Par exemple, dans <a href="images/template-guide-p2.png">l'exemple du début</a>, nous pourrions débuter au noeud D et remonter vers A et C. La syntaxe pour le triplet est la même excepté que la variable connue doit être placée dans l'attribut <code class="attribut">object</code> du triplet et la variable inconnue doit être placée dans l'attribut <code class="attribut">subject</code> du triplet.</p>
+<p>Les triplets peuvent être utilisés pour naviguer en remontant dans un graphe aussi bien qu'en le descendant, en suivant les arcs du graphe en sens inverse. Par exemple, dans <a href="images/template-guide-p2.png">l'exemple du début</a>, nous pourrions débuter au sommet D et remonter vers A et C. La syntaxe pour le triplet est la même excepté que la variable connue doit être placée dans l'attribut <code class="attribut">object</code> du triplet et la variable inconnue doit être placée dans l'attribut <code class="attribut">subject</code> du triplet.</p>
 
 <pre><code>&lt;conditions&gt;
   &lt;content uri="?start"/&gt;
@@ -62,7 +62,7 @@
 
 <img src="images/template-guide-p2.png" class="screenshot" alt="graphe RDF" />
 
-<p>Le triplet est évalué de la même manière sauf que la valeur de l'objet peut être remplie avec la valeur de la variable ?start. L'examen du graphe RDF s'effectue sur les flèches pointant vers un noeud et non quittant un noeud. Dans l'exemple des photos, nous voulons cataloguer chaque photo en plusieurs catégories. Une possibilité consiste à simplement ajouter un autre prédicat pour chaque photo avec une valeur littérale définie avec la catégorie. Ou alors, nous pouvons utiliser une ressource pour chaque catégorie. Cette seconde possibilité nous permet d'associer des propriétés supplémentaires à chaque catégories et de de rendre le graphe plus exploitable dans un gabarit. Dans ce cas, nous allons cataloguer chaque photo au pays où la photo a été prise en utilisant un prédicat de pays.</p>
+<p>Le triplet est évalué de la même manière sauf que la valeur de l'objet peut être remplie avec la valeur de la variable ?start. L'examen du graphe RDF s'effectue sur les arcs pointant vers un sommet et non quittant un sommet. Dans l'exemple des photos, nous voulons cataloguer chaque photo en plusieurs catégories. Une possibilité consiste à simplement ajouter un autre prédicat pour chaque photo avec une valeur littérale définie avec la catégorie. Ou alors, nous pouvons utiliser une ressource pour chaque catégorie. Cette seconde possibilité nous permet d'associer des propriétés supplémentaires à chaque catégories et de de rendre le graphe plus exploitable dans un gabarit. Dans ce cas, nous allons cataloguer chaque photo au pays où la photo a été prise en utilisant un prédicat de pays.</p>
 
 <pre><code>&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
 &lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -115,12 +115,12 @@
              object="?title"/&gt;
 &lt;/conditions&gt;</code></pre>
 
-<p>Le premier triplet est utilisé pour obtenir le titre du pays. Il n'y a qu'un seul résultat potentiel à ce stade, le noeud de départ <var>http://www.daml.org/2001/09/countries/iso#IT</var>. Après l'examen du premier triplet, le réseau d'information ressemblera à ceci&nbsp;:</p>
+<p>Le premier triplet est utilisé pour obtenir le titre du pays. Il n'y a qu'un seul résultat potentiel à ce stade, le sommet de départ <var>http://www.daml.org/2001/09/countries/iso#IT</var>. Après l'examen du premier triplet, le réseau d'information ressemblera à ceci&nbsp;:</p>
 
 <pre><code>(?start = http://www.daml.org/2001/09/countries/iso#IT,
  ?countrytitle = Italie)</code></pre>
 
-<p>Un seul résultat est présent puisqu'il n'y a qu'un seul titre disponible. Le second triplet est le plus intéressant. Il sert à chercher en remontant les noeuds qui ont un prédicat de pays pointant sur eux. Il peut être difficile d'expliquer comment le constructeur recherche les arcs pointant d'un noeud vers un autre simplement en regardant l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code>. Le constructeur de gabarits ne peut pas le résoudre tant que le triplet ne soit évalué et que la substitution de variables ne soit effectuée. Ici, la valeur de la variable ?start est déjà connue pour le résultat potentiel, donc elle sera remplie. Toutefois, la valeur de la variable ?photo n'est pas connue. Puisque l'objet est connu mais pas le sujet, le constructeur sait qu'il doit rechercher un prédicat pointant sur un noeud. Il y a deux photos dans la source de données RDF qui pointent vers le noeud <var>http://www.daml.org/2001/09/countries/iso#IT</var>, donc le résultat existant sera copié pour ces deux photos. Voici à quoi ressemble les données résultantes après le second triplet&nbsp;:</p>
+<p>Un seul résultat est présent puisqu'il n'y a qu'un seul titre disponible. Le second triplet est le plus intéressant. Il sert à identifier en remontant les sommets qui ont un prédicat de pays pointant sur eux. Il peut être difficile d'expliquer comment le constructeur recherche les arcs pointant d'un sommet vers un autre simplement en regardant l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code>. Le constructeur de gabarits ne peut pas le résoudre tant que le triplet n'a pas été évalué et que la substitution de variables n'ait pas été effectuée. Ici, la valeur de la variable ?start est déjà connue pour le résultat potentiel, donc elle sera remplie. Toutefois, la valeur de la variable ?photo n'est pas connue. Puisque l'objet est connu mais pas le sujet, le constructeur sait qu'il doit rechercher un prédicat pointant sur un sommet. Il y a deux photos dans la source de données RDF qui pointent vers le sommet <var>http://www.daml.org/2001/09/countries/iso#IT</var>, donc le résultat existant sera copié pour ces deux photos. Voici à quoi ressemble les données résultantes après le second triplet&nbsp;:</p>
 
 <pre><code>(?start = http://www.daml.org/2001/09/countries/iso#IT,
  ?countrytitle = Italie,
@@ -141,11 +141,11 @@
 
 <p><img src="images/template-guide-p15.png" alt="" class="screenshot" /></p>
 
-<p>En décrivant correctement le graphe RDF et en utilisant les triplets adéquats, nous pouvons naviguer vers n'importe quelles parties des données du RDF nécessaires pour obtenir les résultats attendus. Toutefois, il est plus fréquent de parcourir seulement les fils d'un noeud en utilisant une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> et, puis d'utiliser un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> ou <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code> pour chacun des prédicats de chaque fils à afficher. C'est dans ce but que le système de gabarits fût conçu à l'origine et de nombreuses sources de données utilisées par Firefox ou par d'autres produits Mozilla fonctionnent ainsi.</p>
+<p>En décrivant correctement le graphe RDF et en utilisant les triplets adéquats, nous pouvons naviguer vers n'importe quelles parties des données du RDF nécessaires pour obtenir les résultats attendus. Toutefois, il est plus fréquent de parcourir seulement les fils d'un sommet en utilisant une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> et, puis d'utiliser un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> ou <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/binding">binding</a></code> pour chacun des prédicats de chaque fils à afficher. C'est dans ce but que le système de gabarits fût conçu à l'origine et de nombreuses sources de données utilisées par Firefox ou par d'autres produits Mozilla fonctionnent ainsi.</p>
 
 <h3>Obtention des parents</h3>
 
-<p>Une forme non courante de navigation que vous pouvez employer est de naviguer vers le haut en utilisant une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> qui se chargera de récupérer tous les parents d'un noeud, comme dans cet exemple&nbsp;:</p>
+<p>Une forme non courante de navigation que vous pouvez employer est de naviguer vers le haut en utilisant une balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> qui se chargera de récupérer tous les parents d'un sommet, comme dans cet exemple&nbsp;:</p>
 
 <pre><code>&lt;conditions&gt;
   &lt;content uri="?start"/&gt;

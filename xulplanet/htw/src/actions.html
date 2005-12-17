@@ -1,5 +1,5 @@
 
-<p>Le contenu devant être générer dans le gabarit est défini en utilisant l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> qui doit être un fils direct d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>. Le contenu est placé directement à l'intérieur de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>. Ce contenu sera dupliqué pour chaque résultat correspondant et inséré dans le document. Voici un premier exemple simple.</p>
+<p>Le contenu devant être généré dans le gabarit est défini en utilisant l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> qui doit être un fils direct d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>. Le contenu est placé directement à l'intérieur de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code>. Ce contenu sera dupliqué pour chaque résultat correspondant et inséré dans le document. Voici un premier exemple simple.</p>
 
 <pre><code>&lt;vbox datasources="http://www.xulplanet.com/ds/sample.rdf"
          ref="http://www.xulplanet.com/rdf/A"&gt;
@@ -10,21 +10,19 @@
         &lt;triple subject="?start"
                 predicate="http://www.xulplanet.com/rdf/relatedItem"
                 object="?relateditem"/&gt;
-
       &lt;/conditions&gt;
       &lt;action&gt;
         &lt;button uri="?relateditem" label="?relateditem"/&gt;
       &lt;/action&gt;
     &lt;/rule&gt;
   &lt;/template&gt;
-
 &lt;/vbox&gt;</code></pre>
 
-<p>Cet élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> contient un seul élément, mais vous pouvez en mettre autant que vous le voulez. Dans le cas présent, un bouton sera créé pour chaque résultat. Il y a trois résultats, donc trois boutons seront créés. Voici l'<a href="exemples/template-guide-ex1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">exemple</a> et l'image de ce à quoi il devrait ressembler&nbsp;:</p>
+<p>Cet élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> contient ici un seul élément, mais vous pouvez en mettre autant que vous le voulez. Dans le cas présent, un bouton sera créé pour chaque résultat. Il y a trois résultats, donc trois boutons seront créés. Voici l'<a href="exemples/template-guide-ex1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">exemple</a> et l'image résultante&nbsp;:</p>
 
 <p><img src="images/template-guide-p8.png" alt="Exemple simple RDF avec trois boutons" class="screenshot" /></p>
 
-<p>Le constructeur de gabarits parcours les trois résultats, et déroule le corps de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> pour chacun d'eux. L'attribut <code class="attribut">uri</code> sur le bouton sert à spécifier la variable de fin ou membre. Dans cet exemple, la variable ?relatedItem est la seule à servir, puisque ?start est le point de départ et que les points de départ et d'arrivée ne peuvent pas être les mêmes. Plusieurs choses vont se produire pour chaque résultat. Regardons de nouveau les résultats&nbsp;:</p>
+<p>Le constructeur de gabarits parcourt les trois résultats, et déroule le corps de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/action">action</a></code> pour chacun d'eux. L'attribut <code class="attribut">uri</code> sur le bouton spécifie la variable cible ou membre. Dans cet exemple, la variable ?relatedItem est la seule à servir puisque ?start est le point de départ, et que les points de départ et d'arrivée ne peuvent pas être les mêmes. Plusieurs choses vont se produire pour chaque résultat. Regardons de nouveau les résultats&nbsp;:</p>
 
 <pre><code>(?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/B)
 (?start = http://www.xulplanet.com/rdf/A, ?relateditem = http://www.xulplanet.com/rdf/C)
@@ -46,7 +44,6 @@
     &lt;rule&gt;
       &lt;conditions&gt;
         &lt;content uri="?start"/&gt;
-
         &lt;triple subject="?start"
                 predicate="http://www.xulplanet.com/rdf/relatedItem"
                 object="?relateditem"/&gt;
@@ -55,7 +52,6 @@
         &lt;button uri="?relateditem" label="?relateditem"/&gt;
       &lt;/action&gt;
     &lt;/rule&gt;
-
   &lt;/template&gt;
   &lt;button id="http://www.xulplanet.com/rdf/B" label="http://www.xulplanet.com/rdf/B"/&gt;
   &lt;button id="http://www.xulplanet.com/rdf/C" label="http://www.xulplanet.com/rdf/C"/&gt;
@@ -106,4 +102,4 @@
 
 <img src="images/template-guide-p9.png" alt="Capture d'écran" class="screenshot" />
 
-<p>Vous noterez que la seconde ligne contient deux boutons surnuméraires. Nous verrons par la suite la raison.</p>
+<p>Vous noterez que la seconde ligne contient deux boutons surnuméraires. Nous verrons la raison par la suite.</p>
