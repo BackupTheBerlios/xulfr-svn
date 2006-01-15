@@ -21,39 +21,39 @@ $article_chap = array(
  ),
  'Les bases des gabarits XUL' => array(
    'introduction.html'            => array('Introduction', 'Introduction', array('Laurent Jouanneau'=>'18/08/2005', 'Julien Appert'=>'02/08/2005')),
-   'compilation de règles.html'   => array('Rule Compilation', 'Compilation de règles', array('Alain B.'=>'02/08/2005', 'Aurelien Tabard '=>'01/10/2005')),
-   'génération de résultats.html' => array('Result Generation', 'Génération de résultats', array('Alain B.'=>'26/08/2005'))
+   'compilation_de_regles.html'   => array('Rule Compilation', 'Compilation de règles', array('Alain B.'=>'02/08/2005', 'Aurelien Tabard '=>'01/10/2005')),
+   'generation_de_resultats.html' => array('Result Generation', 'Génération de résultats', array('Alain B.'=>'26/08/2005'))
  ),
  'La syntaxe des gabarits' => array(
    'conditions.html'                    => array('Conditions', 'Conditions', array('Alain B.'=>'27/08/2005', 'Alain B.'=>'30/08/2005')),
    'actions.html'                       => array('Actions', 'Actions', array('Alain B.'=>'31/08/2005', 'Alain B.'=>'03/09/2005')),
-   'génération récursive.html'          => array('Recursive Generation', 'Génération récursive', array('Alain B.'=>'10/09/2005')),
-   'exemple simple.html'                => array('Simple Example', 'Exemple simple', array('Alain B.'=>'11/09/2005')),
-   'les liaisons.html'                  => array('Bindings', 'Les liaisons', array('Alain B.'=>'17/09/2005')),
-   'substitution d\'attributs.html'     => array('Attribute Substitution', 'Substitution d\'attributs', array('Alain B.'=>'17/09/2005')),
-   'navigation supplémentaire.html'     => array('Additional Navigation', 'Navigation supplémentaire', array('Alain B.'=>'17/09/2005', 'Alain B.'=>'17/09/2005')),
+   'generation_recursive.html'          => array('Recursive Generation', 'Génération récursive', array('Alain B.'=>'10/09/2005')),
+   'exemple_simple.html'                => array('Simple Example', 'Exemple simple', array('Alain B.'=>'11/09/2005')),
+   'les_liaisons.html'                  => array('Bindings', 'Les liaisons', array('Alain B.'=>'17/09/2005')),
+   'substitution_d\'attributs.html'     => array('Attribute Substitution', 'Substitution d\'attributs', array('Alain B.'=>'17/09/2005')),
+   'navigation_supplementaire.html'     => array('Additional Navigation', 'Navigation supplémentaire', array('Alain B.'=>'17/09/2005', 'Alain B.'=>'17/09/2005')),
    'filtrage.html'                      => array('Filtering', 'Filtrage', array('Alain B.'=>'18/09/2005', 'Alain B.'=>'18/09/2005')),
-   'contenu statique.html'              => array('Static Content', 'Contenu statique', array('Alain B.'=>'23/09/2005')),
-   'syntaxe de règles simplifiées.html' => array('Simple Rule Syntax', 'Syntaxe de règles simplifiées', array('Alain B.'=>'25/09/2005', 'Alain B.'=>'25/09/2005')),
-   'propriétés de conteneurs.html'      => array('Containment Properties', 'Propriétés de conteneurs', array('Alain B.'=>'27/09/2005'))
+   'contenu_statique.html'              => array('Static Content', 'Contenu statique', array('Alain B.'=>'23/09/2005')),
+   'syntaxe_de_regles_simplifiees.html' => array('Simple Rule Syntax', 'Syntaxe de règles simplifiées', array('Alain B.'=>'25/09/2005', 'Alain B.'=>'25/09/2005')),
+   'proprietes_de_conteneurs.html'      => array('Containment Properties', 'Propriétés de conteneurs', array('Alain B.'=>'27/09/2005'))
   ),
   'Règles multiples' => array(
-    'règles multiples.html'                     => array('Multiple Rules', 'Règles multiples', array('Alain B.'=>'27/09/2005', 'Alain B.'=>'30/09/2005')),
-    'exemple de règles multiples.html'          => array('Multiple Rule Example', 'Exemple de règles multiples', array('Alain B.'=>'30/09/2005')),
-    'utilisation de gabarits récursifs.html'    => array('Using Recursive Templates', 'Utilisation de gabarits récursifs', array('Alain B.'=>'30/09/2005', 'Alain B.'=>'01/10/2005')),
-    'tests spéciaux.html'                       => array('Special Condition Tests', 'Tests spéciaux', array('Alain B.'=>'01/10/2005', 'Alain B.'=>'04/10/2005')),
-    'utilisation de règles multiples pour générer plus de résultats.html' => array('Using Multiple Rules to Generate More Results', 'Utilisation de règles multiples pour générer plus de résultats', array('Alain B.'=>'03/10/2005')),
-    'construction d\'arbres.html'               => array('Building Trees', 'Construction d\'arbres', array('Alain B.'=>'03/10/2005', 'Alain B.'=>'03/10/2005')),
-    'construction d\'arbres hiérarchiques.html' => array('Building Hierarchical Trees', 'Construction d\'arbres hiérarchiques', array('Alain B.'=>'04/10/2005'))
+    'regles_multiples.html'                     => array('Multiple Rules', 'Règles multiples', array('Alain B.'=>'27/09/2005', 'Alain B.'=>'30/09/2005')),
+    'exemple_de_regles_multiples.html'          => array('Multiple Rule Example', 'Exemple de règles multiples', array('Alain B.'=>'30/09/2005')),
+    'utilisation_de_gabarits_recursifs.html'    => array('Using Recursive Templates', 'Utilisation de gabarits récursifs', array('Alain B.'=>'30/09/2005', 'Alain B.'=>'01/10/2005')),
+    'tests_speciaux.html'                       => array('Special Condition Tests', 'Tests spéciaux', array('Alain B.'=>'01/10/2005', 'Alain B.'=>'04/10/2005')),
+    'utilisation_de_regles_multiples_pour_generer_plus_de_resultats.html' => array('Using Multiple Rules to Generate More Results', 'Utilisation de règles multiples pour générer plus de résultats', array('Alain B.'=>'03/10/2005')),
+    'construction_d\'arbres.html'               => array('Building Trees', 'Construction d\'arbres', array('Alain B.'=>'03/10/2005', 'Alain B.'=>'03/10/2005')),
+    'construction_d\'arbres_hierarchiques.html' => array('Building Hierarchical Trees', 'Construction d\'arbres hiérarchiques', array('Alain B.'=>'04/10/2005'))
   ),
   'Modifications de gabarits' => array(
-    'interface du constructeur de gabarits.html' => array('Template Builder Interface', 'Interface du constructeur de gabarits', array('Alain B.'=>'04/10/2005', 'Alain B.'=>'06/10/2005')),
-    'scrutateurs d\'arbres et de gabarits.html'  => array('Template and Tree Listeners', 'Scrutateurs d\'arbres et de gabarits', array('Alain B.'=>'06/10/2005', 'Alain B.'=>'07/10/2005')),
-    'modifications RDF.html'                     => array('RDF Modifications', 'Modifications RDF', array('Alain B.'=>'08/10/2005', 'Alain B.'=>'08/10/2005', 'Alain B.'=>'09/10/2005'))
+    'interface_du_constructeur_de_gabarits.html' => array('Template Builder Interface', 'Interface du constructeur de gabarits', array('Alain B.'=>'04/10/2005', 'Alain B.'=>'06/10/2005')),
+    'scrutateurs_d\'arbres_et_de_gabarits.html'  => array('Template and Tree Listeners', 'Scrutateurs d\'arbres et de gabarits', array('Alain B.'=>'06/10/2005', 'Alain B.'=>'07/10/2005')),
+    'modifications_RDF.html'                     => array('RDF Modifications', 'Modifications RDF', array('Alain B.'=>'08/10/2005', 'Alain B.'=>'08/10/2005', 'Alain B.'=>'09/10/2005'))
   ),
   'Sujets divers' => array(
-    'tri des résultats.html'                     => array('Sorting Results', 'Tri des résultats', array('Alain B.'=>'09/10/2005', 'Alain B.'=>'10/10/2005', 'Alain B.'=>'10/10/2005')),
-    'attributs supplémentaires de gabarits.html' => array('Additional Template Attributes', 'Attributs supplémentaires de gabarits', array('Alain B.'=>'10/10/2005'))
+    'tri_des_resultats.html'                     => array('Sorting Results', 'Tri des résultats', array('Alain B.'=>'09/10/2005', 'Alain B.'=>'10/10/2005', 'Alain B.'=>'10/10/2005')),
+    'attributs_supplementaires_de_gabarits.html' => array('Additional Template Attributes', 'Attributs supplémentaires de gabarits', array('Alain B.'=>'10/10/2005'))
   )
 );
 
@@ -281,7 +281,7 @@ ob_clean();
     }
     $data = preg_replace('`(<var>)([^<]+)(</var>)`si', "$1'$2'$3", $data);    //force les guillemets simples autour des tags <var>
     $data = preg_replace('`(<code class=[\'"]tag["\']>)(.+)(</code>)`siU', "$1&lt;$2&gt;$3", $data);    //mets des < > autour des balises XUL
-///    $data = preg_replace('/<a[^<]+exemples\/[^<]+<\/a>/si', '', $data);    //Supprime les liens exemples
+    $data = preg_replace('/<a[^<]+exemples\/[^<]+>([^<]+)<\/a>/si', '$1', $data);    //Supprime les liens exemples
     $file.= $head_page . $data;
  }
 } //boucle principale
