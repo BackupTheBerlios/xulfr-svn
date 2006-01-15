@@ -1,7 +1,7 @@
 
 <p>Tout élément inséré dans un document XUL est vérifié pour voir s'il contient un attribut <code class="attribut">datasources</code>. Si c'est le cas, un constructeur de gabarits sera créé pour cet élément et lui sera attaché. Si l'élément est un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> avec un attribut <var>dont-build-content</var>, un constructeur d'arbre sera créé. Autrement, c'est un constructeur de contenu qui sera créé. Ces deux types de constructeur partage sensiblement le même code sauf la méthode leur servant à l'affichage. Ils implémentent tous les deux <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULTemplateBuilder.html">l'interface nsIXULTemplateBuilder</a>, mais le constructeur d'arbre implémente également <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIXULTreeBuilder.html">l'interface nsIXULTreeBuilder</a>.</p>
 
-<p>Le constructeur associé à un élément est accessible via la propriété <code>builder</code> de l'élément aussi bien pour les constructeurs de contenu que pour les constructeurs d'arbre. Un élément qui n'est pas associé à un constructeur a cette propriété définit à <var>null</var>. Le processus de création de cette propriété <code>builder</code> pour un élément s'applique après que la fenêtre soit chargée lorsque un élément est créé, et lorsqu'un élément est inséré dynamiquement.</p>
+<p>Le constructeur associé à un élément est accessible via la propriété <code>builder</code> de l'élément aussi bien pour les constructeurs de contenu que pour les constructeurs d'arbre. Un élément qui n'est pas associé à un constructeur a cette propriété définie à <var>null</var>. Le processus de création de cette propriété <code>builder</code> pour un élément s'applique après que la fenêtre soit chargée lorsque un élément est créé, et lorsqu'un élément est inséré dynamiquement.</p>
 
 <p>Les gabarits ne peuvent être utilisés que dans des documents XUL, toutefois rien n'oblige à ce qu'ils génèrent des éléments XUL. Ils pourraient également servir, par exemple, à générer des éléments HTML. Il ne s'agit cependant pas d'une pratique courante. Voici un exemple de cet usage&nbsp;:</p>
 
@@ -20,7 +20,7 @@
 
 <p>Vous noterez que l'attribut <code class="attribut">datasources</code> a été placé sur un élément non-XUL. Cela est également permis. Cependant, sachez que les éléments non-XUL n'auront pas leur contenu généré paresseusement et que par conséquence, tout le contenu sera généré immédiatement. Soyez prudent que la récursivité de vos gabarits ne soit pas trop profonde.</p>
 
-<p>La propriété <code>builder</code> est une propriété de <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIDOMXULElement.html">l'interface nsIDOMXULElement</a>, donc tous les éléments XUL en disposeront, bien que comme mentionné juste avant, elle sera défini à <var>null</var> pour la plupart des éléments. Pour des éléments non-XUL, le constructeur de gabarits assignera une propriété <code>builder</code> à l'élément en utilisant une propriété JavaScript standard à la place.</p>
+<p>La propriété <code>builder</code> est une propriété de <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIDOMXULElement.html">l'interface nsIDOMXULElement</a>, donc tous les éléments XUL en disposeront, bien que comme mentionné juste avant, elle sera définie à <var>null</var> pour la plupart des éléments. Pour des éléments non-XUL, le constructeur de gabarits assignera une propriété <code>builder</code> à l'élément en utilisant une propriété JavaScript standard à la place.</p>
 
 <h3>Reconstruire et rafraîchir un gabarit</h3>
 
@@ -32,7 +32,7 @@
 
 <h3>Modification de la source de données</h3>
 
-<p>La source de données associée au gabarit peut être obtenue en utilisant la propriété <code>database</code> de l'élément. Elle implémente <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIRDFCompositeDataSource.html">l'interface nsIRDFCompositeDataSource</a>. Puisqu'il peut s'agir d'une source de données composite, elle peut contenir plus d'une source de données. Dans ce cas, ces sources seront listées dans l'attribut <code class="attribut">datasources</code>, séparées par des virgules. Par exemple&nbsp;:</p>
+<p>La source de données associée au gabarit peut être obtenue en utilisant la propriété <code>database</code> de l'élément. Elle implémente <a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIRDFCompositeDataSource.html">l'interface nsIRDFCompositeDataSource</a>. Puisqu'il peut s'agir d'une source de données composite, elle peut contenir plus d'une source de données. Dans ce cas, ces sources seront listées dans l'attribut <code class="attribut">datasources</code> et séparées par des espaces. Par exemple&nbsp;:</p>
 
 <pre><code>&lt;vbox datasources="template-guide-photos5.rdf template-guide-streets.rdf"&gt;</code></pre>
 
@@ -52,7 +52,7 @@ tree.builder.rebuild();</code></pre>
 <pre><code>var tree = document.getElementById("theTree");
 tree.datasources = "template-guide-photos5.rdf template-guide-streets.rdf";</code></pre>
 
-<p>Ce code va également modifier les sources de données en cours d'utilisation. Dans ce cas, le gabarit va se reconstruire automatiquement car vous définissez d'un coup toutes les sources de données de cette manière. Vous n'avez donc pas à appeler la méthode <code>rebuild</code>. Vous pouvez procéder de la même façon avec l'attribut <code class="attribut">ref</code> (ou la propriété <code>ref</code>) et le gabarit subira également une reconstruction automatique. Dans l'exemple ci-dessus, il y a deux sources de données attachées à l'arbre. Elles seront chargées toutes les deux et le gabarit sera reconstruit. Notez que si une des sources de données est déjà chargées, elle ne sera pas chargée de nouveau. C'est une manière pratique d'ajouter simplement une nouvelle source de données à un gabarit existant sans avoir à recharger les données existantes. Si vous souhaitez recharger les données, il vous suffit d'appeler la méthode <code>refresh</code> du constructeur&nbsp;:</p>
+<p>Ce code va également modifier les sources de données en cours d'utilisation. Dans ce cas, le gabarit va se reconstruire automatiquement car vous définissez d'un coup toutes les sources de données de cette manière. Vous n'avez donc pas à appeler la méthode <code>rebuild</code>. Vous pouvez procéder de la même façon avec l'attribut <code class="attribut">ref</code> (ou la propriété <code>ref</code>) et le gabarit subira également une reconstruction automatique. Dans l'exemple ci-dessus, il y a deux sources de données attachées à l'arbre. Elles seront chargées toutes les deux et le gabarit sera reconstruit. Notez que si une des sources de données est déjà chargée, elle ne sera pas chargée de nouveau. C'est une manière pratique d'ajouter simplement une nouvelle source de données à un gabarit existant sans avoir à recharger les données existantes. Si vous souhaitez recharger les données, il vous suffit d'appeler la méthode <code>refresh</code> du constructeur&nbsp;:</p>
 
 <pre><code>tree.builder.refresh();</code></pre>
 

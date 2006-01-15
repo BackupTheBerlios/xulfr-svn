@@ -26,9 +26,9 @@
 (?1 = http://www.xulplanet.com/rdf/myphotos,
  ?2 = http://www.xulplanet.com/ndeakin/images/t/obselisk.jpg)</code></pre>
 
-<p>Les nombres sont utilisés ici comme noms de variables, mais en réalité, ils sont générés aléatoirement et vous ne pouvez pas y faire référence en aucune manière. Les données membres, ou les résultats sont contenus dans la variable représentée par <var>?2</var>. Trois correspondances ont été trouvées donc le contenu sera dupliqué trois fois.</p>
+<p>Les nombres sont utilisés ici comme noms de variables, mais en réalité, ils sont générés aléatoirement et en aucune manière vous ne pouvez y faire référence. Les données membres, ou les résultats sont contenus dans la variable représentée par <var>?2</var>. Trois correspondances ont été trouvées donc le contenu sera dupliqué trois fois.</p>
 
-<p>Il existe différents attributs dans le contenu ayant un préfixe <var>rdf:</var> sur leur valeurs. Comme vous ne pouvez pas déclarer de variables avec la syntaxe simplifiée, une autre manière est employée pour obtenir les données RDF. Le préfixe <var>rdf:</var> signifie de rechercher un prédicat pointant en dehors d'un noeud vers ce résultat (le fils ou le membre d'un noeud). Par exemple, l'attribut <code class="attribut">value</code> du libellé a une valeur de <var>rdf:http://purl.org/dc/elements/1.1/title</var>. Il signifie de rechercher la valeur du prédicat "http://purl.org/dc/elements/1.1/title" pointant en dehors du résultat courant. Bien sûr, il devient évident que cet attribut définira le titre de la photo.</p>
+<p>Il y a plusieurs attributs dans le contenu avec une valeur commençant par <var>rdf:</var>. Comme vous ne pouvez pas déclarer de variables avec la syntaxe simplifiée, une autre manière est employée pour obtenir les données RDF. Le préfixe <var>rdf:</var> signifie de rechercher un prédicat pointant en dehors d'un noeud vers ce résultat (le fils ou le membre d'un noeud). Par exemple, l'attribut <code class="attribut">value</code> du libellé a une valeur de <var>rdf:http://purl.org/dc/elements/1.1/title</var>. Il signifie de rechercher la valeur du prédicat "http://purl.org/dc/elements/1.1/title" pointant en dehors du résultat courant. Bien sûr, il devient évident que cet attribut définira le titre de la photo.</p>
 
 <p>Vous pouvez obtenir d'autres prédicats de la même manière, simplement en utilisant le prédicat uri et en lui ajoutant le préfixe <var>rdf:</var>. Vous pouvez également combiner deux résultats dans un seul attribut en les séparant par un espace ou un signe ^ comme vous le feriez avec la syntaxe complète. Par exemple&nbsp;:</p>
 
@@ -42,7 +42,7 @@
 
 <h3>Conditions de règle simplifiée</h3>
 
-<p>Les règles simplifiées utilisent également une méthode plus simple pour le traitement des conditions de filtre des résultats indésirables. Cette méthode vous permet de filtrer les résultats qui ont certains prédicats avec des valeurs spécifiques. Par exemple, vous pouvez filtrer les résultats d'une certaine catégorie ou pays. Vous ne pouvez filtrer que sur des prédicats pointant en dehors de la ressource membre. Ceci dit, vous ne pouvez pas filtrer sur des prédicats pointant vers une ressource membre, ou sur des prédicats pointant vers d'autres ressources.</p>
+<p>Les règles simplifiées utilisent également une méthode plus simple pour le traitement des conditions de filtre des résultats indésirables. Cette méthode vous permet de filtrer les résultats qui ont certains prédicats avec des valeurs spécifiques. Par exemple, vous pouvez filtrer les résultats par catégorie ou par pays. Vous ne pouvez filtrer que sur des prédicats pointant en dehors de la ressource membre. Ceci dit, vous ne pouvez pas filtrer sur des prédicats pointant vers une ressource membre, ou sur des prédicats pointant vers d'autres ressources.</p>
 
 <p>Les conditions sont définies en utilisant des attributs sur l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>. L'espace de nommage de l'attribut et le nom de l'attribut sont combinés pour former le prédicat servant de filtre et la valeur de l'attribut sera la valeur du filtre à appliquer. Tous les résultats correspondant au critère sont acceptés et tous ceux qui n'y correspondent pas sont rejetés. Vous pouvez utiliser de multiples attributs pour filtrer sur plusieurs critères. Dans ce cas, les résultats seront acceptés s'ils correspondent à tous les critères.</p>
 
@@ -61,7 +61,7 @@
   &lt;/template&gt;
 &lt;/hbox&gt;</code></pre>
 
-<p>Cet <a href="exemples/template-guide-ex20.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">exemple</a> montre comment un unique attribut peut servir à filtrer seulement les résultats dont le pays 'country' est défini à <var>http://www.daml.org/2001/09/countries/iso#IT</var>. Le contenu des photos n'étant pas de ce pays ne sera pas généré. L'attribut a un espace de nommage qui, une fois substitué, devient <var>http://www.xulplanet.com/rdf/country</var>. Cette syntaxe n'est pas très différente de la façon dont les prédicats sont définis dans <a href="exemples/template-guide-photos4.rdf">le RDF/XML</a>.</p>
+<p>Cet <a href="exemples/template-guide-ex20.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">exemple</a> montre comment un unique attribut peut servir à filtrer seulement les résultats dont le pays 'country' est défini à <var>http://www.daml.org/2001/09/countries/iso#IT</var>. Le contenu des photos n'appartenant pas de ce pays ne sera pas généré. L'attribut a un espace de nommage qui, une fois substitué, devient <var>http://www.xulplanet.com/rdf/country</var>. Cette syntaxe n'est pas très différente de la façon dont les prédicats sont définis dans <a href="exemples/template-guide-photos4.rdf">le RDF/XML</a>.</p>
 
 <p>L'emploi de cette forme de syntaxe d'attribut sur une règle est équivalente à un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code> dans la syntaxe étendue. En fait, le constructeur va convertir en interne l'attribut dans la même forme compilée qui serait utilisée par un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/triple">triple</a></code>. Le triplet équivalent à l'exemple ci-dessus serait&nbsp;:</p>
 
@@ -92,7 +92,7 @@
 <p>Comme il a été mentionné plus tôt, vous pouvez filtrer selon plusieurs critères en utilisant de multiples attributs. Par exemple&nbsp;:</p>
 
 <pre><code>&lt;rule id="filterRule"
-      dc:title="Obelisk"
+      dc:title="Obelisque"
       r:country="http://www.daml.org/2001/09/countries/iso#IT"&gt;</code></pre>
 
 <p>Les deux critères de filtre sur cette règle doivent être respectés. Les règles traitent tous les attributs comme des conditions à l'exception de l'attribut <code class="attribut">id</code> ainsi que d'autres attributs spéciaux qui sont ignorés. Ces attributs spéciaux sont utiles lors du traitement de règles multiples, ce qui sera le sujet d'une prochaine section.</p>

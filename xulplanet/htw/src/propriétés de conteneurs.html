@@ -13,9 +13,9 @@
   &lt;/template&gt;
 &lt;/vbox&gt;</code></pre>
 
-<p>Plutôt que de parcourir un conteneur, <a href="exemples/template-guide-ex21.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a> parcourt un prédicat spécifique. Cet attribut est utile lorsque les données RDF sont structurées d'une telle manière qu'un conteneur RDF n'est pas employé.</p>
+<p>Plutôt que de parcourir un conteneur, <a href="exemples/template-guide-ex21.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a> parcourt un prédicat spécifique. Cet attribut est utile lorsque les données RDF sont structurées de telle manière qu'un conteneur RDF n'est pas employé.</p>
 
-<p>Le constructeur traite le prédicat dans l'attribut <code class="attribut">containment</code> comme un indicateur qu'un élément est un conteneur. Si le noeud de départ (ou <code class="attribut">ref</code>) a ce prédicat comme l'un de ses triplets dans la source de données RDF, le constructeur l'utilisera en plus de vérifier s'il s'agit d'un conteneur. Notez la distinction ici. L'attribut <code class="attribut">containment</code> ne remplace pas la vérification de l'existence d'un conteneur. Si la ressource <var>http://www.xulplanet.com/rdf/A</var> était également un Seq RDF avec quelques fils, alors ces fils seraient également ajoutés aux résultats. <a href="exemples/template-guide-ex21b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Cet exemple</a> vous le démontre. La seule différence avec l'exemple précédent est une paire de lignes supplémentaires ajouté au <a href="exemples/template-guide-ex3.rdf">RDF/XML</a>&nbsp;:</p>
+<p>Le constructeur traite le prédicat dans l'attribut <code class="attribut">containment</code> pour indiquer qu'un élément est un conteneur. Si le noeud de départ (ou <code class="attribut">ref</code>) a ce prédicat comme l'un de ses triplets dans la source de données RDF, le constructeur l'utilisera en plus de vérifier s'il s'agit d'un conteneur. Notez la distinction ici. L'attribut <code class="attribut">containment</code> ne remplace pas la vérification de l'existence d'un conteneur. Si la ressource <var>http://www.xulplanet.com/rdf/A</var> était également un Seq RDF avec quelques fils, alors ces fils seraient également ajoutés aux résultats. <a href="exemples/template-guide-ex21b.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Cet exemple</a> vous le démontre. La seule différence avec l'exemple précédent est une paire de lignes supplémentaires ajoutée au <a href="exemples/template-guide-ex3.rdf">RDF/XML</a>&nbsp;:</p>
 
 <pre><code>&lt;rdf:Seq rdf:about="http://www.xulplanet.com/rdf/A"&gt;
   &lt;rdf:li rdf:resource="http://www.xulplanet.com/rdf/E"/&gt;
@@ -26,7 +26,7 @@
 
 <p>Vous pouvez définir de multiples prédicats dans l'attribut <code class="attribut">containment</code> en les séparant par des espaces. Chacun d'eux sera appliqué de façon séquentielle.</p>
 
-<p>L'attribut <code class="attribut">containment</code> s'applique également aux tests dans <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> lors de l'emploi de la syntaxe étendue de gabarit. Ainsi, en plus de parcourir les fils, il permet de parcourir les prédicats listés dans l'attribut <code class="attribut">containment</code>. Par exemple, l'exemple suivant est équivalent au précédent, excepté que c'est la syntaxe de règles étendues qui est utilisée&nbsp;:</p>
+<p>L'attribut <code class="attribut">containment</code> s'applique également aux tests dans <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/member">member</a></code> lors de l'emploi de la syntaxe étendue de gabarit. Ainsi, en plus de parcourir les fils, il permet de parcourir les prédicats listés dans l'attribut <code class="attribut">containment</code>. Par exemple, l'exemple suivant est équivalent au précédent, excepté qu'il utilise la syntaxe de règles étendues&nbsp;:</p>
 
 <pre><code>&lt;vbox datasources="template-guide-ex3.rdf"
          ref="http://www.xulplanet.com/rdf/A"
@@ -44,4 +44,4 @@
   &lt;/template&gt;
 &lt;/vbox&gt;</code></pre>
 
-<p>Essayez <a href="exemples/template-guide-ex21c.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a>. Il se produit que le constructeur génère des valeurs possibles supplémentaires pour la variable ?child, donc il crée un résultat supplémentaire pour chacune d'elle.</p>
+<p>Essayez <a href="exemples/template-guide-ex21c.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">cet exemple</a>. Le constructeur génère des valeurs possibles supplémentaires pour la variable ?child en créant donc un résultat supplémentaire pour chacune d'elle.</p>
