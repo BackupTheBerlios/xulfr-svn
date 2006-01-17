@@ -30,7 +30,7 @@ $article_chap = array(
    'generation_recursive.html'          => array('Recursive Generation', 'Génération récursive', array('Alain B.'=>'10/09/2005')),
    'exemple_simple.html'                => array('Simple Example', 'Exemple simple', array('Alain B.'=>'11/09/2005')),
    'les_liaisons.html'                  => array('Bindings', 'Les liaisons', array('Alain B.'=>'17/09/2005')),
-   'substitution_d\'attributs.html'     => array('Attribute Substitution', 'Substitution d\'attributs', array('Alain B.'=>'17/09/2005')),
+   'substitution_d_attributs.html'     => array('Attribute Substitution', 'Substitution d\'attributs', array('Alain B.'=>'17/09/2005')),
    'navigation_supplementaire.html'     => array('Additional Navigation', 'Navigation supplémentaire', array('Alain B.'=>'17/09/2005', 'Alain B.'=>'17/09/2005')),
    'filtrage.html'                      => array('Filtering', 'Filtrage', array('Alain B.'=>'18/09/2005', 'Alain B.'=>'18/09/2005')),
    'contenu_statique.html'              => array('Static Content', 'Contenu statique', array('Alain B.'=>'23/09/2005')),
@@ -43,12 +43,12 @@ $article_chap = array(
     'utilisation_de_gabarits_recursifs.html'    => array('Using Recursive Templates', 'Utilisation de gabarits récursifs', array('Alain B.'=>'30/09/2005', 'Alain B.'=>'01/10/2005')),
     'tests_speciaux.html'                       => array('Special Condition Tests', 'Tests spéciaux', array('Alain B.'=>'01/10/2005', 'Alain B.'=>'04/10/2005')),
     'utilisation_de_regles_multiples_pour_generer_plus_de_resultats.html' => array('Using Multiple Rules to Generate More Results', 'Utilisation de règles multiples pour générer plus de résultats', array('Alain B.'=>'03/10/2005')),
-    'construction_d\'arbres.html'               => array('Building Trees', 'Construction d\'arbres', array('Alain B.'=>'03/10/2005', 'Alain B.'=>'03/10/2005')),
-    'construction_d\'arbres_hierarchiques.html' => array('Building Hierarchical Trees', 'Construction d\'arbres hiérarchiques', array('Alain B.'=>'04/10/2005'))
+    'construction_d_arbres.html'               => array('Building Trees', 'Construction d\'arbres', array('Alain B.'=>'03/10/2005', 'Alain B.'=>'03/10/2005')),
+    'construction_d_arbres_hierarchiques.html' => array('Building Hierarchical Trees', 'Construction d\'arbres hiérarchiques', array('Alain B.'=>'04/10/2005'))
   ),
   'Modifications de gabarits' => array(
     'interface_du_constructeur_de_gabarits.html' => array('Template Builder Interface', 'Interface du constructeur de gabarits', array('Alain B.'=>'04/10/2005', 'Alain B.'=>'06/10/2005')),
-    'scrutateurs_d\'arbres_et_de_gabarits.html'  => array('Template and Tree Listeners', 'Scrutateurs d\'arbres et de gabarits', array('Alain B.'=>'06/10/2005', 'Alain B.'=>'07/10/2005')),
+    'scrutateurs_d_arbres_et_de_gabarits.html'  => array('Template and Tree Listeners', 'Scrutateurs d\'arbres et de gabarits', array('Alain B.'=>'06/10/2005', 'Alain B.'=>'07/10/2005')),
     'modifications_RDF.html'                     => array('RDF Modifications', 'Modifications RDF', array('Alain B.'=>'08/10/2005', 'Alain B.'=>'08/10/2005', 'Alain B.'=>'09/10/2005'))
   ),
   'Sujets divers' => array(
