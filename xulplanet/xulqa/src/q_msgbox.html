@@ -56,7 +56,7 @@ promptService.confirmCheck(window,"Effacer ce fichier ?",
 if (checkResult.value) gDontShowAgain=true;
 </code></pre>
 
-<p><img class="screenshot" src="msgbox-s1.png" alt="" /> Le dernier argument de la fonction <code>confirmCheck</code> est un objet. Lorsque la fonction se termine, la propriété <code class="attribut">value</code> de l'objet contiendra soit <var>true</var> ou soit <var>false</var>, selon si l'utilisateur a coché ou non la case. Vous pouvez également lui assigner <var>true</var> avant l'appel de la fonction <code>confirmCheck</code> pour que la case à cocher soit cochée par défaut.</p>
+<p><img class="screenshot" src="msgbox-s1.png" alt="" /> Le dernier argument de la fonction <code>confirmCheck</code> est un objet. Lorsque la fonction se termine, la propriété <code class="attribut">value</code> de l'objet contiendra soit <var>true</var> ou soit <var>false</var>, selon que l'utilisateur ait coché ou non la case. Vous pouvez également lui assigner <var>true</var> avant l'appel de la fonction <code>confirmCheck</code> pour que la case à cocher soit cochée par défaut.</p>
 
 <p>La fonction la plus avancée de boîte de message est la fonction <code>confirmEx</code> qui vous permet également de personnaliser les boutons affichés.</p>
 
@@ -108,6 +108,6 @@ promptService.confirmEx(window,"Sauvegarder des fichiers ?",
   </dd>
 </dl>
 
-<p>Si vous utilisez BUTTON_TITLE_IS_STRING, vous pouvez assigner un libellé personnalisé à un bouton. Vous devez passer le libellé comme cinquième, sixième ou septième argument à la fonction <code>confirmEx</code>. Dans le précédent exemple, le texte <var>Tout sauvegarder</var> est donné au troisième bouton.</p>
+<p>Si vous utilisez BUTTON_TITLE_IS_STRING, vous pouvez assigner un libellé personnalisé à un bouton. Vous devez passer le libellé comme cinquième, sixième ou septième argument à la fonction <code>confirmEx</code>. Dans le précédent exemple, le texte <var>Tout sauvegarder</var> est attribué au troisième bouton.</p>
 
-<p>Les deux derniers arguments de <code>confirmEx</code> sert pour une éventuelle case à cocher comme décrit plus tôt.</p>
+<p>Les deux derniers arguments de <code>confirmEx</code> servent pour une éventuelle case à cocher comme décrit plus tôt.</p>

@@ -3,9 +3,9 @@
 
 <p>La plupart des gens qui rencontrent un problème voient généralement les en-têtes de colonnes de l'arbre, mais le corps de l'arbre est vide. Il y a plusieurs choses à faire pour résoudre ce problème.</p>
 
-<p>Tout d'abord, assurez vous que l'attribut <code class="attribut">datasources</code> est défini avec la bonne URL. Il peut s'agit soit d'une URL relative qui sera résolue relativement au fichier XUL, soit d'un chemin absolu sur le même serveur que le fichier XUL. RDF ne peut pas être chargé à partir d'un hôte différent que le fichier XUL (c'est d'ailleurs le cas pour la plupart des types de fichiers). Les fichiers XUL installés dans le chrome n'ont pas de restrictions sur l'origine de chargement des RDF.</p>
+<p>Tout d'abord, assurez vous que l'attribut <code class="attribut">datasources</code> est défini avec la bonne URL. Il peut s'agir soit d'une URL relative qui sera résolue relativement au fichier XUL, soit d'un chemin absolu sur le même serveur que le fichier XUL. RDF ne peut pas être chargé à partir d'un hôte différent que le fichier XUL (c'est d'ailleurs le cas pour la plupart des types de fichiers). Les fichiers XUL installés dans le chrome n'ont pas de restrictions sur l'origine de chargement des RDF.</p>
 
-<p>Assure vous que le fichier RDF est transmis avec le type mime correct. Mozilla accepte <var>text/rdf</var>, <var>text/xml</var> ou <var>application/xml</var>. Mozilla ne supporte pas actuellement l'envoi de RDF au format <var>application/rdf+xml</var>. Essayez de charger le fichier RDF en tapant son adresse URL dans la barre d'adresses de Mozilla. Si le serveur affiche le contenu comme étant du XML, c'est que le serveur est configuré pour transmettre le bon type mime. Vous pouvez consulter la boîte de dialogue sur l'information de la page pour en être certain.</p>
+<p>Assurez vous que le fichier RDF est transmis avec le type mime correct. Mozilla accepte <var>text/rdf</var>, <var>text/xml</var> ou <var>application/xml</var>. Mozilla ne supporte pas actuellement l'envoi de RDF au format <var>application/rdf+xml</var>. Essayez de charger le fichier RDF en tapant son adresse URL dans la barre d'adresses de Mozilla. Si le serveur affiche le contenu comme étant du XML, c'est que le serveur est configuré pour transmettre le bon type mime. Vous pouvez consulter la boîte de dialogue sur l'information de la page pour en être certain.</p>
 
 <p>Il est très utile de visualiser le fichier RDF en tapant directement son URL dans la barre d'adresse afin de s'assurer qu'il ne contienne pas d'erreurs. Il serait évident que dans ce cas, une erreur apparaîtrait dans le RDF.</p>
 
@@ -13,7 +13,7 @@
 
 <p>Mozilla met en cache les données RDF à moins que la source de données ne soit pas utilisée, que Mozilla soit redémarré, ou que vous appeliez la fonction de rafraîchissement de la source de données. Ainsi, vous découvrirez qu'il vous faudra redémarrer Mozilla pour voir si les changements que vous avez fait ont un effet. Ce n'est probablement pas le cas avec des RDF non-chrome car ils seront déchargés lorsque le XUL est déchargé.</p>
 
-<p>Assurez vous que l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> est flexible. Il vous suffit d'ajouter un attribut <code class="attribut">flex</code> sur cet élément. Vous pouvez également définir une largeur et une hauteur à l'arbre.</p>
+<p>Assurez vous que l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> soit flexible. Il vous suffit d'ajouter un attribut <code class="attribut">flex</code> sur cet élément. Vous pouvez également définir une largeur et une hauteur à l'arbre.</p>
 
 <p>L'exemple suivant montre le fonctionnement d'une source RDF distante (<a href="things.rdf">RDF file</a>).</p>
 

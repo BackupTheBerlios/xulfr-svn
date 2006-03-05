@@ -3,7 +3,7 @@
 
 <pre><code>&lt;treecol id="completed" label="Avancement" type="progressmeter"/&gt;</code></pre>
 
-<p>Chaque cellule dans la colonne peut être une barre de progression. Le type de la barre de progression et sa valeur sont déterminés par les cellules. Ainsi, il est possible pour quelques cellules d'être une barre de progression indéterminée, d'avoir des valeurs spécifiques et du texte affiché. Deux propriétés peuvent être ajoutées aux cellules, <code class="attribut">mode</code> et <code class="attribut">value</code>.</p>
+<p>Chaque cellule dans la colonne peut être une barre de progression. Le type de la barre de progression et sa valeur sont déterminés par les cellules. Ainsi, il est possible pour des cellules d'être une barre de progression indéterminée, d'avoir des valeurs spécifiques ou d'afficher du texte. Deux propriétés peuvent être ajoutées aux cellules, <code class="attribut">mode</code> et <code class="attribut">value</code>.</p>
 
 <pre><code>&lt;treecell value="30" mode="normal"/&gt;
 &lt;treecell label="Terminé"/&gt;
@@ -87,7 +87,7 @@ function assignView()
     <strong>// crée un arbre contenant 20 lignes</strong>
     rowCount: 20,
 
-    <strong>// ces fonctions doivent être définie pour éviter les erreurs,
+    <strong>// ces fonctions doivent être définies pour éviter les erreurs,
     // toutefois elles ne définissent rien de spécial</strong>
     isContainer: function(row){ return false; },
     isSeparator: function(row){ return false; },
@@ -109,7 +109,7 @@ function assignView()
     },
 
     <strong>// récupère la valeur de la barre de progression qui dans ce cas est calculée
-    // à partir du numéro de la ligne. La valeur peut être retournée comme une nombre
+    // à partir du numéro de la ligne. La valeur peut être retournée comme un nombre
     // ou une chaîne de caractères.</strong>
     getCellValue: function(row,col){
       if (col == "pct") return (row * 5 + 1);

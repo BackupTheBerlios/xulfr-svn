@@ -185,7 +185,7 @@ projet de traduction de <a href="http://xulfr.org/">xulfr.org</a>.</p>
     <dt>Traducteurs</dt>
     <dd>Alain Boquet</dd>
     <dt>Relecteurs et correcteurs</dt>
-    <dd>Alain Boquet, Laurent Jouanneau.</dd>
+    <dd>Alain Boquet, Laurent Jouanneau, Julien Appert.</dd>
 </dl>
 
 <h2>Éditions successives</h2>
@@ -193,6 +193,8 @@ projet de traduction de <a href="http://xulfr.org/">xulfr.org</a>.</p>
 <dl>
     <dt>19 août 2005</dt>
     <dd>Première publication du guide traduit</dd>
+    <dt>5 mars 2006</dt>
+    <dd>Importante relecture du tutoriel</dd>
 </dl>
 
 </div>

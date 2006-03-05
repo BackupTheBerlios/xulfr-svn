@@ -23,7 +23,7 @@ var xrequest=new XMLHttpRequest();
 // que la méthode open attendra de recevoir la réponse. Si le troisième argument
 // est défini à true, la méthode open n'attendra pas. Vous pouvez assigner un script
 // à la propriété onload de XMLHttpRequest dans ce cas et il sera exécuté lorsque
-// la réponse est disponible.</strong>
+// la réponse sera disponible.</strong>
 xrequest.open("GET",url,false);
 
 <strong>// La requête n'est pas terminée tant que la fonction send n'est pas appelée.
@@ -42,8 +42,7 @@ var result=xrequest.responseXML;
 
 <p>Toutefois, si vous le devez absolument, vous pouvez toujours inclure un formulaire HTML dans une fenêtre XUL en utilisant l'espace de nommage HTML. Notez que seuls les éléments de formulaire HTML peuvent être soumis de cette manière -- les éléments XUL ne sont pas soumis.</p>
 
-<pre><code>
-&lt;html:form xmlns:html="http://www.w3.org/1999/xhtml"
+<pre><code>&lt;html:form xmlns:html="http://www.w3.org/1999/xhtml"
            method="post" action="http://www.example.com/handleForm"&gt;
   &lt;html:select name="time"&gt;
     &lt;html:option value="morning"&gt;Matin&lt;/html:option&gt;
@@ -51,8 +50,6 @@ var result=xrequest.responseXML;
     &lt;html:option value="midnight"&gt;Soir&lt;/html:option&gt;
   &lt;/html:select&gt;
   &lt;html:input type="submit" value="Go"/&gt;
-&lt;/html:form&gt;
-</code></pre>
+&lt;/html:form&gt;</code></pre>
 
 <p>Cet exemple ressemble à un formulaire HTML à l'exception de l'utilisation de l'espace de nommage HTML. Notez également que les balises doivent être fermées proprement, donc les balises option fermantes sont nécessaires.</p>
-
