@@ -128,13 +128,13 @@ détail pour d'autres. Une interface utilisateur montrant les données
 pourrait seulement montrer les champs qui sont présents.</p>
 
 <p>D'abord, commençons en créant un nouveau datasource vide dans la
-mémoire (in-memory):</p>
+mémoire (in-memory)&nbsp;:</p>
 
 <pre><code>
 var rdfService = Components.classes[&quot;@mozilla.org/rdf/rdf-service;1&quot;].getService(Components.interfaces.nsIRDFService);
 
 var photosDS = Components.classes[&quot;@mozilla.org/rdf/datasource;1?name=in-memory-datasource&quot;].createInstance(Components.interfaces.nsIRDFDataSource);
-</code<</pre>
+</code></pre>
 
 <p>Après, ajoutons quelques données pour chaque photo. Nous pourrions
 employer <code class="attribut">GetAnonymousResource</code> pour produire
@@ -255,7 +255,7 @@ est de déplacer une ressource d'un endroit à l'autre. Par exemple, si
 des photos sont stockées dans un ensemble de groupes, on pourrait
 déplacer une photo d'un groupe à l'autre en employant la méthode <code
 class="attribut">Move</code> pour changer le groupe au quel elle a été
-associé. Par exemple:</p>
+associé. Par exemple&nbsp;:</p>
 
 <pre><code>
 var oldFolderRes = rdfService.GetResource(&quot;http://www.example.com/folder/unsorted&quot;);
@@ -319,7 +319,7 @@ changement qui serait inefficace.</p>
 <p>Vous devez appliquer les six méthodes de l'interface
 <a href="/references/xpcomref/ifaces/nsIRDFObserver.html">nsIRDFObserver</a>,
 bien que vous n'ayez pas besoin de prendre toutes les étapes parmis
-celles offertes. Voici un exemple:</p>
+celles offertes. Voici un exemple&nbsp;:</p>
 
 <pre><code>
 var observer = {
@@ -327,7 +327,7 @@ var observer = {
   {
     var dateProp = rdfService.GetResource(&quot;http://www.example.com/rdfns/date&quot;);
     var photoDate = rdfService.GetLiteral(&quot;January 20, 2003&quot;);
-    if ((dateProp == predicate) && (photoDate == target)){
+    if ((dateProp == predicate) &amp;&amp; (photoDate == target)){
       alert(&quot;That is Simone's birthday!&quot;);
     }
   },
@@ -348,7 +348,7 @@ Les arguments de la méthode <code class="attribut">onAssert</code>
 indiquent les données qui ont été ajoutées. Ceci est employé pour
 comparer la date à une date spécifique et pour afficher un message
 d'alerte si la date est le '20 janvier 2003'. Notez que nous pouvons
-comparer des ressources et des literals en utilisant l'opérateur ==.</p>
+comparer des ressources et des literals en utilisant l'opérateur <code>==</code>.</p>
 
 <p>Le <code>in-memory-datasource</code> implémente l'interface
 <a href="/references/xpcomref/ifaces/nsIRDFPropagatableDataSource.html">nsIRDFPropagatableDataSource</a>.

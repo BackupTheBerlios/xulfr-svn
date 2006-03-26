@@ -100,25 +100,25 @@ que tous se rapportent à la même ressource. Dans le premier exemple,
 plusieurs &lt;http://www.xulplanet.com/rdf/people/Sandra&gt; étaient présents,
 mais ils représentaient tous une même chose.</p>
 
-<p>Le fait de ne pas avoir spécifié de nom pour la ressource 
-&lt;http://www.xulplanet.com/rdf/people/Kevin&gt; ne signifie pas 
-qu'il n'y en a pas. Si le triplet n'est pas spécifié dans le graphe, 
-il ne faut pas considérer que la valeur n'existe pas, mais plutôt que 
+<p>Le fait de ne pas avoir spécifié de nom pour la ressource
+&lt;http://www.xulplanet.com/rdf/people/Kevin&gt; ne signifie pas
+qu'il n'y en a pas. Si le triplet n'est pas spécifié dans le graphe,
+il ne faut pas considérer que la valeur n'existe pas, mais plutôt que
 la valeur n'est pas connue ou qu'elle sera fournie plus tard.</p>
 
-<p>Dans l'exemple, vous aurez noté que nous n'avons pas précisé si 
-Kevin est un frère ou une soeur de Sandra. Nous l'avons simplement 
-défini comme 'enfant de mêmes parents'. Toutefois, le système peut 
-le déterminer grâce aux informations fournies et un peu de logique. 
-Par exemple, si le système sait qu'un frère est un enfant male de 
-mêmes parents, il peut déterminer que Kevin est le frère de Sandra 
+<p>Dans l'exemple, vous aurez noté que nous n'avons pas précisé si
+Kevin est un frère ou une soeur de Sandra. Nous l'avons simplement
+défini comme 'enfant de mêmes parents'. Toutefois, le système peut
+le déterminer grâce aux informations fournies et un peu de logique.
+Par exemple, si le système sait qu'un frère est un enfant male de
+mêmes parents, il peut déterminer que Kevin est le frère de Sandra
 en utilisant seulement deux triplets&nbsp;:</p>
 
 <pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  sibling  -&gt;
       &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;
 &lt;http://www.xulplanet.com/rdf/people/Kevin&gt;   -&gt;  genre   -&gt;  male</code></pre>
 
-<p>Cependant, ces deux règles ne permettent pas au système de déterminer 
+<p>Cependant, ces deux règles ne permettent pas au système de déterminer
 si Sandra est un frère ou une soeur de Kevin, puisque ces deux règles
 n'indiquent pas le genre de Sandra. Pour cela, nous aurions besoin de
 la règle appropriée d'un des exemples précédents.</p>
@@ -129,7 +129,7 @@ pouvons créer une nouvelle étiquette à tout moment&nbsp;:</p>
 
 <pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt; bestFriend  -&gt;
       &lt;http://www.xulplanet.com/rdf/people/Christine&gt;</code></pre>
-      
+
 <p>L'étiquette <var>bestFriend</var>, et les autres utilisées ci-dessus s'appellent
 des prédicats. L'élément à gauche de chaque triplet s'appelle le sujet et
 celui à droite s'appelle l'objet ou la cible. Le sujet sera toujours une
@@ -147,7 +147,7 @@ Le dernier exemple serait ainsi représenté&nbsp;:</p>
       &lt;http://www.xulplanet.com/rdf/people/bestFriend&gt;  -&gt;
             &lt;http://www.xulplanet.com/rdf/people/Christine&gt;</code></pre>
 
-<p>Pour les besoins de cette documentation, nous omettrons parfois l'espace 
+<p>Pour les besoins de cette documentation, nous omettrons parfois l'espace
 de nommage des prédicats pour simplifier les exemples. Les prédicats étant
 également des ressources, vous pouvez créer des rapports entre un
 prédicat et autre chose. Cette utilisation sert généralement à définir des
@@ -159,9 +159,9 @@ pour ce prédicat.</p>
 <pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  name  -&gt;  Sandra
 &lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  name  -&gt;  Sandy</code></pre>
 
-<p>Ici, la même ressource a un triplet de même prédicat mais avec une cible différente. 
-Dans cet exemple, nous pouvons imaginer que plusieurs noms peuvent signifier l'emploi 
-de surnoms. RDF ne trie pas les noms, donc chacun d'eux a la même pertinence. 
+<p>Ici, la même ressource a un triplet de même prédicat mais avec une cible différente.
+Dans cet exemple, nous pouvons imaginer que plusieurs noms peuvent signifier l'emploi
+de surnoms. RDF ne trie pas les noms, donc chacun d'eux a la même pertinence.
 N'imaginez pas que si Sandra est le premier triplet affiché, il est plus important que Sandy.</p>
 
 <p>Supposons que nous décidons d'ajouter une autre personne également
@@ -171,37 +171,37 @@ appelée Sandra&nbsp;:</p>
 
 <p>La ressource est différente de celle des exemples précédents car
 elle représente une personne différente ayant toutefois le même nom.
-Avec la plupart des <acronym tile="Application programming interface">API</acronym>s RDF, 
-les requêtes peuvent être bi-directionnelles. Si vous ne disposez que du 
-nom <var>Sandra</var>, il vous est possible de lancer une requête inversée 
+Avec la plupart des <acronym tile="Application programming interface">API</acronym>s RDF,
+les requêtes peuvent être bi-directionnelles. Si vous ne disposez que du
+nom <var>Sandra</var>, il vous est possible de lancer une requête inversée
 pour obtenir toutes les ressources liées à ce nom.</p>
 
 <h2>Types</h2>
 
 <p>Parfois il est utile de pouvoir identifier le genre d'une ressource,
 tout comme la façon dont les systèmes orientés objets emploient des
-classes à cette fin. Le RDF emploie un type à cette fin. En plus des 
-deux types très généraux, ressource et littéral, un type précis peut 
-être attribué à une ressource. Par exemple, la ressource Sandra pourrait 
-avoir un type définissant une personne. La valeur de ce type devrait 
+classes à cette fin. Le RDF emploie un type à cette fin. En plus des
+deux types très généraux, ressource et littéral, un type précis peut
+être attribué à une ressource. Par exemple, la ressource Sandra pourrait
+avoir un type définissant une personne. La valeur de ce type devrait
 alors être associée à une autre ressource complétant les informations que le type fournit.</p>
 
 <p>Comme avec d'autres propriétés, les types sont également spécifiés avec un triplet&nbsp;:</p>
 
 <pre><code>&lt;http://www.xulplanet.com/rdf/people/Sandra&gt;  -&gt;  rdf:type  -&gt;
       &lt;http://xmlns.com/wordnet/1.6/Person&gt;</code></pre>
-      
-<p>La ressource &lt;http://xmlns.com/wordnet/1.6/Person&gt; est employée 
-pour représenter une personne. L'URI est basé sur WordNet qui fournit des 
-URIs de ressources pour des mots. Le prédicat est rdf:type est dans l'espace 
-de nommage de RDF puisque l'attribut <var>type</var> est intégré à RDF. Le 
-nom complet est <var>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</var>. 
-Ici, nous employons <var>rdf:</var> comme abréviation pour l'espace de nommage 
-du RDF, comme pour un document XML. Il est employé ici comme tel pour simplifier 
+
+<p>La ressource &lt;http://xmlns.com/wordnet/1.6/Person&gt; est employée
+pour représenter une personne. L'URI est basé sur WordNet qui fournit des
+URIs de ressources pour des mots. Le prédicat est rdf:type est dans l'espace
+de nommage de RDF puisque l'attribut <var>type</var> est intégré à RDF. Le
+nom complet est <var>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</var>.
+Ici, nous employons <var>rdf:</var> comme abréviation pour l'espace de nommage
+du RDF, comme pour un document XML. Il est employé ici comme tel pour simplifier
 l'exemple -- le prédicat est toujours le nom complet avec l'espace de nommage.</p>
 
-<p>Nous pouvons également composer nos propres types. Dans l'exemple ci-dessous 
-nous associons le type &lt;http://www.xulplanet.com/rdf/example/Poem&gt; comme 
+<p>Nous pouvons également composer nos propres types. Dans l'exemple ci-dessous
+nous associons le type &lt;http://www.xulplanet.com/rdf/example/Poem&gt; comme
 type d'une ressource dont l'URI laisse deviner qu'il s'agit d'un poème.</p>
 
 <pre><code>&lt;http://www.xulplanet.com/rdf/something/785&gt;  -&gt;  rdf:type  -&gt;
@@ -343,7 +343,7 @@ multiples.</p>
 <h2>Exemple de triplets</h2>
 
 <p>Dans le contexte d'un navigateur, les marque-pages peuvent être stockés
-comme une série de triplets RDF.<p>
+comme une série de triplets RDF.</p>
 
 <pre><code>
   &lt;urn:x-mark:1&gt;  -&gt;  Name         -&gt;  XULPlanet.com

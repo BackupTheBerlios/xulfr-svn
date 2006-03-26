@@ -28,22 +28,22 @@ datasources.</p>
 <a href="/references/xpcomref/ifaces/nsIRDFDataSource.html">nsIRDFDataSource</a>.
 Cette interface fournit des méthodes pour interroger et modifier l'information
 dans le datasource. Voici les datasources les plus communs que vous emploierez,
-celles fournis par Mozilla:</p>
+celles fournis par Mozilla&nbsp;:</p>
 
 <table border="1">
 <tr>
-	<th>Datasource</th>
-	<th>Description</th>
+   <th>Datasource</th>
+   <th>Description</th>
 </tr>
 <tr>
-	<td>in-memory-datasource</td>
-	<td>Ce datasource contient des triplets RDF en mémoire. Plusieurs des
+   <td>in-memory-datasource</td>
+   <td>Ce datasource contient des triplets RDF en mémoire. Plusieurs des
     autres datasources enveloppent ce datasource. Ce datasource peut être
     modifié.</td>
 </tr>
 <tr>
-	<td>XML-datasource</td>
-	<td>Ce datasource contient les triplets lus à partir d'un fichier RDF/XML.
+   <td>XML-datasource</td>
+   <td>Ce datasource contient les triplets lus à partir d'un fichier RDF/XML.
     Il peut maintenir le fichier à partir du quel il a été chargé et il peut
     sauver des modifications de nouveau dans ce dossier. Ce datasource peut
     également contenir un RDF/XML chargé à partir d'une URL distante, bien
@@ -53,8 +53,8 @@ celles fournis par Mozilla:</p>
     même ceux qui sont chargées à partir des fichiers locaux.</td>
 </tr>
 <tr>
-	<td>composite-datasource</td>
-	<td>Contient une collection d'autres datasources. Quand vous questionnez
+   <td>composite-datasource</td>
+   <td>Contient une collection d'autres datasources. Quand vous questionnez
     ce datasource, il questionnera chaque datasource à leur tour. De même,
     les modifications sont proposées à chaque datasource jusqu'à ce qu'un
     d'eux accepte le changement. Ces datasources mettent également en
@@ -152,7 +152,7 @@ comme un service. Cela signifie que seulement une copie du datasource existe
 Si vous voulez qu'un datasource différent soit créé à chaque fois, vous devrez
 créer le composant de la manière habituelle de XPCOM, avec la méthode
 <code class="attribut">createInstance</code>. Par exemple, pour créer un
-nouveau <code>in-memory-datasource</code>, faites ce qui suit:</p>
+nouveau <code>in-memory-datasource</code>, faites ce qui suit&nbsp;:</p>
 
 <pre><code>
 var inmemds = Components.classes[&quot;@mozilla.org/rdf/datasource;1?name=in-memory-datasource&quot;]
@@ -196,7 +196,7 @@ pour le créer, ce qui offre quelques possibilités intéressantes. Le datasource
 <code class="attribut">RegisterDataSource</code>, mais l'URL sera l'URL du
 fichier RDF/XML. Un datasource peut appeler la méthode
 <code class="attribut">RegisterDataSource</code> à tout moment, ainsi il est
-possible de mettre en cache un datasource à l'avance.<p>
+possible de mettre en cache un datasource à l'avance.</p>
 
 <p>La méthode correspondante à <code class="attribut">UnregisterDataSource</code>
 du service RDF est employée pour enlever des datasources du cache. Celle-ci
@@ -326,7 +326,7 @@ une référence au constructeur de calibre lié à l'élément. S'il n'y a aucun
 constructeur de template lié à un élément, la valeur de cette propriété sera
 nulle. Le code suivant est employé pour reconstruire le contenu d'un calibre,
 où <code class="attribut">element</code> est l'élément associé à la base de
-données:</p>
+données&nbsp;:</p>
 
 <pre><code>
 element.builder.rebuild();
