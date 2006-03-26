@@ -22,7 +22,7 @@ $chapitres = array(
   13=>'Installation'
 );
 
-$fichier ='builds/xultu.html';
+$fichier ='builds/xultu_pdf.html';
 $fp=fopen($fichier, 'w');
 
 if(!$fp){
@@ -60,7 +60,6 @@ ob_start();
 <!--*bandeau*-->
 </div>
 <div id="contenu">
-<div class="box">
 
 
 
@@ -181,7 +180,6 @@ création du footer
 */
 ob_start();
 ?>
-</div>
 </div>
 </body>
 </html>

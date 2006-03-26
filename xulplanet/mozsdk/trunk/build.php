@@ -16,7 +16,7 @@
  */
 
 $article_list=array(
- 'index'      =>array('Guide API Mozilla de XulPlanet.com',       array('différents contributeurs de xulfr.org'=>'') ,'',''),
+ 'index'      =>array('Guide API Mozilla de XulPlanet.com',       array('René-Luc D\'Hont'=>'13/06/2005') ,'',''),
  'rdfstart'   =>array('1.1 Introduction au modèle RDF',              array('René-Luc D\'Hont'=>'13/06/2005') ,'','rdfsyntax'),
  'rdfsyntax'  =>array('1.2 La syntaxe RDF/XML',                      array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfstart','rdfsources'),
  'rdfsources' =>array('1.3 Sources de données RDF',                  array('René-Luc D\'Hont'=>'13/06/2005') ,'rdfsyntax','rdfsrcdetails'),
@@ -31,8 +31,7 @@ $article_list=array(
 
 foreach($article_list as $basename => $article){
 
-   list($page_chapitre, $auteurs, $prev, $next)
-      = $article_list[$basename];
+   list($page_chapitre, $auteurs, $prev, $next)= $article;
 
     if($basename != 'index'){
         $header_links='
@@ -55,15 +54,15 @@ foreach($article_list as $basename => $article){
         $last=end($article_list);
         if($basename !=key($article_list))
             $header_links.='<link rel="last" href="'.key($article_list).'.html" title="'.$last[0].'" />'."\n";
+   }
 
-        $page_traduction_auteur='';
-        foreach($auteurs as $auteur=>$datetraduc){
-            $page_traduction_auteur.=', '.$auteur;
+   $page_traduction_auteur='';
+   foreach($auteurs as $auteur=>$datetraduc){
+      $page_traduction_auteur.=', '.$auteur;
 
-        }
-        $page_traduction_auteur=substr($page_traduction_auteur,2);
+   }
+   $page_traduction_auteur=substr($page_traduction_auteur,2);
 
-    }
  ob_start();
 
     ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

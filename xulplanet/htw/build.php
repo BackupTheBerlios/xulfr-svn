@@ -82,8 +82,7 @@ $sommaire_html.= "</ol>\n";
 /*Génération de tous les pages*/
 foreach($article_list as $basename => $article){
 
-   list($num_index, $page_chapitre, $auteurs, $prev, $next)
-      = $article_list[$basename];
+   list($num_index, $page_chapitre, $auteurs, $prev, $next) = $article;
 
     if($basename != 'index'){
         $header_links='
@@ -107,14 +106,14 @@ foreach($article_list as $basename => $article){
         if($basename !=key($article_list))
             $header_links.='<link rel="last" href="'.key($article_list).'.html" title="'.$last[1].'" />'."\n";
 
-        $page_traduction_auteur='';
-        foreach($auteurs as $auteur=>$datetraduc){
-            $page_traduction_auteur.=', '.$auteur;
-
-        }
-        $page_traduction_auteur=substr($page_traduction_auteur,2);
-
     }
+   $page_traduction_auteur='';
+   foreach($auteurs as $auteur=>$datetraduc){
+      $page_traduction_auteur.=', '.$auteur;
+
+   }
+   $page_traduction_auteur=substr($page_traduction_auteur,2);
+
  ob_start();
 
     ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
