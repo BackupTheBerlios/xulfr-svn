@@ -59,15 +59,17 @@ $c = 0;
 $sommaire_html = "<ul>\n";
 foreach($article_chap as $chapitre=>$s_chap) {
   if ($chapitre!='index') {
-    $sommaire_html.= "<li>".(++$c).". $chapitre</li>\n  <ul>\n";
+    $sommaire_html.= "<li>".(++$c).". $chapitre <ul>";
     $cs = 1;
     foreach($s_chap as $sect=>$tb) {
       if ($first) { $start = $sect; $start_titre = $tb['titre']; $first = false; }
       $sommaire_html.= "    <li>$c.".($cs++)." <a href=\"$sect\">$tb[1]</a></li>\n";
     }
-    $sommaire_html.= "  </ul>\n";
+    $sommaire_html.= "  </ul></li>\n";
   }
 }
+$sommaire_html .= "</ul>\n";
+
 $last = $sect;
 $last_titre = $tb['titre'];
 //////////////////////echo $sommaire_html; exit();

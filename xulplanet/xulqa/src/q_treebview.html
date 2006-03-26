@@ -42,8 +42,8 @@ nsTreeView.prototype = {
   getInterfaces: function getInterfaces(count) {
     count.value = 4;
     return [Components.interfaces.nsITreeView,
-            Components.interfaces.nsIClassInfo, 
-            Components.interfaces.nsISupportsWeakReference, 
+            Components.interfaces.nsIClassInfo,
+            Components.interfaces.nsISupportsWeakReference,
             Components.interfaces.nsISupports];
   },
   getHelperForLanguage: function getHelperForLanguage(language) { return null; },
@@ -67,7 +67,7 @@ nsTreeView.prototype = {
   isContainerEmpty: function isContainerEmpty(index) { return false; },
   isSeparator: function isSeparator(index) { return false; },
   isSorted: function isSorted() { return false; },
-  <strong>// d&d n'est pas encore implémenté&nbsp;!</strong>
+  <strong>// d&amp;d n'est pas encore implémenté&nbsp;!</strong>
   canDropOn: function canDropOn(index) { return false; },
   canDropBeforeAfter: function canDropBeforeAfter(index, before) { return false; },
   drop: function drop(index, orientation) { },
@@ -185,7 +185,7 @@ nsTreeView.prototype = {
   },
   toggleState: function toggleState() {
     this._open = !this._open;
-    if (this._subtreeItems.length && this._parentItem)
+    if (this._subtreeItems.length &amp;&amp; this._parentItem)
       if (this._open)
         this._parentItem._itemExpanded(this._getOffset(), this._subtreeItems);
       else
@@ -252,7 +252,7 @@ nsTreeView.prototype = {
                            concat(this._subtreeItems);
     if (this._treeBox)
       this._treeBox.rowCountChanged(offset, newItems.length);
-    if (this._parentItem && (this._open || !length))
+    if (this._parentItem &amp;&amp; (this._open || !length))
       this._parentItem._itemExpanded(offset + this._getOffset(), this._open ? newItems : [], length);
   },
   parentItem: function parentItem() {
@@ -267,20 +267,20 @@ nsTreeView.prototype = {
                            concat(this._subtreeItems);
     if (this._treeBox) {
       this._treeBox.rowCountChanged(offset, newItems.length);
-      if (offset && !notwisty)
+      if (offset &amp;&amp; !notwisty)
         this._treeBox.invalidatePrimaryCell(offset - 1);
     }
-    if (this._open && this._parentItem)
+    if (this._open &amp;&amp; this._parentItem)
       this._parentItem._itemExpanded(offset + this._getOffset(), newItems);
   },
   _itemCollapsed: function _itemCollapsed(offset, change, notwisty) {
     this._subtreeItems.splice(offset, change);
     if (this._treeBox) {
       this._treeBox.rowCountChanged(offset, -change);
-      if (offset && !notwisty)
+      if (offset &amp;&amp; !notwisty)
         this._treeBox.invalidatePrimaryCell(offset - 1);
     }
-    if (this._open && this._parentItem)
+    if (this._open &amp;&amp; this._parentItem)
       this._parentItem._itemCollapsed(offset + this._getOffset(), change);
   },
   _getOffset: function _getOffset() {

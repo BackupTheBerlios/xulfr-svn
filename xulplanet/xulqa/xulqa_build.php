@@ -226,14 +226,17 @@ foreach($tb as $chapitre=>$sections) {
     $fic = $data['fic'].'.html';
     if (is_file('src/'.$fic)) {
       $traducteurs = array();
-      if (count($data['trad'])>0)
-        foreach($data['trad'] as $trad=>$date) $traducteurs[] = "<strong>$trad</strong> ($date)";
+      $traducteurs2 = array();
+      foreach($data['trad'] as $trad=>$date){
+         $traducteurs[] = "<strong>$trad</strong> ($date)";
+         $traducteurs2[] = "$trad ($date)";
+      }
       $trad = join(', ',$traducteurs);
       $html = sprintf($header,
-         $trad,
+         join(', ',$traducteurs2),
          'Questions et exemples : '.$titre,
          $chapitre.' > '.$titre);
-      $html.= "<head>\n\n<body>\n";
+      $html.= "</head>\n\n<body>\n";
       $html.= sprintf($entete,
          $titre,
          ($data['next']=='' ? ' style="display:none;"' : ' title="'.$data['next_titre'].'" href="'.$data['next'].'"'),
