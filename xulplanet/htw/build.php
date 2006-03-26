@@ -143,11 +143,13 @@ foreach($article_list as $basename => $article){
 </head>
 <body>
 <div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-<!--*access*-->
+    <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
+<div id="contenu">
+<div class="box">
 
 <h1><?php echo $page_chapitre?></h1>
 <div class="contenuinfo">
@@ -231,9 +233,10 @@ ob_start();
 </div>
 <?php } ?>
 </div>
+</div>
 <!--*navbox*-->
 
-</div>
+
 <!--*footer*-->
 </body>
 </html>

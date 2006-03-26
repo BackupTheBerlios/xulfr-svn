@@ -2,7 +2,7 @@
 /**
  * Script de génération d'un unique page du tutoriel HTW
  * en vue de la création d'un livre pdf
- * 
+ *
  */
 
 /**
@@ -116,7 +116,7 @@ $c = 0;
 foreach($article_chap as $chapitre=>$s_chap) {
   if ($chapitre!='index') $c++;
   $cs = 0;
-  foreach($s_chap as $sect=>$tb) 
+  foreach($s_chap as $sect=>$tb)
     if ($chapitre!='index')
       $article_chap[$chapitre][$sect]['titre'] = $c.'.'.(++$cs).' - '.$tb[1];    //titre numéroté
     else
@@ -206,19 +206,26 @@ foreach($article_chap as $chapitre => $s_chap) {
 </head>
 <body>
 <div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-<!--*access*-->
+    <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
+<div id="contenu">
+
 <?php
 $header = ob_get_contents();
 ob_clean();
-} //if page index 
+} //if page index
 
 if ($basename=='index') echo "<h2>$page_titre</h2>\n";
 else {
-  if ($new_chap) { echo "<h1>$c - $chapitre</h1>\n"; $new_chap = false; }
+  if ($new_chap) {
+      if($c>1)
+         echo "</div><!--box-->";
+      echo "<div class=\"box\"><h1>$c - $chapitre</h1>\n";
+      $new_chap = false;
+  }
   echo "<h2>$page_titre</h2>\n";
 }
 ?>
@@ -253,9 +260,8 @@ if ($basename=='index') {
 ob_start();
 ?>
 </div>
-<!--*navbox*-->
-
 </div>
+<!--*navbox*-->
 <!--*footer*-->
 </body>
 </html>

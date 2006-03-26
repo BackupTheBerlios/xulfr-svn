@@ -116,7 +116,7 @@ $c = 0;
 foreach($article_chap as $chapitre=>$s_chap) {
   if ($chapitre!='index') $c++;
   $cs = 0;
-  foreach($s_chap as $sect=>$tb) 
+  foreach($s_chap as $sect=>$tb)
     if ($chapitre!='index')
       $article_chap[$chapitre][$sect]['titre'] = $c.'.'.(++$cs).' - '.$tb[1];    //titre numéroté
     else
@@ -239,11 +239,13 @@ foreach($article_chap as $chapitre => $s_chap) {
 </head>
 <body>
 <div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-<!--*access*-->
+    <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
+<div id="contenu">
+<div class="box">
 
 <h1><?php echo $page_titre?></h1>
 <div class="contenuinfo">
@@ -333,9 +335,10 @@ ob_start();
 </div>
 <?php } ?>
 </div>
+</div>
 <!--*navbox*-->
 
-</div>
+
 <!--*footer*-->
 </body>
 </html>

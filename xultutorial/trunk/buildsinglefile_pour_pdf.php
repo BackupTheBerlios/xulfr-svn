@@ -54,12 +54,13 @@ ob_start();
 </head>
 <body>
 <div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-
-
+   <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
+<div id="contenu">
+<div class="box">
 
 
 
@@ -101,15 +102,15 @@ foreach($article_list as $basename => $article){
     }
 ob_start();
 ?>
-<?php 
+<?php
 if (ereg('^([0-9]{1,2})(\..+)',$page_chapitre, $reg)) {
   if ($reg[1]!=$ex_chap) {
-    echo "<h1>$reg[1]. ".$chapitres[$reg[1]]."</h1>\n";
+    echo "</div><!--box--><div class=\"box\"><h1>$reg[1]. ".$chapitres[$reg[1]]."</h1>\n";
     $ex_chap = $reg[1];
   }
 //  $page_chapitre = $reg[0];
 } else {
-  echo "<h1>Préface</h1>\n";
+  echo "<div class=\"box\"><h1>Préface</h1>\n";
 }
 
 //echo '<h2 id="'.$basename.'.html">'.preg_replace('/^(\d{1,2}\.)(\d{1,2}bis|\d{1,2})(.+)/i', '$3', $page_chapitre); </h2>

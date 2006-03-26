@@ -94,11 +94,13 @@ $header = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 
 ';
 $entete = '<div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-<!--*access*-->
+   <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
+<div id="contenu">
+<div class="box">
 
 <h1>%s</h1>
 <div class="contenuinfo">
@@ -124,9 +126,9 @@ $pied_page = '<div class="contenuinfo">
   </ul>
 </div>
 </div>
+</div>
 <!--*navbox*-->
 
-</div>
 <!--*footer*-->
 ';
 
@@ -136,20 +138,21 @@ $pied_page = '<div class="contenuinfo">
 
 setlocale(LC_TIME, 'fr');
 
-$html = sprintf($header, 
-	'les traducteurs de xulfr.org', 
-	'Questions et exemples de Xulplanet', 
-	'Questions et exemples - Tutoriel xulfr.org/xulplanet.com');
+$html = sprintf($header,
+   'les traducteurs de xulfr.org',
+   'Questions et exemples de Xulplanet',
+   'Questions et exemples - Tutoriel xulfr.org/xulplanet.com');
 $html.= '</head>
 
 <body>
 <div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-<!--*access*-->
+   <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
-
+<div id="contenu">
+<div id="box">
 <h1>Questions et exemples</h1>
 <div class="contenuinfo">
   <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>.
@@ -198,9 +201,10 @@ projet de traduction de <a href="http://xulfr.org/">xulfr.org</a>.</p>
 </dl>
 
 </div>
-<!--*navbox*-->
 
 </div>
+<!--*navbox*-->
+
 <!--*footer*-->
 </body>
 </html>
@@ -223,25 +227,25 @@ foreach($tb as $chapitre=>$sections) {
       if (count($data[trad])>0)
         foreach($data[trad] as $trad=>$date) $traducteurs[] = "<strong>$trad</strong> ($date)";
       $trad = join(', ',$traducteurs);
-      $html = sprintf($header, 
-      	$trad, 
-      	'Questions et exemples : '.$titre, 
-      	$chapitre.' > '.$titre);
+      $html = sprintf($header,
+         $trad,
+         'Questions et exemples : '.$titre,
+         $chapitre.' > '.$titre);
       $html.= "<head>\n\n<body>\n";
-      $html.= sprintf($entete, 
-      	$titre, 
-      	($data[next]=='' ? ' style="display:none;"' : ' title="'.$data[next_titre].'" href="'.$data[next].'"'),
-      	($data[prev]=='' ? ' style="display:none;"' : ' title="'.$data[prev_titre].'" href="'.$data[prev].'"'),
-      	$trad, 
-      	$fic, $fic);
+      $html.= sprintf($entete,
+         $titre,
+         ($data[next]=='' ? ' style="display:none;"' : ' title="'.$data[next_titre].'" href="'.$data[next].'"'),
+         ($data[prev]=='' ? ' style="display:none;"' : ' title="'.$data[prev_titre].'" href="'.$data[prev].'"'),
+         $trad,
+         $fic, $fic);
       $src = file('src/'.$fic);
       $src = join("", $src);
 //      $src = preg_replace("/([ ,;:])XUL([ ,;:])/i", '\\1<acronym title="XUL">XUL</acronym>\\2', $src);
 //      $src = preg_replace("/(templates\/)/i", 'http://localhost/xulqa/build/\\1', $src);
       $html.= $src;
       $html.= sprintf($pied_page,
-       	($data[next]=='' ? ' style="display:none;"' : ' title="'.$data[next_titre].'" href="'.$data[next].'"'),
-      	($data[prev]=='' ? ' style="display:none;"' : ' title="'.$data[prev_titre].'" href="'.$data[prev].'"')
+         ($data[next]=='' ? ' style="display:none;"' : ' title="'.$data[next_titre].'" href="'.$data[next].'"'),
+         ($data[prev]=='' ? ' style="display:none;"' : ' title="'.$data[prev_titre].'" href="'.$data[prev].'"')
       );
       $html.= "</body>\n</html>";
       $html = str_replace("\r","", $html);
@@ -252,4 +256,3 @@ foreach($tb as $chapitre=>$sections) {
     } else echo "Il manque le fichier $fic<br />\n";
   }
 }
-      

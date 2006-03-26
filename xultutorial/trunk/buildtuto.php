@@ -33,14 +33,16 @@ foreach($article_list as $basename => $article){
         if($basename !=key($article_list))
             $header_links.='        <link rel="last" href="'.key($article_list).'.html" title="'.$last[0].'" />'."\n";
 
-        $page_traduction_auteur='';
-        foreach($auteurs as $auteur=>$datetraduc){
-            $page_traduction_auteur.=', '.$auteur;
 
-        }
-        $page_traduction_auteur=substr($page_traduction_auteur,2);
 
     }
+
+    $page_traduction_auteur='';
+      foreach($auteurs as $auteur=>$datetraduc){
+         $page_traduction_auteur.=', '.$auteur;
+
+      }
+      $page_traduction_auteur=substr($page_traduction_auteur,2);
  ob_start();
 
     ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -68,12 +70,13 @@ foreach($article_list as $basename => $article){
 </head>
 <body>
 <div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-<!--*access*-->
+   <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
-
+<div id="contenu">
+<div class="box">
 <h1><?php echo $page_chapitre?></h1>
 <div class="contenuinfo">
 <?php  if($basename != 'index'){ ?>
@@ -126,7 +129,7 @@ foreach($article_list as $basename => $article){
     <p>Original&nbsp;: <a href="http://www.xulplanet.com/tutorials/xultu/">http://www.xulplanet.com/tutorials/xultu/</a>.</p>
 <?php }?>
 
-</div>
+</div><!-- contenuinfo-->
 <?php
 $header = ob_get_contents();
 ob_clean();
@@ -153,12 +156,13 @@ ob_start();
 
     <li><a class="index" href="index.html">Sommaire</a></li>
 </ul>
-</div>
+</div><!-- contenuinfo-->
 <?php } ?>
-</div>
+</div><!-- box -->
+</div> <!-- contenu -->
+
 <!--*navbox*-->
 
-</div>
 <!--*footer*-->
 </body>
 </html>

@@ -39,14 +39,12 @@ ob_start();
 </head>
 <body>
 <div id="bandeau">
-    <p><img src="xulfr_logo.png" alt="xulfr.org" /></p>
-
-
+   <div id="logo">
+      <img src="pics/logo.png" alt="xulfr.org" />
+   </div>
+<!--*bandeau*-->
 </div>
-<div id="principal">
-    <div id="contenu">
-
-
+<div id="contenu">
 
 <?
 
@@ -87,7 +85,7 @@ foreach($article_list as $basename => $article){
 
 ob_start();
 ?>
-<?php echo '<h1 id="'.$basename.'.html">'.$page_chapitre?></h1>
+<?php echo '<div class="box"><h1 id="'.$basename.'.html">'.$page_chapitre?></h1>
 <div class="contenuinfo">
 <?php  if($basename != 'index'){ ?>
     <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>.
@@ -118,7 +116,7 @@ ob_start();
     <p>Original&nbsp;: <a href="http://www.xulplanet.com/tutorials/xultu/">http://www.xulplanet.com/tutorials/xultu/</a>.</p>
 <?php }?>
 
-</div>
+</div><!-- contenuinfo -->
 <?php
 $header = ob_get_contents();
 ob_clean();
@@ -135,7 +133,7 @@ ob_clean();
         $file = preg_replace('/<\/strong> <a href="(.+)">/i', '</strong> <a href="#$1">', $file);
     }
 
-    $file = $header . $file;
+    $file = $header . $file.'</div><!-- box -->';
 
     fwrite($fp,$file);
 
@@ -150,7 +148,7 @@ création du footer
 */
 ob_start();
 ?>
-</div>
+
 </div>
 </body>
 </html>
