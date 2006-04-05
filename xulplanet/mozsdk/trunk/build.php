@@ -92,7 +92,7 @@ foreach($article_list as $basename => $article){
 <body>
 <div id="bandeau">
     <div id="logo">
-      <img src="pics/logo.png" alt="xulfr.org" />
+      <a href="http://xulfr.org"><img src="pics/logo.png" alt="xulfr.org" /></a>
    </div>
 <!--*bandeau*-->
 </div>

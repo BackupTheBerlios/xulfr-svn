@@ -97,7 +97,7 @@ $header = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 ';
 $entete = '<div id="bandeau">
    <div id="logo">
-      <img src="pics/logo.png" alt="xulfr.org" />
+      <a href="http://xulfr.org"><img src="pics/logo.png" alt="xulfr.org" /></a>
    </div>
 <!--*bandeau*-->
 </div>
