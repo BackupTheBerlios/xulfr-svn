@@ -70,7 +70,7 @@ $article_list=array(
     'dragex'=>array('7.10 Exemple Drag and Drop',                           array('Laurent Jouanneau'=>'11/11/2004'),'dragwrap','trees'),
 
 
- 'trees' =>array('8.1 Arbres',                                          array('Damien Hardy'=> '10/04/2004', 'Alain B.'=>'08/07/2005'),'xpcomex','advtrees'),
+ 'trees' =>array('8.1 Arbres',                                          array('Damien Hardy'=> '10/04/2004', 'Alain B.'=>'08/07/2005'),'dragex','advtrees'),
  'advtrees' =>array('8.2 Autres caractéristiques des arbres',           array('Laurent Jouanneau'=> '24/06/2004', 'Gerard L.'=>'25/03/2005'),'trees','seltree'),
  'seltree'=>array('8.3 Selection dans les arbres',                      array('Medspx'=>'17/07/2004', 'Alain B.'=>'03/07/2005'),'advtrees','treeview'),
  'treeview'=>array('8.4 Vues d\'arbre personnalisées',                  array('Chaddaï Fouché'=>'20/07/2004', 'Alain B.'=>'08/07/2005'),'seltree','treeviewdet'),
