@@ -1,6 +1,5 @@
 
-
-<p>La présente section décrit comment faire référence à des documents XUL
+<p>Cette section décrit comment faire référence à des documents XUL
 et d'autres fichiers Chrome.</p>
 
 <h2>L'URL Chrome</h2>
@@ -8,8 +7,8 @@ et d'autres fichiers Chrome.</p>
 <p>Les fichiers XUL peuvent être référencés par une URL HTTP
 habituelle tout comme les fichiers HTML (ou tout autre type d'URL).
 Cependant, les paquetages qui sont installés sur le système chrome de Mozilla
-peuvent être référencés avec des URLs spéciales "chrome".
-Les paquetages livrés avec Mozilla seront déjà installés mais vous pouvez déclarer les votres.</p>
+peuvent être référencés avec des URLs spéciales appelées «&nbsp;chrome&nbsp;».
+Les paquetages livrés avec Mozilla seront déjà installés mais vous pouvez déclarer les vôtres.</p>
 
 <p>Les paquetages installés ont l'avantage de ne pas avoir de restrictions de sécurité,
 lesquelles sont nécessaires pour de nombreuses applications.
@@ -22,7 +21,7 @@ utilisant une URL chrome. Mozilla s'attachera à déterminer où le fichier est sit
 la bonne donnée. Cela signifie aussi que l'endroit où le paquetage est installé n'est pas important pour
 être capable d'y accéder. Les URLs chrome sont indépendantes du lieu où les fichiers sont stockés
 physiquement. Il est donc plus simple d'écrire des applications contenant beaucoup de fichiers sans vous
-soucier des détails sur les chemins des fichiers.
+soucier des détails concernant les chemins d'accès de ces fichiers.
 </p>
 
 
@@ -31,20 +30,20 @@ soucier des détails sur les chemins des fichiers.
 <pre><code>chrome://&lt;paquetage&gt;/&lt;partie&gt;/&lt;fichier.xul&gt;</code></pre>
 
 <p>Le texte <code>&lt;paquetage&gt;</code> est le nom du paquetage, tel que messenger ou editor.
-Le texte <code>&lt;partie&gt;</code> vaut soit <var>content</var>, soit <var>skin</var> ou soit <var>locale</var>,
+Le texte <code>&lt;partie&gt;</code> vaut soit <var>content</var>, soit <var>skin</var>, soit <var>locale</var>,
 selon la partie que vous voulez. <code>fichier.xul</code> est simplement le nom du fichier. </p>
 
 <p><strong>Exemple&nbsp;:</strong> chrome://messenger/content/messenger.xul</p>
 
 <p> Ici, l'exemple se réfère à la fenêtre messenger. Vous pouvez pointer vers un
-fichier qui fait parti d'un thème en remplaçant <var>content</var> par <var>skin</var>
+fichier qui fait partie d'un thème en remplaçant <var>content</var> par <var>skin</var>
 et en changeant le nom du fichier.
-De même, vous pouvez pointer vers un fichier qui fait parti de la localisation
+De même, vous pouvez pointer vers un fichier qui fait partie de la localisation
  en utilisant <var>locale</var> au lieu de <var>content</var>.</p>
 
 <!--<p> Vous pourriez assimiler l'URL chrome comme un type spécial de fichier URL (c'est à
 dire, file://URLs) où le répertoire racine est le répertoire chrome de Mozilla.
-Cependant, il y a une caractèristique supplémentaire.
+Cependant, il y a une caractéristique supplémentaire.
 La partie skin et locale de l'URL chrome redirige vers les paramètres courants.
 Si l'utilisateur change le thème par défaut, l'URL chrome ne change pas,
 mais ce qu'il pointe change.</p>
@@ -54,16 +53,16 @@ mais ce qu'il pointe change.</p>
 de trouver le fichier JAR qui correspond au nom et à la partie recherchés. Une fois trouvé, il regardera 
 dans ce fichier JAR s'il y a <code>fichier.xul</code>. Mozilla commencera toujours par regarder dans le 
 même dossier du fichier JAR où est situé le fichier contents.rdf associé, comme décrit dans la section 
-précédente. Cela signifie que si plusieurs paquetages ou parties sont tous situés dans le même fichier 
+précédente. Cela signifie que si plusieurs paquetages ou parties sont situés dans le même fichier 
 JAR, les fichiers seront localisés à la bonne place. Par exemple, le fichier contents.rdf pour l'URL 
 chrome de messenger est situé dans le fichier messenger.jar et à l'intérieur de l'archive, dans le 
 répertoire 'content/messenger'. Le fichier messenger.xul sera chargé à partir de cet endroit, et si 
-vous ouvrez messenger.jar, vous trouverez ce fichier dans ce répertoire. Si vous utilisez une forme 
-décompressée plutôt qu'une archive JAR, la même chose s'applique excepté que Mozilla va directement 
+vous ouvrez messenger.jar, vous trouverez ce fichier dans ce répertoire/dossier. Si vous utilisez une forme 
+décompressée plutôt qu'une archive JAR, la même chose s'applique excepté le fait que Mozilla va directement 
 dans le répertoire sans regarder dans un fichier JAR.
 </p>
 
-<p>Si vous déplacez le fichier messenger.jar et mettez à jour son chemin dans la liste des
+<p>Si vous déplacez le fichier messenger.jar et mettez à jour son chemin d'accès dans la liste des
 paquetages chrome déclarés de Mozilla, la messagerie fonctionnera toujours puisqu'elle ne dépend pas de son
 emplacement d'installation. En utilisant les URLs chrome, nous pouvons laisser ce genre de détails à Mozilla.
 De même, si l'utilisateur change son thème, la partie 'skin' de l'URL chrome se traduit vers un ensemble
@@ -71,9 +70,9 @@ de fichiers différent, et pourtant les fichiers XUL et les scripts n'ont pas bes
 </p>
 
 <p>Mozilla est capable de comprendre quel langage et thème sont
-actuellement utilisés et applique les répertoires appropriés sur les URLS chrome.
+actuellement utilisés et applique les répertoires appropriés aux URLS chrome.
 Le fichier chrome.rdf dans le répertoire chrome et les fichiers contents.rdf sont
-là pour dire à Mozilla comment procéder. De cette façon, l'utilisateur peut
+là pour indiquer à Mozilla comment procéder. De cette façon, l'utilisateur peut
 utiliser n'importe quel thème ou langage
 mais les URLs qui référencent les fichiers chrome n'ont pas à être changés.
 Par exemple, le fichier navigator.css par défaut peut être référencé par&nbsp;:</p>
@@ -81,12 +80,12 @@ Par exemple, le fichier navigator.css par défaut peut être référencé par&nbsp;:<
 <pre><code>chrome://navigator/skin/navigator.css</code></pre>
 
 <p>Si vous changez le thème du navigateur, l'URL chrome ne change pas, même si
-l'emplacement réel des fichiers utilisés par le thème change.</p>
+l'emplacement réel des fichiers utilisés par le thème est différent.</p>
 
 <p>Le système chrome prend les sections du navigateur du contenu, du thème courant
-et du langage courant, et les groupe ensemble pour former une interface utilisateur.
+et du langage courant, et les regroupe pour former une interface utilisateur.
 Voici d'autres exemples, cette fois pour messenger. Notez qu'aucune des URLs ne spécifie
-un thème, une langue ou un repertoire spécifique.</p>
+un thème, une langue ou un répertoire spécifique.</p>
 
 <pre><code>chrome://messenger/content/messenger.xul
 chrome://messenger/content/mime.js
@@ -100,12 +99,12 @@ leur nom de paquetage est différent&nbsp;:</p>
 <pre><code>chrome://communicator/content/bookmarks/bookmarksManager.xul (Mozilla)
 chrome://browser/content/bookmarks/bookmarksManager.xul (Firefox)</code></pre>
 
-<p>Vous pouvez entrer les URLs chromes n'importe où les URLs normales peuvent être
+<p>Vous pouvez entrer les URLs chrome partout où les URLs normales peuvent être
 utilisées. Vous pouvez même les entrer directement dans la barre d'adresse d'une
 fenêtre du navigateur Mozilla.
 Si vous entrez une des URLs mentionnées ci-dessus dans la barre d'adresse du navigateur, vous
-devriez voir cette fenêtre apparaître comme une page Web le ferait et dans la plupart des cas, 
-dans une fenêtre séparée. Cependant quelques boîtes de
+devriez voir cette fenêtre apparaître comme une page Web le ferait et, dans la plupart des cas, 
+dans une fenêtre séparée. Cependant, quelques boîtes de
 dialogue pourraient ne pas bien fonctionner, si elles attendent
 des arguments fournis par la fenêtre qui les a ouvertes.
 
@@ -124,22 +123,22 @@ le bon répertoire. Pour le contenu, un fichier avec le nom du paquet et une exte
 XUL est choisi. Dans l'exemple ci-dessus, le fichier navigator.xul est choisi.
 Pour messenger, messenger.xul serait sélectionné.
 Lorsque vous créez vos propres applications, vous pourriez créer un fichier pour
-votre fenêtre principale avec le même nom que le paquetage. Ainsi il pourrait être
-appelé en utilisant une forme plus courte. C'est commode car ainsi tout ce qu'à
-besoin de savoir un utilisateur pour pouvoir ouvrir l'application, est le nom du paquetage.
+votre fenêtre principale avec le même nom que le paquetage. Ainsi, il pourrait être
+appelé en utilisant une forme plus courte. C'est commode car alors, tout ce qu'a
+besoin de connaître un utilisateur pour pouvoir ouvrir l'application, c'est le nom du paquetage.
 Bien sûr, pour les extensions qui modifient l'interface du navigateur, l'utilisateur
 n'aura pas besoin de connaître l'URL car l'extension sera présente elle-même dans
 l'interface utilisateur.</p>
 
-<p>Pour un thème,le fichier <em>paquetage</em>.css est choisi&nbsp;; pour une localisation, le fichier
+<p>Pour un thème, le fichier <em>paquetage</em>.css est choisi&nbsp;; pour une localisation, le fichier
 <em>paquetage</em>.dtd est choisi.</p>
 
 <p>Souvenez-vous, l'URL chrome n'est pas relative à un emplacement sur le disque. Les deux premières
 pièces sont le nom du paquetage et la partie (<var>content</var>, <var>skin</var>, ou <var>locale</var>).
-Bien qu'il soit commun de mettre les fichiers de contenu dans un répertoire appelé <var>content</var>,
-c'est purement une convention, et ces fichiers peuvent être placés dans une structure totalement
+Bien qu'il soit courant de mettre les fichiers de contenu dans un répertoire appelé <var>content</var>,
+c'est une simple convention, et ces fichiers peuvent être placés dans une structure totalement
 différente. La seule règle est que la partie nom du fichier de l'URL chrome se refère aux
-fichiers situés dans le même répertoire où le fichier associé contents.rdf est stocké.</p>
+fichiers situés dans le même répertoire que le fichier contents.rdf associé.</p>
 <hr />
 <p>Dans la section suivante, nous verrons comment créer des fichiers contents.rdf et
 des paquetages.</p>

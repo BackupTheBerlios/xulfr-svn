@@ -1,30 +1,29 @@
-
-    <p>Cette section va décrire comment positionner des items dans une pile.</p>
+    <p>Cette section va décrire comment positionner des éléments dans une pile (stack).</p>
 
     <h2>Placement des enfants d'une pile</h2>
 
     <p>Normalement, les éléments enfants d'une pile s'étirent
       pour s'ajuster à la dimension de la pile. Toutefois, vous pouvez
-      aussi placer ces enfants à des coordonnées spécifiées.
-      Par exemple, si la pile a deux boutons comme enfants, l'un deux peut être
+      aussi placer ces enfants à des coordonnées précises.
+      Par exemple, si la pile a deux boutons comme enfants, l'un d'eux peut être
       placé à 20 pixels du bord gauche et 50 pixels du bord supérieur.
       Le second bouton peut être placé à 100 pixels du bord
       gauche et 5 pixels du bord supérieur.</p>
 
     <p>La position d'un élément enfant doit être précisée
-      en pla&ccedil;ant deux attributs sur chaque élément. Pour
+      en plaçant deux attributs sur chaque élément. Pour
       le positionnement horizontal, utilisez l'attribut <code class="attribut">left</code>
       et pour le positionnement vertical, utilisez l'attribut <code class="attribut">top</code>.
-      Si vous ne mettez pas ces attributs sur un enfant de la pile, celui ci va
+      Si vous ne mettez pas ces attributs sur un enfant de la pile, celui-ci va
       s'étirer pour s'ajuster à la dimension de la pile.</p>
 
     <p>Exemple 4.2.1 : <a href="exemples/ex_bulletins_1.xul.txt">Source</a>
     <a onclick="window.open(this.href,'xulex','chrome,resizable'); return false;" href="exemples/ex_bulletins_1.xul">Voir</a></p>
 
     <pre><code>&lt;stack&gt;
-   &lt;button label=&quot;Goblins&quot; left=&quot;5&quot; top=&quot;5&quot;/&gt;
-   &lt;button label=&quot;Trolls&quot; left=&quot;60&quot; top=&quot;20&quot;/&gt;
-   &lt;button label=&quot;Vampires&quot; left=&quot;10&quot; top=&quot;60&quot;/&gt;
+   &lt;button label="Goblins" left="5" top="5"/&gt;
+   &lt;button label="Trolls" left="60" top="20"/&gt;
+   &lt;button label="Vampires" left="10" top="60"/&gt;
 &lt;/stack&gt;</code></pre>
 
     <p><img src="images/ex_4_4_1.png" class="screenshot-left" alt="" />La pile
@@ -37,17 +36,17 @@
       même des boîtes ou d'autres piles.</p>
 
     <p>La dimension d'une pile est déterminée par les positions
-      des ses éléments enfants. Elle est toujours dimensionnée
+      de ses éléments enfants. Elle est toujours dimensionnée
       pour que tous ses éléments enfants soient visibles. Ainsi,
-      si vous initialisez à l'attribut <code class="attribut">left</code>
-      d'un enfant la valeur de <var>400</var>, la pile aura une largeur d'environ
+      si vous initialisez l'attribut <code class="attribut">left</code>
+      d'un enfant à la valeur de <var>400</var>, la pile aura une largeur d'environ
       400 pixels plus la largeur de cet élément enfant. Vous pouvez
       outrepasser cette taille avec des propriétés de style variées
       telles que <code>width</code> et <code>max-width</code>.</p>
 
-    <p>Vous pouvez utilisez un script pour ajuster les valeurs des attributs
+    <p>Vous pouvez utiliser un script pour ajuster les valeurs des attributs
       <code class="attribut">left</code> et <code class="attribut">top</code>
-      et de ce fait, rendre les éléments mobile. Les piles ont l'avantage que
+      et de ce fait, rendre les éléments mobiles. Les piles présentent l'avantage suivant&nbsp;:
       lorsqu'un élément positionné de façon absolue change sa position,
       la position des autres éléments n'est pas affectée. Si vous essayez
       de déplacer des éléments dans une boîte normale, les autres éléments
@@ -58,14 +57,14 @@
       enfants se dessinent, ils sont affichés dans l'ordre où ils
       sont apparus dans la pile. De ce fait, le premier enfant d'une pile apparaît
       en arrière plan, suivi du second et ainsi de suite. Le dernier enfant
-      apparaît au premier plan. Vous pouvez utilisez les fonctions DOM pour
+      apparaît au premier plan. Vous pouvez utiliser les fonctions DOM pour
       modifier l'ordre des éléments.</p>
 
-    <p>Lorsqu'ils répondent aux évènements de la souris,
-      seuls les éléments au premier plan vont capturer les évènements
+    <p>Lorsqu'ils répondent aux événements de la souris,
+      les éléments au premier plan vont capturer les événements
       en premier. Cela signifie que si deux boutons se superposent, le bouton
       au premier plan va capturer le clic de la souris à l'endroit où
       il couvre l'autre bouton.</p>
 
 <hr />
-<p>La prochaine section décrit les onglets qui sont comme des piles mais fournissant leur propre navigation.</p>
+<p>La prochaine section décrit les onglets, qui sont comme des plateaux (deck) mais fournissent leur propre système d'utilisation.</p>

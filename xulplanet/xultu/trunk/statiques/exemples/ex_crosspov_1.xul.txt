@@ -5,9 +5,9 @@
 
 <toolbox id="navigator-toolbox">
   <toolbar id="findfile_toolbar">
-    <label control="findfile_filename" value="Recherche des fichiers nommés:"/>
+    <label control="findfile_filename" value="Recherche des fichiers nommés&nbsp;:"/>
     <textbox id="findfile_filename"/>
-    <label control="findfile_dir" value="Répertoire:"/>
+    <label control="findfile_dir" value="Répertoire&nbsp;:"/>
     <textbox id="findfile_dir"/>
     <button label="Parcourir..."/>
   </toolbar>

@@ -54,7 +54,7 @@ var treeView = {
   hasNextSibling: function(idx, after) {
     var thisLevel = this.getLevel(idx);
     for (var t = idx + 1; t < this.visibleData.length; t++) {
-      var nextLevel = this.getLevel(t)
+      var nextLevel = this.getLevel(t);
       if (nextLevel == thisLevel) return true;
       else if (nextLevel < thisLevel) return false;
     }

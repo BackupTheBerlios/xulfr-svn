@@ -1,4 +1,3 @@
-
 <p>Nous allons voir ici des caractéristiques supplémentaires sur les arbres.</p>
 
 <h2>Arbres hiérarchiques</h2>
@@ -26,10 +25,10 @@ réalise tout le travail difficile pour nous.
 <p>
 Pour créer un ensemble de rangées imbriquées, tout ce que nous devons faire est d'ajouter un second
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
-élement à l'intérieur du parent
+élément à l'intérieur du parent
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code>.
 Vous pouvez ensuite ajouter des éléments à l'intérieur
-pour spécifier les rangées fils d'un élément. Ne mettez pas d'élément
+pour spécifier les rangées filles d'un élément. Ne mettez pas d'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
 à l'intérieur de
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code> car
@@ -40,15 +39,15 @@ ceci ne marchera pas.
 Vous pouvez répéter ce processus pour créer les arbres profondément imbriqués. Essentiellement,
 un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code>
 peut contenir soit une simple ligne déclarée avec l'élément
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code>
-ou soit un ensemble de lignes déclarées avec l'élément 
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code>,
+soit un ensemble de lignes déclarées avec l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>.
 </p>
 
 <p>
-Il y a deux autres choses que vous devez faire pour vous assurer que la hiérarchie fonctionne correctement.
+Il y a deux autres choses à faire pour vous assurer que la hiérarchie fonctionne correctement.
 Premièrement, vous devez marquer l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code> 
-possèdant des fils comme conteneur. Il vous suffit d'ajouter l'attribut <code class="attribut">container</code> comme ceci&nbsp;:
+possédant des fils comme conteneur. Il vous suffit d'ajouter l'attribut <code class="attribut">container</code> comme ceci&nbsp;:
 </p>
 
 <pre><code>&lt;treeitem container="true"/&gt;</code></pre>
@@ -58,7 +57,7 @@ possèdant des fils comme conteneur. Il vous suffit d'ajouter l'attribut <code cl
 déplier ou replier les lignes intérieures. Vous pouvez faire que les lignes filles soient initialement 
 affichées en ajoutant l'attribut <code class="attribut">open</code>. Quand l'utilisateur
 déplie ou replie le parent, la fonction <code>toggleOpenState</code> de la vue est appelée
-pour basculer l'item de l'état ouvert vers fermé. Pour une vue d'arbre de type contenu, il sera
+pour basculer l'item de l'état ouvert vers l'état fermé. Pour une vue d'arbre de type contenu, il sera
 ajouté un attribut <code class="attribut">open</code> pour refleter l'état courant.</p>
 
 <p>Le second changement vous impose de mettre l'attribut <code class="attribut">primary</code>
@@ -106,13 +105,13 @@ via le petit menu déroulant à droite des colonnes.</p>
 &lt;/tree&gt;</code></pre>
 
 <p><img src="images/advtrees1.png" class="screenshot-right" alt="" />Cet exemple crée un arbre
-hiérarchique. Comme ce que l'on peut voir sur l'image, un petit signe plus ou moins (souvent appelé "twisty") est
+hiérarchique. Comme on peut le voir sur l'image, un petit signe plus ou moins (souvent appelé «&nbsp;twisty&nbsp;») est
 apparu sur la première ligne, indiquant qu'elle contient des lignes filles. En double-cliquant
-sur la ligne, l'utilisateur peut ouvrir ou fermer la liste. Les lignes filles sont indentées.
-Notez comment la ligne "Personnes" n'a besoin que d'une colonne.</p>
+sur la ligne, l'utilisateur ouvre ou ferme la liste. Les lignes filles sont indentées.
+Notez comment la ligne «&nbsp;Personnes&nbsp;» n'a besoin que d'une colonne.</p>
 
 <p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code> 
-externe contient une seul élément
+externe contient un seul élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code> 
 et un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechlidren">treechildren</a></code>.
 Le premier crée la donnée pour la ligne parente et le deuxième contient les items fils.</p>
@@ -130,24 +129,23 @@ qui devrait quand même être traité comme un conteneur. Par exemple, un répertoir
 vous pouvez ajouter à l'arbre. S'il est mis à <var>true</var>, l'utilisateur peut
 alors déplacer les en-têtes de colonne afin de réarranger l'ordre des colonnes.</p>
 
-<p>Un utilisateur voudra également changer la largeur des colonnes. Il vous suffit de placer
-un élement <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/splitter">splitter</a></code>
-entre chaque élement <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>. 
+<p>Un utilisateur voudra également pouvoir changer la largeur des colonnes. Il vous suffit de placer
+un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/splitter">splitter</a></code>
+entre chaque élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>. 
 Une petite encoche apparaissant entre chaque en-tête de colonne pourra être déplacée par
 l'utilisateur pour changer la largeur d'une colonne.
 Vous pouvez utiliser la classe de style <var>tree-splitter</var> pour masquer l'encoche bien que la colonne
 puisse encore être retaillée.</p>
 
-<p>Vous pouvez définir une largeur minimale ou maximale à une colonne, en utilisant les attributs
+<p>Vous pouvez affecter une largeur minimale ou maximale à une colonne, en utilisant les attributs
 <code class="attribut">minwidth</code> et <code class="attribut">maxwidth</code> sur les en-têtes de colonnes.</p>
 
-<p>Vous pouvez mettre l'attribut <code class="attribut">hidden</code> à <var>true</var> pour avoir une colonne
-cachée par défaut. L'utilisateur peut choisir d'afficher la colonne en la sélectionnant dans la liste
-déroulante à la fin de la ligne des en-têtes de colonne.</p>
+<p>Vous pouvez mettre l'attribut <code class="attribut">hidden</code> à <var>true</var> pour cacher par défaut une colonne. L'utilisateur pourra afficher la colonne en la sélectionnant dans la liste
+déroulante au bout de la ligne des en-têtes de colonne.</p>
 
-<p>Comme avec tous les éléments, l'attribut <code class="attribut">persist</code> peut être utilisé pour sauvegarder
-l'état des colonnes entre chaque session. Ainsi, la façon dont l'utilisateur aura choisi l'affichage des colonnes,
-sera automatiquement sauvegardé pour sa prochaine session. Vous pouvez sauvegarder plusieurs attributs comme
+<p>Comme avec tous les éléments XUL, l'attribut <code class="attribut">persist</code> peut être utilisé pour sauvegarder
+l'état des colonnes entre chaque session. Ainsi, la façon dont l'utilisateur aura choisi l'affichage des colonnes 
+sera automatiquement sauvegardé pour sa prochaine session. Vous pouvez sauvegarder plusieurs attributs, comme
 indiqué dans l'exemple ci-dessous&nbsp;:</p>
 
 <p>Exemple 8.2.2&nbsp;: 

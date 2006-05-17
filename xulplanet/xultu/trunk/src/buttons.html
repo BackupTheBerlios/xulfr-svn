@@ -1,4 +1,3 @@
-
 <p>
 Dans cette section, nous regarderons comment ajouter quelques boutons simples dans une fenêtre.
 </p>
@@ -6,13 +5,13 @@ Dans cette section, nous regarderons comment ajouter quelques boutons simples da
 <h2>Ajouter des boutons dans une fenêtre</h2>
 
 <p>
-La fenêtre que nous avons créée jusqu'ici ne comprenait rien, aussi elle n'est pas encore très
+La fenêtre que nous avons créée jusqu'ici était vide, aussi n'est-elle pas encore très
 intéressante. Dans cette section, nous ajouterons deux boutons, un bouton de recherche et un
 bouton d'annulation. Nous apprendrons également une manière simple de les positionner dans la fenêtre.
 </p>
 
 <p>
-Comme pour HTML, XUL dispose d'un certain nombre de balises qui peut être utilisé pour créer des éléments
+Comme pour HTML, XUL dispose d'un certain nombre de balises qui peuvent être utilisées pour créer des éléments
 d'interface utilisateur. La plus basique de toute est la balise
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>.
 Cet élément est employé pour créer de simples boutons.
@@ -20,9 +19,9 @@ Cet élément est employé pour créer de simples boutons.
 
 <p>
 L'élément bouton a deux propriétés principales&nbsp;: un libellé et une image. Vous avez besoin
-soit de l'un, soit de l'autre soit des deux en même temps. Ainsi, un bouton peut avoir
+soit de l'un, soit de l'autre, soit des deux en même temps. Ainsi, un bouton peut avoir
 seulement un libellé, seulement une image ou un libellé et une image à la fois. Les boutons sont
-souvent utilisés pour valider ou annuler dans une boite de dialogue, par exemple.
+souvent utilisés dans une boite de dialogue pour valider ou annuler, par exemple.
 </p>
 
 <p>
@@ -44,15 +43,14 @@ Les attributs sont définis comme suit (ils sont tous optionnels)&nbsp;:
 
 <dl>
   <dt><code class="attribut">id</code></dt>
-  <dd>Identifiant unique vous permettant d'identifier le bouton. Vous
-      verrez cet attribut sur tous les éléments. Vous pouvez l'utiliser si vous voulez
+  <dd>Identifiant unique vous permettant d'identifier le bouton. On
+      trouve cet attribut sur tous les éléments XUL. Vous pouvez l'utiliser si vous voulez
       vous référer au bouton dans une feuille de style ou dans un script. Cependant, vous
-      devriez ajouter cet attribut à presque tous les éléments. Il ne l'est pas toujours
-      tout le long de ce tutoriel, pour des raisons de simplicité.
+      devriez ajouter cet attribut à presque tous les éléments. Notez que pour des raisons de simplicité, il n'est pas toujours spécifié dans les exemples de ce tutoriel.
   </dd>
   <dt><code class="attribut">class</code></dt>
    <dd>La classe de style du bouton. Elle fonctionne de la même manière qu'en HTML. Elle est
-      employée pour indiquer le style avec lequel le bouton apparaît. Dans le cas présent, la
+      employée pour indiquer l'aspect du bouton dans la fenêtre. Dans le cas présent, la
       valeur <var>dialog</var> est utilisée. Dans la plupart des cas, vous
       n'emploierez pas de classe pour un bouton.
   </dd>
@@ -76,8 +74,8 @@ Les attributs sont définis comme suit (ils sont tous optionnels)&nbsp;:
 
   <dt><code class="attribut">accesskey</code></dt>
    <dd>Cet attribut doit spécifier une lettre qui est employée comme raccourci clavier. Cette
-      lettre doit apparaître dans le libellé et sera typiquement soulignée. Quand
-      l'utilisateur appuie sur la touche <kbd>alt</kbd> (ou une touche semblable,
+      lettre doit apparaître, généralement soulignée, dans le libellé. Quand
+      l'utilisateur presse la touche <kbd>alt</kbd> (ou une touche équivalente,
       qui varie en fonction de la plate-forme) et la touche de raccourci, à partir de
       n'importe où dans la fenêtre, le focus sera mis sur le bouton.
   </dd>
@@ -85,17 +83,17 @@ Les attributs sont définis comme suit (ils sont tous optionnels)&nbsp;:
 
 <p class="note">
 Notez qu'un bouton supporte plus d'attributs que ceux énumérés ci-dessus. Les autres
-seront vus plus tard.
+seront abordés plus tard.
 </p>
 
 <!--<p>
 Par défaut, les boutons apparaîtront dans la fenêtre sans aucun aspect spécial. Seuls
 le texte et l'image s'afficheront avec une bordure surélevée autour d'eux. Dans certains cas,
-comme un bouton OK, ceci peut vous suffir. Dans d'autres cas cependant, vous
+comme un bouton OK, ceci peut vous suffire. Dans d'autres cas cependant, vous
 pouvez vouloir une bordure différente autour du bouton. Ou bien, vous pouvez
 vouloir que le texte s'illumine quand l'utilisateur déplace la souris au-dessus du bouton.
-La manière habituelle de faire ceci est tout comme en HTML, en changeant les styles d'un
-bouton grâce aux feuilles de style ou à des scripts.
+La manière habituelle de le faire consiste, tout comme en HTML, à changer les styles d'un
+bouton grâce aux feuilles de style ou à faire appel à des scripts.
 </p>-->
 
 <p>
@@ -114,13 +112,13 @@ Quelques exemples de boutons&nbsp;:
 
 <p><img src="images/buttons1.png" alt="" class="screenshot-left" />
 Les exemples ci-dessus produiront des boutons comme dans la capture.
-Le premier bouton est un bouton normal. Le deuxième bouton est désactivé
-aussi il apparaît grisé. L'image apparaît ici avec le thème modern.
+Le premier bouton est un bouton normal. Le second bouton est désactivé,
+aussi apparaît-il grisé. L'image apparaît ici avec le thème modern.
 D'autres thèmes peuvent donner un rendu différent de ces boutons.
 </p>
 
 <div class="task">
-<h2>Bouton dans la boite rechercher</h2>
+<h2>Bouton dans la boîte rechercher</h2>
 <p>
 Nous commencerons par créer un bouton simple de recherche qui permettra de
 lancer la recherche de fichiers. Le code de l'exemple ci-dessous nous montre
@@ -132,7 +130,7 @@ comment faire&nbsp;:
 
 <p class="note">
 Si vous utilisez Firefox 1.0, notez qu'il ne vous est pas permis d'ouvrir des fenêtres
-chrome à partir de pages Web. Aussi le lien "voir" dans le tutoriel n'ouvrira pas une
+chrome à partir de pages Web. Aussi le lien «&nbsp;voir&nbsp;» dans le tutoriel n'ouvrira pas une
 fenêtre de navigateur normale. À cause de cela, les boutons apparaîtront agrandis le long
 de la fenêtre. Vous pouvez ajouter <code>align="start"</code> sur la balise
 <code class="tag">window</code> pour éviter cette déformation.</p>
@@ -176,7 +174,7 @@ dans le fichier XUL. Nous devrions plutôt employer des entités de sorte
 que le texte puisse être facilement traduit.
 </p>
 
-<p>L'exemple de la boite de recherche&nbsp;:
+<p>L'exemple de la boîte de recherche&nbsp;:
 <a href='exemples/findfile/findfile-buttons.xul.txt'>Source</a>
 <a href="exemples/findfile/findfile-buttons.xul" onclick="window.open(this.href,'xulff','chrome,resizable'); return false;">Voir</a>
 </p>
@@ -186,7 +184,7 @@ que le texte puisse être facilement traduit.
 
 <hr />
 <p>
-Dans la section suivante, nous découvrirons comment ajouter des étiquettes
+Dans la section suivante, nous découvrirons comment ajouter des libellés
 et des images dans une fenêtre XUL.
 </p>
 

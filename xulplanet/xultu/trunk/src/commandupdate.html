@@ -1,4 +1,3 @@
-
 <p>
 Dans cette section, nous verrons comment mettre à jour des commandes.
 </p>
@@ -9,10 +8,10 @@ Dans cette section, nous verrons comment mettre à jour des commandes.
 Si une commande a un attribut <code class="attribut">oncommand</code>, vous pouvez simplement
 l'appeler en utilisant la méthode <code>doCommand</code> de la commande ou
 un élément qui lui est attaché. Pour d'autres commandes, vous aurez besoin de quelques lignes
-de codes additionnelles. Vous devrez passer par ces étapes spéciales dans le cas où les commandes
-appelées sont implémentées par un contrôleur. De plus, vous aurez besoin de le faire dans le cas où
+de codes supplémentaires. Vous devrez passer par ces étapes spéciales dans le cas où les commandes
+appelées sont implémentées par un contrôleur. Vous aurez aussi besoin de le faire dans le cas où
 vous créez votre propre menu de commandes, par exemple pour implémenter les commandes du menu d'édition
-dans votre propre application.
+de votre propre application.
 </p>
 
 <p>
@@ -21,27 +20,26 @@ le contrôleur demandé et d'appeler la commande. Une manière simple de le faire e
 </p>
 
 <pre><code>var controller = document.commandDispatcher.getControllerForCommand("cmd_paste");
-if (controller &amp;&amp; controller.isCommandEnabled("cmd_paste"))
+if (controller && controller.isCommandEnabled("cmd_paste"))
   controller.doCommand(command);
 }
 </code></pre>
 
 <p>
 Le code ci-dessus recherche d'abord le contrôleur pour la commande 'cmd_paste' grâce au répartiteur de
-commandes. Puis, il vérifie pour voir si la commande est activée, et enfin exécute la commande
+commandes. Puis, il teste si la commande est activée, et enfin exécute la commande
 utilisant la méthode <code>doCommand</code> du contrôleur. Notez que nous n'avons
-pas besoin de préciser l'élément ou le contrôleur à utiliser. Le répartiteur de commandes se charge
-de cette partie. En outre, nous pourrions juste appeler <code>doCommand</code> sans
-vérifier si la commande est activée ou non, bien que nous ne le devrions probablement pas.
+pas besoin de préciser l'élément ou le contrôleur à utiliser. Le répartiteur de commandes s'en charge. En outre, nous pourrions juste appeler <code>doCommand</code> sans
+vérifier si la commande est activée ou non, mais il vaut mieux le faire.
 </p>
 
 <p>
-Le code ci-dessus est tellement générique qu'il peut être une fonction qui prenne en paramètre un
+Le code ci-dessus est tellement générique qu'il peut être une fonction qui prend en paramètre un
 argument et exécute cette commande. Cette fonction pourrait être ainsi réutilisée pour toutes les
-commandes. En fait, c'est tellement commun que Mozilla inclue une bibliothèque qui ne fait que ça.
+commandes. En fait, c'est tellement commun que Mozilla inclut une bibliothèque qui ne fait que ça.
 Si vous incluez le script 'chrome://global/content/globalOverlay.js' dans un fichier XUL, vous
 pouvez appeler la méthode <code class="attribut">goDoCommand</code> qui exécute la commande passée
-en argument. Le code pour cette fonction n'est long que de quelques lignes, ainsi vous pourriez
+en argument. Le code pour cette fonction ne fait que quelques lignes, ainsi vous pourriez
 l'inclure directement dans votre code si pour certaines raisons vous ne souhaitez pas inclure la
 bibliothèque.
 </p>
@@ -53,7 +51,7 @@ bibliothèque.
 </code></pre>
 
 <p>
-L'exemple ci-dessus va implémenter un bouton pour "Coller". Il est relié à la commande qui va appeler
+L'exemple ci-dessus va implémenter un bouton pour «&nbsp;Coller&nbsp;». Il est relié à la commande qui va appeler
 la commande du contrôleur concerné lorsqu'il est appelé. Le code ci-dessus est tout ce dont vous
 avez besoin pour implémenter la fonctionnalité de la commande Coller dans votre application. La
 seule autre chose dont vous avez besoin est de vous assurer que le statut de la commande Coller qui
@@ -66,13 +64,13 @@ est activé, et donc du bouton, est mis à jour au bon moment, comme décrit ci-des
 Un dispositif de mise à jour de commande est un dispositif spécial de l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/commandset">commandset</a></code>
 qui lui permet de mettre à jour les statuts activés d'une ou plusieurs commandes lorsque certains
-évènements se passent. Vous devrez y pensez lorsqu'une commande est valide et lorsqu'elle ne l'est
+événements se produisent. Vous devrez y pensez lorsqu'une commande est valide et lorsqu'elle ne l'est
 pas. De plus, vous devrez considérer quand l'état pourrait changer et quand les commandes devraient
 être mises à jour.
 </p>
 
 <p>
-Par exemple, la commande "Coller" est valide lorsque le champ de saisie de texte a le focus et qu'il y a quelque
+Par exemple, la commande «&nbsp;Coller&nbsp;» est valide lorsque le champ de saisie de texte a le focus et qu'il y a quelque
 chose dans le presse-papiers à coller. La commande deviendra active chaque fois que le champ de saisie
 aura le focus et lorsque le contenu du presse-papiers changera. Un dispositif de mise à jour de
 contenu surveillera ces situations et le code qui active et désactive les commandes pourra être
@@ -92,15 +90,15 @@ Un simple dispositif de mise à jour de commandes ressemble à ceci&nbsp;:
 <p>
 Un dispositif de mise à jour de commandes est indiqué en utilisant l'attribut <code
 class="attribut">commandupdater</code>, qui devrait être déclaré à <var>true</var>. L'attribut <code
-class="attribut">events</code> est utilisé pour lister les évènements que le dispositif de mise à
-jour de commandes surveille. Vous pouvez spécifier de multiples évènements en les séparant par des
+class="attribut">events</code> est utilisé pour lister les événements que le dispositif de mise à
+jour de commandes surveille. Vous pouvez spécifier de multiples événements en les séparant par des
 virgules. Dans l'exemple ci-dessus, le dispositif de mise à jour de commandes surveille les
-évènements de focus. Il a pour effet de mettre à jour les commandes lorsqu'un élément reçoit le
+événements de focus. Il a pour effet de mettre à jour les commandes lorsqu'un élément reçoit le
 focus.
 </p>
 
 <p>
-Lorsqu'un évènement de focus se produit, le code dans l'attribut <code
+Lorsqu'un événement de focus se produit, le code dans l'attribut <code
 class="attribut">oncommandupdate</code> est appelé. Dans l'exemple, la méthode <code>goUpdateCommand</code>, qui
 est une fonction provenant du script globalOverlay.js décrit plus tôt, est appelée. Elle va mettre à jour la
 commande et activer ou désactiver les items de boutons et de menus nécessaires. Le code qui est derrière est
@@ -110,15 +108,15 @@ méthode <code>goUpdateCommand</code> une fois pour chaque commande.
 </p>
 
 <p class="note">
-Notez que le dispositif de mise à jour de commandes recevra les notifications de tous les évènements
-de focus sur tous les éléments, même si d'autres gestionnaires d'évènements répondent à l'évènement.
-Essentiellement, un dispositif de mise à jour de commandes est comme un gestionnaire global
-d'évènements.
+Notez que le dispositif de mise à jour de commandes recevra les notifications de tous les événements
+de focus sur tous les éléments, même si d'autres gestionnaires d'événements répondent à l'événement.
+Un dispositif de mise à jour de commandes est par essence un gestionnaire global
+d'événements.
 </p>
 
 <p>
-Les dispositifs de mise à jour de commandes disposent de plusieurs évènements pouvant répondre à ceux
-qui sont listés ci-dessous. Il est également possible de créer le votre.
+Les dispositifs de mise à jour de commandes disposent de plusieurs événements pouvant répondre à ceux
+qui sont listés ci-dessous. Il est également possible de créer le vôtre.
 </p>
 
 <ul>

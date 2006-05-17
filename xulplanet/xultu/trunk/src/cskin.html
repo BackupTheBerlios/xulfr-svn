@@ -1,4 +1,3 @@
-
 <p>Cette section décrit comment créer un thème simple. Nous
 ne l'appliquerons qu'à la fenêtre de recherche de fichiers.</p>
 
@@ -8,8 +7,8 @@ ne l'appliquerons qu'à la fenêtre de recherche de fichiers.</p>
 un thème que nous pourrons lui appliquer. Normalement, un thème doit
 s'appliquer à l'application entière, mais, pour plus de facilité, nous allons
 nous concentrer sur la boîte de dialogue de recherche de fichiers. Pour cette raison,
-nous n'allons modifier que le fichier findfile.css plutôt que le fichier
-global.css. Cette section suppose que vous démarriez avec le thème Classic.
+nous n'allons modifier que le fichier 'findfile.css' plutôt que le fichier
+'global.css'. Cette section suppose que vous démarriez avec le thème Classic.
 Si vous le souhaitez, faites une copie des fichiers utilisés par la boîte de dialogue de
 recherche de fichiers avant de les modifier.</p>
 
@@ -19,10 +18,10 @@ recherche de fichiers avant de les modifier.</p>
 <p>Note du traducteur&nbsp;: Pour les versions récentes de mozilla (> 1.6) et de
 firefox (>0.8), avec le fichier findfile.css tel qu'il est, il se peut que vous n'obteniez pas un design identique à ce que montre l'image. En effet, dans le thème classic, des styles
 <code>-moz-appearance</code> ont été ajoutés depuis aux différents éléments, leur permettant d'avoir
-le même aspect que les éléments natifs de l'interface graphique utilisée (windows ou kde, macos, etc..).
+le même aspect que les éléments natifs de l'interface graphique utilisée (windows ou kde, macos, etc.).
 Ce style empêche certains styles d'être appliqués correctement.</p>
-<p>Pour pouvoir modifier complétement l'apparence des éléments utilisés dans notre exemple et
-afin de suivre le tutoriel, il a été rajouté le code suivant dans la feuille de style de l'exemple&nbsp;:</p>
+<p>Pour pouvoir modifier complètement l'apparence des éléments utilisés dans notre exemple et
+afin de suivre le tutoriel, il a été rajouté le code suivant dans la feuille de styles de l'exemple&nbsp;:</p>
 <pre><code>tab, button, menulist, menubar,menupopup,toolbar,tabpanels {
  -moz-appearance:none;
 }
@@ -32,7 +31,7 @@ afin de suivre le tutoriel, il a été rajouté le code suivant dans la feuille de 
 <p>Vous devez créer un fichier 'findfile.css' dans un thème personnalisé. Ou
 vous pouvez le placer temporairement dans le répertoire "content" et y faire
 référence en utilisant une directive de la feuille de styles. Vous pouvez
-modifier le fichier findfile.css existant directement pour voir à quoi cela ressemble,
+modifier le fichier 'findfile.css' existant directement pour voir à quoi cela ressemble,
 ou vous pouvez créer un thème personnalisé et y faire un lien. Pour créer un
 thème, faites ce qui suit&nbsp;:</p>
 
@@ -45,7 +44,7 @@ thème, faites ce qui suit&nbsp;:</p>
   vers le répertoire que vous avez créé. Vérifiez bien que vous avez mis un slash à la fin.</li>
 </ol>
 
-<p>Copiez le fichier findfile.css original dans le nouveau répertoire. Nous
+<p>Copiez le fichier 'findfile.css' original dans le nouveau répertoire. Nous
 l'utiliserons comme base pour le nouveau thème. Nous pourrons y faire référence
 par la suite en utilisant l'URL <var>chrome://findfile/skin/findfile.css</var>. Décidons
 d'abord quels types de changements nous voulons effectuer. Nous allons faire de
@@ -53,7 +52,7 @@ simples changements de couleurs, modifier les styles des boutons et modifier un
 peu l'espacement. Commençons par les menus, les barres d'outils et le panneau
 global des onglets.</p>
 
-<p>L'ajout des règles de styles suivantes à findfile.css provoquera les
+<p>L'ajout des règles de styles suivantes à 'findfile.css' provoquera les
 changements montrés dans l'image qui suit.</p>
 
 <pre><code>
@@ -91,8 +90,8 @@ href="http://xulfr.org/wiki/Reference/Xul/caption">caption</a></code> a aussi
 
 <p>La première règle au-dessus (pour <code>window > vbox</code>) spécifie que la boîte
 enfant de la fenêtre principale a une couleur différente. Ce n'est probablement pas la
-meilleure façon de procéder. Nous devrions modifier la fenêtre et utiliser une classe
-de style à la place. C'est ce que nous allons faire. De cette manière, nous
+meilleure façon de procéder. Nous devrions modifier la fenêtre et plutôt utiliser une classe
+de style. C'est ce que nous allons faire. De cette manière, nous
 pourrons modifier le code XUL sans avoir besoin de conserver la boîte comme premier
 élément enfant de la fenêtre.</p>
 
@@ -127,13 +126,13 @@ tab[selected="true"] {
 </code></pre>
 
 <p>Deux règles changent l'apparence normale de l'élément <code class="tag"><a
-href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>, la première met un
-arrondi sur le premier onglet et la deuxième met un arrondi sur le dernier. On
-utilise ici une règle de styles spéciale de Mozilla, <code>-moz-border-radius</code>,
+href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>. La première met un
+arrondi sur le premier onglet et la seconde met un arrondi sur le dernier. On
+utilise ici une règle de styles propre à Mozilla, <code>-moz-border-radius</code>,
 qui crée des coins arrondis.
 La bordure supérieure gauche du premier onglet et la bordure
-supérieure droite du deuxième onglet sont arrondies de quatre pixels et les
-autres coins sont arrondis de zéro pixels, ce qui est équivaut à aucun
+supérieure droite du second onglet sont arrondies de quatre pixels et les
+autres coins sont arrondis de zéro pixels, ce qui équivaut à aucun
 arrondi. Augmentez ces valeurs pour un arrondi plus prononcé et diminuez-les pour une
 apparence plus rectangulaire.</p>
 
@@ -169,7 +168,7 @@ une partie d'une image. Vous pouvez vous la représenter comme un découpage de
 l'image. Vous mettez comme valeur de la propriété une position et une taille
 comprise dans une image et le bouton n'affichera que cette section de l'image.
 Cette technique vous permet d'utiliser la même image pour plusieurs boutons et de mettre
-une portion différente pour chacun. Quand vous avez beaucoup de boutons, avec
+une portion différente pour chacun d'entre eux. Quand vous avez beaucoup de boutons, avec
 chacun d'eux des états pour hover, active et disabled, elle fait gagner de l'espace qui
 serait sinon occupé par plusieurs images. Dans le code ci-dessus, nous
 utilisons la même image pour tous les boutons, mais nous mettons une portion
@@ -185,13 +184,13 @@ vous ne verrez pas les images des boutons, car Mozilla Composer n'est livré qu'a
 <code>-moz-box-orient</code> est utilisée pour orienter le
 bouton verticalement, pour que l'image apparaisse au-dessus de son libellé. Cette
 propriété a la même signification que l'attribut <code
-class="attribut">orient</code>. Elle est pratique comme le thème ne peut pas
+class="attribut">orient</code>. Elle est pratique puisque le thème ne peut pas
 modifier le code XUL. La plupart des attributs de l'élément <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code> ont des propriétés CSS
 qui leur correspondent.</p>
 
 <p>Nous allons maintenant faire quelques changements aux boutons situés en bas
-de la boîte de dialogue, en réutilisant à nouveau des icônes de Mozilla pour gagner du
+de la boîte de dialogue, en réutilisant des icônes de Mozilla pour gagner du
 temps. Si vous créez votre propre thème, vous aurez besoin de créer de nouvelles
 icônes ou de copier les icônes dans de nouveaux fichiers. Si vous suivez
 l'exemple de cette section, copiez juste les fichiers vers votre nouveau thème
@@ -213,11 +212,11 @@ button:hover {
 </code></pre>
 
 <p><img class="screenshot-right" alt="" src="images/cskin5.jpg" />Nous ajoutons
-des images aux boutons et mettons le texte du bouton Rechercher en gras pour
+des images aux boutons et mettons le texte du bouton «&nbsp;Rechercher&nbsp;» en gras pour
 indiquer que c'est le bouton par défaut. La dernière règle s'applique aux
 boutons quand la souris les survole (état hover). Nous mettons une
 couleur de texte bleu foncé dans ce cas. Finalement, quelques changements
-mineurs de l'espacement autour des items, par l'utilisation de marges&nbsp;:</p>
+mineurs de l'espacement autour des éléments, par l'utilisation de marges&nbsp;:</p>
 
 <pre><code>
 tabbox {
@@ -250,7 +249,7 @@ différentes entre les cases à cocher de la fenêtre de recherche de fichiers et
 celles d'autres fenêtres. Ce changement devrait vraiment
 être intégré dans la feuille de styles globale.</p>
 
-<p>Essayez de déplacer les styles CSS de findfile.css dans global.css puis
+<p>Essayez de déplacer les styles CSS de 'findfile.css' dans 'global.css' puis
 regardez les fenêtres de dialogue de Mozilla (Le visualisateur de cookie est un
 bon exemple). Vous remarquerez qu'elles ont adopté les règles que nous avons
 ajoutées. Certaines des règles entrent en conflit avec celles déjà dans les
@@ -261,9 +260,9 @@ changements avec les règles existantes.</p>
 
 <p>Pour une meilleure adaptation du thème graphique, il vaut mieux déclarer les règles de styles
 liées à l'apparence dans le répertoire global plutôt que dans des fichiers de
-styles individuels. Les couleurs, les polices de caractère et
+styles séparés. Les couleurs, les polices de caractère et
 l'apparence générale des composants graphiques doivent y être inclus. Si vous modifiez la couleur d'un élément dans
-un fichier de thème local (comme findfile.css), la fenêtre de dialogue peut
+un fichier de thème local (comme 'findfile.css'), la fenêtre de dialogue peut
 paraître bizarre si l'utilisateur change son style global. N'espérez pas
 que l'utilisateur utilise le thème par défaut.</p>
 

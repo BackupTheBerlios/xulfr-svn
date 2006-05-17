@@ -1,6 +1,5 @@
-
 <p>Nous avons déjà vu beaucoup de fonctionnalités sur les modèles de boîtes. Dans cette section, nous
-verrons quelques détails supplémentaires en s'appuyant sur des exemples.
+verrons quelques détails supplémentaires ne nous appuyant sur des exemples.
 </p>
 
 <h2>Plus de détails sur l'affichage</h2>
@@ -26,9 +25,9 @@ Exemple 3.3.1&nbsp;:
 </code></pre>
 
 <p>
-Dans l'exemple ci-dessus, les trois éléments se redimensionnent eux même car il sont tous flexibles.
+Dans l'exemple ci-dessus, les trois éléments se redimensionnent eux-mêmes car il sont tous flexibles.
 Les deux boutons indiquent une largeur minimum de 100 pixels. Les deux boutons ne seront jamais plus
-petits que cette taille mais ils pourront toujours s'élargir. Ici la fenêtre doit apparaître avec une
+petits que cette taille mais ils pourront toujours s'élargir. Ici, la fenêtre doit apparaître avec une
 largeur d'un peu plus de 200 pixels.
 C'est suffisant pour les deux boutons. Car si les trois éléments sont flexibles, ils ne nécessitent pas
 pour autant plus de place, la flexibilité n'ajoute pas d'espace supplémentaire.
@@ -41,10 +40,10 @@ Comme il est montré dans l'image ci-dessus, il y a deux boutons qui s'agrandisse
 pour remplir leur élément conteneur, qui dans ce cas est le
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code>.
 L'attribut <code class="attribut">align</code> contrôle ce comportement sur une boîte horizontale.
-Vous pouvez aussi empecher cet étirement en précisant une hauteur maximale sur l'élément ou
-mieux, sur la boîte elle même. Si une boîte a une hauteur maximale, les éléments qu'elle contient
+Vous pouvez aussi empêcher cet étirement en précisant une hauteur maximale sur l'élément ou
+mieux, sur la boîte elle-même. Si une boîte a une hauteur maximale, les éléments qu'elle contient
 sont contraints en hauteur par celle-ci. Cependant, le problème est que vous devez connaître au préalable
-la taille d'un élément pour pouvoir le spécifier à la la boîte. L'exemple suivant montre l'utilisation d'un
+la taille d'un élément pour pouvoir le spécifier à la boîte. L'exemple suivant montre l'utilisation d'un
 d'attribut <code class="attribut">align</code>.
 </p>
 
@@ -63,10 +62,10 @@ Exemple 3.3.2&nbsp;:
 
 <p>
 Pour parfaire une mise en page complexe, vous devrez généralement ajouter des boîtes imbriquées,
-spécifier une taille minimum et maximum sur quelques éléments, et rendre certains éléments flexibles.
+spécifier une taille minimale et maximale pour quelques éléments, et rendre certains éléments flexibles.
 La meilleure interface est celle qui peut être affichée sans problème dans différentes tailles.
 Le modèle de boîte peut être difficile à appréhender si vous n'essayez pas différentes choses
-par vous même.
+par vous-même.
 </p>
 
  <p>
@@ -100,7 +99,7 @@ Voici une courte description des deux types de boîtes&nbsp;:
 Vous pouvez mettre des boîtes n'importe où dans un fichier XUL, même dans un élément HTML comme une table.
 Cependant, l'affichage sera en partie dépendant de l'élément HTML. Cela signifie que
 l'attribut <code class="attribut">flex</code> risque de
-ne pas réagir exactement comme vous le voudriez. Rappelez vous que la flexibilité n'a de sens que pour
+ne pas réagir exactement comme vous le voudriez. Rappelez-vous que la flexibilité n'a de sens que pour
 les éléments qui sont directement à l'intérieur d'une boîte, ou d'un élément qui est assimilé à une boîte.
 </p>
 
@@ -143,7 +142,7 @@ une largeur de 5 pixels. Vous pourriez aussi utiliser les marges (avec la propri
 Cet exemple propose une boîte horizontale flexible contenant deux boutons.
 La boîte possède l'attribut <code class="attribut">pack</code> qui est utilisé pour centrer les
 boutons horizontalement.
-L'attribut <code class="attribut">align</code> aligne quant à lui les boutons verticalement. Le résultat
+L'attribut <code class="attribut">align</code>, quant à lui, aligne verticalement les boutons. Le résultat
 est que les boutons seront centrés dans la boîte dans les deux directions. Cet exemple
 fonctionnera aussi avec une boîte verticale, le second bouton sera alors sous le premier, au lieu
 d'être à coté de lui.
@@ -177,7 +176,7 @@ d'être à coté de lui.
 </code></pre>
 
 <p>
-Ici, deux boîtes verticales sont créées, une pour le champs texte et l'autre
+Ici, deux boîtes verticales sont créées, une pour le champ texte et l'autre
 pour la case à cocher et le bouton de recherche. La boîte de gauche a une flexibilité 3 fois
 plus grande que celle de droite donc elle prendra toujours 3 fois plus de place quand la taille
 de la fenêtre augmentera. La boîte de droite force une largeur minimum de 150 pixels.
@@ -186,18 +185,17 @@ de la fenêtre augmentera. La boîte de droite force une largeur minimum de 150 pi
 <p>
 Le champ de saisie est flexible donc il s'ajustera à la taille de la fenêtre.
 Il impose aussi une largeur minimum de 100 pixels. La case à cocher
-apparaît dans la boîte de droite avec son libellé. Juste en dessous de la case à cocher il y a
+apparaît dans la boîte de droite avec son libellé. Juste en dessous de la case à cocher, il y a
 un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> (espacement).
-L'espacement s'agrandira ou retrécira mais n'excédera pas 30 pixels. Le résultat est que
+L'espacement grandira ou rétrécira mais n'excédera pas 30 pixels. Le résultat est que
 la case à cocher et le bouton de recherche seront séparés par un espace qui ne fera pas plus de 30 pixels.
 </p>
 
 <p>
-La seconde boîte a un alignement de valeur <var>start</var>. Cela a pour effet
-que les trois éléments fils seront alignés sur le bord gauche. Si elle n'était pas précisée, la valeur par
+La seconde boîte a un alignement de valeur <var>start</var>. Les trois éléments fils seront par conséquent alignés sur le bord gauche. Si l'alignement n'était pas précisé, sa valeur par
 défaut serait <var>stretch</var>, ce qui aurait pour effet de positionner les éléments fils les
 uns à coté des autres horizontalement.
-Parce que nous ne voulons pas que le bouton de recherche change de taille, nous devons alors préciser un
+Puisque nous ne voulons pas que le bouton de recherche change de taille, nous devons préciser un
 alignement.
 </p>
 

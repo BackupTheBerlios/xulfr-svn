@@ -1,4 +1,3 @@
-
 <p class="note">Attention, cette page est maintenue dans la version française, 
 mais elle a été enlevée par son auteur sur la version anglaise.</p>
 
@@ -18,7 +17,7 @@ presse-papiers. Ce composant implémente l'interface <code>nsIClipboardHelper</co
 
 <pre><code>const gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
   .getService(Components.interfaces.nsIClipboardHelper);
-gClipboardHelper.copyString("Put me on the clipboard, please.");
+gClipboardHelper.copyString("Mettez-moi dans le presse-papiers, s'il vous plaît.");
 </code></pre>
 
 <p>
@@ -42,12 +41,12 @@ les données&nbsp;:
 
 <ol>
   <li>Créez un container XPCOM pour les données que vous souhaitez insérer dans le presse-papiers.
-  C'est nécessaire parce que vous pouvez y mettre n'importe quoi, du texte jusqu'à des images.</li>
+  C'est nécessaire parce que vous pouvez y mettre n'importe quoi, du texte jusqu'à des images,</li>
   <li>Créez un objet de transfert. Cet objet peut être le composant
-  <var>@mozilla.org/widget/transferable;1</var> qui implémente l'interface <code>nsITransferable</code>.</li>
-  <li>Spécifiez à l'objet de transfert le type de données à copier.</li>
-  <li>Spécifiez à l'objet de transfert les données à copier.</li>
-  <li>Créez un objet presse-papiers qui se réfère au presse-papiers du système.</li>
+  <var>@mozilla.org/widget/transferable;1</var> qui implémente l'interface <code>nsITransferable</code>,</li>
+  <li>Spécifiez à l'objet de transfert le type de données à copier,</li>
+  <li>Spécifiez à l'objet de transfert les données à copier,</li>
+  <li>Créez un objet presse-papiers qui se réfère au presse-papiers du système,</li>
   <li>Spécifiez à l'objet presse-papiers de copier les données utilisant l'objet de transfert.</li>
 </ol>
 
@@ -60,7 +59,7 @@ d'une seule et même donnée. Par exemple, un extrait HTML peut être représenté au
 forme originale en HTML qu'en texte brut. Si une application souhaite obtenir la donnée à partir du
 presse-papiers et ne comprend pas le HTML, elle peut utiliser la version en texte brut. Si elle
 peut comprendre le HTML, elle peut récupérer cette version. L'objet de transfert contiendra le contenu
-du presse-papiers jusqu'à ce que l'application ait décidé son besoin. Il permet au
+du presse-papiers jusqu'à ce que l'application ait précisé ses besoins. Il permet au
 presse-papiers de pouvoir être utilisé par une autre application de suite.
 </p>
 
@@ -131,9 +130,9 @@ clip.setData(trans,null,clipid.kGlobalClipboard);
 Nous obtenons l'objet presse-papiers du système et le stockons dans la variable <code>clip</code>.
 Nous pouvons copier la donnée dans le presse-papiers en appelant la fonction
 <code>setData</code>. Le premier paramètre de cette fonction est l'objet de transfert.
-Le second paramètre peut habituellement être déclaré à <var>null</var> mais vous pourriez le
+Le deuxième paramètre est habituellement initialisé à <var>null</var> mais vous pourriez le
 déclarer à un <code>nsIClipboardOwner</code> de sorte que vous puissiez indiquer
-que la donnée copiée soit écrasée par une autre opération de copie.
+que la donnée copiée doit être écrasée lors d'une autre opération de copie.
 N'appelez <code>setData</code> que
 lorsque vous êtes prêt à copier dans le presse-papiers du système.
 </p>
@@ -150,7 +149,7 @@ qui n'est en général disponible que sous des systèmes Unix.
 <p>
 Ce processus pluri-étapes a eu pour résultat la copie du texte dans le presse-papiers. Nous pouvons
 couper vers le presse-papiers au lieu de copier, en effaçant la donnée
-originale après la copie . Normalement, le texte serait dans un document ou une zone de texte. Le code est rassemblé
+originale après la copie. Normalement, le texte serait dans un document ou une zone de texte. Le code est rassemblé
 ci-dessous, avec en plus une vérification des erreurs&nbsp;:
 </p>
 
@@ -185,11 +184,11 @@ au lieu de <code>setTransferData</code>. Voici les étapes pour le collage&nbsp;:
 </p>
 
 <ol>
-  <li>Créez un objet presse-papiers qui se réfère au presse-papiers du système.</li>
-  <li>Créez un objet de transfert qui implémente l'interface <code>nsITransferable</code>.</li>
-  <li>Spécifiez à l'objet de transfert quelle type de donnée vous souhaitez obtenir.</li>
-  <li>Recherchez la donnée du presse-papiers et l'insérez dans l'objet de transfert.</li>
-  <li>Obtenez la donnée à partir de l'objet de transfert.</li>
+  <li>Créez un objet presse-papiers qui se réfère au presse-papiers du système,</li>
+  <li>Créez un objet de transfert qui implémente l'interface <code>nsITransferable</code>,</li>
+  <li>Spécifiez à l'objet de transfert quel type de donnée vous souhaitez obtenir,</li>
+  <li>Recherchez la donnée du presse-papiers et insérez-la dans l'objet de transfert,</li>
+  <li>Récupérez la donnée à partir de l'objet de transfert.</li>
 </ol>
 
 <p>
@@ -222,7 +221,7 @@ trans.getTransferData("text/unicode",str,strLength);
 </code></pre>
 
 <p>
-La première ligne exécute l'opposé de <code>setData</code>. La donnée actuellement
+La première ligne exécute le contraire de <code>setData</code>. La donnée actuellement
 dans le presse-papiers du système est placée dans l'objet de transfert. Ensuite, nous créons deux objets
 Javascript qui prendrons la donnée et sa longueur. Notez que nous n'avons aucune idée du type de
 donnée qui est actuellement dans le presse-papiers. Elle a pu avoir été placée là par une autre
@@ -234,7 +233,7 @@ application. C'est pour cela que nous utilisons des objets génériques pour <code
 Puis nous utilisons <code>getTransferData</code> pour récupérer la donnée à partir
 de l'objet de transfert. Nous spécifions le type mime que nous voudrions obtenir.
 La donnée sera convertie si elle n'est pas du type désiré et si une conversion entre le type mime
-actuel et celui voulu est possible. Si à l'origine vous avez copié la donnée sous plusieurs
+actuel et celui voulu est possible. Si vous avez copié la donnée sous plusieurs
 types dans le presse-papiers, vous pouvez récupérer la donnée dans le meilleur format voulu.
 Par exemple, un champ de saisie de texte accepterait du texte unicode (ou du texte brut) tandis qu'une
 fenêtre d'édition pourrait accepter du HTML et des images.
@@ -252,7 +251,7 @@ if (str) pastetext = str.data.substring(0,strLength.value / 2);
 
 <p>
 Du fait que la donnée de l'objet de transfert est un <code>nsISupportsString</code>,
-nous devons la convertir en une chaîne de caractère Javascript. La propriété
+nous devons la convertir en une chaîne de caractères Javascript. La propriété
 <code>value</code> de l'objet complété par <code>getTransferData</code>, qui est
 <var>str</var> dans ce cas, fournit la valeur actuelle de l'objet.
 </p>

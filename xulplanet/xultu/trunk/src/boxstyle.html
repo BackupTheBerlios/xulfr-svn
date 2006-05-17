@@ -1,26 +1,25 @@
 
-
-<p>Ici nous apprendrons à controler la position et la taille d'un élément.</p>
+<p>Ici nous apprendrons à contrôler la position et la taille d'un élément.</p>
 
 <h2>Positionnement des éléments de boîte</h2>
 
 <p> Jusqu'ici, nous avons appris à placer des éléments horizontalement ou verticalement
-à l'intérieur d'une boîte. Nous aurons souvent besoin d'un meilleure contrôle sur la position et
+à l'intérieur d'une boîte. Nous aurons souvent besoin d'un meilleur contrôle sur la position et
 la taille des éléments à l'intérieur d'une boîte. Pour cela, nous devons d'abord comprendre
-le fonctionnement d'une boîte. </p>
+le fonctionnement de cette boîte. </p>
 
 <p> La position d'un élément est déterminée par le style de mise en plage de son conteneur.
 Par exemple, la position d'un bouton dans une boîte horizontale est à droite du
 bouton précédent, s'il y en a plusieurs. La taille d'un élément est déterminée par deux facteurs,
-la taille que cet élément cherche à posséder et la taille que vous avez spécifié. La taille qu'un
+la place que cet élément cherche à occuper et la taille que vous avez spécifiée. La taille qu'un
 élément cherche à avoir est déterminée par son contenu. Par exemple, la largeur d'un bouton
 est déterminée par la quantité de texte à l'intérieur du bouton. </p>
 
 <p> Un élément sera généralement juste assez large pour les besoins de l'affichage de
-son contenu, et pas plus large. Quelques éléments, tels que les boîtes de textes ont une taille par
-défaut, qui sera utilisée. Une boîte aura une largeur nécessaire à l'affichage
+son contenu, et pas plus large. Quelques éléments, tels que les boîtes de textes, utiliseront une taille par
+défaut. Une boîte aura une largeur nécessaire à l'affichage
 des éléments qu'elle contient. Une boîte horizontale contenant trois boutons aura la
-largeur de ces trois boutons plus la marge. </p>
+largeur de ces trois boutons, plus la marge. </p>
 
 <p> Dans l'image ci-dessous, les deux premiers boutons ont la taille nécessaire à l'affichage
 de leur texte. Le troisième bouton est plus large parce que son contenu est plus grand. La largeur
@@ -33,17 +32,17 @@ entre eux. La hauteur des boutons est une taille adaptée à l'affichage du texte.
 
 <p> Vous pourriez avoir besoin de plus de contrôle sur la taille d'un élément d'une fenêtre.
 Il y a plusieurs dispositifs qui vous permettent de contrôler la taille d'un
-élément. La façon la plus rapide est d'ajouter simplement des attributs
+élément. La façon la plus rapide est d'ajouter simplement les attributs
 <code class="attribut">width</code> et <code class="attribut">height</code> sur un élément,
-un peu comme vous feriez avec la balise HTML <code class="tag">img</code>. Voir l'exemple ci-dessous&nbsp;: </p>
+un peu comme vous le feriez avec la balise HTML <code class="tag">img</code>. Voir l'exemple ci-dessous&nbsp;: </p>
 
 <p>Exemple 3.2.1&nbsp;:
 <a href="exemples/ex_boxestyle_1.xul.txt">Source</a>
 <a href="exemples/ex_boxestyle_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 <pre><code>&lt;button label="OK" width="100" height="40"/&gt;</code></pre>
 
-<p> Cependant, il n'est pas recommandé de faire ainsi. Cette méthode n'est pas vraiment portable et
-peut ne pas être adaptable avec certains thèmes. Une meilleure solution est d'utiliser
+<p> Cependant, il n'est pas recommandé de procéder ainsi. Cette méthode n'est pas vraiment portable et
+peut ne pas s'adapter à certains thèmes. Une meilleure solution est d'utiliser
 des propriétés de style, dont le fonctionnement est similaire aux feuilles de style du HTML.
 Les propriétés CSS suivantes peuvent être utilisées. </p>
 
@@ -56,8 +55,8 @@ Les propriétés CSS suivantes peuvent être utilisées. </p>
 
 <p> En plaçant l'une ou l'autre de ces deux propriétés, l'élément sera créé avec cette
 largeur et cette hauteur. Si vous spécifiez seulement une de ces deux propriétés,
-l'autre est calculée en fonction de ses propres besoins. La taille de ces propriétés de style
-doivent être définie par un nombre suivi d'une unité de mesure. </p>
+l'autre est calculée en fonction de ses propres besoins. La valeur de ces propriétés de style
+doit être définie par un nombre suivi d'une unité de mesure. </p>
 
 <p> Les tailles sont assez faciles à calculer pour les éléments non flexibles. Ils répondent
 simplement à leur spécificité de largeur et de hauteur, et si leurs dimensions ne sont pas définies,
@@ -65,9 +64,9 @@ leurs tailles sont ajustées par défaut au contenu. Pour les
 éléments flexibles, le calcul est légèrement plus savant. </p>
 
 <p>Les éléments flexibles sont ceux qui ont un attribut <code class="attribut">flex</code>
-dont la valeur est supérieure à 0. Rappelez vous que les éléments flexible s'étirent et
-s'élargissent jusqu'à remplacer l'espace vide. Leurs tailles par défaut restent calculées de la même
-façon que les éléments non flexibles. L'exemple suivant démontre cela&nbsp;:</p>
+dont la valeur est supérieure à 0. Rappelez-vous que les éléments flexibles s'étirent et
+s'élargissent pour remplacer l'espace vide. Leurs tailles par défaut restent calculées de la même
+façon que les éléments non flexibles. L'exemple suivant le démontre&nbsp;:</p>
 
 <p>Exemple 3.2.2&nbsp;:
 <a href="exemples/ex_boxestyle_2.xul.txt">Source</a>
@@ -95,48 +94,48 @@ Un élément inflexible ne change jamais de taille même lorsque de l'espace est di
 c'est pourquoi le bouton ne s'agrandit pas non plus. Ainsi, le bouton ne pourra pas
 s'élargir.</p>
 
-<p>La solution est de rendre la boîte flexible également. De cette façon, quand vous élargirez la fenêtre
-l'espace supplémentaire sera disponible, et alors la boîte s'élargira pour remplir l'espace supplémentaire.
+<p>La solution est de rendre la boîte flexible également. De cette façon, quand vous élargirez la fenêtre,
+de l'espace supplémentaire sera disponible, et la boîte s'élargira alors pour remplir cet espace supplémentaire.
 Puisque la boîte est plus grande, une plus grande quantité d'espace libre est créée à
 l'intérieur de celle-ci, et le bouton flexible qu'elle contient s'élargira pour occuper l'espace
-disponible. Ce processus est répété pour toutes les boîtes présentes autant de fois que nécessaire.
+disponible. Ce processus est répété pour toutes les boîtes présentes, autant de fois que nécessaire.
 </p>
 
-<h2>Réglage des tailles minimum et maximum</h2>
+<h2>Réglage des tailles minimales et maximales</h2>
 
 <p> Vous pouvez vouloir autoriser un élément à être flexible tout en contraignant sa taille de sorte
-qu'elle ne puisse pas être plus grande qu'une certaine valeur. Ou, vous voulez peut-être définir
-une taille minimum. Vous pouvez régler ce comportement en employant quatre attributs&nbsp;:</p>
+qu'elle ne puisse pas être plus grande qu'une certaine valeur. Ou vous voulez peut-être définir
+une taille minimale. Vous pouvez régler ce comportement en employant quatre attributs&nbsp;:</p>
 
 <dl>
 <dt><code class="attribut">minwidth</code></dt>
-<dd> Ceci indique la largeur minimum que l'élément peut posséder.</dd>
+<dd> Ceci indique la largeur minimale que l'élément peut posséder.</dd>
 <dt><code class="attribut">minheight</code></dt>
-<dd> Ceci indique la hauteur minimum que l'élément peut posséder.</dd>
+<dd> Ceci indique la hauteur minimale que l'élément peut posséder.</dd>
 <dt><code class="attribut">maxwidth</code></dt>
-<dd> Ceci indique la largeur maximum que l'élément peut posséder.</dd>
+<dd> Ceci indique la largeur minimale que l'élément peut posséder.</dd>
 <dt><code class="attribut">maxheight</code></dt>
-<dd> Ceci indique la hauteur maximum que l'élément peut posséder.</dd>
+<dd> Ceci indique la hauteur minimale que l'élément peut posséder.</dd>
 </dl>
 
 <p>Les valeurs sont toujours mesurées en pixels. Vous pouvez également employer les propriétés CSS
 correspondantes, <code>min-width</code>, <code>min-height</code>, <code>max-width</code> et
 <code>max-height</code>.</p>
 
-<p>Ces propriétés sont seulement utiles pour les éléments flexibles. En plaçant une hauteur maximum,
-par exemple, un bouton extensible s'étirera seulement jusqu'à une certaine hauteur maximum. Vous
-pourrez toujours agrandir la fenêtre au delà de ce point mais la taille du bouton cessera de
-s'accroître. La boîte, dans laquelle le bouton se trouve, continuera également à s'agrandir,
-à moins que vous ne placiez aussi une hauteur maximum sur la boîte.</p>
+<p>Ces propriétés sont utiles seulement pour les éléments flexibles. En plaçant une hauteur maximale,
+par exemple, un bouton extensible s'étirera seulement jusqu'à cette hauteur maximale. Vous
+pourrez toujours agrandir la fenêtre au-delà de ce point mais la taille du bouton cessera de
+s'accroître. La boîte dans laquelle le bouton se trouve continuera également à s'agrandir,
+à moins que vous ne définissiez aussi une hauteur maximale pour la boîte.</p>
 
 <p>Si deux boutons sont également flexibles, normalement ils se partageront tous les deux
-la quantité d'espace supplémentaire. Si un bouton a une largeur maximum, le second
+la quantité d'espace disponible. Si un bouton a une largeur maximale, le second
 devrait continuer de s'agrandir en prenant tout l'espace restant.</p>
 
-<p>Si une boîte a une largeur ou une hauteur maximum, les enfants ne peuvent pas se
-développer au delà
-de cette taille maximum. Si une boîte a une largeur ou une taille minimum, les enfants ne peuvent
-pas rétrécir au delà de cette taille minimum. Voici quelques exemples de réglage des largeurs et
+<p>Si une boîte a une largeur ou une hauteur maximale, les enfants ne peuvent pas se
+développer au-delà
+de cette taille maximale. Si une boîte a une largeur ou une taille minimale, les enfants ne peuvent
+pas rétrécir au-delà de cette taille minimale. Voici quelques exemples de réglage des largeurs et
 des hauteurs&nbsp;:</p>
 
 <pre><code>&lt;button label="1" style="width: 100px;"/&gt;
@@ -144,13 +143,13 @@ des hauteurs&nbsp;:</p>
 &lt;button label="3" flex="1" style="min-width: 50px;"/&gt;
 &lt;button label="4" flex="1" style="min-height: 2ex; max-width: 100px"/&gt;
 &lt;textbox flex="1" style="max-width: 10em;"/&gt;
-&lt;description style="max-width: 50px"&gt;Ceci est quelques peu ennuyant mais c'est un texte s'étalant simplement.&lt;/description&gt;
+&lt;description style="max-width: 50px"&gt;Ceci est quelque peu ennuyant mais c'est un texte s'étalant simplement.&lt;/description&gt;
 </code></pre>
 
 <p>
 <strong>Exemple 1&nbsp;:</strong> le premier bouton sera affiché avec une largeur de 100 pixels
 (le <code>px</code> signifie pixels).
-Vous devez ajouter l'unité ou la largeur définie sera ignorée.</p>
+Vous devez ajouter l'unité, ou la largeur définie sera ignorée.</p>
 <p><strong>Exemple 2&nbsp;:</strong> le deuxième bouton sera affiché avec une hauteur de dix
 pixels et une largeur de 100&nbsp;em (un <code>em</code> correspond à la taille d'un caractère
 dans la police courante).</p>
@@ -160,7 +159,7 @@ jamais au-dessous de 50 pixels. D'autres composants flexibles tels que des éléme
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacers</a></code>
 absorberont l'espace restant, brisant ainsi le rapport de flexibilité.</p>
 <p><strong>Exemple 4&nbsp;:</strong> le quatrième bouton est flexible et n'aura jamais une
-hauteur inférieure à 2&nbsp;ex (un <code>ex</code> correspond habituellement la taille de la
+hauteur inférieure à 2&nbsp;ex (un <code>ex</code> correspond habituellement à la taille de la
 lettre X dans la police courante) ou une largeur supérieure à 100 pixels.</p>
 <p><strong>Exemple 5&nbsp;:</strong> le champ de saisie de texte est flexible mais sa largeur
 ne sera jamais supérieure à 10&nbsp;em. Vous voudrez souvent employer les ems quand vous précisez
@@ -169,13 +168,13 @@ unité est utile pour des champs de saisie de texte qui peuvent ainsi s'adapter à
 caractères utilisée, même si la police est très grande.</p>
 <p><strong>Exemple 6&nbsp;:</strong> l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code> est
-contraint d'avoir une largeur maximum de 50 pixels. À l'intérieur, une césure du texte sur
-la ligne suivante interviendra après cinquante pixels.</p>
+contraint d'avoir une largeur maximale de 50 pixels. À l'intérieur, une césure du texte sur
+la ligne suivante interviendra après 50 pixels.</p>
 
 <div class="task">
 
-<p>Ajoutons quelques uns de ces styles à notre exemple de fenêtre de recherche de fichiers.
-Nous le ferons de telle manière que le champ de saisie de texte s'étire afin de remplir
+<p>Ajoutons quelques-uns de ces styles à notre exemple de fenêtre de recherche de fichiers.
+Nous le ferons de telle manière que le champ de saisie de texte s'étire pour remplir
 entièrement la fenêtre.</p>
 
 
@@ -188,14 +187,14 @@ entièrement la fenêtre.</p>
 <p>Ici, le champ de saisie de texte a été rendu flexible. De cette façon, il s'agrandira
 si l'utilisateur change la taille de la fenêtre. C'est utile si l'utilisateur veut saisir
 une longue chaîne de caractères.
-En outre, une largeur minimum de 15&nbsp;em a été définie de sorte que le champ de saisie
+En outre, une largeur minimale de 15&nbsp;em a été définie de sorte que le champ de saisie
 de texte affiche toujours au moins 15 caractères. Si l'utilisateur redimensionne la fenêtre
 en diminuant sa taille, le champ de saisie de texte ne se rétrécira pas en-dessous de 15&nbsp;em.
 Il sera dessiné comme s'il se prolongait au-delà du bord de la fenêtre.</p>
-<p class="note">Notez dans l'image ci-dessous que le champ de saisie de texte s'est étiré de façon à occuper entièrement la largeur de la fenêtre.</p>
+<p class="note">Notez dans l'image ci-dessous que le champ de saisie de texte s'est étiré de façon à occuper toute la largeur de la fenêtre.</p>
 
 <p>
-<img class="screenshot" src="images/boxstyle1.png" alt="Images de la fenêtre produite par notre exemple de fenêtre de recherche de fichiers" />
+<img class="screenshot" src="images/boxstyle1.png" alt="Image de la fenêtre produite par notre exemple de fenêtre de recherche de fichiers" />
 </p>
 
 </div>
@@ -217,14 +216,14 @@ mais la boîte, elle, est flexible. Par exemple&nbsp;:</p>
 <p>Si vous redimensionnez la fenêtre, la boîte s'étirera pour s'ajuster à la taille de la fenêtre.
 Les boutons n'étant pas flexibles, leur largeur ne changera pas. Le résultat est qu'un espace
 supplémentaire apparaîtra sur le côté droit de la fenêtre, à l'intérieur de la boîte.
-Cependant, vous pouvez désirer que l'espace supplémentaire apparaisse plutôt sur le côté gauche,
-pendant que les boutons restent alignés sur la droite de la fenêtre.</p>
+Cependant, vous pouvez désirer que l'espace supplémentaire apparaisse plutôt sur le côté gauche
+alors que les boutons restent alignés sur la droite de la fenêtre.</p>
 
-<p>Vous pouvez réaliser ce comportement en plaçant un élément 
+<p>Vous pouvez réaliser cela en plaçant un élément 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> 
 à l'intérieur de la boîte, mais
 cela peut rendre le code confus quand vous devez le faire plusieurs fois. Une meilleure
-solution est d'utiliser l'attribut supplémentaire <code class="attribut">pack</code> sur la
+solution est d'utiliser l'attribut <code class="attribut">pack</code> sur la
 boîte. Cet attribut indique comment empaqueter les éléments enfants à l'intérieur d'une
 boîte. Pour des boîtes orientées horizontalement, il contrôle le positionnement horizontal
 des enfants. Pour les boîtes orientées verticalement, il contrôle le positionnement vertical
@@ -233,7 +232,7 @@ des enfants. Vous pouvez utilisez les valeurs suivantes&nbsp;:</p>
 <dl>
 <dt><var>start</var></dt>
 <dd>Ceci positionne les éléments sur le bord gauche pour les boîtes horizontales et sur le
-bord haut pour les boîtes verticales. Il s'agit de la valeur par défaut.</dd>
+bord haut pour les boîtes verticales. C'est la valeur par défaut.</dd>
 <dt><var>center</var></dt>
 <dd>Ceci centre les éléments enfants dans la boîte.</dd>
 <dt><var>end</var></dt>
@@ -260,7 +259,7 @@ Comparez ce comportement à celui de l'exemple précédent.</p>
 
 <h2>Alignement de boîte</h2>
 
-<p>Si vous redimensionnez horizontalement la fenêtre dans l'exemple "Heureux-Triste", la boîte
+<p>Si vous redimensionnez horizontalement la fenêtre dans l'exemple «&nbsp;Heureux-Triste&nbsp;», la boîte
 devrait s'élargir. Si vous redimensionnez verticalement la fenêtre, vous noterez que les
 boutons sont étirés. Ceci est dû à la flexibilité qui est affectée par défaut à l'autre
 direction.</p>
@@ -318,28 +317,28 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
 
 &lt;/window&gt;</code></pre>
 
-<p><img class="screenshot" src="images/boxstyle2-b.png" alt="Images de la fenêtre produite par notre exemple 3.2.5" />
+<p><img class="screenshot" src="images/boxstyle2-b.png" alt="Image de la fenêtre produite par notre exemple 3.2.5" />
 </p>
 
-<p>Vous pouvez aussi utilisez les propriétés de style <code>-moz-box-pack</code>
+<p>Vous pouvez aussi utiliser les propriétés de style <code>-moz-box-pack</code>
 et <code>-moz-box-align</code> à la place des attributs indiqués.</p>
 
 <p class="note">
 Vous pouvez trouver l'<a href="exemples/aligner.xul" onclick="window.open('exemples/aligner.xul','aligner','chrome,resizeable'); return false;">exemple d'alignement de boîte</a>
 pratique pour tester les différentes propriétés de boîte
-(<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: vous bénéficiez aussi une
+(<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: vous pourrez aussi trouver une
 <a href="http://xulfr.org/sources/tutoriel/boite/boite.xul" onclick="window.open('exemples/aligner.xul','aligner','chrome,resizeable'); return false;">autre démonstration du même genre sur xulfr</a>).</p>
 
 <h2>Coupure du texte et des boutons</h2>
 
 <p>Vous pourriez potentiellement créer un élément bouton qui contient un libellé plus
-large que la largeur maximum du bouton. Bien sûr, une solution serait d'augmenter
+large que la largeur maximale du bouton. Bien sûr, une solution serait d'augmenter
 la taille du bouton. Cependant, les boutons (et les autres éléments avec un
 libellé) ont un attribut spécial appelé <code class="attribut">crop</code> qui
-vous permez d'indiquer de quelle manière le texte doit être coupé s'il est trop grand.</p>
+vous permet d'indiquer de quelle manière le texte doit être traité s'il est trop grand.</p>
 
-<p> Si le texte est coupé, une ellipse (...) apparaît sur le bouton où
-le texte a été enlevé. Quatre valeurs possibles sont valides&nbsp;:</p>
+<p> Si le texte est coupé, un point de suspension (&#8230;) apparaît sur le bouton où
+le texte a été enlevé. Quatre valeurs sont valides&nbsp;:</p>
 
 <dl>
 <dt><var>left</var></dt>
@@ -366,12 +365,12 @@ L'exemple suivant montre l'utilisation de cet attribut&nbsp;:</p>
 <pre><code>&lt;button label="Pressez moi, s'il vous plait !" crop="right" flex="1"/&gt;</code></pre>
 
 <p>
-<img class="screenshot" src="images/boxstyle2.png" alt="Images de la fenêtre produite par notre exemple 3.2.6" />
-Notez comment le texte sur le bouton voit son côté droit coupé après que la fenêtre ait
+<img class="screenshot" src="images/boxstyle2.png" alt="Image de la fenêtre produite par notre exemple 3.2.6" />
+Notez comment le texte sur le bouton voit son côté droit coupé après que la fenêtre a
 été réduite.</p>
 
 <hr />
 <p>
-Dans la prochaine section, nous ferons un petit résumé et décrirons quelques détails supplémentaires sur le modèle de boîte.
+Dans la prochaine section, nous ferons un petit résumé et décrirons quelques détails supplémentaires concernant le modèle de boîte.
 </p>
 

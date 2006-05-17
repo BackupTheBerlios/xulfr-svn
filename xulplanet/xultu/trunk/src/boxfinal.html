@@ -1,15 +1,14 @@
 
-
 <p>Nous allons conclure ce chapitre en ajoutant des boîtes sur notre fenêtre de
 recherche de fichiers.</p>
 
-<h2>Ajout d'éléments additionnels</h2>
+<h2>Ajout d'éléments à notre exemple de recherche de fichiers</h2>
 
 <div class="task">
 
-<p>Nous allons ajouter maintenant des éléments supplémentaires à notre boîte de dialogue
+<p>Nous allons ajouter maintenant des éléments à notre boîte de dialogue
 de recherche de fichiers. Premièrement, nous allons ajouter la possiblité de faire une
-recherche sur d'autres informations comme la taille et la date du fichier.</p>
+recherche sur d'autres informations, comme la taille et la date du fichier.</p>
 
 <pre><code>&lt;hbox>
   <strong>&lt;menulist id="searchtype">
@@ -33,7 +32,7 @@ recherche sur d'autres informations comme la taille et la date du fichier.</p>
 
 <p>Deux listes déroulantes ont été ajoutées à la boîte de dialogue. Un espacement
 (<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code>)
-a été ajouté entre chaque élément pour les séparer. Ces espacements ont une taille explicite de
+a été inséré entre chaque élément pour les séparer. Ces espacements ont une taille explicite de
 10 pixels chacun. Vous noterez que si la fenêtre est redimensionnée, le champs de saisie s'agrandit
 mais pas les autres composants. Vous noterez également que le libellé a été enlevé.</p>
 
@@ -41,7 +40,7 @@ mais pas les autres composants. Vous noterez également que le libellé a été enle
 
 <p>Si vous redimensionnez la fenêtre verticalement, les éléments ne changeront pas de taille. C'est
 parce qu'ils sont à l'intérieur de boîtes horizontales. Ce serait mieux si les boutons
-"Rechercher" et "Annuler" restaient toujours en bas de la fenêtre. Il est facile de le faire
+«&nbsp;Rechercher&nbsp;» et «&nbsp;Annuler&nbsp;» restaient toujours en bas de la fenêtre. Il est facile de le faire
 en ajoutant un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> entre les deux boîtes horizontales.</p>
 
 <pre><code><strong>&lt;spacer style="height: 10px"/></strong>
@@ -69,17 +68,17 @@ en ajoutant un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/sp
 &lt;hbox>
 </code></pre>
 
-<p>Maintenant, quand la boîte de dialogue est redimensionnée, les deux boutons sont
-placés le long du bas de la boîte de dialogue. Le premier
+<p>Maintenant, quand la boîte de dialogue est redimensionnée, les deux boutons resteront en place
+tout en bas de la boîte de dialogue. Le premier
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> ajoute un 
-espacement entre le titre du libellé et les éléments de critères de recherche.</p>
+espacement entre le titre du libellé et les éléments des critères de recherche.</p>
 
 <p>Il serait plus joli d'avoir une bordure autour des critères de recherche.
 Il y a deux moyens pour le faire. Vous pouvez utiliser la propriété CSS
 <code>border</code> ou vous pouvez utiliser l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code>.
 La première méthode nécessite que nous appliquions le style sur la boîte elle-même.
-Nous utiliserons l'autre méthode, à la place. Un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code>
+Nous utiliserons plutôt l'autre méthode. Un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code>
 a l'avantage de dessiner une boîte avec un joli effet d'incrustation, en adéquation
 avec le thème courant.</p>
 

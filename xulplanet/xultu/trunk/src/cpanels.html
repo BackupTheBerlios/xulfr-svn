@@ -1,11 +1,10 @@
 
-
     <p>Dans cette section, nous regarderons comment ajouter des cadres qui peuvent
       afficher des pages HTML ou d'autres fichiers XUL.</p>
 
     <h2>Ajout de cadres enfants</h2>
 
-    <p>Il y a des fois où vous souhaitez qu'une partie d'un document soit
+    <p>Parfois, vous souhaitez qu'une partie d'un document soit
       chargée à partir d'une autre page. D'autres fois, vous voulez
       changer une partie de la fenêtre. Un bon exemple est un assistant
       qui vous guide pas-à-pas à travers un certain nombre d'écrans,
@@ -14,8 +13,8 @@
       affiché.</p>
 
     <p>Vous pouvez créer une interface d'assistant en ouvrant une fenêtre
-      différente pour chaque écran. Il y a trois problèmes
-      avec cette approche. Premièrement, chaque fenêtre peut apparaître
+      différente pour chaque écran. Cette approche pose trois problèmes.
+      Premièrement, chaque fenêtre peut apparaître
       à une position différente sur l'écran (bien qu'il existe
       une alternative à cela). Deuxièmement, les éléments
       tels que les boutons suivant ou précédent sont les mêmes
@@ -41,8 +40,8 @@
       pouvez utiliser un script pour changer le contenu de ce cadre sans affecter
       la fenêtre principale.</p>
 
-      <p>Dans la fenêtre du navigateur Mozilla, l'endroit, où la page
-      web est affichée, est créé en utilisant un cadre
+      <p>Dans la fenêtre du navigateur Mozilla, l'endroit où la page
+      web doit être affichée est créé en utilisant un cadre
       <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>.
       Lorsque l'utilisateur entre une URL ou clique sur un lien du document, la
       source du cadre est changée.</p>
@@ -54,14 +53,14 @@
     <a href="exemples/ex_cpanels_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;toolbox&gt;
-   &lt;toolbar id=&quot;nav-toolbar&quot;&gt;
-     &lt;toolbarbutton label=&quot;Précédent&quot;/&gt;
-     &lt;toolbarbutton label=&quot;Suivant&quot;/&gt;
-     &lt;textbox id=&quot;urlfield&quot;/&gt;
+   &lt;toolbar id="nav-toolbar"&gt;
+     &lt;toolbarbutton label="Précédent"/&gt;
+     &lt;toolbarbutton label="Suivant"/&gt;
+     &lt;textbox id="urlfield"/&gt;
    &lt;/toolbar&gt;
 &lt;/toolbox&gt;
 
-&lt;iframe id=&quot;content-body&quot; src=&quot;http://www.mozilla-europe.org/fr/&quot; flex=&quot;1&quot;/&gt;</code></pre>
+&lt;iframe id="content-body" src="http://www.mozilla-europe.org/fr/" flex="1"/&gt;</code></pre>
 
    <p><img src="images/cpanels1.png" class="screenshot" alt="" /></p>
 
@@ -70,11 +69,11 @@
       éléments a été créée&nbsp;: un
       élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/toolbox">toolbox</a></code>
       et un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>.
-      Un bouton 'Précédent', un bouton 'Suivant' et un champ de
-      saisie des URLs ont été ajoutés sur la seule barre d'outils.
+      Un bouton «&nbsp;Précédent&nbsp;», un bouton «&nbsp;Suivant&nbsp;» et un champ de
+      saisie des URLs ont été ajoutés sur la barre d'outils.
       Les pages Web apparaissent à l'intérieur
       du cadre <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/iframe">iframe</a></code>.
-      Dans ce cas, la page d'accueil du site apparaîtra par défaut.</p>
+      Dans ce cas, c'est la page d'accueil du site qui apparaîtra par défaut.</p>
 
 <p>
 Cet exemple n'est pas fonctionnellement complet. Dans la suite, nous voudrions ajouter un script
@@ -85,14 +84,14 @@ par exemple quand l'utilisateur appuie sur la touche <kbd>Entrée</kbd>.
 <h2>Navigateurs</h2>
 
 <p>
-Il y a un deuxième type de cadre de contenu, utilisant la balise
+Il existe un second type de cadre de contenu, utilisant la balise
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/browser">browser</a></code>.
 Vous l'utiliserez quand vous voudrez
-créer un cadre qui montre le contenu comme un navigateur. En réalité, l'élement
+créer un cadre qui montre le contenu comme un navigateur. En réalité, l'élément
 <code class="tag">iframe</code>
-peut aussi faire cela, mais le navigateur possède une variété de caractéristiques additionnelles.
+peut aussi le faire, mais le navigateur (browser) possède une variété de caractéristiques additionnelles.
 Par exemple, l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/browser">browser</a></code>
-conserve un historique pour utiliser les boutons Précédent et Suivant. Le navigateur
+conserve un historique pour utiliser les boutons «&nbsp;Précédent&nbsp;» et «&nbsp;Suivant&nbsp;». Le navigateur
 peut aussi charger des pages avec des <code>referers</code> et d'autres états. La balise
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/browser">browser</a></code>
 devrait être utilisée essentiellement lorsque vous voulez créer une interface semblable au navigateur, mais
@@ -103,7 +102,7 @@ utilisé lorsque vous avez juste besoin d'un cadre simple.
 <p>
 Un élément similaire, <code class="tag"><a href="http://xulfr.org/wiki/Reference/tabbrowser">tabbrowser</a></code>,
 fournit la fonctionnalité du
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/browser">browser</a></code>
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/browser">browser</a></code>,
 mais fournit également une barre d'onglets pour basculer entre de multiples pages. C'est le
 composant graphique utilisé par le navigateur Mozilla pour son interface de navigation par onglets. L'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/tabbrowser">tabbrowser</a></code> est en
@@ -125,7 +124,7 @@ Voici un exemple de navigateur&nbsp;:
 <pre><code>&lt;browser src="http://www.mozilla.org" flex="1"/&gt;</code></pre>
 
 <p>
-Comme avec l'iframe, vous pouvez indiquer l'url dans un navigateur utilisant l'attribut
+Comme avec l'iframe, vous pouvez indiquer l'URL dans un navigateur utilisant l'attribut
 <code class="attribut">src</code>. Pour un
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/tabbrowser">tabbrowser</a></code>, vous ne pouvez pas définir l'url directement comme ceci,
 étant donné qu'il n'affiche pas qu'une seule URL. À la place, vous devez utiliser un script et appeler
@@ -134,7 +133,7 @@ la fonction loadURI.
 
 <p>
 Il y a trois catégories de navigateurs, selon le genre de contenu que vous
-voulez y afficher à l'intérieur. Le type peut être indiqué en utilisant le
+voulez afficher. Le type peut être indiqué en utilisant l'attribut 
 <code class="attribut">type</code>. Le premier type est le type par défaut utilisé si
 vous omettez cet attribut. Dans ce cas, le contenu chargé à l'intérieur du navigateur
 est traité comme s'il faisait partie de la même application et avait accès à la
@@ -173,12 +172,12 @@ navigateur par onglets le définit automatiquement pour le cadre de navigation qu
 Mais vous pouvez le définir sur un
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/browser">browser</a></code>
 si vous en avez
-plus d'un dans une fenêtre, par exemple si vous avez une barre latérale affichant d'autres
-contenus. Définissez l'attribut <code class="attribut">type</code> avec la valeur
+plusieurs dans une fenêtre, par exemple si vous avez une barre latérale affichant d'autres
+contenus. Renseignez l'attribut <code class="attribut">type</code> avec la valeur
 <var>content-primary</var> pour spécifier le contenu primaire. Il
-fonctionne comme avec la valeur <var>content</var> excepté que le
+fonctionne comme avec la valeur <var>content</var> excepté le fait que le
 contenu à l'intérieur est accessible en utilisant la propriété 'content' de la fenêtre XUL. L'accès 
-au contenu du navigateur principal en utilisant un script en est simplifié. C'est une méthode
+au contenu du navigateur principal en utilisant un script s'en trouve simplifié. C'est une méthode
 particulièrement pratique lorsqu'on utilise un navigateur par onglets, étant donné que vous aurez
 toujours besoin d'accéder au contenu visible de cette façon.
 </p>

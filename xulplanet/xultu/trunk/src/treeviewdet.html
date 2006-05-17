@@ -3,55 +3,50 @@
 
 <h2>Créer une vue hiérarchique personnalisée</h2>
 
-<p>Dans la précédente section, nous avons créé une vue d'arbre simple qui était
-implémentée avec seulement un minimum de fonctionnalités. À présent, regardons quelques
+<p>Dans la section précédente, nous avons créé une vue d'arbre simple qui était
+implémentée avec un minimum de fonctionnalités. À présent, regardons quelques
 fonctions supplémentaires que les vues peuvent implémenter. Ici, nous examinerons
 comment créer un ensemble hiérarchique d'items utilisant la vue. C'est un processus
 relativement astucieux qui implique de conserver une trace des items qui sont des enfants et
-également des lignes qui sont ouvertes et fermées.</p>
+une trace de l'état des lignes, ouvertes ou fermées.</p>
 
 <p>Chaque ligne dans l'arbre possède un niveau d'imbrication. Les lignes les plus hautes
 ont un niveau 0, les enfants de ces lignes ont un niveau 1, leurs enfants le niveau 2
 et ainsi de suite. L'arbre interroge la vue pour chaque ligne en appelant sa méthode
 <code>getLevel</code> pour connaître le niveau de cette ligne. La vue devra retourner 0
-pour les lignes les plus à l'extérieur et des valeurs plus élevées pour les lignes intérieures.
+pour les premiers parents et des valeurs plus élevées pour les lignes intérieures.
 L'arbre utilisera cette information pour déterminer la structure hiérarchique de ces
 lignes.</p>
 
 <p>En complément de la méthode <code>getLevel</code>, la fonction <code>hasNextSibling</code> 
-retourne pour une ligne donnée la valeur <var>true</var> si la ligne qui suit existe et est de même niveau.
-Cette fonction est utilisée, spécifiquement, pour dessiner l'imbrication des lignes le
-long du côté de l'arbre.</p>
+retourne pour une ligne donnée la valeur <var>true</var> si elle est suivie d'une autre ligne de même niveau qu'elle.
+Cette fonction est spécifiquement utilisée pour dessiner l'imbrication des lignes sur le côté de la vue de l'arbre.</p>
 
 <p>La méthode <code>getParentIndex</code> est supposée retourner la ligne parente d'une ligne donnée,
-c'est-à-dire, la ligne précédente avec une valeur d'imbrication inférieure. Toutes ces
-méthodes doivent être implémentées par la vue pour que les enfants soient proprement
-manipulés.</p>
+c'est-à-dire&nbsp;: la ligne précédente qui a un niveau d'imbrication inférieur. Toutes ces
+méthodes doivent être implémentées par la vue pour que les enfants soient manipulés correctement.</p>
 
-<p>Il y a également trois fonctions, <code>isContainer</code>, <code>isContainerEmpty</code> et
-<code>isContainerOpen</code> qui sont utilisées pour manipuler un item parent dans l'arbre.
+<p>Trois autres fonctions, <code>isContainer</code>, <code>isContainerEmpty</code> et
+<code>isContainerOpen</code> sont utilisées pour manipuler un item parent dans l'arbre.
 Naturellement, la méthode <code>isContainer</code> devrait retourner <var>true</var> si une ligne
 est un conteneur pouvant contenir des enfants. La méthode <code>isContainerEmpty</code> devrait
-renvoyer <var>true</var> si une ligne est un conteneur vide, par exemple, un répertoire sans fichiers
-à l'intérieur. La vue a besoin de conserver une trace des items qui sont ouverts ou fermés,
-la méthode <code>isContainerOpen</code> est donc utilisée pour le déterminer. L'arbre appellera
+renvoyer <var>true</var> si une ligne est un conteneur vide, par exemple, un répertoire/dossier qui ne contient aucun fichier. La vue a besoin de conserver une trace des items qui sont ouverts ou fermés, on utilise la méthode <code>isContainerOpen</code> pour le déterminer. L'arbre appellera
 cette méthode pour déterminer quels conteneurs sont ouverts et lesquels sont fermés. Notez que
 l'arbre n'appellera ni <code>isContainerEmpty</code>, ni <code>isContainerOpen</code> pour les lignes
 qui ne sont pas conteneurs en se basant sur la valeur de retour de la méthode
 <code>isContainer</code>.</p>
 
-<p>Un conteneur peut être affiché différemment qu'un non-conteneur. Par exemple, un
-conteneur peut avoir un icone de dossier devant lui. Une feuille de styles peut être
-utilisée pour styler des items en se basant sur diverses propriétés telles que l'ouverture
-d'une ligne conteneur. Le stylage sera décrit dans <a href="treestyle.html">une prochaine section</a>.
-Un conteneur non vide apparaîtra avec une poingée 
-(<acronym title="Note du Traducteur">NdT&nbsp;:</acronym> "twisty", petit '+' ou '-' permettant de développer
-et replier l'arborescence) à côté permettant à l'utilisateur d'ouvrir ou de fermer la
+<p>Un conteneur peut être affiché différemment d'un non-conteneur. Par exemple, un
+conteneur peut avoir un icône de dossier devant lui. Une feuille de styles peut être
+utilisée pour personnaliser l'aspect des items en se basant sur diverses propriétés telles que l'ouverture
+d'une ligne conteneur. La stylisation sera décrite dans <a href="treestyle.html">une prochaine section</a>.
+Un conteneur non vide sera agrémenté d'une poignée 
+(<acronym title="Note du Traducteur">NdT&nbsp;:</acronym> "twisty", petit '+' ou '-' ou un triangle sur les Macintosh) permettant à l'utilisateur d'ouvrir ou de fermer la
 ligne pour voir les items enfants. Les conteneurs vides n'auront pas de poignées, mais
 seront toujours considérés comme des conteneurs.</p>
 
 <p>Lorsque l'utilisateur clique sur la poignée pour ouvrir une ligne, l'arbre appellera
-la méthode de vue <code>toggleOpenState</code>. La vue met en oeuvre les opérations
+la méthode <code>toggleOpenState</code>. La vue met alors en ½uvre les opérations
 nécessaires pour intégrer les lignes enfants et mettre à jour l'arbre avec les nouvelles
 lignes.</p>
 
@@ -67,14 +62,14 @@ isContainerOpen(ligne)
 toggleOpenClose(ligne)</code></pre>
 
 <p>L'argument <code>apresIndex</code> de la fonction <code>hasNextSibling</code> est utilisée
-pour une raison d'optimisation, afin de démarrer la recherche à partir de la prochaine ligne soeur
-(ligne au même niveau) après ce point. Par exemple, l'appelant pourrait déjà connaître la position de la prochaine
-ligne soeur. Imaginez une situation où une ligne possède des sous-lignes et que ces
-sous-lignes aient des lignes enfants dont quelques unes sont ouvertes. Dans ce cas, la détermination 
-de l'index de la prochaine ligne soeur prendrait du temps dans certaines implémentations.</p>
+pour une raison d'optimisation, afin de démarrer la recherche à partir de la prochaine ligne s½ur
+(ligne de même niveau d'imbrication). Par exemple, l'appelant pourrait déjà connaître la position de la prochaine
+ligne s½ur. Imaginez une situation où une ligne possède des sous-lignes et que ces
+sous-lignes aient des lignes enfants dont quelques-unes sont ouvertes. Dans ce cas, la détermination 
+de l'index de la prochaine ligne s½ur prendrait du temps dans certaines implémentations.</p>
 
-<p>Regardons cela ensemble dans un exemple simple qui construit un arbre à partir d'un
-tableau. Nous l'examinerons morceau par morceau.</p>
+<p>Voyons tous ces points dans un exemple simple qui construit un arbre à partir d'un
+tableau. Nous l'examinerons portion par portion.</p>
 
 <pre><code>&lt;window onload="init();"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
@@ -99,13 +94,13 @@ propriété <code>view</code>. Nous définirons <code>treeView</code> plus tard.</p
 }</code></pre>
 
 <p>La vue d'arbre personnalisée aura besoin d'implémenter un certain nombre de méthodes
-lesquelles parmi les plus importantes seront examinées individuellement. Cet arbre
-supporte uniquement un seul niveau de parenté avec un niveau enfant interne, mais il
-peut être étendu pour supporter des niveaux supplémentaires sans trop d'efforts. Tout
-d'abord nous définirons deux structures pour conserver les données de l'arbre, la première
+dont les plus importantes seront examinées individuellement. Cet arbre
+supporte un seul niveau de parenté avec un niveau enfant interne, mais il
+peut être étendu pour intégrer sans trop d'effort des niveaux supplémentaires. Tout
+d'abord, nous définirons deux structures pour conserver les données de l'arbre, la première
 contiendra une carte relationnelle entre les parents et leurs éventuels enfants, et la
-seconde contiendra un tableau des items visibles. Souvenez vous qu'une vue doit conserver
-elle même une trace des items qui sont visibles.</p>
+seconde contiendra un tableau des lignes visibles. Souvenez-vous qu'une vue doit conserver
+elle-même une trace des lignes visibles.</p>
 
 <pre><code>var treeView = {
   childData : {
@@ -120,13 +115,12 @@ elle même une trace des items qui sont visibles.</p>
     ["Gaz", true, false]
   ],</code></pre>
 
-<p>La structure <code>childData</code> contient un tableau des enfants pour chacun des trois noeuds
+<p>La structure <code>childData</code> contient un tableau des enfants pour chacun des trois n½uds
 parents. Le tableau <code>visibleData</code> commence avec seulement trois items visibles, les trois
 items de haut niveau. Des items seront ajoutés et supprimés depuis ce tableau quand les
-items sont ouverts ou fermés. Essentiellement, quand une ligne parente est ouverte,
-l'enfant sera récupéré depuis la carte <code>childData</code> et inséré dans le tableau <code>visibleData</code>.
-Par exemple, si la ligne <var>Liquides</var> est ouverte, le tableau correspondant depuis <code>childData</code>,
-lequel dans ce cas contient seulement l'enfant <var>Mercure</var>, sera inséré dans le tableau
+items sont ouverts ou fermés. Le principe est le suivant&nbsp;: lorsqu'une ligne parente est ouverte,
+ses enfants sont récupérés depuis la carte <code>childData</code> et insérés dans le tableau <code>visibleData</code>.
+Par exemple, si la ligne <var>Liquides</var> est ouverte, son enfant unique dans le tableau <code>childData</code>, l'enfant <var>Mercure</var>, sera inséré dans le tableau
 <code>visibleData</code> après <var>Liquides</var> mais avant <var>Gaz</var>. La taille du tableau sera incrémentée de un.
 Les deux valeurs booléennes présentes dans chaque ligne dans la structure <code>visibleData</code> 
 indiquent respectivement si une ligne est un conteneur et si elle est ouverte. Évidemment, le nouvel enfant inséré
@@ -149,12 +143,12 @@ les fonctions simples&nbsp;:</p>
   isEditable: function(idx, column)  { return false; },</code></pre>
 
 <p>La fonction <code>rowCount</code> retournera la taille du tableau <code>visibleData</code>. Notez qu'elle
-devrait retourner le nombre courant de lignes visibles, pas le total. Donc, au début,
+devrait retourner le nombre courant de lignes <i>visibles</i>, pas le nombre <i>total</i> de lignes. Donc, au début,
 seulement trois items sont visibles et la valeur retournée par <code>rowCount</code> devrait être
 trois, même si six lignes sont cachées.</p>
 
 <p>La fonction <code>setTree</code> sera appelée pour définir l'objet boîte de l'arbre. L'objet boîte
- de l'arbre est un type spécialisé d'objet boîte spécifique aux arbres qui sera examiné
+ de l'arbre est un type spécialisé d'objet boîte propre aux arbres qui sera examiné
  en détail dans la prochaine section. Il est utilisé pour aider à la représentation
  graphique de l'arbre. Dans cet exemple, nous avons seulement besoin d'une fonction de
  l'objet boîte capable de redessiner l'arbre quand des items sont ajoutés ou
@@ -163,7 +157,7 @@ trois, même si six lignes sont cachées.</p>
 <p>Les fonctions <code>getCellText</code>, <code>isContainer</code> et <code>isContainerOpen</code> retournent juste l'élément
 correspondant dans le tableau <code>visibleData</code>. Enfin, les fonctions restantes peuvent
 retourner <var>false</var> puisque nous n'avons pas besoin de leurs fonctionnalités. Si nous avions
-eu une ligne qui n'aurait pas d'enfant, nous aurions implémenté la fonction <code>isContainerEmpty</code> 
+eu des lignes parents sans enfant, nous aurions implémenté la fonction <code>isContainerEmpty</code> 
 pour quelle retourne <var>true</var> pour ces éléments.</p>
 
 <pre><code>  getParentIndex: function(idx) {
@@ -173,9 +167,9 @@ pour quelle retourne <var>true</var> pour ces éléments.</p>
     }
   },</code></pre>
 
-<p>La fonction <code>getParentIndex</code> sera nécessaire pour trouver le parent d'un index donné.
-Dans notre exemple simple, il y a juste deux niveaux, donc nous savons que les conteneurs
-n'ont pas de parents, la valeur <var>-1</var> est retournée pour ces items. Autrement, nous devrions 
+<p>La fonction <code>getParentIndex</code> sera nécessaire pour retourner l'index du parent d'un item donné.
+Dans notre exemple simple, il y a seulement deux niveaux d'imbrication, donc nous savons que les conteneurs
+n'ont pas de parents, la valeur <var>-1</var> est retournée pour ces items. Dans le cas contraire, nous devons 
 parcourir les lignes en arrière pour rechercher celle qui est un conteneur. Ensuite,
 la fonction <code>getLevel</code>.</p>
 
@@ -185,28 +179,26 @@ la fonction <code>getLevel</code>.</p>
   },</code></pre>
 
 <p>La fonction <code>getLevel</code> est simple. Elle retourne juste <var>0</var> pour une ligne conteneur et <var>1</var>
-pour une ligne non-conteneur. Si nous voulions ajouter un niveau supplémentaire d'enfants,
-ces lignes auraient un niveau de <var>2</var>.</p>
+pour une ligne non-conteneur. Si nous voulions ajouter un niveau d'imbrication supplémentaire,
+ces lignes enfants auraient un niveau de <var>2</var>.</p>
 
 <pre><code>  hasNextSibling: function(idx, after) {
     var thisLevel = this.getLevel(idx);
     for (var t = idx + 1; t &lt; this.visibleData.length; t++) {
-      var nextLevel = this.getLevel(t)
+      var nextLevel = this.getLevel(t);
       if (nextLevel == thisLevel) return true;
       else if (nextLevel &lt; thisLevel) return false;
     }
   },</code></pre>
 
-<p>La fonction <code>hasNextSibling</code> doit retourner <var>true</var> s'il existe une ligne suivant
-une autre de même niveau. Le code ci-dessus utilise une méthode basique qui consiste à parcourir les 
-lignes après celle donnée, en retournant <var>true</var> si une ligne de même niveau existe et <var>false</var> 
+<p>La fonction <code>hasNextSibling</code> doit retourner <var>true</var> quand une ligne donnée est suivie d'une ligne de même niveau (une s½ur). Le code ci-dessus utilise une méthode basique qui consiste à parcourir les 
+lignes après celle donnée, en retournant <var>true</var> si une ligne de même niveau est trouvée et <var>false</var> 
 si une ligne de niveau inférieur est rencontrée.
 Dans cet exemple simple, cette méthode est bonne, mais un arbre avec davantage de données
-aura besoin d'utiliser une méthode optimisée pour déterminer si une ligne suivante soeur
-existe.</p>
+aura besoin d'utiliser une méthode optimisée pour déterminer s'il existe une ligne suivante s½ur.</p>
 
-<p>La dernière fonction est <code>toggleOpenState</code> qui est la plus complexe. Elle a besoin de
-modifier le tableau <code>visibleItems</code> lorsqu'une ligne est ouverte ou fermée.</p>
+<p>La dernière fonction est <code>toggleOpenState</code>. C'est la plus complexe. Elle a besoin de
+modifier le tableau <code>visibleData</code> lorsqu'une ligne est ouverte ou fermée.</p>
 
 <pre><code>  toggleOpenState: function(idx) {
     var item = this.visibleData[idx];
@@ -243,7 +235,7 @@ fonction retourne juste que les non-conteneurs ne peuvent pas être ouverts ou fe
 Comme le troisième élément du tableau (celui avec l'index 2) indique si une ligne est 
 ouverte ou fermée, nous utilisons deux blocs de code, le premier pour fermer une ligne 
 et le second pour ouvrir une ligne. Examinons chaque bloc de code, mais en commençant 
-par le second chargé d'ouvrir une ligne.</p>
+par le second, chargé d'ouvrir une ligne.</p>
 
 <pre><code>
   item[2] = true;
@@ -256,10 +248,9 @@ par le second chargé d'ouvrir une ligne.</p>
   this.treeBox.rowCountChanged(idx + 1, toinsert.length);</code></pre>
 
 <p>La première ligne de code définit la ligne item comme étant ouverte dans le tableau, 
-ainsi le prochain appel de la fonction <code>toggleOpenState</code> aura l'indication 
-de devoir fermer la ligne. Ensuite, regardons les données pour la ligne dans la carte <code>childData</code>.
-Le résultat est que la variable 'toinsert' sera definie avec un des tableaux enfants, par exemple
-<var>["Argent", "Or", "Plomb"]</var> si la ligne <var>Solides</var> est celle qui est en train d'être ouverte.
+ainsi le prochain appel de la fonction <code>toggleOpenState</code> saura qu'elle doit fermer la ligne. Ensuite, regardons les données pour la ligne dans la carte <code>childData</code>.
+Le résultat est que la variable 'toinsert' sera définie avec un des tableaux enfants, par exemple
+<var>["Argent", "Or", "Plomb"]</var> si la ligne <var>Solides</var> est celle qu'on demande d'ouvrir.
 Ensuite, nous utilisons la fonction de tableau <code>splice</code> pour insérer une nouvelle ligne
 pour chaque item. Pour <var>Solides</var>, trois items seront insérés.</p>
 
@@ -268,17 +259,16 @@ Rappelez-vous que l'objet treeBox est un objet de boîte d'arbre qui a été défini
 la fonction <code>setTree</code>. L'objet de boîte d'arbre sera créé par l'arbre pour vous et vous
 pourrez appeler ses fonctions. Dans ce cas, nous utilisons la fonction <code>rowCountChanged</code>
 pour informer l'arbre que quelques lignes de données ont été ajoutées.
-L'arbre redessinera son contenu avec comme résultat que les lignes
+L'arbre redessinera son contenu avec pour résultat que les lignes
 enfants apparaîtront à l'intérieur du conteneur. Les autres fonctions
-implémentées ci-dessus telles que <code>getLevel</code> et <code>isContainer</code> sont utilisées par l'arbre
+implémentées ci-dessus, telles que <code>getLevel</code> et <code>isContainer</code>, sont utilisées par l'arbre
 pour déterminer son affichage.</p>
 
-<p>La fonction <code>rowCountChanged</code> prend deux arguments, l'index où la première ligne a
-été insérée et le nombre de lignes à ajouter. Dans le code ci-dessus nous indiquons
-que la ligne de départ est la valeur de <var>idx</var> plus un, elle sera la première ligne enfant
+<p>La fonction <code>rowCountChanged</code> prend deux arguments, l'index de la ligne où doit se faire l'insertion et le nombre de lignes à insérer. Dans le code ci-dessus nous indiquons
+que la ligne de départ est la valeur de <var>idx</var> + 1, elle sera la première ligne enfant
 sous le parent. L'arbre utilisera cette information et ajoutera l'espace nécessaire pour le nombre
-approprié de lignes en poussant les lignes suivantes vers le bas. Assurez vous de fournir
-le nombre correct ou bien l'arbre pourrait se redessiner incorrectement ou essayer de dessiner
+approprié de lignes en poussant les lignes suivantes vers le bas. Assurez-vous de fournir
+le nombre correct, ou l'arbre pourrait se redessiner incorrectement ou essayer de dessiner
 plus de lignes que nécessaire.</p>
 
 <p>Le code suivant est utilisé pour supprimer des lignes quand une ligne est fermée.</p>
@@ -297,10 +287,10 @@ plus de lignes que nécessaire.</p>
     this.treeBox.rowCountChanged(idx + 1, -deletecount);
   }</code></pre>
 
-<p>Premièrement, l'item est déclaré comme fermé dans le tableau. Ensuite, nous scannons les
-lignes suivantes jusqu'à ce que nous arrivions à une ligne de même niveau. Toutes celles
+<p>Premièrement, l'item est déclaré fermé dans le tableau. Ensuite, nous scannons les
+lignes suivantes jusqu'à ce que nous atteignions une ligne de même niveau. Toutes celles
 qui ont un niveau supérieur auront besoin d'être supprimées, mais une ligne de même
-niveau sera le prochain conteneur qui ne devra pas être suprimée.</p>
+niveau sera le prochain conteneur qui ne devra pas être supprimé.</p>
 
 <p>Enfin, nous utilisons la fonction <code>splice</code> pour supprimer les lignes du tableau
 <code>visibleData</code> et appelons la fonction <code>rowCountChanged</code> pour redessiner l'arbre. Lors de
@@ -309,7 +299,7 @@ lignes à supprimer.</p>
 
 <p>Il existe plusieurs autres fonctions de vue pouvant être implémentées mais nous n'en 
 avons pas l'utilité dans cet exemple, donc nous créons des fonctions qui ne font rien ici. 
-Elles sont placées à la fin de notre exemple complet, comme montré ici&nbsp;:</p>
+Elles sont placées à la fin de notre exemple complet&nbsp;:</p>
 
 <p>Exemple 8.5.1&nbsp;:
 <a href="exemples/ex_treeviewdet_1.xul.txt">Source</a>
@@ -373,7 +363,7 @@ var treeView = {
   hasNextSibling: function(idx, after) {
     var thisLevel = this.getLevel(idx);
     for (var t = idx + 1; t &lt; this.visibleData.length; t++) {
-      var nextLevel = this.getLevel(t)
+      var nextLevel = this.getLevel(t);
       if (nextLevel == thisLevel) return true;
       else if (nextLevel &lt; thisLevel) return false;
     }
@@ -432,4 +422,3 @@ function init() {
 <hr />
 
 <p>Ensuite, nous verrons plus en détails l'objet de boîte d'arbre.</p>
-
