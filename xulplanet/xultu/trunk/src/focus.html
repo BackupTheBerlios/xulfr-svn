@@ -1,11 +1,10 @@
-
 <p>Cette section va décrire comment manipuler le focus et la sélection des éléments.</p>
 
 <h2>Éléments focalisés</h2>
 
-<p>L'élément focalisé est l'élément qui reçoit les évènements d'entrée. Si il y a trois champs de saisie
-sur une fenêtre, celui qui détient le focus est celui dans laquelle l'utilisateur peut taper du texte.
-Seul un élément peut détenir le focus à la fois.</p>
+<p>L'élément focalisé est l'élément qui reçoit les événements d'entrée. S'il y a trois champs de saisie
+sur une fenêtre, celui qui détient le focus est celui dans lequel l'utilisateur peut taper du texte.
+Un seul élément à la fois peut détenir le focus.</p>
 
 <p>L'utilisateur peut changer le focus en cliquant sur un élément avec la souris ou en appuyant sur la
 touche <kbd>Tab</kbd> (tabulation). Lorsque la touche tabulation est appuyée, le focus passe à l'élément suivant.
@@ -13,11 +12,11 @@ Pour revenir en arrière, il suffit d'appuyer sur les touches <kbd>Maj</kbd> (shi
 
 <p>Vous pouvez changer l'ordre dans lequel les éléments seront focalisés quand l'utilisateur appuiera sur la
 touche <kbd>Tab</kbd> en ajoutant un attribut <code class="attribut">tabindex</code> à un élément. Cet
-attribut doit être défini avec un nombre. Lorsque l'utilisateur appuiera sur la touche <kbd>Tab</kbd>, le focus
+attribut doit être renseigné avec un nombre. Lorsque l'utilisateur appuiera sur la touche <kbd>Tab</kbd>, le focus
 sera donné à l'élément ayant l'index de tabulation consécutif le plus haut. Cela implique que vous pouvez
 ordonner les éléments en définissant des indices pour séquencer les éléments. Toutefois, vous
 n'aurez normalement pas à définir l'attribut <code class="attribut">tabindex</code>. Dans ce cas, un appui
-sur la touche tabulation donnera le focus à l'élement suivant affiché. Vous avez seulement besoin de
+sur la touche tabulation donnera le focus à l'élément suivant affiché. Vous avez seulement besoin de
 définir des indices de tabulation si vous voulez utiliser un ordre différent. Voici un exemple&nbsp;:</p>
 
 <p>Exemple 6.4.1&nbsp;: <a href="examples/ex_focus_1.xul.txt">Source</a>
@@ -30,12 +29,12 @@ définir des indices de tabulation si vous voulez utiliser un ordre différent. Vo
 &lt;button label="Bouton 3" tabindex="3"/&gt;
 </code></pre>
 
-<p>L'évènement focus est utilisé pour réagir lorsqu'un élément obtient le focus. L'évènement blur est utilisé
+<p>L'événement focus est utilisé pour réagir lorsqu'un élément obtient le focus. L'événement 'blur' est utilisé
 pour réagir lorsqu'un un élément perd le focus. Vous pouvez réagir aux changements de focus en ajoutant un
 attribut <code class="attribut">onfocus</code> ou <code class="attribut">onblur</code> à un élément. Ils
-fonctionnent de la même façon que leurs homologues HTML. Vous pouvez utiliser ces évènements pour mettre un
+fonctionnent de la même façon que leurs homologues HTML. Vous pouvez utiliser ces événements pour mettre un
 élément en surbrillance ou afficher un texte dans la barre d'état. L'exemple suivant peut s'appliquer à une
-fonction de gestion des évènements de focus.</p>
+fonction de gestion des événements de focus.</p>
 
 <p>Exemple 6.4.2&nbsp;: <a href="exemples/ex_focus_2.xul.txt">Source</a>
 <a href="exemples/ex_focus_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
@@ -57,28 +56,28 @@ function displayFocus()
 &lt;description id="sbar" value=""/&gt;
 </code></pre>
 
-<p>L'évènement focus, quand il a lieu, va appeler la fonction <code>displayFocus</code>. Cette fonction va
+<p>L'événement focus, quand il est produit, va appeler la fonction <code>displayFocus</code>. Cette fonction va
 changer la valeur de
-l'étiquette texte. Nous pourrions développer cet exemple pour effacer le texte quand l'évènement blur a lieu.
-Généralement vous utiliserez les évènements focus et blur pour mettre à jour certaines parties de votre interface
+l'étiquette texte. Nous pourrions développer cet exemple pour effacer le texte quand l'événement 'blur' a lieu.
+Généralement, vous utiliserez les événements focus et blur pour mettre à jour certaines parties de votre interface,
 quand l'utilisateur sélectionne des éléments. Par exemple, vous pouvez mettre à jour un total quand l'utilisateur
-entre des valeurs dans d'autres champs, ou utiliser les évènements de focus pour vérifier certaines valeurs.
-N'affichez pas de messages d'alerte pendant un évènement focus ou blur, car ils pourraient distraire l'utilisateur
+entre des valeurs dans d'autres champs, ou utiliser les événements de focus pour vérifier certaines valeurs.
+N'affichez pas de messages d'alerte pendant un événement focus ou blur, car ils pourraient distraire l'utilisateur
 et ils dégradent le design de l'interface.</p>
 
-<p>Vous pouvez aussi ajouter des gestionnaires d'évènements dynamiquement en utilisant la fonction DOM
+<p>Vous pouvez aussi ajouter dynamiquement des gestionnaires d'événements en utilisant la fonction DOM
 <code>addEventListener</code>. Vous pouvez l'utiliser pour n'importe quel élément et type
-d'évènement. Elle prend trois paramètres, le type d'évènement, une fonction à exécuter quand l'évènement
-a lieu et un booléen indiquant si il faut capturer ou non l'évènement.</p>
+d'événement. Elle prend trois paramètres&nbsp;: le type d'événement, une fonction à exécuter quand l'événement
+est produit et un booléen indiquant s'il faut capturer ou non l'événement.</p>
 
-<p>L'élément ayant le focus est pris en charge par un objet appelé répartiteur de commandes, et dont il ne peut
+<p>L'élément ayant le focus est pris en charge par un objet appelé «&nbsp;répartiteur de commandes&nbsp;», dont il ne peut
 y avoir qu'une instance par fenêtre. Le répartiteur de commandes garde la trace de l'objet qui a le focus pendant
 que l'utilisateur se sert de l'interface. Le répartiteur de commandes a d'autres rôles, qui seront abordés plus
 tard dans la section des commandes. Pour le moment, nous allons nous intéresser à quelques fontions relatives au
 focus du répartiteur de commandes.</p>
 
 <p>Vous pouvez récupérer le répartiteur de commandes d'une fenêtre en utilisant la propriété
-<code>commandDispatcher</code> du document. À partir de là, vous pouver obtenir l'élément focalisé
+<code>commandDispatcher</code> du document. À partir de là, vous pouvez obtenir l'élément focalisé
 avec la propriété <code>focusedElement</code> du répartiteur. L'exemple ci-dessous illustre ce cas.</p>
 
 <p>Exemple 6.4.3&nbsp;: <a href="exemples/ex_focus_3.xul.txt">Source</a>
@@ -115,15 +114,15 @@ function setFocusedElement()
 &lt;/window&gt;
 </code></pre>
 
-<p>Dans cet exemple, un gestionnaire d'évènement de focus est attaché à la fenêtre. Nous voulons utiliser
-un gestionnaire de capture d'évènements, donc la méthode <code>addEventListener</code>
-doit être utilisée. Elle associe un gestionnaire de capture d'évènements à la fenêtre qui appelera la
+<p>Dans cet exemple, un gestionnaire d'événement de focus est attaché à la fenêtre. Nous voulons utiliser
+un gestionnaire de capture d'événements, donc la méthode <code>addEventListener</code>
+doit être utilisée. Elle associe un gestionnaire de capture d'événements à la fenêtre qui appellera la
 méthode <code>setFocusedElement</code>. Cette méthode prend l'élément focalisé du
 répartiteur de commandes et modifie une étiquette avec le nom de sa balise. Quand l'élément focalisé
-change, l'étiquette montre le nom de l'élément. Voici quelques choses à noter. Premièrement,
+change, l'étiquette montre le nom de l'élément. Veuillez noter que, premièrement,
 quand le champ de saisie est focalisé, le nom de la balise est 'html:input', et non 'textbox' comme on aurait
-pu s'y attendre. C'est parce que les champs de saisie XUL sont implémentés avec le composant HTML input,
-donc l'évènement focus est en fait reçu pour cet élément. Deuxièmement, un clic sur le libellé du champs
+pu s'y attendre. C'est parce que les champs de saisie XUL sont implémentés avec le composant HTML 'input',
+donc l'événement focus est en fait reçu pour cet élément. Deuxièmement, un clic sur le libellé du champ
 de saisie donne le focus au champ de saisie. C'est parce que le libellé possède un attribut
 <code class="attribut">control</code> pointant vers l'id du champ de saisie. Enfin, l'autre étiquette
 qui affiche la propriété nom n'a pas d'attribut <code class="attribut">control</code>, donc un clic dessus
@@ -143,15 +142,15 @@ non. Par exemple, vous pourriez rendre une étiquette focalisable, comme dans l'e
           onkeypress="alert('Étiquette focalisée');" value="Focalise moi"/&gt;
 </code></pre>
 
-<p>La propriété de style est reglée à <var>normal</var>. Vous pouvez aussi la définir à <var>ignore</var> pour
+<p>La propriété de style est réglée à <var>normal</var>. Vous pouvez aussi la définir à <var>ignore</var> pour
 désactiver le focus pour un élément. Toutefois, elle ne doit pas être utilisée pour désactiver un élément&nbsp;;
 l'attribut ou la propriété <code class="attribut">disabled</code> doit être utilisée dans ce cas, car elle a
-été conçue pour. Une fois que l'étiquette dans l'exemple est focalisée, elle peut réagir aux évènements du
-clavier. Évidemment, l'étiquette ne donne aucune indication comme quoi elle est focalisée, car elle n'est
-normalement pas prévue pour.</p>
+été conçue pour. Dans l'exemple, une fois l'étiquette focalisée, elle peut réagir aux événements du
+clavier. Évidemment, l'étiquette ne donne aucune indication sur son focus, car elle n'est
+normalement pas prévue pour cet usage.</p>
 
 <p>Il existe plusieurs façons de changer l'élément focalisé. La plus simple est d'appeler la méthode focus de
-l'élément XUL que vous voulez focaliser. La méthode blur peut être utilisée afin d'enlever le focus d'un élément.
+l'élément XUL que vous voulez focaliser. La méthode 'blur' peut être employée afin d'enlever le focus d'un élément.
 L'exemple suivant met en pratique ces principes&nbsp;:</p>
 
 <p>Exemple 6.4.5&nbsp;: <a href="exemples/ex_focus_5.xul.txt">Source</a>
@@ -164,7 +163,7 @@ L'exemple suivant met en pratique ces principes&nbsp;:</p>
 &lt;button label="Focus" oncommand="document.getElementById('addr').focus()"/&gt;
 </code></pre>
 
-<p>Sinon, vous pouvez utiliser les méthodes <code>advanceFocus</code> et
+<p>Vous pouvez aussi utiliser les méthodes <code>advanceFocus</code> et
 <code>rewindFocus</code> du répartiteur de commandes. Ces méthodes changent le focus respectivement
 vers l'élément suivant ou précédent de la séquence de tabulation. Elles correspondent aux actions réalisées 
 lorsque l'utilisateur appuie sur <kbd>Tab</kbd> ou <kbd>Maj</kbd>+<kbd>Tab</kbd>.</p>
@@ -174,23 +173,21 @@ le focus. Vous pouvez vérifier la présence de cet attribut pour déterminer si l'
 soit depuis une feuille de styles. Il aura la valeur <var>true</var> si le champ de saisie a le focus, et le cas échéant,
 l'attribut ne sera pas présent.</p>
 
-<h2>Capturer les modifications de texte </h2>
+<h2>Capturer les modifications de texte</h2>
 
-<p>Il y a 2 évènements pouvant être utilisés lorsque l'utilisateur modifie la
-le contenu d'un champ de saisie. Naturellement, ces évènements seront uniquement
-transmis au champ de saisie ayant le focus. L'évènement d'insertion est
-transmis à chaque fois que le contenu du champ est modifié. La nouvelle
-valeur sera différente de l'ancienne. Vous devriez utiliser cet évènement au
-lieu d'utiliser les évènements clavier, car certaines touches, par exemple
-<kbd>Maj</kbd>, ne changent pas la valeur. De plus, l'évènement d'insertion ne se déclenche
+<p>Deux événements peuvent être utilisés lorsque l'utilisateur modifie la
+le contenu d'un champ de saisie. Naturellement, ces événements seront uniquement
+transmis au champ de saisie ayant le focus. L'événement d'insertion est
+transmis chaque fois que le contenu du champ est modifié. La nouvelle
+valeur sera différente de l'ancienne. Vous devriez utiliser cet événement au
+lieu d'utiliser les événements clavier, car certaines touches, par exemple
+<kbd>Maj</kbd>, ne changent pas la valeur. De plus, l'événement d'insertion ne se déclenche
 pas si une touche est enfoncée et s'il y a déjà plus de caractères dans le champ
 de saisie qu'il ne peut en contenir.</p>
 
-<p>L'évènement de changement est similaire dans le sens où il est transmis
-seulement lorsque le champ est modifié. Cependant, il est seulement transmis
-une fois que le champ texte perd le focus, ce qui veut dire, seulement une fois aprés
-une série de changements.</p>
-
+<p>L'événement de changement est similaire dans le sens où il est transmis
+seulement lorsque le champ est modifié. Cependant, cet événement n'est transmis qu'au moment 
+où le champ de saisie perd le focus, et seulement si son contenu a été modifié.</p>
 
 <h2>Sélection de texte</h2>
 
@@ -198,7 +195,7 @@ une série de changements.</p>
 Ou alors vous pouvez changer la sélection.</p>
 
 <p>Les champs de saisie XUL offrent une possibilité de récupérer et de modifier une sélection. La plus simple et de sélectionner
-tout le texte du champ. Cela implique l'utilisation de la méthode select du champ de saisie.</p>
+tout le texte du champ. Cela implique l'utilisation de la méthode 'select' du champ de saisie.</p>
 
 <pre><code>
 tbox.select();
@@ -206,19 +203,19 @@ tbox.select();
 
 <p>Toutefois, vous pouvez aussi sélectionner seulement une partie du texte. Il vous suffit d'utiliser la fonction
 <code>setSelectionRange</code>. Elle prend deux paramètres, le premier représente le caractère de départ et le second
-le caractère suivant le dernier que vous voulez sélectionner. Les valeurs commencent à zéro, donc le premier caractère est <var>0</var>,
-le second <var>1</var> et ainsi de suite.</p>
+le caractère suivant le dernier que vous voulez sélectionner. Les valeurs commencent à zéro, donc le premier caractère est indicé à <var>0</var>,
+le second à <var>1</var> et ainsi de suite.</p>
 
 <pre><code>
 tbox.setSelectionRange(4,8);
 </code></pre>
 
-<p>Cet exemple ca sélectionner le cinquième caractère affiché, ainsi que le sixième, le septième et le huitième. Si il n'y avait que
-six caractères présents dans le champ, seulement le cinquième et le sixième auraient été sélectionnés. Il n'y aurait pas d'erreur.</p>
+<p>Cet exemple va sélectionner le cinquième caractère affiché, ainsi que le sixième, le septième et le huitième. S'il n'y avait que
+six caractères présents dans le champ, seuls le cinquième et le sixième auraient été sélectionnés. Aucune erreur ne serait signalée.</p>
 
 <p>Si vous utilisez la même valeur pour les deux paramètres, le début et la fin de la sélection changent pour la même position. 
-Le résultat revient à changer la position du curseur dans le champs de saisie. Par exemple, la ligne ci-dessous 
-peut être utilisée pour bouger le curseur au début du texte.</p>
+Le résultat revient à changer la position du curseur dans le champ de saisie. Par exemple, la ligne ci-dessous 
+peut être utilisée pour ramener le curseur au début du texte.</p>
 
 <pre><code>
 tbox.setSelectionRange(0,0);
@@ -226,7 +223,7 @@ tbox.setSelectionRange(0,0);
 
 <p>Vous pouvez récupérer la sélection en utilisant les propriétés <code>selectionStart</code> et
 <code>selectionEnd</code>. Ces propriétés définissent respectivement le début et la fin de la sélection. Si
-les deux sont définies à la même valeur, aucun texte n'est sélectionné, mais les valeurs représentent à la position du curseur.
+les deux sont définies à la même valeur, aucun texte n'est sélectionné, mais les valeurs représentent la position du curseur.
 Une fois que vous avez les valeurs de début et de fin, vous pouvez récupérer la section de chaîne du texte.</p>
 
 <p>Vous pouvez récupérer et modifier le contenu du champ de saisie en utilisant la propriété <code>value</code>.</p>
@@ -236,4 +233,3 @@ total de caractères dans le champ.</p>
 
 <hr />
 <p>Dans la prochaine section, nous découvrirons comment utiliser les commandes.</p>
-

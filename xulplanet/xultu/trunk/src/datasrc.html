@@ -1,4 +1,3 @@
-
 <p>
 Nous nous intéresserons ici aux sources de données additionnelles,
 ainsi qu'à la manière d'utiliser vos propres fichiers <acronym title="Resource Description Framework">RDF</acronym> comme
@@ -20,7 +19,7 @@ applications qui sont enregistrées dans le chrome. Vous ne verrez donc pas
 les données dans certains des exemples proposés.
 </p>
 
-<h2>La liste d'historique</h2>
+<h2>La liste d'historique de navigation</h2>
 
 <p>
 Cette source de données fournit l'accès à la liste d'historique de
@@ -126,7 +125,7 @@ l'utilisateur.
 
 <table class="donneestuto">
 <tr>
-  <td>Date d'Ajout</td>
+  <td>Date d'ajout</td>
   <td>rdf:http://home.netscape.com/NC-rdf#BookmarkAddDate</td>
   <td>Date à laquelle le marque-page a été ajouté</td>
 </tr><tr>
@@ -134,11 +133,11 @@ l'utilisateur.
   <td>rdf:http://home.netscape.com/NC-rdf#Description</td>
   <td>Description du marque-page</td>
 </tr><tr>
-  <td>Dernière Modification</td>
+  <td>Dernière modification</td>
   <td>rdf:http://home.netscape.com/WEB-rdf#LastModifiedDate</td>
   <td>Date de la dernière modification</td>
 </tr><tr>
-  <td>Dernière Visite</td>
+  <td>Dernière visite</td>
   <td>rdf:http://home.netscape.com/WEB-rdf#LastVisitDate</td>
   <td>Date de la dernière visite</td>
   </tr><tr>
@@ -156,14 +155,14 @@ l'utilisateur.
 </tr>
 </table>
 
-<h4>Racines Possibles pour les marque-pages</h4>
+<h4>Racines possibles pour les marque-pages</h4>
 
 <dl>
   <dt><var>NC:BookmarksRoot</var></dt>
   <dd>La racine de la hiérarchie des marque-pages</dd>
 
   <dt><var>NC:IEFavoritesRoot</var></dt>
-  <dd>Le dossier de marque-pages correspondant aux Favoris IE de l'utilisateur</dd>
+  <dd>Le dossier de marque-pages correspondant aux «&nbsp;Favoris IE&nbsp;» de l'utilisateur</dd>
 
   <dt><var>NC:PersonalToolbarFolder</var></dt>
   <dd>Le dossier de marque-pages correspondant au dossier de la barre d'outils personnelle</dd>
@@ -193,27 +192,27 @@ Une vue des fichiers de l'utilisateur.
 
 <dl>
   <dt><var>NC:FilesRoot</var></dt>
-  <dd>Racine du système de fichier (habituellement une liste de disques)</dd>
+  <dd>Racine du système de fichiers (habituellement une liste de disques)</dd>
 
   <dt><var>URL d'un fichier</var></dt>
   <dd>En utilisant une URL de fichier pour l'attribut <code
-    class="attribut">ref</code>, vous pouvez choisir un répertoire à
+    class="attribut">ref</code>, vous pouvez choisir un répertoire/dossier à
     retourner. Par exemple, vous pouvez utiliser file:///windows ou file:///usr/local</dd>
 </dl>
 
 <p>
 La source de données de fichiers est un exemple de source de données qui
 ne détermine ses ressources que lorsque cela est nécessaire. Nous ne
-voulons pas que tous les fichiers du système de fichier soient évalués
-avant d'afficher les données. Au lieu de cela, seuls les fichiers et
+voulons pas que tous les fichiers du système de fichiers soient évalués
+avant d'afficher les données. Seuls nous intéressent les fichiers et
 répertoires que l'arbre (ou tout autre élément) doit afficher à un
-instant donné seront déterminés.
+instant donné.
 </p>
 
 <h2>Sources de données composites</h2>
 
 <p>
-Vous pouvez spécifier des sources de données multiples dans l'attribut
+Vous pouvez spécifier plusieurs sources de données dans l'attribut
 <code class="attribut">datasources</code> en les séparant par des
 espaces, comme dans l'exemple ci-dessous. Les données seront ainsi lues dans toutes les sources de données mentionnées.
 </p>
@@ -223,7 +222,7 @@ espaces, comme dans l'exemple ci-dessous. Les données seront ainsi lues dans tou
 <p>
 Cet exemple lit les ressources des marque-pages, de l'historique et
 d'un fichier nommé <var>animals.rdf</var>. Celles-ci sont combinées en une source
-de données composite et peuvent être utilisées comme si elles ne faisaient qu'une.
+de données composite et peuvent être utilisées comme une unique source de données.
 </p>
 
 <p>
@@ -248,7 +247,7 @@ distant. Il suffit d'indiquer l'URL du fichier RDF dans l'attribut
 
 <p>
 L'utilisation des fichiers RDF apporte les mêmes fonctionnalités que
-n'importe quelle des sources de données internes. Vous pouvez
+n'importe quelle source de données interne. Vous pouvez
 utiliser des règles pour retrouver un type spécifique de contenu. Les
 attributs de l'élément <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code> correspondront s'ils
@@ -259,7 +258,7 @@ fichiers RDF hiérarchiques.
 
 <p>
 Ce qui suit est un exemple d'utilisation d'un fichier RDF comme source
-de données. Le fichier RDF est relativement gros et peut être vu
+de données. Le fichier RDF est relativement gros et peut être consulté
 séparément&nbsp;:
 <a href="exemples/animals.txt">Source</a> 
 <a href="exemples/animals.rdf">RDF</a>
@@ -303,14 +302,14 @@ ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
 <img src="images/datasrc1.png" alt="résultat de l'exemple 9.4.2"
 class="screenshot"/>
 
-Ici, les données sont générées depuis le fichier. L'attribut <code
-class="attribut">ref</code> a été positionné sur l'élément racine du
-fichier RDF, qui est la balise de premier niveau <code
+Ici, les données sont générées depuis le fichier RDF. L'attribut <code
+class="attribut">ref</code> a été positionné sur l'élément racine de ce
+fichier, qui est la balise de premier niveau <code
 class="tag">Seq</code>. Nous obtenons une liste complète
 d'animaux. Si nous avions voulu, nous aurions pu positionner
 l'attribut <code class="attribut">ref</code> sur n'importe quelle
 valeur de l'attribut <code class="attribut">about</code> afin de
-filtrer la quantité de données retournée. Par exemple, pour afficher
+filtrer la quantité de données retournées. Par exemple, pour afficher
 seulement les reptiles, nous pouvons utiliser la valeur <var>http://www.some-fictitious-zoo.com/reptiles</var>.
 </p>
 
@@ -372,7 +371,7 @@ données que nous ne voulons pas afficher.
 <p>
 La seconde règle s'applique aux autres ressources et crée une rangée
 dans un menu surgissant. Le résultat final est un menu surgissant
-contenant tous les mammifères dont le specimen n'est pas positionné à <var>0</var>.
+contenant tous les mammifères dont le spécimen n'est pas positionné à <var>0</var>.
 </p>
 
 <hr />

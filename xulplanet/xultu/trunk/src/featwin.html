@@ -1,15 +1,13 @@
-
 <p>
-Nous avons déjà vu quelques caractéristiques de fenêtres. Nous allons en voir
-quelques unes de plus dans cette section.
+Nous avons déjà vu quelques caractéristiques de fenêtres. Nous allons en aborder d'autres dans cette section.
 </p>
 
 <h2>Créer une autre fenêtre</h2>
 
 <p>
 Vous pouvez créer une seconde fenêtre pour votre application de la même manière
-que vous avez créé la première. Il suffit de créer un second fichier XUL avec
-le code de la fenêtre à l'intérieur. Comme en HTML, vous pouvez utiliser la fonction
+que vous avez créé la première. Il suffit de créer un second fichier XUL contenant 
+le code de la nouvelle fenêtre. Comme en HTML, vous pouvez utiliser la fonction
 <code>window.open</code> pour ouvrir la seconde fenêtre. Cette fonction retournera une référence
 à la fenêtre nouvellement ouverte. Vous pouvez utiliser cette référence pour appeler
 des fonctions de l'autre fenêtre.
@@ -17,7 +15,7 @@ des fonctions de l'autre fenêtre.
 
 <p>
 La fonction <code>open</code> prend trois arguments. Le premier est l'URL du fichier que vous
-souhaitez ouvrir. Le second est le nom interne de la fenêtre. Le troisième est une
+souhaitez ouvrir. Le deuxième est le nom interne de la fenêtre. Le troisième est une
 liste de drapeaux de paramètres d'affichage. Le drapeau <code>chrome</code> est important pour ouvrir la fenêtre
 comme un fichier chrome. Si vous n'ajoutez pas le drapeau <code>chrome</code>, le fichier sera
  ouvert dans une nouvelle fenêtre du navigateur.
@@ -48,12 +46,12 @@ ces spécifications, la taille sera déterminée par les élements qui la constituen
 
 <p>
 Dans cet exemple, la fenêtre sera ouverte avec une largeur de 400 pixels et une
-hauteur de 450 pixels. Même s'il n'y a pas assez d'éléments pour lui faire prendre
+hauteur de 450 pixels. Même s'il n'y a pas assez d'éléments pour lui faire adopter
 cette taille, la fenêtre s'ouvrira toujours à cette taille et il y aura un espace
-blanc dans l'espace restant. S'il y a trop d'élements, la fenêtre ne s'adaptera
-pas pour eux. L'utilisateur devra redimensionner la boîte de dialogue. Vous devez
+vierge dans l'espace restant. S'il y a trop d'élements, la fenêtre n'adaptera
+pas ses dimensions pour en tenir compte. L'utilisateur devra alors redimensionner la boîte de dialogue. Vous devez
 faire attention, lorsque vous spécifiez une largeur et une hauteur, à ce que la
-fenêtre ne soit pas trop petite ou trop grande.
+fenêtre ne soit ni trop petite, ni trop grande.
 </p>
 
 <p class="note">Notez que vous devez spécifier à la fois la largeur <strong>et</strong> la hauteur. Si vous ne spécifiez
@@ -70,9 +68,9 @@ soit redimensionnable.
 
 <p>
 Les drapeaux ci-après peuvent être utilisés comme troisième argument de la
-fonction <code>window.open</code>. Votre système d'exploitation peut ne pas tous les supporter.
-Vous pouvez également utiliser un des drapeaux pré-existants que vous devriez
-trouver dans une référence Javascript. Vous pouvez desactiver une propriété en
+fonction <code>window.open</code>. Votre système d'exploitation peut ne pas les supporter tous.
+Vous pouvez également utiliser un des drapeaux pré-existants, que vous devriez
+trouver dans une référence Javascript. Vous pouvez désactiver une propriété en
 la réglant sur <var>no</var>, par exemple <code>dialog=<var>no</var></code>.
 </p>
 
@@ -84,11 +82,11 @@ la réglant sur <var>no</var>, par exemple <code>dialog=<var>no</var></code>.
   <dd>La fenêtre apparaîtra toujours devant les autres fenêtres.</dd>
 
   <dt><code>centerscreen</code></dt>
-  <dd>À son ouverture, la fenêtre sera centrée par rapport à l'écran.</dd>
+  <dd>À son ouverture, la fenêtre sera centrée à l'écran.</dd>
 
   <dt><code>dependent</code></dt>
   <dd>La position de la fenêtre sera toujours relative à la fenêtre qui l'a ouverte.
-      Si la position de la fenêtre initiale est modifiée, la deuxième fenêtre bougera
+      Si la position de la fenêtre initiale est modifiée, la seconde fenêtre bougera
       automatiquement de même manière.</dd>
 
   <dt><code>dialog</code></dt>
@@ -104,9 +102,9 @@ la réglant sur <var>no</var>, par exemple <code>dialog=<var>no</var></code>.
 
 <h2>Déboguer une fenêtre</h2>
 
-<p>Une autre propriété trèe utile lors des développements est l'activation
+<p>Une autre propriété très utile lors du développement est l'activation
 du mode déboggage sur une fenêtre. Pour l'activer, ajoutez un
-attribut <code class="attribut">debug</code> à la fenêtre et régler le sur
+attribut <code class="attribut">debug</code> à la fenêtre et réglez-le à
 <var>true</var>. Il obligera la fenêtre à mettre en évidence les boîtes
 et les espacements pour que vous puissiez voir ce qui se passe. L'exemple
 ci-après montre comment l'utiliser.</p>
@@ -127,21 +125,21 @@ ci-après montre comment l'utiliser.</p>
 <p><img src="images/featwin.png" class="screenshot" alt="" /></p>
 
 <ul>
-  <li>Les boîtes bleues indiquent les boîtes horizontales.</li>
-  <li>Les boîtes rouges indiquent les boîtes verticales. Vous pouvez voir que
+  <li>Les boîtes bleues indiquent les boîtes qui possèdent un alignement horizontal.</li>
+  <li>Les boîtes rouges indiquent les boîtes à l'alignement vertical. Vous pouvez noter que
   la fenêtre est également une boîte verticale.</li>
   <li>Les zigzags montrent où sont les éléments flexibles. Dans ce cas,
-  l'espacement est flexible donc un zigzag apparaît au dessus.</li>
-  <li>Les lignes montrent où sont les éléments non flexibles, dans notre
-  cas le texte, les champs de formulaire et les boutons.</li>
-  <li>Les boîtes carrés blanches indiquent les limites des éléments.</li>
+  l'espacement est flexible donc un zigzag apparaît au-dessus.</li>
+  <li>Les lignes indiquent où sont les éléments non flexibles, dans notre
+  cas&nbsp;: le texte, les champs de formulaire et les boutons.</li>
+  <li>Les boîtes carrées blanches indiquent les limites des éléments.</li>
 </ul>
 
 <p>
 Sur l'image, vous pouvez noter plusieurs boîtes supplémentaires.
 En fait, chaque élément XUL est lui-même constitué d'un
-certain nombre de boîtes, définies avec XBL. Vous pouvez normalement les
-ignorer. Vous pouvez définir l'attribut <code class="attribut">debug</code>
+certain nombre de boîtes, définies avec XBL. Normalement, vous pouvez les
+ignorer. Il vous est possible de définir l'attribut <code class="attribut">debug</code>
 sur chaque boîte, pas seulement sur la fenêtre.
 </p>
 

@@ -1,18 +1,17 @@
-
-<p>Une application XUL aura souvent besoin d'afficher des boîtes de dialogues. Cette
+<p>Une application XUL requiert souvent l'affichage de boîtes de dialogue. Cette
 section décrit comment les construire.</p>
 
 <h2>Créer une boîte de dialogue</h2>
 
 <p>La fonction <code>open</code> est utilisée pour ouvrir une fenêtre. Une fonction
-apparentée est <code>openDialog</code>. Cette fonction a plusieurs grandes
-différences. Elle affiche une boîte de dialogue au lieu d'une fenêtre, ce qui
+apparentée est <code>openDialog</code>. Cette fonction a plusieurs différences importantes. 
+Au lieu d'une fenêtre (window), elle affiche une boîte de dialogue (dialog), ce qui
 implique qu'elle demande quelque chose à l'utilisateur. Elle peut avoir des
 différences subtiles dans sa manière de fonctionner et d'apparaître à
-l'utilisateur. Ces différences varient selon chaque plate-forme.</p>
+l'utilisateur suivant les différentes plates-formes.</p>
 
 <p>De plus, la fonction <code>openDialog</code> peut prendre des arguments
-additionnels en plus des trois premiers. Ces arguments sont passés à la nouvelle
+additionnels en plus des trois premiers habituels. Ces arguments sont passés à la nouvelle
 boîte de dialogue et placés dans un tableau stocké dans la propriété <code
 class="attribut">arguments</code> de la nouvelle fenêtre. Vous pouvez passer
 autant d'arguments que nécessaire. C'est un moyen pratique de fournir des
@@ -35,9 +34,9 @@ document.getElementById('thefile').value=fl;</code></pre>
 
 <p>C'est un moyen efficace de passer des valeurs à la nouvelle fenêtre. Vous
 pouvez renvoyer des valeurs de la fenêtre ouverte vers la fenêtre originelle de
-deux manières. La première, vous pouvez utiliser la propriété <code
-class="attribut">window.opener</code> qui contient la fenêtre qui a ouvert la
-boîte de dialogue. La seconde, vous pouvez passer une fonction ou un objet en
+deux manières. Première méthode&nbsp;: vous pouvez utiliser la propriété <code
+class="attribut">window.opener</code> qui contient une référence à la fenêtre qui a ouvert la
+boîte de dialogue. Seconde méthode&nbsp;: vous pouvez passer une fonction ou un objet en
 argument, puis appeler la fonction ou modifier l'objet dans la boîte de dialogue
 ouverte.</p>
 
@@ -47,8 +46,8 @@ ouverte.</p>
 href="http://www.xulfr.org/wiki/Reference/Xul/dialog">dialog</a></code> doit
 être utilisé à la place de l'élément <code class="tag"><a
 href="http://www.xulfr.org/wiki/Reference/Xul/window">window</a></code> lors de la
-création d'une boîte de dialogue. Il offre la possibilité utile de construire
-jusqu'à quatre boutons au bas de la boîte de dialogue, pour OK, Annuler, etc.
+création d'une boîte de dialogue. Il offre la possibilité de construire
+jusqu'à quatre boutons au bas de la boîte de dialogue, pour «&nbsp;OK&nbsp;», «&nbsp;Annuler&nbsp;», etc.
 Vous n'avez pas besoin d'inclure le code XUL pour chaque bouton mais vous devez
 fournir le code à exécuter quand l'utilisateur presse chaque bouton. Ce
 mécanisme est nécessaire car les différentes plates-formes ont un ordre spécifique
@@ -89,8 +88,8 @@ function doCancel()
 <p>Vous pouvez placer tous les éléments que vous souhaitez dans une boîte de
 dialogue. L'élément <code class="tag"><a
 href="http://www.xulfr.org/wiki/Reference/Xul/dialog">dialog</a></code> a des
-attributs additionnels que les fenêtres n'ont pas. L'attribut <code
-class="attribut">buttons</code> est
+attributs que les fenêtres n'ont pas. L'attribut <code
+class="attribut">buttons</code>, par exemple, est
 utilisé pour spécifier quels boutons doivent apparaître dans la boîte de
 dialogue. Les valeurs suivantes peuvent être utilisées en les séparant par des
 virgules&nbsp;:</p>
@@ -103,7 +102,7 @@ virgules&nbsp;:</p>
   d'informations.</li>
 </ul>
 
-<p>Vous pouvez faire que du code s'exécute lors de l'appui des boutons en utilisant les
+<p>Vous pouvez exécuter du code lors de l'appui des boutons en utilisant les
 attributs <code class="attribut">ondialogaccept</code>, <code
 class="attribut">ondialogcancel</code>, <code class="attribut">ondialoghelp
 </code> et <code class="attribut">ondialogdisclosure</code>. Si vous essayez

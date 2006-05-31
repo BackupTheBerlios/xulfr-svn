@@ -1,4 +1,3 @@
-
 <p>La boîte de liste XUL fournit un certain nombre de méthodes spécialisées.</p>
 
 <h2>Manipulation d'une liste</h2>
@@ -6,9 +5,8 @@
 <p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code>
 fournit de nombreuses méthodes pour rechercher et manipuler ses items. Bien que les
 boîtes de liste puissent être manipulées en utilisant les fonctions standard de DOM,
-il est recommandé que les fonctions spécialisées de <code class="tag"><a
-href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code> soient employées
-autant que possible. Ces fonctions sont plus simples et feront correctement
+il est recommandé d'employer les fonctions spécialisées de <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code> autant que possible. Ces fonctions sont plus simples et feront correctement
 leur travail.</p>
 
 <p>La fonction <code>appendItem</code> est utilisée pour ajouter un nouvel item à la
@@ -40,23 +38,23 @@ L'attribut <code class="attribut">value</code> est optionnel et sert à affecter 
 que vous pouvez réutiliser ensuite dans un script.</p>
 
 <p>De même, il existe les fonctions <code>insertItemAt</code> et <code>removeItemAt</code>,
-qui respectivement, ajoutent un nouvel item et suppriment un item existant. La syntaxe est
+qui ajoutent respectivement un nouvel item et suppriment un item existant. La syntaxe est
 la suivante&nbsp;:</p>
 
 <pre><code>list.insertItemAt(3, "Jeudi", "jeu");
 list.removeItemAt(3);</code></pre>
 
 <p>La fonction <code>insertItemAt</code> prend un argument supplémentaire, la position pour insérer
-le nouvel item. Le nouvel item est inséré à cet index, ainsi dans l'exemple, le nouvel
+le nouvel item. Le nouvel item est inséré à cet index. Ainsi, dans l'exemple, le nouvel
 item sera ajouté à la position 3 et l'item qui avait cette position aura
-maintenant à la position 4. Rappelez-vous que le premier item est 0. La fonction
+maintenant l'index 4. Rappelez-vous que le premier item est 0. La fonction
 <code>removeItemAt</code> supprimera l'item à un index spécifique.</p>
 
 <p>Ces trois méthodes sont également disponibles pour plusieurs autres éléments XUL et
 fonctionnent de la même manière. En fait, ces méthodes font parties de l'interface
 <code><a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIDOMXULSelectControlElement.html">nsIDOMXULSelectControlElement</a></code> 
 donc tous les éléments XUL qui implémentent cette interface
-ont ces méthodes. Les éléments <code class="tag"><a
+héritent de ces méthodes. Les éléments <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code>, <code
 class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>
 et <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code> en font partie.
@@ -69,13 +67,13 @@ Le bon type d'élément sera ajouté dans chaque cas.</p>
 
 <p>L'interface <code>nsIDOMXULSelectControlElement</code> fournit deux propriétés supplémentaires,
 <code>selectedIndex</code> et <code>selectedItem</code>. La première renvoie l'index de l'item
-sélectionné tandis que la deuxième renvoie l'élément sélectionné. Par exemple, la valeur de retour de
+sélectionné tandis que la seconde renvoie l'élément sélectionné. Par exemple, la valeur de retour de
 <code>selectedItem</code> sera le <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>
 sélectionné. Si aucun item n'est sélectionné, <code>selectedIndex</code> retournera <var>-1</var>, et
 <code>selectedItem</code> renverra <var>null</var>.</p>
 
-<p>Ces deux propriétés sont généralement inspectées durant un évènement de sélection,
+<p>Ces deux propriétés sont généralement inspectées durant un événement de sélection,
 comme dans l'exemple suivant&nbsp;:</p>
 
 <p>Exemple 7.3.2&nbsp;:
@@ -89,19 +87,19 @@ comme dans l'exemple suivant&nbsp;:</p>
   &lt;listitem label="Grand"/&gt;
 &lt;/listbox&gt;</code></pre>
 
-<p>L'évènement de sélection est exécuté par une <code class="tag"><a
+<p>L'événement de sélection est exécuté par une <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code> quand un item de
 la liste est sélectionné. Le gestionnaire affiche ici une alerte contenant le libellé de
-l'item sélectionné dans la liste. Puisque l'évènement de sélection s'est exécuté, nous pouvons
+l'item sélectionné dans la liste. Puisque l'événement de sélection s'est exécuté, nous pouvons
 supposer qu'un item est sélectionné. Dans d'autres cas, vous devrez vous assurer que
-<code>selectedItem</code> n'est pas nul avant de poursuivre.</p>
+<code>selectedItem</code> n'est pas nul (null) avant de poursuivre.</p>
 
-<p>L'évènement de sélection est également exécuté quand un bouton radio dans un <code
+<p>L'événement de sélection est également exécuté quand un bouton radio dans un <code
 class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>
 est sélectionné et quand un onglet est sélectionné dans l'élément <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>. Cependant, les <code
 class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulists">menulists</a></code>
-ne génère pas d'évènement de sélection&nbsp;; vous pouvez écouter l'évènement "command" à la place
+ne génèrent pas d'événement de sélection&nbsp;; vous pouvez écouter l'événement "command" à la place
 pour traiter la sélection d'un item.</p>
 
 <p>Pour l'élément <code class="tag"><a
@@ -114,12 +112,12 @@ récupérer l'item sélectionné, utilisez plutôt la fonction <code>selectedTab</cod
 Ou alors, utilisez la fonction <code>selectedPanel</code> pour récupérer
 la page d'onglet sélectionnée, ce qui renvoie le contenu associé à l'onglet.</p>
 
-<p>Toutes les propriétés de sélection décrites ci-dessus peuvent également se voir assignées
+<p>Toutes les propriétés de sélection décrites ci-dessus peuvent également se voir assigner
 une nouvelle valeur pour changer la sélection. Dans l'exemple suivant, la propriété
 <code>selectedIndex</code> de l'élément <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code> est changée avec
 la valeur entrée dans un champ de saisie. Ce code n'est cependant pas performant&nbsp;; par
-exemple il ne vérifie pas si la valeur entrée est hors limite. Il est conseillé d'ajouter de genre de vérification d'erreur.</p>
+exemple, il ne vérifie pas si la valeur entrée est hors limite. Il est conseillé d'ajouter ce genre de vérification d'erreur.</p>
 
 <p>Exemple 7.3.3&nbsp;:
 <a href="exemples/ex_domlists_3.xul.txt">Source</a>
@@ -153,7 +151,7 @@ Cette interface fournit un certain
 nombre de fonctions dédiées pour contrôler la sélection multiple. Par exemple, la propriété
 <code>selectedItems</code> contient une liste des items qui sont sélectionnés, alors que la propriété
 <code>selectedCount</code> contient le nombre d'items sélectionnés. En général, vous utiliserez
-ces propriétés pour parcourir la liste et y effectuer quelques opérations pour chaque item. Faites
+ces propriétés pour parcourir la liste et y effectuer quelques opérations sur chaque item. Faites
 attention lorsque vous parcourez les items sélectionnés de la liste&nbsp;; si vous modifiez les items dans
 la liste pendant que vous les parcourez, la liste sera modifiée et les propriétés de sélection pourraient
 retourner des valeurs différentes. C'est une raison pour laquelle il est utile de manipuler
@@ -214,8 +212,8 @@ défilera jusqu'à ce que la ligne soit la première ligne visible, à moins que la 
 ne soit proche de la fin de la liste des items. La méthode <code>ensureIndexIsVisible</code> est
 similaire puisqu'elle fait défiler la liste pour afficher une ligne, mais cette méthode ne
 défilera pas si l'item est déjà visible. Ainsi, la première fonction est utilisée pour
-faire défiler jusqu'à une ligne précise alors que la deuxième est utilisée pour être sûr que
-la ligne est visible. Il y a également <code>ensureItemIsVisible</code> qui nécessite un item en argument
+faire défiler jusqu'à une ligne précise alors que la deuxième est utilisée pour s'assurer que
+la ligne soit visible. Il y a également <code>ensureItemIsVisible</code> qui nécessite un item en argument
 au lieu d'un index. Comparez l'effet de ces deux fonctions à des positions de défilement
 différentes dans cet exemple&nbsp;:</p>
 

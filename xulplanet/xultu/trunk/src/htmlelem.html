@@ -1,16 +1,15 @@
-
     <p>Maintenant que nous avons ajouté quelques boutons, ajoutons d'autres éléments.</p>
 
     <h2>Ajout d'éléments HTML dans une fenêtre</h2>
 
     <p>En plus de tous les éléments XUL déjà disponibles, vous pouvez également ajouter
        des éléments HTML directement dans un fichier XUL. En réalité, vous pouvez
-      ajouter n'importe quels éléments HTML dans des fichiers XUL, ce qui signifie
+      ajouter n'importe quel élément HTML dans des fichiers XUL, ce qui signifie
       que des applets Java ou des tableaux peuvent être placés directement dans
       une fenêtre. Vous devriez proscrire l'emploi de ces
-      éléments HTML dans vos fichiers XUL si vous le pouvez.
-      Toutefois, cette section va néanmoins
-      décrire comment les employer. Souvenez vous que le langage XML
+      éléments HTML dans vos fichiers XUL dès que vous le pouvez.
+      Cette section va néanmoins
+      décrire comment les employer. Souvenez-vous que le langage XML
       est sensible à la casse, et que de ce fait vous devrez taper les balises
       et les attributs en minuscules.</p>
     <p>Afin de pouvoir utiliser des éléments HTML dans un fichier XUL, vous devez
@@ -19,16 +18,16 @@
       peut faire la distinction entre les balises de HTML de celles de XUL. L'attribut
       ci-dessous doit être ajouté à la balise
       <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>
-      du fichier XUL ou sinon à tous les éléments HTML.</p>
+      du fichier XUL, ou à tous les éléments HTML.</p>
 
     <pre><code>xmlns:html="http://www.w3.org/1999/xhtml"</code></pre>
 
-    <p>Il s'agit d'une déclaration HTML comme celle que nous avons utilisé pour
-      déclarer XUL. Elle doit être saisie exactement comme indiquée pour fonctionner.</p>
+    <p>Il s'agit d'une déclaration HTML comme celle que nous avons utilisée pour
+      déclarer XUL. Pour fonctionner, elle doit être saisie exactement comme indiquée ci-dessus.</p>
     <p class="note">Notez qu'en réalité, Mozilla ne télécharge pas cette URL, mais il la reconnaît
       comme étant une déclaration HTML.</p>
  <div class="task">
-    <p>Voici un exemple qui peut être ajouté pour notre fenêtre de <em>Recherche de
+    <p>Voici un exemple qui peut être ajouté à notre fenêtre de <em>Recherche de
       fichiers</em>&nbsp;:</p>
     <pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
@@ -47,9 +46,9 @@
       <li>Vous devez taper les balises en minuscules.</li>
       <li>Des guillemets doivent être placés autour de toutes les valeurs d'attributs.</li>
       <li>XML impose qu'une barre oblique (slash) termine chaque balise qui n'ont
-        aucun contenu. Les exemples ci-dessous vont vous éclairer la dessus.</li>
+        aucun contenu. Les exemples ci-dessous vont vous éclairer.</li>
     </ul>
-    <p>Vous pouvez utiliser n'importe quelles balises HTML bien que <code class="tag">head</code>
+    <p>Vous pouvez utiliser n'importe quelle balise HTML bien que <code class="tag">head</code>
       et <code class="tag">body</code> ne soient d'aucune utilité. Des exemples
       d'emploi des éléments HTML sont montrés ci-dessous&nbsp;:</p>
     <pre><code>&lt;html:img src="banner.jpg"/&gt;
@@ -63,14 +62,13 @@
     &lt;/html:td&gt;
   &lt;/html:tr&gt;
 &lt;/html:table&gt;</code></pre>
-    <p>Ces exemples vont créer une image à partir du fichier banner.jpg, une case
+    <p>Ces exemples vont créer une image à partir du fichier 'banner.jpg', une case
       à cocher et un tableau avec une unique cellule. Vous devriez toujours employer
       des éléments XUL s'ils sont disponibles et vous ne devriez pas employer
-      des tableaux pour la mise en page sous XUL. (il y a des éléments XUL pour
-      faire la mise en page).</p>
+      des tableaux pour la mise en page sous XUL (des éléments XUL permettent de le faire).</p>
     <p class="note">Notez que le préfixe html: a été ajouté au début
-      de chaque balise, ceci pour que Mozilla sache qu'il s'agit d'une balise
-      HTML et non XUL. Si vous oubliez un préfixe html:, le navigateur croira
+      de chaque balise, pour que Mozilla sache qu'il s'agit d'une balise
+      HTML et non d'une balise XUL. Si vous oubliez un préfixe html:, le navigateur croira
       qu'il s'agit d'un élément XUL et il n'affichera probablement rien car les
       balises <code class="tag">img</code>, <code class="tag">input</code>,
       <code class="tag">table</code>,
@@ -78,7 +76,7 @@
     <p>Sous XUL, vous pouvez ajouter des libellés avec l'élément
     <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code>
       ou <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code>.
-      Vous devriez utiliser ces éléments lorsque vous le pouvez. Vous pouvez également
+      Vous devriez utiliser ces éléments dès que vous le pouvez. Vous pouvez également
       ajouter des libellés à des contrôles soit en utilisant la balise HTML <code>label</code>,
       soit en mettant simplement le texte dans un autre élément bloc HTML comme
       dans l'exemple ci-dessous.</p>
@@ -90,7 +88,7 @@
    &lt;button id="okbutton" label="OK"/&gt;
 &lt;/html:p&gt;</code></pre>
     <p>Ce code va afficher le texte <var>Rechercher&nbsp;:</var>, suivi d'un champ de saisie
-      de texte et d'un bouton OK. Notez que le bouton XUL peut apparaître dans
+      de texte et d'un bouton «&nbsp;OK&nbsp;». Notez que le bouton XUL peut apparaître dans
       un bloc de balise HTML, comme c'est le cas ici. Du texte ne sera
       affiché que s'il est placé à l'intérieur de balises HTML qui sont normalement
       employées pour afficher du texte (comme une balise <code class="tag">p</code>).
@@ -100,9 +98,9 @@
       <p>Les exemples suivant vont vous aider.</p>
 
     <h2>Exemple d'éléments HTML</h2>
-    <p>Ce qui suit sont quelques exemples d'ajout de balises HTML dans une fenêtre.
-      À chaque fois, l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>
-      et d'autres informations basiques ont été retirés pour plus de simplicité.</p>
+    <p>Les exemples suivants illustrent l'ajout de balises HTML dans une fenêtre.
+      Notez que l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>
+      et d'autres informations basiques ont été retirés pour plus de clarté.</p>
 
     <h3>1. Une boîte de dialogue avec une case à cocher</h3>
     <p>Exemple 2.7.2&nbsp;: <a href="exemples/ex_htmlelem_2.xul.txt">Source</a>
@@ -114,8 +112,8 @@
      &lt;html:label for="rtd"&gt;Mémoriser cette décision&lt;/html:label&gt;
    &lt;/html:p&gt;
 &lt;/html:p&gt;</code></pre>
-    <p>Dans ce cas, la balise <code class="tag">p</code> a été utilisée pour placer
-      du texte et une autre imbriquée a été utilisée pour séparer le texte en
+    <p>Dans ce cas, une première balise <code class="tag">p</code> a été utilisée pour placer
+      du texte et une autre a été utilisée pour séparer le texte en
       plusieurs lignes. (NdT&nbsp;: selon la norme XHTML, une balise
       <code class="tag">p</code> ne peut pas inclure une autre balise <code class="tag">p</code>,
       l'exemple est donc en principe erroné.)
@@ -126,7 +124,7 @@
     <p>Exemple 2.7.3&nbsp;: <a href="exemples/ex_htmlelem_3.xul.txt">Source</a>
     <a href="exemples/ex_htmlelem_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
     <pre><code>&lt;html:div&gt;
-   Voulez vous sauvegarder les documents suivants&nbsp;?
+   Voulez-vous sauvegarder les documents suivants&nbsp;?
    &lt;html:hr/&gt;
 &lt;/html:div&gt;
 Rapport de dépense 1
@@ -139,7 +137,7 @@ que j'ai fait l'été dernier
       (<var>Rapport de dépense 1</var> et <var>que j'ai fait l'été dernier</var>)
       ne l'a pas été.
       Ceci est dû au fait qu'il n'y a pas d'éléments HTML ou XUL entourant le
-      texte à afficher et capables de le faire. Pour faire apparaître ce texte, vous devez le placer à
+      texte à afficher et capables de le faire. Pour rendre ce texte apparent, vous devez le placer à
       l'intérieur de balises <code class="tag">div</code>, ou l'inclure dans une
       balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code>.</p>
 
@@ -152,17 +150,16 @@ que j'ai fait l'été dernier
     <dl>
       <dt>Cas 1&nbsp;:</dt>
       <dd><code class="tag">po</code> n'est pas une balise HTML valide et Mozilla
-        n'a aucune idée de ce qu'il faut faire avec. </dd>
+        n'a aucune idée de ce qu'il faut en faire. </dd>
       <dt>Cas 2&nbsp;:</dt>
       <dd><code class="tag">div</code> est une balise valide mais seulement en
-        HTML. Pour qu'elle fonctionne, vous devez ajouter le qualificateur html:.
+        HTML. Pour qu'elle fonctionne, vous devez ajouter le qualificateur 'html:'.
       </dd>
       <dt>Cas 3&nbsp;:</dt>
       <dd>un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/description">description</a></code>
-        est seulement valide en XUL et pas en HTML. Il ne devrait pas avoir de qualificateur
-        html:. </dd>
+        est valide en XUL mais pas en HTML. Il ne devrait pas avoir de qualificateur
+        'html:'. </dd>
     </dl>
 <hr />
 
-    <p>Dans la page suivante, nous apprendrons comment ajouter de l'espace entre les éléments.</p>
-
+  <p>Dans la page suivante, nous apprendrons comment ajouter de l'espace entre les éléments.</p>

@@ -1,9 +1,8 @@
-
 <p class="note">Attention, cette page est maintenue dans la version française, 
 mais elle a été enlevée par son auteur sur la version anglaise.</p>
 
 <p>
-Cette section indique comment implémenter des objets capables d'être déplacés, et lâchés sur
+Cette section indique comment implémenter des objets capables d'être déplacés et lâchés sur
 d'autres objets.
 </p>
 
@@ -13,20 +12,20 @@ d'autres objets.
 De nombreuses interfaces graphiques permettent de glisser-déposer des objets. Il est par
 exemple possible de déplacer des fichiers d'un dossier à l'autre, ou de lâcher une icône sur
 une fenêtre pour ouvrir le document qui lui correspond. Mozilla et XUL fournissent une panoplie
-d'évènements qui se déclenchent lorsque un utilisateur essaie de déplacer un objet.
+d'événements qui se déclenchent lorsque un utilisateur essaie de déplacer un objet.
 </p>
 
 <p>
-L'utilisateur commence le glissement en cliquant et en déplaçant la souris sans relacher le
-bouton. Le glissement finit quand l'utilisateur relâche le bouton. Des gestionnaires d'évènements
-sont appellés dans ces deux situations, ainsi que lors de certaines étapes intermédiaires.
+L'utilisateur commence le glissement en cliquant et en déplaçant la souris sans relâcher le
+bouton. Le glissement finit quand l'utilisateur relâche le bouton. Des gestionnaires d'événements
+sont appelés dans ces deux situations, ainsi que lors de certaines étapes intermédiaires.
 </p>
 
 <p>
-Mozilla implémente le glisser-déposer à l'aide d'une session de glisser-déposer. Quand un
+Mozilla implémente le glisser-déposer à l'aide d'une «&nbsp;session de glisser-déposer&nbsp;». Quand un
 utilisateur demande à faire glisser un objet, et que celui-ci est susceptible d'être glissé-déposé,
 une session est initiée. La session se charge de modifier le curseur de la souris là où l'objet
-peut être déposé. Si l'objet ne supporte pas le glisser déposer, la session n'est pas créée.
+peut être déposé. Si l'objet ne supporte pas le glisser-déposer, la session n'est pas créée.
 L'utilisateur n'ayant en général qu'une souris, une seule session est active à un instant donné.
 </p>
 
@@ -36,35 +35,35 @@ cas échéant, Mozilla s'occupe de traduire la session.
 </p>
 
 <p>
-La liste qui suit décrit tous les gestionnaires d'évènements pouvant être appellés, et que
-n'importe quel élément peut implémenter. Vous n'avez à définir que les évènements qui vous
+La liste qui suit décrit tous les gestionnaires d'événements pouvant être appelés, et que
+n'importe quel élément peut implémenter. Vous n'avez à définir que les événements qui vous
 intéressent.
 </p>
 
 <dl>
   <dt><code class="attribut">ondraggesture</code></dt>
-  <dd>Appellé quand l'utilisateur commence à glisser l'élément, ce qui arrive quand l'utilisateur
-  garde le bouton appuyé et déplace la souris. Le script qui intercepte cet évènement doit mettre
+  <dd>Appelé quand l'utilisateur commence à glisser l'élément, ce qui arrive quand l'utilisateur
+  garde le bouton de la souris appuyé et la déplace. Le script qui intercepte cet événement doit mettre
   en place une session de glisser-déposer.</dd>
   <dt><code class="attribut">ondragover</code></dt>
-      <dd>Appellé pour un élément survolé par le glisser. Si l'objet peut être lâché ici, vous le
+      <dd>Appelé pour un élément survolé par le glisser. Si l'objet peut être lâché ici, vous le
       signalez à la session.</dd>
   <dt><code class="attribut">ondragenter</code></dt>
-      <dd>Appellé quand le glisser entre dans l'espace aérien de l'élément. Il permet à l'élément
+      <dd>Appelé quand le glisser entre dans l'«&nbsp;espace aérien&nbsp;» de l'élément. Il permet à l'élément
       de changer d'apparence pour signifier à l'utilisateur qu'il peut lâcher ici.</dd>
   <dt><code class="attribut">ondragexit</code></dt>
-      <dd>Appellé quand le glisser cesse de survoler l'élément, et également quand le glisser-déposer
-      s'achève. Il permet ainsi de retablir l'apparence de l'élément ou de faire d'autres choses.
+      <dd>Appelé quand le glisser cesse de survoler l'élément, et également quand le glisser-déposer
+      s'achève. Il permet ainsi de rétablir l'apparence de l'élément ou de faire d'autres choses.
       </dd>
   <dt><code class="attribut">ondragdrop</code></dt>
-     <dd> Appellé quand le glisser-déposer s'achève sur l'élément. À ce moment là, l'utilisateur a déjà
-     relaché le bouton de la souris. L'élément peut choisir d'ignorer
-      l'évènement, ou réagir en insérant l'objet glissé par exemple.
+     <dd> Appelé quand le glisser-déposer s'achève sur l'élément. À ce moment-là, l'utilisateur a déjà
+     relâché le bouton de la souris. L'élément peut choisir d'ignorer
+      l'événement, ou réagir en insérant l'objet glissé par exemple.
       </dd>
 </dl>
 
 <p>
-Il y a deux façons de gérer les évènements de glisser-déposer. La première passe par l'emploi
+Il y a deux façons de gérer les événements de glisser-déposer. La première passe par l'emploi
 direct des interfaces de glisser-déposer XPCOM. La seconde est de passer par un conteneur javascript
 qui vous décharge d'une partie du travail. Ce conteneur est inclus dans le paquet "toolkit" ou "global"
 de Mozilla.
@@ -79,14 +78,14 @@ Deux interfaces sont utilisées pour le glisser-déposer. La première est un servi
 
 <p>
 <code>nsIDragService</code> est responsable de la création de session quand le glissement commence, et de sa
-destruction quand le glissement s'achève. Sa fonction <code>invokeDragSession</code> doit être appellée
-pour commencer le glisser-déposer, dans le contexte d'un évènement
-<code class="attribut">ondraggesture</code>. Une fois cette fonction appellée, le
+destruction quand le glissement s'achève. Sa fonction <code>invokeDragSession</code> doit être appelée
+pour commencer le glisser-déposer, dans le contexte d'un événement
+<code class="attribut">ondraggesture</code>. Une fois cette fonction appelée, le
 glisser-déposer a commencé.
 </p>
 
 <p>
-La fonction <code>invokeDragSession</code> prend quatre paramètres, décris ci-après&nbsp;:
+La fonction <code>invokeDragSession</code> prend quatre paramètres, décrits ci-après&nbsp;:
 </p>
 
 <pre><code>invokeDragSession(element,transferableArray,region,actions);</code></pre>
@@ -94,10 +93,10 @@ La fonction <code>invokeDragSession</code> prend quatre paramètres, décris ci-ap
 <dl>
   <dt><code>element</code></dt>
      <dd>Une référence à l'élément à glisser-déposer. On l'obtient en accédant à la propriété
-      <code>event.target</code> dans le gestionnaire d'évènement.</dd>
+      <code>event.target</code> dans le gestionnaire d'événement.</dd>
   <dt><code>transferableArray</code></dt>
-      <dd>Un tableau d'objets <code>nsITransferable</code>, un par élément glisser-déposer. On utilise un tableau
-      pour pouvoir déplacer plusieurs éléments d'un coup, comme un ensemble de fichiers.</dd>
+      <dd>Un tableau d'objets <code>nsITransferable</code>, un par élément glissé-déposé. On utilise un tableau
+      pour pouvoir déplacer plusieurs éléments d'un coup, un ensemble de fichiers par exemple.</dd>
   <dt><code>region</code></dt>
       <dd>Une région utilisée pour donner un retour à l'utilisateur. Mettre à <var>null</var> dans la
       majorité des cas.</dd>
@@ -109,7 +108,7 @@ La fonction <code>invokeDragSession</code> prend quatre paramètres, décris ci-ap
         <dt><code>nsIDragSession.DRAGDROP_ACTION_NONE</code></dt>
             <dd>Indique qu'aucune action de glisser-déposer n'est valide.</dd>
         <dt><code>nsIDragSession.DRAGDROP_ACTION_COPY</code></dt>
-            <dd>L'élément glisser-déposer peut être copié lors du lâcher.</dd>
+            <dd>L'élément glissé-déposé peut être copié lors du lâcher.</dd>
         <dt><code>nsIDragSession.DRAGDROP_ACTION_MOVE</code></dt>
             <dd>L'élément peut être déplacé lors du lâcher.</dd>
         <dt><code>nsIDragSession.DRAGDROP_ACTION_LINK</code></dt>
@@ -119,20 +118,20 @@ La fonction <code>invokeDragSession</code> prend quatre paramètres, décris ci-ap
 
 <p>
 L'interface <code>nsIDragService</code> fournit également la fonction <code>getCurrentSession</code> qui peut
-être appellée dans le contexte d'un des évènements de glisser-déposer pour accéder à, et modifier,
+être appelée dans le contexte d'un des événements de glisser-déposer pour accéder à, et modifier,
 l'état du glisser-déposer. Cette fonction renvoie un objet implémentant <code>nsIDragSession</code>.
 </p>
 
 <p>
 L'interface <code>nsIDragSession</code> sert à modifier les propriétés du glisser-déposer en cours.
-Elle expose les propriétés et méthodes suivantes&nbsp;:
+Elle exploite les propriétés et méthodes suivantes&nbsp;:
 </p>
 
 <dl>
   <dt><code>canDrop</code></dt>
       <dd>Affectez <var>true</var> à cette propriété si l'élément en dessous du curseur pourrait accepter
       que l'élément glissé soit déposé, et <var>false</var> si ce n'est pas envisageable. Modifiez
-      cette valeur dans le contexte d'évènements <code>ondragover</code> et <code>ondragenter</code>.</dd>
+      cette valeur dans le contexte d'événements <code>ondragover</code> et <code>ondragenter</code>.</dd>
   <dt><code>dragAction</code></dt>
       <dd>Détermine l'action à entreprendre au lâcher, sous forme d'une combinaison des constantes
       décrites plus haut. Permet de fournir un meilleur retour à l'utilisateur.</dd>
@@ -144,14 +143,14 @@ Elle expose les propriétés et méthodes suivantes&nbsp;:
   <dt><code>sourceDocument</code></dt>
       <dd>Le document où le glisser-déposer a commencé.</dd>
   <dt><code>sourceNode</code></dt>
-      <dd>Le noeud DOM où le glisser-déposer a commencé.</dd>
+      <dd>Le n½ud DOM où le glisser-déposer a commencé.</dd>
   <dt><code>isDataFlavorSupported(flavour)</code></dt>
-      <dd>Renvoie <var>true</var> si la donnée déplacée contient un exemplaire dand le type (flavour) indiqué.</dd>
+      <dd>Renvoie <var>true</var> si la donnée déplacée contient un exemplaire dans le type (flavour) indiqué.</dd>
 </dl>
 
 <hr />
 
-<p>Dans la prochaîne section, nous verrons comment utiliser le conteneur Javascript pour le
+<p>Dans la prochaine section, nous verrons comment utiliser le conteneur Javascript pour le
 glisser-déposer.</p>
 
 

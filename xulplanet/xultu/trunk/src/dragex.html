@@ -1,4 +1,3 @@
-
 <p class="note">Attention, cette page est maintenue dans la version française, 
 mais elle a été enlevée par son auteur sur la version anglaise.</p>
 
@@ -9,10 +8,10 @@ Un exemple de l'implémentation du glisser-déposer est montré dans cette section.
 <h2>Glisser-déposer des éléments</h2>
 
 <p>
-Ici, nous créérons un simple panneau où des items peuvent y être glisser-déposer à partir
+Ici, nous créérons un simple panneau où des éléments peuvent être glisser-déposer à partir
 d'une palette.
 L'utilisateur peut cliquer sur l'un des nombreux éléments XUL de la palette et les glisser
-au dessus d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stack">stack</a></code> 
+au-dessus d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stack">stack</a></code> 
 pour créer un élément d'un type particulier.
 </p>
 
@@ -34,12 +33,12 @@ que nous allons écrire nous-même.
 <p>
 Le panneau sera créé en utilisant un élément <code class="tag"><a href="http://xulfr.org/wiki/References/Xul/stack">stack</a></code>.
 Nous utiliserons quelques propriétés de style pour spécifier la largeur et la hauteur de la pile.
-Une taille maximum est aussi spécifiée, ainsi elle ne sera pas redimensionnée lorsque de nouveaux
-éléments seront déposés dessus.
+Sa taille maximale est aussi spécifiée, ainsi elle ne sera pas redimensionnée lorsque de nouveaux
+éléments y seront déposés.
 </p>
 
 <p>
-Le panneau devra répondre à l'évènement <code>dragdrop</code>, en créant un élément
+Le panneau devra répondre à l'événement <code>dragdrop</code>, en créant un élément
 lorsque l'utilisateur en déposera un dessus.
 </p>
 
@@ -50,16 +49,16 @@ lorsque l'utilisateur en déposera un dessus.
 &lt;/stack&gt;</code></pre>
 
 <p>
-Le panneau  a juste besoin de répondre aux évènements <code>dragdrop</code> et <code>dragover</code>.
+Le panneau  a juste besoin de répondre aux événements <code>dragdrop</code> et <code>dragover</code>.
 Nous ajouterons un observateur <code>boardObserver</code> dans le fichier <code>dragboard.js</code>
 dans un moment.
 </p>
 
 <p>
-Ensuite, une palette sera ajoutée sur le coté droit de la fenêtre. Elle contiendra
-trois boutons, un pour créer des nouveaux boutons, un pour créer des cases à cocher,
-et un autre pour créer des champs de saisie. Ces boutons répondront à l'évènement
-<code>draggesture</code> et débuteront un glisser-déposer.
+Ensuite, une palette sera ajoutée sur le côté droit de la fenêtre. Elle contiendra
+trois boutons, un pour créer de nouveaux boutons, un pour créer des cases à cocher,
+et un autre pour créer des champs de saisie. Ces boutons répondront à l'événement
+<code>draggesture</code> et initialiseront une session de glisser-déposer.
 </p>
 
 <pre><code>&lt;vbox&gt;
@@ -96,18 +95,18 @@ qui a besoin d'une fonction pour gérer le démarrage du glisser.
 
 <p>
 Une seule fonction a été définie, <code>onDragStart</code>, et elle sera appelée
-par l'objet <code>nsDragAndDrop</code> lorsque nécéssaire. La fonction ajoute
-la donnée à transférer, à l'objet <code>transferData</code>.
+par l'objet <code>nsDragAndDrop</code> lorsque ce sera nécessaire. La fonction ajoute
+la donnée à transférer à l'objet <code>transferData</code>.
 L'attribut <code class="attribut">elem</code> est récupéré à partir de la cible de
-l'évènement du glisser-déposer. La cible sera l'élèment sur lequel le glisser-déposer
+l'événement du glisser-déposer. La cible sera l'élément sur lequel le glisser-déposer
 a commencé. Nous utiliserons la valeur de cet attribut comme donnée pour le glisser.
 </p>
 
 <p>
 L'objet <code>boardObserver</code> aura besoin de trois fonctions,
-<code>getSupportedFlavours</code>, <code>onDragOver</code>, et <code>onDrop</code>.
-La fonction <code>onDrop</code> récupèrera la donnée à partir de la session du glisser-déposer
-et créera un nouvel élement du type approprié.
+<code>getSupportedFlavours</code>, <code>onDragOver</code> et <code>onDrop</code>.
+La fonction <code>onDrop</code> récupérera la donnée à partir de la session du glisser-déposer
+et créera un nouvel élément du type approprié.
 </p>
 
 <pre><code>var boardObserver = {
@@ -130,15 +129,15 @@ et créera un nouvel élement du type approprié.
 
 <p>
 La fonction <code>getSupportedFlavours</code> a seulement besoin de retourner
-une liste de type que la pile peut accepter lors de la dépose. Dans notre cas, elle
-accepte juste du texte. Nous n'avons pas besoin de faire quelque chose de spécial pour
-la fonction <code>onDragOver</code>, ainsi aucun code ne sera ajouté dans son contenu.
+une liste de type que la pile peut accepter lors du déposer. Dans notre cas, elle
+accepte seulement du texte. Nous n'avons pas besoin de faire quelque chose de spécial pour
+la fonction <code>onDragOver</code>, ainsi aucun code ne sera ajouté dans son corps.
 </p>
 
 <p>
 Le gestionnaire <code>onDrop</code> utilise tout d'abord la fonction <code>createElement</code> pour créer
 un nouvel élément du type stocké dans la session. Ensuite, <code>appendChild</code> est appelée
-pour ajouter un nouvel élément à la pile, qui est la cible de l'évènement.
+pour ajouter un nouvel élément à la pile, qui est la cible de l'événement.
 Enfin, nous ajoutons quelques attributs à ce nouvel élément.
 </p>
 
@@ -148,9 +147,9 @@ La position des éléments dans la pile est déterminée par les attributs
 Les valeurs des propriétés  <code class="attribut">pageX</code> et
 <code class="attribut">pageY</code> contiennent les coordonnées du pointeur de la souris
 sur la fenêtre lorsque la dépose a lieu. Ils nous permettent de placer le nouvel élément
-à la même position que la souris quand le bouton a été relaché.
+à la même position que la souris quand le bouton a été relâché.
 Ce n'est pas tout a fait la bonne méthode puisque nous devons en fait
-calculer les coordonnées de l'évènement relativement à celles de la pile.
+calculer les coordonnées de l'événement relativement à celles de la pile.
 Mais elle fonctionne ici parce que le panneau est dans le coin en haut à gauche de la fenêtre.
 </p>
 
@@ -161,7 +160,7 @@ ainsi le bouton a un libellé par défaut.
 
 <p>
 Cet exemple est assez simple. Un changement possible est d'utiliser un type personnalisé
-pour les données plutôt que du texte. Le problème avec l'utilisation du texte est que
+pour les données, au lieu du texte. Le problème avec l'utilisation du texte est que
 si le texte provenant d'un glisser-déposer externe est le mot <var>button</var>, un bouton
 sera créé sur le panneau. Un type personnalisé signifie que le panneau
 acceptera uniquement les glisser-déposer en provenance de la palette.
