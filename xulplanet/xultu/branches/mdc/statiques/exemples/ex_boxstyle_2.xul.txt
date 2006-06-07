@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window orient="horizontal"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<hbox>
+  <button label="Oui" flex="1"/>
+  <button label="Non"/>
+  <button label="Je ne connais pas vraiment cette manière ou l'autre"/>
+</hbox>
+
+</window>
+

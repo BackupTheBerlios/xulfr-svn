@@ -1,0 +1,12 @@
+initInstall("Find Files","/Xulplanet/Find Files","0.5.0.0");
+
+findDir = getFolder("Chrome","findfile");
+setPackageFolder(findDir);
+
+addDirectory("findfile");
+
+registerChrome(Install.CONTENT | Install.DELAYED_CHROME, getFolder(findDir, "content"));
+registerChrome(Install.SKIN | Install.DELAYED_CHROME, getFolder(findDir, "skin"));
+registerChrome(Install.LOCALE | Install.DELAYED_CHROME, getFolder(findDir, "locale"));
+
+performInstall();

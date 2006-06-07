@@ -1,0 +1,127 @@
+<p>
+Cette section décrit quelques fonctionnalités supplémentaires sur les assistants.
+</p>
+
+<h2>Une navigation plus complexe</h2>
+
+<p>
+Normalement, un assistant affiche chaque page dans l'ordre où vous les placez dans le fichier
+XUL. Dans certains cas cependant, vous pouvez vouloir que les pages de l'assistant
+apparaissent en fonction des choix effectués par l'utilisateur sur les pages précédentes.
+</p>
+
+<p>Pour ce faire, placez un attribut <code class="attribut">pageid</code> sur chacune des
+pages. Il aura valeur d'identifiant pour chaque page. Ensuite, pour naviguer d'une page à l'autre,
+utilisez une des deux méthodes suivantes&nbsp;:
+</p>
+
+<ol>
+  <li>Affectez à l'attribut <code class="attribut">next</code> de chaque page la valeur de
+      l'identifiant de la page qui doit la suivre. Vous pouvez changer ces attributs
+      comme vous le souhaitez pour naviguer vers d'autres pages.</li>
+  <li>Appelez la méthode <code>goTo</code> de l'assistant. Elle prend comme unique argument l'identifiant de
+      la page suivante. Vous pouvez appeler cette méthode dans les gestionnaires
+      <code>onpageadvanced</code> ou <code>onwizardnext</code>. Dans ce cas, n'oubliez pas de
+      retourner la valeur <var>false</var>, car vous avez déjà changé la page par vous-même.
+      <p class="note">Notez que la méthode <code>goTo</code> charge une nouvelle page, par conséquent les 
+      événements liés sont lancés. Vous devez donc vous assurer d'avoir prévu ce cas.</p></li>
+</ol>
+
+<p>
+Par exemple, nous avons ici un ensemble de pages d'assistant (le contenu a été omis)&nbsp;:
+</p>
+
+<pre><code>&lt;wizardpage pageid="type" next="font"/&gt;
+&lt;wizardpage pageid="font" next="done"/&gt;
+&lt;wizardpage pageid="color" next="done"/&gt;
+&lt;wizardpage pageid="done"/&gt;</code></pre>
+
+<p>
+L'assistant commence toujours à la première page, qui dans ce cas a l'identifiant de page <var>type</var>.
+La page suivante ayant l'identifiant de page <var>font</var>, l'assistant affichera cette page juste après. Sur la page qui a l'identifiant <var>font</var>, nous 
+voyons que la page suivante est celle identifiée <var>done</var>, cette page sera alors affichée
+ensuite. La page identifiée <var>done</var> n'a pas d'attribut <code class="attribut">next</code>,
+elle sera donc la dernière page. Un script ajustera la valeur de l'attribut <code class="attribut">next</code>
+dès qu'il sera nécessaire d'aller sur la page identifiée <var>color</var>.
+</p>
+
+<h2>Fonctions d'assistant</h2>
+
+<p>
+L'assistant fonctionne presque comme un panneau d'onglets, sauf que les onglets ne sont pas
+affichés et que l'utilisateur navigue entre les pages en utilisant les boutons de bas de
+page. Comme toutes les pages font parties d'un même fichier, toutes les valeurs des
+champs sur toutes les pages sont conservées. Par conséquent, il est inutile de sauvegarder
+ou charger ces informations entre les pages.
+</p>
+
+<p>
+Cependant, vous pourriez vouloir faire quelques validations sur chaque champ de chaque page.
+Pour ce faire, utilisez les gestionnaires décrits dans la section précédente. Si un champ est
+invalide, vous pouvez afficher un message d'alerte. Dans certains cas, il serait plus
+judicieux de désactiver le bouton <var>Suivant</var> jusqu'à ce qu'une valeur valide
+soit saisie.
+</p>
+
+<p>
+L'assistant possède une propriété <code class="attribut">canAdvance</code> qui, quand elle
+est mise a <var>true</var>, indique que le bouton <var>Suivant</var> doit être actif. Si
+elle a la valeur <var>false</var>, le bouton <var>Suivant</var> est désactivé. Vous
+pouvez changer cette propriété en fonction de la validité des données saisies.
+</p>
+
+<p>
+Dans l'exemple suivant, l'utilisateur doit entrer un code secret dans le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>
+sur la première page de l'assistant. La fonction <code>checkCode</code> est appelée dés que
+la première page est affichée comme indiqué par l'attribut <code class="attribut">onpageshow</code>.
+Elle est aussi appelée dès qu'une touche est pressée dans le <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>,
+pour déterminer si le bouton <var>Suivant</var> doit être à nouveau actif.
+</p>
+
+<p>Exemple 12.5.1&nbsp;:
+<a href="exemples/ex_advwiz_1.xul.txt">Source</a></p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;wizard id="theWizard" title="Code secret de l'assistant"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+     &lt;script&gt;
+     function checkCode()
+     {
+       document.getElementById('theWizard').canAdvance=
+         (document.getElementById('secretCode').value == "cabbage");
+     }
+     &lt;/script&gt;
+
+     &lt;wizardpage onpageshow="checkCode();"&gt;
+       &lt;label value="Saisir le code secret:"/&gt;
+       &lt;textbox id="secretCode" onkeyup="checkCode();"/&gt;
+     &lt;/wizardpage&gt;
+
+     &lt;wizardpage&gt;
+       &lt;label value="Le code est correct."/&gt;
+     &lt;/wizardpage&gt;
+
+&lt;/wizard&gt;</code></pre>
+
+<p>
+Il existe aussi une propriété correspondante <code class="attribut">canRewind</code> que vous
+pouvez utiliser pour activer ou désactiver le bouton <var>Précédent</var>. Les deux
+propriétés sont ajustées automatiquement dès que vous changez de page. Par conséquent, le
+bouton <var>Précédent</var> sera désactivé sur la première page, vous n'avez pas à
+le faire.
+</p>
+
+<p>
+Une autre propriété utile de l'assistant est <code class="attribut">currentPage</code> qui
+donne une référence à la page <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizardpage">wizardpage</a></code>
+actuellement affichée. Vous pouvez aussi changer la page courante en modifiant cette propriété.
+Si vous modifiez sa valeur, les différents événements de changement de page seront invoqués.
+</p>
+
+<hr />
+
+<p>Ensuite, nous allons voir comment utiliser l'overlay pour gérer du contenu.</p>

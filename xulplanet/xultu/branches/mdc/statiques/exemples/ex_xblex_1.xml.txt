@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:xbl="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<binding id="slideshow">
+  <content>
+    <xul:vbox flex="1">
+      <xul:deck xbl:inherits="selectedIndex" selectedIndex="0" flex="1">
+        <children/>
+      </xul:deck>
+      <xul:hbox>
+        <xul:button xbl:inherits="label=previoustext"/>
+        <xul:label flex="1"/>
+        <xul:button xbl:inherits="label=nexttext"/>
+      </xul:hbox>
+    </xul:vbox>
+  </content>
+</binding>
+
+
+</bindings>

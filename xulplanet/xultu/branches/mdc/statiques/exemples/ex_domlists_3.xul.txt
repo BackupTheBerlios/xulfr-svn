@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 7.3.3"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script>
+function doSelect()
+{
+  var val = document.getElementById('number').value;
+  val = Number(val);
+  if (val != null)
+    document.getElementById('level').selectedIndex = val - 1;
+}
+</script>
+
+<hbox align="center">
+  <label value="Entrez un nombre compris entre 1 et 3 :"/>
+  <textbox id="number"/>
+  <button label="Sélectionnez" oncommand="doSelect();"/>
+</hbox>
+
+<radiogroup id="level">
+  <radio label="Excellent"/>
+  <radio label="Bon"/>
+  <radio label="Mauvais"/>
+</radiogroup>
+
+</window>
+

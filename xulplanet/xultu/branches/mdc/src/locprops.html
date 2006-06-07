@@ -1,0 +1,67 @@
+
+<p>
+Dans un script, les entités ne peuvent être utilisées. On utilise alors plutôt les fichiers de propriétés.
+</p>
+
+<h2>Propriétés</h2>
+
+<p>
+Les fichiers DTD peuvent convenir lorsque vous avez du texte dans un fichier XUL. 
+Néanmoins, dans un script, les entités ne sont pas analysées pour être remplacer. 
+De plus, vous pourriez souhaiter afficher un message généré par un script, sans par 
+exemple connaître à l'avance son contenu. Les fichiers de propriétés peuvent être utilisés dans ce but.
+</p>
+
+<p>
+Un fichier de propriétés contient une suite de chaînes de caractères. Vous trouverez 
+les fichiers de propriétés aux côtés des fichiers DTD avec l'extension <code>.properties</code>. 
+Les propriétés dans un de ces fichiers sont déclarées selon une structure <code>nom=valeur</code>. 
+Un exemple est décrit ci-dessous&nbsp;:
+</p>
+
+<pre><code>notFoundAlert=Aucun fichier trouvé correspondant aux critères.
+deleteAlert=Cliquez sur OK pour effacer tous vos fichiers.</code></pre>
+
+<p>
+Ici, le fichier de propriétés contient deux propriétés. Elles pourront être lues 
+par un script et affichées. Vous pouvez écrire le code de lecture des propriétés 
+vous même, néanmoins XUL fournit l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stringbundle">stringbundle</a></code> 
+qui le fait pour vous. Cet élément dispose de plusieurs fonctions pouvant être 
+utilisées pour récupérer les chaînes de caractères des fichiers de propriétés et 
+d'autres informations de localisation. Cet élément lit le contenu des fichiers de 
+propriétés et construit une liste de ces propriétés pour vous. Vous pouvez donc 
+ensuite y accéder par leur nom.
+</p>
+
+<pre><code>&lt;stringbundle id="chaines" src="chaines.properties"/&gt;</code></pre>
+
+<p>
+L'inclusion de cet élément permettra de lire les propriétés via le fichier 
+<var>chaines.properties</var> dans le même répertoire que le fichier XUL. Utilisez 
+une URL chrome pour lire un fichier de localisation.
+</p>
+
+<p>
+L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stringbundle">stringbundle</a></code> 
+a plusieurs propriétés. La première est <code class="attribut">getString</code> 
+pouvant être utilisée dans un script pour lire une chaîne de caractères de la collection.
+</p>
+
+<pre><code>var strbundle=document.getElementById("chaines");
+var nofilesfound=strbundle.getString("notFoundAlert");
+
+alert(nofilesfound);</code></pre>
+
+<p>
+Cet exemple récupère tout d'abord une référence sur la collection en utilisant 
+son id. Puis il recherche la chaîne de caractères <var>notFoundAlert</var> dans 
+le fichier de propriétés. La fonction <code>getString</code> retourne la valeur 
+de la chaîne ou <var>null</var> si la chaîne n'existe pas. Enfin, la chaîne de 
+caractères est affichée dans une boîte d'alerte.
+</p>
+
+<hr />
+
+<p>Dans la prochaine section, nous découvrirons XBL qui peut être utilisé pour 
+définir le comportement d'un élément.</p>

@@ -1,0 +1,89 @@
+
+    <p>Dans cette section, nous allons regarder la création d'indicateurs
+      de progression.</p>
+
+    <h2>Ajout d'un indicateur de progression</h2>
+
+    <p>Un indicateur de progression est une barre qui indique l'état d'avancement
+      d'une tâche. Typiquement, vous la voyez lors du téléchargement
+      de fichiers ou quand une longue opération s'exécute. XUL a
+      un élément qui peut être utilisé pour la création
+      d'un indicateur de progression (NdT&nbsp;:
+      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/progressmeter">progressmeter</a></code>).
+      Il y a deux types d'état pour un
+      indicateur&nbsp;: déterminé et indéterminé.</p>
+
+    <p>Les indicateurs de progression déterminés sont utilisés
+      quand vous connaissez la durée d'une opération. L'indicateur
+      de progression va se remplir, et une fois plein, l'opération doit
+      être terminée. Il peut être utilisé pour une boîte
+      de dialogue de téléchargement lorsque la taille des fichiers
+      est connue.</p>
+
+    <p>Les indicateurs de progression indéterminés sont utilisés quand vous ne connaissez 
+    pas la durée d'une opération. Une animation visuelle représentera cet indicateur, 
+    telle qu'un rectangle zébré ou un cylindre hachuré tournant, et sera dépendante de 
+    votre système d'exploitation et du thème graphique utilisé.</p>
+
+    <p>Indicateur de progression déterminé&nbsp;:&nbsp;<img src="images/prog-det.jpg.jpeg" width="128" height="15" /><br />
+      Indicateur de progression indéterminé&nbsp;:&nbsp;<img src="images/prog-udet.jpg.jpeg" width="128" height="15" /></p>
+
+    <p>Un indicateur de progression a la syntaxe suivante&nbsp;:</p>
+    <pre><code>&lt;progressmeter
+   id=&quot;identifier&quot;
+   mode=&quot;determined&quot;
+   value=&quot;0%&quot;/&gt;</code></pre>
+
+    <p>Ses attributs sont les suivants&nbsp;:</p>
+    <dl>
+     <dt><code class="attribut">id</code></dt>
+      <dd> L'identifiant unique de l'indicateur de progression.</dd>
+
+      <dt> <code class="attribut">mode</code></dt>
+      <dd> Le type d'indicateur de progression. Si sa valeur est <var>determined</var>,
+        l'indicateur de progression est déterminé et se remplit
+        au fur et à mesure de la tâche en cours. Si sa valeur est
+        <var>undetermined</var>, l'indicateur de progression est indéterminé
+        et vous ne connaissez pas la durée de la tâche en cours.
+        La valeur par défaut est <var>determined</var> si vous n'avez pas
+        spécifié cet attribut.</dd>
+
+      <dt> <code class="attribut">value</code></dt>
+      <dd> La valeur courante de l'indicateur de progression. Vous ne devez utiliser
+        cet attribut que pour un indicateur de progression déterminé.
+        La valeur doit être un pourcentage compris entre <var>0%</var> et
+        <var>100%</var>. La valeur sera changée par un script selon l'avancement
+        de la tâche.</dd>
+   </dl>
+
+    <div class="task">
+      <p>Ajoutons maintenant un indicateur de progression à notre boîte
+        de dialogue 'Recherche de fichiers'. Nous devrions normalement mettre
+        un indicateur de progression indéterminé car nous ne connaissons
+        pas le nombre de fichiers recherchés ou combien de temps prendra
+        la recherche. Toutefois, nous ajouterons un indicateur normal pour l'instant
+        car un indicateur animé risque d'être perturbant lors du
+        développement. L'indicateur de progression devrait normalement
+        n'apparaître que lorsque la recherche est lancée. Nous ajouterons
+        plus tard un script pour l'afficher ou non.</p>
+    <pre>&lt;hbox&gt;
+
+   <strong>&lt;progressmeter value=&quot;50%&quot; style=&quot;margin: 4px;&quot;/&gt;</strong>
+
+   &lt;spacer flex=&quot;1&quot;/&gt;</pre>
+      <p><img src="images/progress1.png" class="screenshot" alt="" /></p>
+      <p>La valeur a été mise à <var>50%</var> afin que vous
+        puissiez voir la barre de progression dans la fenêtre. Une marge
+        de 4 pixels a été définie pour séparer l'indicateur
+        du bord de la fenêtre. Comme nous l'avons mentionné précédemment,
+        nous voulons simplement que la barre de progression soit affichée
+        pendant la recherche. Un script l'affichera et la masquera si nécéssaire.</p>
+      <p>Exemple 'Recherche de fichiers'&nbsp;:
+         <a href="exemples/ex_find_progress.xul.txt">Source</a>
+        <a href="exemples/ex_find_progress.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+    </div>
+<hr />
+<p>Nous allons voir dans la prochaine section comment ajouter des éléments additionnels à une fenêtre en 
+utilisant HTML.</p>
+
+

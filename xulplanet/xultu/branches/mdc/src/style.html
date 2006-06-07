@@ -1,0 +1,218 @@
+
+<p>Jusqu'à présent, nous avons à peine modifier l'aspect visuel des éléments que nous avions créés. XUL utilise
+CSS (Cascading Style Sheets) pour personnaliser les éléments.</p>
+
+<h2>Feuilles de styles</h2>
+
+<p>Une feuille de styles est un fichier qui contient des informations de style
+pour les éléments. Les styles ont été conçus au départ pour des éléments HTML mais ils peuvent
+également être appliqués à des éléments XUL ou à n'importe quels éléments XML.
+La feuille de styles contient des informations telles que les polices, couleurs, bordures et taille
+des éléments.</p>
+
+<p>Mozilla applique une feuille de styles par défaut pour chaque fenêtre XUL.
+Dans la plupart des cas, il sera suffisant de laisser les valeurs par défaut telles quelles.
+Toutefois, vous pouvez fournir une feuille de styles personnalisée. En général
+vous associerez une seule feuille de styles à chaque fichier XUL.</p>
+
+<p>Vous pouvez placer une feuille de styles où vous le désirez.
+Si votre fichier XUL se trouve sur un serveur distant et doit être accédé via une URL HTTP, vous pouvez également
+stocker la feuille de styles à distance.
+Si vous créez un paquetage XUL destiné à faire partie du système chrome, vous avez deux choix.
+Premièrement, vous pouvez placer la feuille de styles dans le même répertoire que le fichier XUL.
+Cette méthode a l'inconvénient d'interdire le changement du thème graphique de votre application.
+La seconde méthode consiste à placer vos fichiers à l'intérieur d'un thème.</p>
+
+<p>Imaginons que nous construisions la boîte de dialogue de recherche de fichiers pour permettre le choix d'un thème.
+Comme la fenêtre peut être appelée par l'URL <var>chrome://findfile/content/findfile.xul</var>,
+la feuille de styles sera enregistrée dans <var>chrome://findfile/skin/findfile.css</var>.</p>
+
+<p>Tous les exemples XUL ont utilisé une feuille de styles jusqu'à présent.
+La seconde ligne a toujours été&nbsp;:</p>
+
+<pre><code>&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;</code></pre>
+
+<p>Cette ligne indique que nous voulons utiliser le style fourni par chrome://global/skin/.
+Sous Mozilla, elle sera traduit par le fichier global.css qui contient les informations
+du style par défaut pour les éléments XUL.
+Si vous enlevez cette ligne, les éléments fonctionneront, toutefois ils apparaîtront dans un style
+plus simple.
+La feuille de styles utilise diverses polices, couleurs et bordures pour rendre
+l'apparence des éléments plus appropriée.</p>
+
+
+<h2>Changer les styles</h2>
+
+<p>Il arrivera toutefois que l'apparence par défaut des éléments ne soit pas celle désirée.
+Dans ces cas, nous devons ajouter notre propre feuille de styles. Jusqu'à présent, 
+nous avons appliqué différents styles en utilisant l'attribut <code class="attribut">style</code> sur des éléments.
+Bien que ce soit une technique fonctionnelle, elle n'est pas la meilleure.
+Il est de loin préférable de créer une feuille de styles séparée. La raison est que des styles ou
+des thèmes différents peuvent êtres appliqués très facilement.</p>
+
+<p>Il peut y avoir des cas où l'utilisation de l'attribut style est acceptable.
+Un bon exemple serait lorsqu'un script change le style d'un élément, ou quand une différence
+d'agencement pourrait changer la signification de l'élément.
+Cependant vous devriez l'éviter autant que possible.</p>
+
+<p>Pour des fichiers installés, vous aurez à créer ou à modifier un fichier manifeste et installer
+le thème.</p>
+
+<div class="task">
+
+<p>Modifions la boîte de dialogue de recherche de fichiers pour que son style provienne
+d'un fichier style séparé. Tout d'abord, voici les lignes modifiées de findfile.xul &nbsp;:</p>
+
+<pre><code>&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+<strong>&lt;?xml-stylesheet href="findfile.css" type="text/css"?&gt;</strong>
+  ...
+<strong>&lt;spacer class="titlespace"/&gt;</strong>
+  &lt;groupbox orient="horizontal"&gt;
+    &lt;caption label="Critères de recherche"/&gt;
+
+      &lt;menulist id="searchtype"&gt;
+        &lt;menupopup&gt;
+          &lt;menuitem label="Nom"/&gt;
+          &lt;menuitem label="Taille"/&gt;
+          &lt;menuitem label="Date de modification"/&gt;
+        &lt;/menupopup&gt;
+      &lt;/menulist&gt;
+      <strong>&lt;spacer class="springspace"/&gt;</strong>
+      &lt;menulist id="searchmode"&gt;
+        &lt;menupopup&gt;
+          &lt;menuitem label="Est"/&gt;
+          &lt;menuitem label="N'est pas"/&gt;
+        &lt;/menupopup&gt;
+      &lt;/menulist&gt;
+
+      <strong>&lt;spacer class="springspace"/&gt;</strong>
+      <strong>&lt;menulist id="find-text" flex="1"</strong>
+          editable="true"
+          datasources="file:///mozilla/recents.rdf"
+          ref="http://www.xulplanet.com/rdf/recent/all"/&gt;
+  ...
+<strong>&lt;spacer class="titlespace"/&gt;
+&lt;hbox&gt;
+
+  &lt;progressmeter id="progmeter" value="50%" style="display:none;"/&gt;</strong>
+</code></pre>
+
+<p>La nouvelle ligne <code>xml-stylesheet</code> est utilisée afin d'importer la feuille de styles.
+Elle contiendra les styles au lieu de les avoir directement dans le fichier XUL.
+Vous pouvez inclure un nombre indéterminé de feuilles de styles de la même façon.
+Ici la feuille de styles est placée dans le même répertoire que findfile.xul.</p>
+
+<p>Certains des styles dans le code ci-dessus ont été enlevés. La propriété <code>display</code>
+du <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/progressmeter">progressmeter</a></code>
+ne l'a pas été. Elle sera changée par un script donc, le style a été maintenu, 
+car la barre de progression n'a pas à être visible au lancement.
+Vous pouvez toujours mettre le style dans une feuille de styles séparée si vous le souhaitez vraiment.
+Une classe a été ajoutée aux éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> 
+pour qu'ils puissent être appelés.</p>
+
+<p>Une feuille de styles a également besoin d'être créée.
+Créez un fichier findfile.css dans le même répertoire que le fichier XUL (Il devrait normalement être mis dans un thème séparé).
+Dans ce fichier, nous allons ajouter la déclaration de styles, comme indiqué ci-dessous&nbsp;:</p>
+
+<pre><code>
+#find-text {
+  min-width: 15em;
+}
+
+#progmeter {
+  margin: 4px;
+}
+
+.springspace {
+  width: 10px;
+}
+
+.titlespace {
+  height: 10px;
+}
+</code></pre>
+
+<p>Remarquez que ces styles sont équivalents aux styles que nous avions précédemment.
+Cependant, il est beaucoup plus facile pour quelqu'un de changer l'apparence de la boîte de dialogue
+de recherche de fichiers maintenant car il est possible d'ajouter ou modifier la déclaration
+de styles en modifiant le fichier ou en changeant le thème. Si l'utilisateur change le thème,
+les fichiers dans un répertoire autre que celui par défaut seront utilisés.</p>
+</div>
+
+<h2>Importer des feuilles de styles</h2>
+
+<p>Nous avons déjà vu comment importer des feuilles de styles. Un exemple est montré ci-dessous&nbsp;:</p>
+
+<pre><code>&lt;?xml-stylesheet href="chrome://bookmarks/skin/" type="text/css"?&gt;</code></pre>
+
+<p>Cette ligne peut être la première d'une fenêtre <var>bookmarks</var>. Elle importe la feuille
+de style bookmarks, qui est <var>bookmarks.css</var>. Le système de thème de Mozilla est assez intelligent
+pour savoir quelle feuille de styles utiliser, car le nom spécifique du fichier n'a pas
+été indiqué ici.
+Nous avons fait une chose similaire avec la feuille de styles globale (chrome://global/skin).</p>
+
+<p>Une feuille de styles peut importer des styles d'une autre feuille en utilisant
+la directive <code>import</code>. Normalement, vous n'importerez qu'une seule feuille de styles de chaque fichier XUL.
+La feuille de styles globale peut être importée à partir de celle associée avec le fichier XUL.
+Ceci peut être fait grâce au code ci-dessous, vous permettant de retirer l'import du fichier XUL&nbsp;:</p>
+
+<p>Importation de styles à partir de XUL&nbsp;:</p>
+<pre><code>&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;</code></pre>
+
+<p>Importation de styles à  partir de CSS&nbsp;:</p>
+<pre><code>@import url(chrome://global/skin/);</code></pre>
+
+<p>La seconde syntaxe est préférable car elle réduit le nombre de dépendances à l'intérieur du
+fichier XUL lui-même.</p>
+
+<div class="task">
+<p>Retirez l'importation de la feuille de styles globale dans findfile.xul et ajoutez l'importation dans findfile.css.</p>
+</div>
+
+<p>Tous les éléments peuvent être décorés à l'aide de CSS. Vous pouvez utiliser des sélecteurs
+pour sélectionner l'élément que vous souhaitez styler
+(Le sélecteur est la partie avant l'accolade dans une règle de style).
+La liste suivante résume quelques-uns des sélecteurs disponibles&nbsp;:</p>
+
+<dl>
+  <dt><code>button</code></dt>
+    <dd>Désigne toutes les balises <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>.</dd>
+  <dt><code>#special-button</code></dt>
+    <dd>Désigne les éléments avec un <code class="attribut">id</code> de <var>special-button</var></dd>
+  <dt><code>.bigbuttons</code></dt>
+    <dd>Désigne tous les éléments avec une classe <var>bigbuttons</var></dd>
+  <dt><code>button.bigbuttons</code></dt>
+    <dd>Désigne tous les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code> 
+    avec une classe à <var>bigbuttons</var></dd>
+  <dt><code>toolbar &gt; button</code></dt>
+    <dd>Désigne tous les boutons directement insérés dans un élément 
+    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/toolbar">toolbar</a></code>.</dd>
+  <dt><code>toolbar &gt; button.bigbuttons</code></dt>
+    <dd>Désigne tous les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code> avec une 
+    classe <var>bigbuttons</var>, directement insérés dans un élément 
+    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/toolbar">toolbar</a></code>.</dd>
+  <dt><code>button.bugbuttons:hover</code></dt>
+    <dd>Désigne tous les éléments <code class="tag">button</code> avec une classe 
+    <var>bigbuttons</var> mais seulement lorsque la souris se trouve au dessus d'eux.</dd>
+  <dt><code>button#special-button:active</code></dt>
+    <dd>Désigne tous les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code> 
+    avec un <code class="attribut">id</code> <var>special-button</var> 
+    mais seulement lorsqu'ils sont actifs (en train d'être cliqués).</dd>
+  <dt><code>box[orient="horizontal"]</code></dt>
+    <dd>Désigne tous les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code> 
+    avec un attribut <code class="attribut">orient</code> reglé sur <var>horizontal</var>.</dd>
+</dl>
+
+<p>Vous pouvez combiner ces règles comme vous le désirez. C'est toujours une
+bonne idée d'être aussi précis que possible lorsque vous spécifiez ce qui doit être décoré et comment.
+C'est bien plus efficace et réduit également les risques de décorer un mauvais élément.</p>
+
+<hr />
+
+<p>Dans la prochaine section, nous verrons comment appliquer des styles aux arbres.</p>
+
+<p>La boîte de dialogue de recherche de fichiers à ce stade&nbsp;:
+<a href="exemples/findfile/findfile-style.xul.txt">Source</a>
+<a href="exemples/findfile/findfile-style.xul" onclick="window.open(this.href,'xulff','chrome,resizable'); return false;">Voir</a>
+</p>
+

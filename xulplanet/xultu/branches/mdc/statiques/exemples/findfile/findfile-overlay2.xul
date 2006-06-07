@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="findfile.css" type="text/css"?>
+
+<?xul-overlay href="helpoverlay.xul"?>
+
+<!DOCTYPE window [
+ <!ENTITY findWindow.title "Recherche de fichiers">
+ <!ENTITY fileMenu.label "Fichier">
+ <!ENTITY editMenu.label "Edition">
+ <!ENTITY fileMenu.accesskey "f">
+ <!ENTITY editMenu.accesskey "e">
+ <!ENTITY openCmd.label "Ouvrir une recherche...">
+ <!ENTITY saveCmd.label "Sauvegarder une recherche...">
+ <!ENTITY closeCmd.label "Fermer">
+ <!ENTITY openCmd.accesskey "o">
+ <!ENTITY saveCmd.accesskey "s">
+ <!ENTITY closeCmd.accesskey "f">
+ <!ENTITY cutCmd.label "Couper">
+ <!ENTITY copyCmd.label "Copier">
+ <!ENTITY pasteCmd.label "Coller">
+ <!ENTITY cutCmd.accesskey "p">
+ <!ENTITY copyCmd.accesskey "c">
+ <!ENTITY pasteCmd.accesskey "l">
+ <!ENTITY cutCmd.commandkey "X">
+ <!ENTITY copyCmd.commandkey "C">
+ <!ENTITY pasteCmd.commandkey "V">
+ <!ENTITY openCmdToolbar.label "Ouvrir">
+ <!ENTITY saveCmdToolbar.label "Sauvegarder">
+ <!ENTITY searchTab "Recherche">
+ <!ENTITY optionsTab "Options">
+ <!ENTITY findDescription "Entrez votre critère de recherche ci dessous et appuyer sur le bouton Chercher.">
+ <!ENTITY findCriteria "Critère de recherche">
+ <!ENTITY type.name "Nom">
+ <!ENTITY type.size "Taille">
+ <!ENTITY type.date "Date de modification">
+ <!ENTITY mode.is "Est">
+ <!ENTITY mode.isnot "N'est pas">
+ <!ENTITY casesensitive "Recherche sensible à la casse">
+ <!ENTITY matchfilename "Nom de fichier entier">
+ <!ENTITY results.filename "Nom de fichier">
+ <!ENTITY results.location "Emplacement">
+ <!ENTITY results.size "Taille">
+ <!ENTITY bytes.before "">
+ <!ENTITY bytes.after " ko">
+ <!ENTITY button.find "Chercher">
+ <!ENTITY button.cancel "Annuler">
+ <!ENTITY helpCmd.label "Aide">
+ <!ENTITY helpCmd.accesskey "a">
+ <!ENTITY contentsCmd.label "Contenus">
+ <!ENTITY indexCmd.label "Index">
+ <!ENTITY aboutCmd.label "A propos de...">
+ <!ENTITY findfilehelpCmd.label "Aide sur la recherche de fichiers">
+ <!ENTITY contentsCmd.accesskey "c">
+ <!ENTITY indexCmd.accesskey "i">
+ <!ENTITY aboutCmd.accesskey "a">
+ <!ENTITY findfilehelpCmd.accesskey "f">
+]
+>
+
+<window
+    id="findfile-window"
+    title="&findWindow.title;"
+    persist="screenX screenY width height"
+    orient="horizontal"
+    onload="initSearchList()"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script src="findfile.js"/>
+
+<popupset>
+  <popup id="editpopup">
+    <menuitem label="Couper" accesskey="&cutCmd.accesskey;"/>
+    <menuitem label="Copier" accesskey="&copyCmd.accesskey;"/>
+    <menuitem label="Coller" accesskey="&pasteCmd.accesskey;" disabled="true"/>
+  </popup>
+</popupset>
+
+<keyset>
+  <key id="cut_cmd" modifiers="accel" key="&cutCmd.commandkey;"/>
+  <key id="copy_cmd" modifiers="accel" key="&copyCmd.commandkey;"/>
+  <key id="paste_cmd" modifiers="accel" key="&pasteCmd.commandkey;"/>
+  <key id="close_cmd" keycode="VK_ESCAPE" oncommand="window.close();"/>
+</keyset>
+
+<vbox class="findfilesbox" flex="1">
+
+<toolbox>
+<menubar id="findfiles-menubar">
+  <menu id="file-menu" label="&fileMenu.label;" accesskey="&fileMenu.accesskey;">
+    <menupopup id="file-popup">
+      <menuitem label="&openCmd.label;" accesskey="&openCmd.accesskey;"/>
+      <menuitem label="&saveCmd.label;" accesskey="&saveCmd.accesskey;"/>
+      <menuseparator/>
+      <menuitem label="&closeCmd.label;" accesskey="&closeCmd.accesskey;" key="close_cmd"
+                oncommand="window.close();"/>
+    </menupopup>
+  </menu>
+  <menu id="edit-menu" label="&editMenu.label;" accesskey="&editMenu.accesskey;">
+    <menupopup id="edit-popup">
+      <menuitem label="&cutCmd.label;" accesskey="&cutCmd.accesskey;" key="cut_cmd"/>
+      <menuitem label="&copyCmd.label;" accesskey="&copyCmd.accesskey;" key="copy_cmd"/>
+      <menuitem label="&pasteCmd.label;" accesskey="&pasteCmd.accesskey;" key="paste_cmd" disabled="true"/>
+    </menupopup>
+  </menu>
+  <menu id="help-menu">
+    <menupopup id="help-popup">
+      <menuitem id="help-findfiles" label="&findfilehelpCmd.label;"
+                accesskey="&findfilehelpCmd.accesskey;"/>
+    </menupopup>
+  </menu>
+ </menubar>
+
+    <toolbar id="findfiles-toolbar">
+      <toolbarbutton id="opensearch" label="&openCmdToolbar.label;"/>
+      <toolbarbutton id="savesearch" label="&saveCmdToolbar.label;"/>
+    </toolbar>
+  </toolbox>
+
+<tabbox>
+  <tabs>
+    <tab label="&searchTab;" selected="true"/>
+    <tab label="&optionsTab;"/>
+  </tabs>
+
+  <tabpanels>
+   <tabpanel id="searchpanel" orient="vertical" context="editpopup">
+
+  <description>
+    &findDescription;
+  </description>
+
+<spacer class="titlespace"/>
+
+<groupbox orient="horizontal">
+  <caption label="&findCriteria;"/>
+    <menulist id="searchtype">
+      <menupopup>
+        <menuitem label="&type.name;"/>
+        <menuitem label="&type.size;"/>
+        <menuitem label="&type.date;"/>
+      </menupopup>
+    </menulist>
+    <spacer class="springspace"/>
+    <menulist id="searchmode">
+      <menupopup>
+        <menuitem label="&mode.is;"/>
+        <menuitem label="&mode.isnot;"/>
+      </menupopup>
+    </menulist>
+    <spacer class="springspace"/>
+
+    <menulist id="find-text" flex="1"
+              editable="true"
+              datasources="file:///mozilla/recents.rdf"
+              ref="urn:findfile:recent">
+      <template>
+        <menupopup>
+          <menuitem label="rdf:http://www.example.com/recent#Label" uri="rdf:*"/>
+        </menupopup>
+      </template>
+    </menulist>
+  </groupbox>
+</tabpanel>
+   <tabpanel id="optionspanel" orient="vertical">
+     <checkbox id="casecheck" label="&casesensitive;"/>
+     <checkbox id="wordscheck" label="&matchfilename;"/>
+   </tabpanel>
+
+ </tabpanels>
+</tabbox>
+
+<tree id="results" style="display: none;" flex="1">
+  <treecols>
+    <treecol id="name" label="&results.filename;" flex="1"/>
+    <treecol id="location" label="&results.location;" flex="2"/>
+    <treecol id="size" label="&results.size;" flex="1"/>
+  </treecols>
+
+  <treechildren>
+   <treeitem>
+     <treerow>
+       <treecell label="mozilla"/>
+       <treecell label="/usr/local"/>
+       <treecell label="&bytes.before;2520&bytes.after;"/>
+     </treerow>
+   </treeitem>
+  </treechildren>
+</tree>
+ <splitter id="splitbar" resizeafter="grow" style="display:none;"/>
+
+  <spacer class="titlespace"/>
+
+  <hbox>
+    <progressmeter id="progmeter" value="50%" style="display: none;"/>
+    <spacer flex="1"/>
+    <button id="find-button" label="&button.find;" default="true" oncommand="doFind();"/>
+    <button id="cancel-button" label="&button.cancel;" oncommand="window.close();"/>
+  </hbox>
+
+</vbox>
+
+</window>
+

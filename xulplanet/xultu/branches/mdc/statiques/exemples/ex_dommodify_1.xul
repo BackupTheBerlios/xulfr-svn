@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 7.2.1"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script>
+function addButton()
+{
+  var aBox = document.getElementById("aBox");
+
+  var button = document.createElement("button");
+  button.setAttribute("label","Un bouton");
+  aBox.appendChild(button);
+}
+</script>
+
+<box id="aBox" width="200">
+  <button label="Ajouter" oncommand="addButton();"/>
+</box>
+
+
+</window>
+

@@ -1,0 +1,201 @@
+   <p> Dans cette section, nous allons voir comment XUL gère la mise en page.</p>
+
+    <h2>Introduction aux boîtes</h2>
+
+    <p> La forme principale de mise en page dans XUL s'appelle le «&nbsp;Modèle de
+      Boîte&nbsp;». Ce modèle vous permet de diviser une fenêtre en une
+      série de boîtes. Les éléments à l'intérieur
+      d'une boîte se placeront horizontalement ou verticalement.
+      En combinant une série de boîtes, d'éléments 
+      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> et d'éléments
+      avec des attributs <code class="attribut">flex</code>, vous pouvez
+     contrôler la mise en page d'une fenêtre.</p>
+
+    <p>Bien qu'une boîte soit la partie fondamentale de la disposition d'éléments
+   dans XUL, elle suit quelques règles très simples.
+     Une boîte peut présenter ses enfants dans une des deux orientations,
+    soit horizontalement, soit verticalement.
+     Une boîte horizontale aligne ses éléments horizontalement et une boîte
+    verticale place ses éléments verticalement.
+     Vous pouvez vous représenter une boîte comme étant une rangée ou
+    une colonne d'un tableau HTML. Divers attributs placés sur les éléments
+    enfants, en plus de certaines propriétés de style CSS, contrôlent la
+    position et la taille exactes des enfants.</p>
+
+    <p>
+    La syntaxe basique d'une boîte est la suivante&nbsp;:
+    </p>
+
+    <pre><code>&lt;hbox&gt;
+  ...
+&lt;/hbox&gt;
+
+&lt;vbox&gt;
+  ...
+&lt;/vbox&gt;</code></pre>
+
+<p>
+L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> 
+est utilisé pour créer une boîte orientée horizontalement. Chaque élément placé dans la
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> 
+sera placé horizontalement sur une rangée.
+L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code> 
+est utilisé pour créer une boîte orientée verticalement. Les éléments ajoutés seront placés les uns en
+dessous des autres dans une colonne.</p>
+
+<p>Il y a aussi un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code> 
+  générique qui s'oriente horizontalement par défaut, ce qui veut dire qu'il est similaire à l'élément
+  <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code>. Cependant,
+  vous pouvez utiliser l'attribut <code class="attribut">orient</code> pour
+  contrôler l'orientation dans la boîte. Vous pouvez positionner cet attribut
+  à la valeur <var>horizontal</var> pour créer une boîte horizontale et à
+  la valeur <var>vertical</var> pour créer une boîte verticale. </p>
+
+<p>Ainsi, les deux lignes ci-dessous sont équivalentes&nbsp;:</p>
+
+<pre><code>&lt;vbox&gt;
+
+&lt;box orient="vertical"&gt;</code></pre>
+
+<p>L'exemple suivant montre comment placer trois boutons verticalement.</p>
+
+<p>Exemple 3.1.1&nbsp;:</p>
+<a href='exemples/ex_boxes_1.xul.txt'>Source</a>
+<a href="exemples/ex_boxes_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+<pre><code>&lt;vbox&gt;
+  &lt;button id="yes" label="Oui"/&gt;
+  &lt;button id="no" label="Non"/&gt;
+  &lt;button id="maybe" label="Peut-être"/&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p>
+<img src="images/boxes-ex1.png" alt="" class="screenshot-left" />
+Ces trois boutons sont orientés verticalement comme le spécifie la boîte.
+Pour faire en sorte que les boutons soient orientés horizontalement, tout ce
+que vous avez à faire est de remplacer l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code> par
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code>.
+</p>
+
+<p>Vous pouvez ajouter autant d'éléments que vous le souhaitez à l'intérieur
+ de la boîte, y compris d'autres boîtes. Dans le cas d'une boîte horizontale,
+ chaque élément additionnel sera placé à la droite du précédent. Les éléments
+ ne se chevauchent pas, donc plus vous ajoutez d'éléments,
+ plus large est la fenêtre. De même, chaque élément ajouté dans une boîte
+ verticale sera placé sous le précédent. L'exemple ci-dessous montre une
+ simple demande de login&nbsp;:</p>
+
+<p>Exemple 3.1.2&nbsp;: <a href='exemples/ex_boxes_2.xul.txt'>Source</a>
+    <a href="exemples/ex_boxes_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<pre><code>&lt;vbox&gt;
+  &lt;hbox&gt;
+    &lt;label control="login" value="Login :"/&gt;
+    &lt;textbox id="login"/&gt;
+  &lt;/hbox&gt;
+  &lt;hbox&gt;
+    &lt;label control="pass" value="Mot de passe :"/&gt;
+    &lt;textbox id="pass"/&gt;
+  &lt;/hbox&gt;
+  &lt;button id="ok" label="OK"/&gt;
+  &lt;button id="cancel" label="Annuler"/&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p><img src="images/boxes-ex2.png" class="screenshot-right" alt="" />Ici quatre
+éléments ont été orientés verticalement, deux balises
+<code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code> internes et
+deux éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>.
+Notez que seuls les éléments qui sont des descendants directs de la boîte sont
+orientés verticalement. Les étiquettes et les boîtes de texte sont à
+l'intérieur d'éléments <code class="tag"><a href="http://xulfr.org/wiki/References/Xul/hbox">hbox</a></code>,
+donc ils sont orientés suivant ces boîtes, lesquelles sont horizontales.
+Vous pouvez voir sur l'image que chaque libellé et leur champ de saisie est
+orienté horizontalement. </p>
+
+<p>Si vous regardez attentivement l'image de la boîte de dialogue de login,
+vous verrez que les deux champs de saisie ne sont pas alignés horizontalement.
+Ce serait certainement mieux s'ils l'étaient. Pour y parvenir, nous devons
+ajouter quelques boîtes supplémentaires. </p>
+
+<p>Exemple 3.1.3&nbsp;: <a href='exemples/ex_boxes_3.xul.txt'>Source</a>
+  <a href="exemples/ex_boxes_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<pre><code>&lt;vbox&gt;
+  &lt;hbox&gt;
+    &lt;vbox&gt;
+      &lt;label control="login" value="Login :"/&gt;
+      &lt;label control="pass" value="Mot de passe :"/&gt;
+    &lt;/vbox&gt;
+    &lt;vbox&gt;
+      &lt;textbox id="login"/&gt;
+      &lt;textbox id="pass"/&gt;
+    &lt;/vbox&gt;
+  &lt;/hbox&gt;
+  &lt;button id="ok" label="OK"/&gt;
+  &lt;button id="cancel" label="Annuler"/&gt;
+&lt;/vbox&gt;</code></pre>
+
+<p class="note">
+<img src="images/boxes-ex3.png" alt="" class="screenshot-right" />Notez que
+les champs de saisie sont maintenant alignés. Pour cela, il nous a fallu
+ajouter des boîtes à l'intérieur de la boîte principale. Les deux libellés et
+les champs de saisie sont placés à l'intérieur d'une boîte horizontale. Ensuite,
+les libellés sont placés à l'intérieur d'une autre boîte, une verticale cette
+fois, de même que les champs de saisie. C'est cette boîte interne qui oriente
+verticalement les éléments. La boîte horizontale est nécessaire puisque nous voulons
+que la <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code> des libellés 
+et que la <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code> des champs 
+de saisie soient placées l'une à côté de l'autre. Si cette boîte était enlevée, les champs de saisie
+apparaîtraient sous les libellés.</p>
+
+<p>
+L'ennui est que le libellé «&nbsp;Mot de passe&nbsp;» est désormais trop haut. Il nous
+faudra utiliser l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/grid">grid</a></code>
+pour résoudre ce phénomène, ce que nous verrons dans une prochaine section.</p>
+
+<h2>Des boîtes dans la boîte de dialogue de recherche de fichiers</h2>
+<div class="task">
+
+<p>Ajoutons quelques boîtes à la boîte de dialogue de recherche de fichiers. Une boîte
+verticale sera ajoutée autour de tous les éléments, et une boîte horizontale sera ajoutée
+autour du champ de saisie et des boutons. Le résultat sera que les boutons apparaîtront
+sous le champ de saisie. </p>
+
+<p><a href='exemples/findfile/findfile-boxes.xul.txt'>Source</a>
+<a href="exemples/findfile/findfile-boxes.xul" onclick="window.open(this.href,'xulff','chrome,resizable'); return false;">Voir</a>
+</p>
+<pre><code><strong>&lt;vbox flex="1"&gt;
+
+  &lt;description&gt;
+    Entrez votre critère de recherche ci-dessous et sélectionnez le bouton Rechercher
+    pour démarrer la recherche.
+  &lt;/description&gt;
+
+  &lt;hbox&gt;</strong>
+    &lt;label value="Rechercher :" control="find-text"/&gt;
+    &lt;textbox id="find-text"/&gt;
+<strong>  &lt;/hbox&gt;</strong>
+
+<strong>  &lt;hbox&gt;
+    &lt;spacer flex="1"/&gt;</strong>
+
+    &lt;button id="find-button" label="Rechercher"/&gt;
+    &lt;button id="cancel-button" label="Annuler"/&gt;
+<strong>  &lt;/hbox&gt;
+&lt;/vbox&gt;</strong></code></pre>
+
+<p>La boîte verticale entraîne l'orientation verticale du texte principal, de la boîte
+contenant le champ de saisie ainsi que de la boîte avec les deux boutons. Les boîtes
+internes orientent leurs éléments horizontalement. Comme vous pouvez le voir sur
+l'image ci-dessous, le libellé et le champ de saisie de texte sont placés
+côte à côte. L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> et les deux boutons sont aussi placés horizontalement
+dans leur boîte.</p>
+<p class="note">Notez que l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code>, parce qu'il est flexible, force les
+boutons à apparaître sur le côté droit. </p>
+<p><img src="images/boxes1.png" alt="" class="screenshot" /></p>
+</div>
+<hr />
+
+<p>
+Dans la prochaîne section, nous verrons comment spécifier les tailles des éléments
+individuellement et comment contraindre leurs tailles.
+</p>
+

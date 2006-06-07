@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 7.3.4"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script>
+function deleteSelection()
+{
+  var list = document.getElementById('thelist');
+  var count = list.selectedCount;
+  while (count--){
+    var item = list.selectedItems[0];
+    list.removeItemAt(list.getIndexOfItem(item));
+  }
+}
+</script>
+
+<button label="Supprimer" oncommand="deleteSelection();"/>
+
+<listbox id="thelist" seltype="multiple">
+  <listitem label="Cheddar"/>
+  <listitem label="Cheshire"/>
+  <listitem label="Edam"/>
+  <listitem label="Gouda"/>
+  <listitem label="Havartie"/>
+</listbox>
+
+
+</window>
+

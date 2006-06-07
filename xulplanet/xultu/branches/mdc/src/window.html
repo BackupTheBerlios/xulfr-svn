@@ -1,0 +1,194 @@
+
+<p>Nous allons créer un simple outil de recherche de fichiers tout au long de ce tutoriel.
+Avant tout, cependant, nous devons étudier la syntaxe de base d'un fichier XUL.
+</p>
+
+<h2>Création d'un fichier XUL</h2>
+
+<p>Un fichier XUL peut avoir n'importe quel nom mais il doit avoir
+l'extension <code>.xul</code>. Le fichier XUL le plus simple a la structure suivante&nbsp;:
+</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window
+    id="findfile-window"
+    title="Recherche de fichiers"
+    orient="horizontal"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+ ...
+&lt;/window&gt;</code></pre>
+
+
+<p>Cette fenêtre ne sert à rien tant qu'elle ne comporte pas d'élements d'interface
+utilisateur. Ceux ci seront ajoutés dans la section suivante.
+Voici l'analyse ligne par ligne du code ci-dessus&nbsp;:
+</p>
+
+<ol>
+  <li><code>&lt;?xml version=&quot;1.0&quot;?&gt;</code><br />
+      Cette ligne déclare simplement qu'il s'agit d'un fichier XML. <!--Actuellement
+      une seule version existe (1.0) mais lorsqu'une nouvelle sera éditée,
+      le navigateur pourra déterminer quelle version il doit utiliser.-->
+      Vous devrez normalement ajouter cette ligne à l'identique au début de
+      chaque fichier xul, tout comme vous mettriez la balise <code class="tag">HTML</code>
+       au début d'un fichier HTML.
+
+  </li>
+
+<li><code>&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;</code>
+      <br />
+      Cette ligne est utilisée pour spécifier la feuille de style à utiliser pour
+      le fichier. C'est la syntaxe que les fichiers XML emploient pour importer
+      des feuilles de style. Dans ce cas, nous importons les styles trouvés dans
+      le répertoire chrome global/skin.  Nous n'avons pas indiqué de fichier spécifique
+      ainsi Mozilla déterminera quels fichiers du dossier il emploiera. Ici,
+      le fichier le plus important, global.css, est sélectionné. Ce fichier contient toutes
+      les déclarations par défaut pour tous les éléments XUL. Puisque XML ne permet pas
+     de savoir la manière dont les éléments doivent être affichés, ce fichier l'indique.
+      De façon générale, vous mettrez cette ligne au debut de chaque fichier XUL.
+      Vous pouvez également importer d'autres feuilles de style en utilisant la même
+      syntaxe. Notez que vous devrez normalement importer la feuille de style globale
+      à l'intérieur du fichier de votre propre feuille de style.
+  </li>
+<li><code>&lt;window</code><br />
+      Cette ligne déclare que vous allez décrire une
+      fénêtre <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>.
+      Chaque fenêtre d'interface utilisateur est décrite dans un fichier séparé. Cette
+      balise ressemble à la balise BODY en HTML qui entoure la totalité du contenu.
+      Plusieurs attributs peuvent être placés dans l'élément
+      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>
+      (ici il y en a quatre). Dans cet exemple, chaque attribut est placé sur une
+      ligne séparée bien que ce ne soit pas une obligation.
+</li>
+  <li><code>id="findfile-window"</code><br />
+      L'attribut <code class="attribut">id</code> est utilisé comme un identifiant, de sorte
+      que des scripts puissent y référer. Vous mettrez normalement un attribut
+      <code class="attribut">id</code> sur tous les éléments. Vous êtes libre de choisir n'importe 
+      quel nom, toutefois, il est préférable qu'il soit pertinent.
+  </li>
+
+<li><code>title="Recherche de fichiers"</code><br />
+      L'attribut <code class="attribut">title</code> décrit le texte qui apparaîtra dans la
+      barre de titre de la fenêtre quand elle sera affichée. Dans le cas présent, le texte
+      <samp>Recherche de fichiers</samp> sera affiché.
+</li>
+
+  <li><code>orient="horizontal"</code><br />
+      L'attribut <code class="attribut">orient</code> spécifie l'arrangement des éléments de la
+      fenêtre. La valeur <var>horizontal</var> indique que les éléments
+      doivent être placés horizontalement dans la fenêtre. Vous pouvez également utiliser la
+      valeur <var>vertical</var> signifiant que les items seront affichés
+      en colonne. Comme c'est la valeur par défaut, vous pouvez omettre cet attribut
+      si vous souhaitez avoir l'orientation verticale.
+  </li>
+  <li><code>
+           xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+      </code>
+      <br />
+      Cette ligne déclare l'espace de nommage pour XUL que vous devrez mettre dans l'élément
+      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>
+      pour indiquer que tous ses enfants sont XUL. Notez que cette URL n'est jamais
+      téléchargée réellement. Mozilla reconnaîtra cette URL en interne.
+  </li>
+
+  <li><code>...</code><br />
+      C'est ici que les éléments (les boutons, les menus et les autres composants de l'interface
+      utilisateur) sont déclarés. Nous en ajouterons quelques uns dans les prochaines
+      sections.
+  </li>
+
+<li><code>&lt;/window&gt;</code><br />
+      Et enfin, nous devons fermer la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>
+      à la fin du fichier.
+  </li>
+
+</ol>
+
+<h2>Ouverture d'une fenêtre</h2>
+
+<p>
+Afin d'ouvrir une fenêtre XUL, il y a plusieurs méthodes qui peuvent être employées.
+Si vous n'êtes qu'à l'étape de développement, vous pouvez juste taper l'URL
+(commencant par chrome:, file: ou d'autre type d'URL) dans la barre d'adresses
+du navigateur Mozilla.
+Vous devriez également pouvoir double-cliquer sur le fichier dans votre gestionnaire de fichiers,
+en supposant que les fichiers XUL soient associés à Mozilla.
+ La fenêtre XUL apparaîtra cependant dans la fenêtre de navigateur et non dans une nouvelle,
+ mais c'est souvent suffisant durant les premières étapes de développement.
+</p>
+
+<p>
+La manière correcte, naturellement, est d'ouvrir la fenêtre en utilisant JavaScript.
+Aucune nouvelle syntaxe n'est nécessaire, vous pouvez employer la fonction
+<code>window.open()</code>
+comme pour tout document HTML. Cependant, une option additionnelle, appelée <var>chrome</var>
+est nécessaire pour indiquer au navigateur que le document à ouvrir est un chrome.
+Celle-ci s'ouvrira sans barre d'outils, sans menu et sans aucun élément qu'une
+fenêtre de navigateur dispose normalement. La syntaxe est décrite ci-dessous&nbsp;:
+</p>
+
+<pre><code>window.open(url,windowname,flags);</code>
+
+où l'argument flags contient "chrome". 
+
+Exemple&nbsp;:
+<code>  window.open("chrome://navigator/content/navigator.xul", "bmarks",
+    "chrome,width=600,height=300");</code></pre>
+
+<div class="task">
+<h2>Votre premier fichier XUL</h2>
+<p>
+Commençons par créer le fichier de base pour la boite de dialogue de recherche de fichiers.
+Créez un fichier appelé findfile.xul et mettez le dans un nouveau répertoire quelque part.
+L'emplacement importe peu, mais le répertoire chrome/findfile/content est un endroit
+adéquat. Ajoutez au fichier le squelette XUL montré au debut de cette page et sauvegardez le.
+</p>
+
+<!--<p>
+Au lieu d'un URL de fichier, nous pourrions employer un URL de ressource.
+Ce type d'URL est semblable à un URL de fichier, sauf qu'il commence par 'resource:'
+et non par 'file:'.Son répertoire parent est le répertoire où Mozilla est installé et
+ non la racine du système. Ceci signifie qu'il peut être employé pour se rapporter à
+ des fichiers dans le répertoire de Mozilla ou ses sous-répertoires, indépendamment
+ d'où Mozilla a été installé. Ainsi, nous pourrions nous référer à la boite de dialogue
+ recherche de fichier avec l'URL de ressource  suivante :
+</p>
+
+<pre><code>resource:/chrome/findfile/content/findfile/findfile.xul
+</code></pre>
+-->
+<p>
+Vous pouvez utiliser le paramètre en ligne de commande <var>-chrome</var> pour indiquer le
+fichier XUL à ouvrir au démarrage de mozilla. S'il n'est pas spécifié, la fenêtre par défaut
+s'ouvrira (Habituellement la fenêtre de navigateur). Par exemple, nous pourrions ouvrir
+la boite de dialogue de recherche de fichiers avec l'une des commandes suivantes&nbsp;:
+</p>
+
+<pre><code>mozilla -chrome chrome://findfile/content/findfile.xul
+mozilla -chrome resource:/chrome/findfile/content/findfile/findfile.xul
+</code></pre>
+
+<p>
+Si vous utilisez cette commande en ligne de commande (dans l'hypothèse que cela soit possible 
+sur votre plate-forme), la boite de dialogue de recherche de fichiers s'ouvrira par défaut au 
+lieu de la fenêtre de navigateur de Mozilla. Naturellement, puisque nous n'avons pas mis 
+d'éléments graphiques dans la fenêtre, vous ne verrez rien. Dans la section suivante, 
+quelques éléments y seront ajoutés.
+</p>
+
+<p>
+Pour voir l'effet, la commande suivante ouvre la fenêtre de signets&nbsp;:
+</p>
+
+<pre><code>mozilla -chrome chrome://communicator/content/bookmarks/bookmarksManager.xul
+</code></pre>
+</div>
+<hr />
+
+<p>
+Dans la section suivante, nous ajouterons des boutons dans la fenêtre.
+</p>
+
+

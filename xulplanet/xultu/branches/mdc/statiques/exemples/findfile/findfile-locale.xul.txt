@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="findfile.css" type="text/css"?>
+
+<!DOCTYPE window SYSTEM "chrome://findfile/locale/findfile.dtd">
+
+
+<window
+    id="findfile-window"
+    title="&findWindow.title;"
+    persist="screenX screenY width height"
+    orient="horizontal"
+    onload="initSearchList()"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script src="findfile.js"/>
+
+<popupset>
+  <popup id="editpopup">
+    <menuitem label="Cut" accesskey="&cutCmd.accesskey;"/>
+    <menuitem label="Copy" accesskey="&copyCmd.accesskey;"/>
+    <menuitem label="Paste" accesskey="&pasteCmd.accesskey;" disabled="true"/>
+  </popup>
+</popupset>
+
+<keyset>
+  <key id="cut_cmd" modifiers="accel" key="&cutCmd.commandkey;"/>
+  <key id="copy_cmd" modifiers="accel" key="&copyCmd.commandkey;"/>
+  <key id="paste_cmd" modifiers="accel" key="&pasteCmd.commandkey;"/>
+  <key id="close_cmd" keycode="VK_ESCAPE" oncommand="window.close();"/>
+</keyset>
+
+<vbox class="findfilesbox" flex="1">
+
+<toolbox>
+<menubar id="findfiles-menubar">
+  <menu id="file-menu" label="&fileMenu.label;" accesskey="&fileMenu.accesskey;">
+    <menupopup id="file-popup">
+      <menuitem label="&openCmd.label;" accesskey="&openCmd.accesskey;"/>
+      <menuitem label="&saveCmd.label;" accesskey="&saveCmd.accesskey;"/>
+      <menuseparator/>
+      <menuitem label="&closeCmd.label;" accesskey="&closeCmd.accesskey;" key="close_cmd"
+                oncommand="window.close();"/>
+    </menupopup>
+  </menu>
+  <menu id="edit-menu" label="&editMenu.label;" accesskey="&editMenu.accesskey;">
+    <menupopup id="edit-popup">
+      <menuitem label="&cutCmd.label;" accesskey="&cutCmd.accesskey;" key="cut_cmd"/>
+      <menuitem label="&copyCmd.label;" accesskey="&copyCmd.accesskey;" key="copy_cmd"/>
+      <menuitem label="&pasteCmd.label;" accesskey="&pasteCmd.accesskey;" key="paste_cmd" disabled="true"/>
+    </menupopup>
+  </menu>
+ </menubar>
+
+    <toolbar id="findfiles-toolbar">
+      <toolbarbutton id="opensearch" label="&openCmdToolbar.label;"/>
+      <toolbarbutton id="savesearch" label="&saveCmdToolbar.label;"/>
+    </toolbar>
+  </toolbox>
+
+<tabbox>
+  <tabs>
+    <tab label="&searchTab;" selected="true"/>
+    <tab label="&optionsTab;"/>
+  </tabs>
+
+  <tabpanels>
+   <tabpanel id="searchpanel" orient="vertical" context="editpopup">
+
+  <description>
+    &findDescription;
+  </description>
+
+<spacer class="titlespace"/>
+
+<groupbox orient="horizontal">
+  <caption label="&findCriteria;"/>
+    <menulist id="searchtype">
+      <menupopup>
+        <menuitem label="&type.name;"/>
+        <menuitem label="&type.size;"/>
+        <menuitem label="&type.date;"/>
+      </menupopup>
+    </menulist>
+    <spacer class="springspace"/>
+    <menulist id="searchmode">
+      <menupopup>
+        <menuitem label="&mode.is;"/>
+        <menuitem label="&mode.isnot;"/>
+      </menupopup>
+    </menulist>
+    <spacer class="springspace"/>
+
+    <menulist id="find-text" flex="1"
+              editable="true"
+              datasources="file:///mozilla/recents.rdf"
+              ref="urn:findfile:recent">
+      <template>
+        <menupopup>
+          <menuitem label="rdf:http://www.example.com/recent#Label" uri="rdf:*"/>
+        </menupopup>
+      </template>
+    </menulist>
+  </groupbox>
+</tabpanel>
+   <tabpanel id="optionspanel" orient="vertical">
+     <checkbox id="casecheck" label="&casesensitive;"/>
+     <checkbox id="wordscheck" label="&matchfilename;"/>
+   </tabpanel>
+
+ </tabpanels>
+</tabbox>
+
+<tree id="results" style="display: none;" flex="1">
+  <treecols>
+    <treecol id="name" label="&results.filename;" flex="1"/>
+    <treecol id="location" label="&results.location;" flex="2"/>
+    <treecol id="size" label="&results.size;" flex="1"/>
+  </treecols>
+
+  <treechildren>
+   <treeitem>
+     <treerow>
+       <treecell label="mozilla"/>
+       <treecell label="/usr/local"/>
+       <treecell label="&bytes.before;2520&bytes.after;"/>
+     </treerow>
+   </treeitem>
+  </treechildren>
+</tree>
+ <splitter id="splitbar" resizeafter="grow" style="display:none;"/>
+
+  <spacer class="titlespace"/>
+
+  <hbox>
+    <progressmeter id="progmeter" value="50%" style="display: none;"/>
+    <spacer flex="1"/>
+    <button id="find-button" label="&button.find;" default="true" oncommand="doFind();"/>
+    <button id="cancel-button" label="&button.cancel;" oncommand="window.close();"/>
+  </hbox>
+
+</vbox>
+
+</window>
+

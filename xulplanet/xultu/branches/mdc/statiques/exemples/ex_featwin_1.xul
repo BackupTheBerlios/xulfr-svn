@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 12.1.1"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        debug="true"
+        >
+<hbox>
+   <label control="nom" value="Entrez votre nom"/>
+   <textbox id="nom"/>
+</hbox>
+<hbox>
+   <checkbox id="chk" label="Se souvenir de moi"/>
+</hbox>
+<hbox>
+   <button label="Ok" />
+   <button label="Annuler" />
+</hbox>
+
+</window>

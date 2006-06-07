@@ -1,0 +1,214 @@
+
+<p>Cette section explique comment styler un arbre.</p>
+
+<h2>Styler l'arbre</h2>
+
+<p>Vous pouvez styler la bordure de l'arbre et les en-têtes de colonnes de la
+même manière que pour d'autres éléments. Les styles ajoutés à l'élément <code
+class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code>
+seront appliqués à l'arbre entier. L'ajout d'un style à l'élément <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code> ne l'applique
+pas à la colonne mais seulement à son en-tête.</p>
+
+<p>Le corps de l'arbre doit être stylé d'une manière un peu différente des
+autres éléments, parce que le corps de l'arbre est stocké d'une manière
+différente des autres éléments. Le <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
+extérieur est le seul vrai élément du corps de l'arbre. Les éléments intérieurs
+n'ont qu'un rôle de conteneurs.</p>
+
+<p>Vous devez donc utiliser l'attribut <code class="attribut">properties</code>
+sur les lignes ou les cellules pour modifier une ou plusieurs propriétés
+nommées. Cet attribut peut être utilisé avec des arbres à contenu statique, produit
+par RDF ou avec des arbres à vue personnalisée. Supposons que nous voulions
+donner une couleur de fond bleue à une ligne particulière, comme il est
+possible de le remarquer sur les libellés dans la messagerie de Mozilla. Nous allons utiliser une
+propriété appelée <var>makeItBlue</var>. Vous pouvez utiliser le nom que vous voulez.
+Vous pouvez modifier plusieurs propriétés en les séparant par des espaces.</p>
+
+<p>Modifiez la propriété sur une ligne ou une cellule, comme dans l'exemple
+suivant&nbsp;:</p>
+
+<pre><code>&lt;treerow properties="makeItBlue"&gt;</code></pre>
+
+<p>La feuille de styles peut récupérer cette propriété et l'utiliser pour changer
+l'apparence d'une ligne pour les messages non lus ou les libellés. Les propriétés
+fonctionnent en quelque sorte comme les classes de style, bien qu'elles
+nécessitent une syntaxe un peu plus complexe à utiliser dans une feuille de
+styles. En effet, il est possible de spécifier un style pour chaque partie d'une cellule. Vous pouvez styler non seulement la
+cellule et son texte, mais aussi le "twisty" (<acronym title="Note du
+traducteur">NdT</acronym>&nbsp;: petit '+' ou '-' permettant de développer et
+replier l'arborescence) et l'indentation. La syntaxe à utiliser est la suivante&nbsp;:</p>
+
+<pre><code>treechildren::-moz-tree-row(makeItBlue)
+{
+  background-color: blue;
+}
+</code></pre>
+
+<p>Ce pseudo-style spécial est utilisé pour styler la couleur de fond des
+lignes qui ont la propriété <var>makeItBlue</var>. Cette syntaxe spéciale est nécessaire
+parce que les cellules elles-mêmes ne sont pas des éléments séparés. Tout le
+contenu intérieur au corps de l'arbre obtient son rendu par l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
+(Notez que les styles de la règle ci-dessus concernent l'élément <code class="tag">treechildren</code>). 
+Le pseudo-style définit des règles de style pour des parties
+particulières de ce qu'il affiche. Cette règle de style signifie, dans un
+élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>&nbsp;: 
+mettre une couleur de fond bleue à toutes les lignes de
+l'arbre qui ont la propriété <var>makeItBlue</var>.</p>
+
+<p>Le texte <var>::-moz-tree-row</var> spécifie quelle est la zone de contenu désirée,
+qui est dans ce cas une ligne. Vous pouvez aussi utiliser les valeurs suivantes&nbsp;:</p>
+
+<ul>
+  <dt><code>::-moz-tree-cell</code></dt>
+    <dd>une cellule. Utilisez ceci pour modifier les couleurs des bordures et du fond.</dd>
+  <dt><code>::-moz-tree-cell-text</code></dt>
+    <dd>le texte d'une cellule. Utilisez ceci pour modifier la police et la couleur du texte.</dd>
+  <dt><code>::-moz-tree-twisty</code></dt>
+    <dd>l'apparence du "twisty" utilisé pour développer et replier les lignes filles.</dd>
+  <dt><code>::-moz-tree-image</code></dt>
+    <dd>l'image pour une cellule. Vous pouvez indiquer l'image avec la propriété <code>list-style-image</code>.</dd>
+  <dt><code>::-moz-tree-row</code></dt>
+    <dd>une ligne. Utilisez ceci pour choisir la couleur de fond d'une ligne.</dd>
+  <dt><code>::-moz-tree-indentation</code></dt>
+    <dd>l'indentation à gauche des lignes filles.</dd>
+  <dt><code>::-moz-tree-column</code></dt>
+    <dd>une colonne.</dd>
+  <dt><code>::-moz-tree-line</code></dt>
+    <dd>les lignes dessinées pour connecter les lignes filles aux lignes parentes.</dd>
+  <dt><code>::-moz-tree-separator</code></dt>
+    <dd>un séparateur dans un arbre.</dd>
+  <dt><code>::-moz-tree-progressmeter</code></dt>
+    <dd>contenu pour des cellules à indicateur de progression. Vous pouvez créer une colonne avec 
+    des indicateurs de progression en mettant l'attribut <code class="attribut">type</code> 
+    de la colonne à <var>progressmeter</var>.</dd>
+  <dt><code>::-moz-tree-drop-feedback</code></dt>
+    <dd>le retour du glisser-déposer.</dd>
+</ul>
+
+<p>Vous pouvez tester la présence de plusieurs propriétés en les séparant par
+des virgules. L'exemple ci-dessous met une couleur de fond grise aux lignes qui
+ont les propriétés <var>readonly</var> et <var>unread</var>. Pour les propriétés qui sont
+<var>readonly</var>, il ajoute une bordure rouge autour de la ligne. Notez que la
+première règle s'appliquera à toute ligne qui est <var>readonly</var>, peu importe la
+présence d'autres propriétés comme <var>unread</var>.</p>
+
+<pre><code>treechildren::-moz-tree-row(readonly)
+{
+  border: 1px solid red;
+}
+
+treechildren::-moz-tree-row(readonly, unread)
+{
+  background-color: rgb(80%, 80%, 80%);
+}
+</code></pre>
+
+<p>La liste des propriétés des éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> 
+contient un petit nombre de
+propriétés par défaut que vous pouvez aussi utiliser dans une feuille de style.
+Vous pouvez utiliser ces propriétés supplémentaires pour modifier l'apparence
+des conteneurs ou des lignes sélectionnées. Les propriétés suivantes sont
+modifiées automatiquement en cas de besoin&nbsp;:</p>
+
+<dl>
+  <dt><code class="attribut">focus</code></dt><dd> cette propriété est mise si l'arbre a le focus.</dd>
+  <dt><code class="attribut">selected</code></dt><dd> cette propriété est mise pour les lignes ou les cellules
+actuellement sélectionnées.</dd>
+  <dt><code class="attribut">current</code></dt><dd> cette propriété est mise si le curseur est sur la ligne.
+Seule une ligne à la fois peut avoir cette propriété.</dd>
+  <dt><code class="attribut">container</code></dt><dd> cette propriété est mise pour les lignes ou les cellules
+qui ont des lignes filles.</dd>
+  <dt><code class="attribut">leaf</code></dt><dd> cette propriété est mise pour les lignes ou les cellules qui
+n'ont pas de lignes filles.</dd>
+  <dt><code class="attribut">open</code></dt><dd> cette propriété est mise pour les lignes ou les cellules qui
+sont développées.</dd>
+  <dt><code class="attribut">closed</code></dt><dd> cette propriété est mise pour les lignes ou les cellules qui
+sont repliées.</dd>
+  <dt><code class="attribut">primary</code></dt><dd> cette propriété est mise pour les cellules de la colonne
+primaire.</dd>
+  <dt><code class="attribut">sorted</code></dt><dd> cette propriété est mise pour les cellules de la colonne
+actuellement triées.</dd>
+  <dt><code class="attribut">even</code></dt><dd> cette propriété est mise pour les lignes paires.</dd>
+  <dt><code class="attribut">odd</code></dt><dd> cette propriété est mise pour les lignes impaires. Cette
+propriété ainsi que la propriété <code class="attribut">even</code> vous permettent, par exemple, d'alterner les
+couleurs entre chaque ligne.</dd>
+  <dt><code class="attribut">dragSession</code></dt><dd> cette propriété est mise si quelque chose est en train
+d'être déplacé.</dd>
+  <dt><code class="attribut">dropOn</code></dt><dd> si un déplacement a lieu au-dessus de l'arbre, cette
+propriété est mise pour la ligne en train d'être survolée par le déplacement,
+tant que le pointeur de la souris est au-dessus de la ligne.</dd>
+  <dt><code class="attribut">dropBefore</code></dt><dd> cette propriété est mise si le pointeur de la souris
+survole avant la ligne en cours de déplacement.</dd>
+  <dt><code class="attribut">dropAfter</code></dt><dd> cette propriété est mise si le pointeur de la souris
+survole après la ligne en cours de déplacement.</dd>
+  <dt><code class="attribut">progressNormal</code></dt><dd> cette propriété est mise pour les cellules à
+indicateur de progression.</dd>
+  <dt><code class="attribut">progressUndetermined</code></dt><dd> cette propriété est mise pour les cellules
+à indicateur de progression indéterminé.</dd>
+  <dt><code class="attribut">progressNone</code></dt><dd> cette propriété est mise pour les cellules sans
+indicateur de progression.</dd>
+</dl>
+
+<p>Les propriétés sont mises pour les lignes ou les cellules d'une ligne à
+l'état correspondant. Pour les colonnes et les cellules, une propriété
+additionnelle, l'<code class="attribut">id</code> de la colonne ou la colonne
+dans laquelle est la cellule, sera mise.</p>
+
+<p>Pour les arbres générés par RDF, vous pouvez utiliser la même syntaxe.
+Cependant, vous affecterez souvent les propriétés en vous basant sur des valeurs
+de la source de données.</p>
+
+<p>Pour des arbres avec un script de vue personnalisée, vous pouvez modifier des
+propriétés en fournissant les fonctions <code>getRowProperties</code>,
+<code>getColumnProperties</code> et <code>getCellProperties</code> dans la vue. Elles renvoient des
+informations à propos d'une ligne, d'une colonne et d'une cellule individuelle.
+Les arguments à ces fonctions indiquent quelle ligne et/ou colonne. Le dernier
+argument de chacune de ces fonctions est une liste de propriétés que la vue est
+supposée remplir avec une liste de propriétés. La fonction <code>getColumnProperties</code>
+fournit aussi l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>
+correspondant pour la colonne.</p>
+
+<pre><code>getRowProperties : function(row,prop){}
+getColumnProperties : function(column,columnElement,prop){}
+getCellProperties : function(row,column,prop){}
+</code></pre>
+
+<p>Regardons un exemple de modification d'une cellule spécifique. Rendons le
+texte bleu une ligne sur quatre, en utilisant l'exemple d'une section
+précédente. Nous allons avoir besoin d'ajouter du code à la fonction
+<code>getCellProperties</code> pour ajouter une propriété <var>makeItBlue</var> aux cellules toutes les quatres lignes 
+(Nous n'utilisons pas <code>getRowProperties</code> puisque la couleur
+du texte ne sera pas héritée dans chaque cellule).</p>
+
+<p>L'objet <code>properties</code> qui est passé en dernier argument de <code>getCellProperties</code> est
+un objet XPCOM qui implémente <code>nslSupportsArray</code>. Il s'agit en fait une version
+XPCOM d'un tableau. Il contient une fonction <code>AppendElement</code> qui peut être
+utilisée pour ajouter un élément au tableau. Nous pouvons utiliser l'interface
+<code>nslAtomService</code> pour construire des atomes de chaînes pour les propriétés.</p>
+
+<pre><code>getCellProperties: function(row,col,props){
+  if ((row %4) == 0){
+    var aserv=Components.classes["@mozilla.org/atom-service;1"].
+              getService(Components.interfaces.nsIAtomService);
+    props.AppendElement(aserv.getAtom("makeItBlue"));
+  }
+}
+</code></pre>
+
+<p>Cette fonction sera définie comme partie d'un objet de vue. Elle vérifie
+d'abord quelle ligne est demandée et affecte une propriété pour les cellules toutes les quatres lignes.
+La liste des propriétés nécessite un tableau d'objets atom
+qui peuvent être considérés comme des chaînes de caractères constantes. Nous les
+créons en utilisant l'interface XPCOM <code>nslAtomService</code> et nous les ajoutons au
+tableau en utilisant la fonction <code>AppendElement</code>. Ici, nous créons un atome
+<var>makeItBlue</var>. Vous pouvez appeler <code>AppendElement</code> à nouveau pour ajouter des
+propriétés additionnelles.</p>
+
+<hr/>
+
+<p>Dans la suite, nous allons voir comment modifier le thème par défaut.</p>
+
+

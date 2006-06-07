@@ -1,0 +1,207 @@
+<p>Nous avons déjà vu beaucoup de fonctionnalités sur les modèles de boîtes. Dans cette section, nous
+verrons quelques détails supplémentaires ne nous appuyant sur des exemples.
+</p>
+
+<h2>Plus de détails sur l'affichage</h2>
+
+<p>
+Les propriétés de style comme <code class="attribut">min-width</code> et
+<code class="attribut">max-height</code> peuvent être appliquées à tous les éléments. Nous les avons
+ajoutées aux boutons ou aux champs de saisie, mais nous pouvons aussi les ajouter aux éléments d'espacement ou
+aux boîtes. De plus, l'attribut <code class="attribut">flex</code> peut être appliqué à n'importe
+quel élément.
+</p>
+
+<p>
+Exemple 3.3.1&nbsp;:
+<a href="exemples/ex_boxdet_1.xul.txt">Source</a>
+<a href="exemples/ex_boxdet_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+<pre><code>&lt;hbox flex="1"&gt;
+  &lt;button label="Gauche" style="min-width: 100px;" flex="1"/&gt;
+  &lt;spacer flex="1"/&gt;
+  &lt;button label="Droite" style="min-width: 100px;" flex="1"/&gt;
+&lt;/hbox&gt;
+</code></pre>
+
+<p>
+Dans l'exemple ci-dessus, les trois éléments se redimensionnent eux-mêmes car il sont tous flexibles.
+Les deux boutons indiquent une largeur minimum de 100 pixels. Les deux boutons ne seront jamais plus
+petits que cette taille mais ils pourront toujours s'élargir. Ici, la fenêtre doit apparaître avec une
+largeur d'un peu plus de 200 pixels.
+C'est suffisant pour les deux boutons. Car si les trois éléments sont flexibles, ils ne nécessitent pas
+pour autant plus de place, la flexibilité n'ajoute pas d'espace supplémentaire.
+</p>
+
+<p><img src="images/boxdet1.png" alt="" class="screenshot" /></p>
+
+<p>
+Comme il est montré dans l'image ci-dessus, il y a deux boutons qui s'agrandissent verticalement
+pour remplir leur élément conteneur, qui dans ce cas est le
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/hbox">hbox</a></code>.
+L'attribut <code class="attribut">align</code> contrôle ce comportement sur une boîte horizontale.
+Vous pouvez aussi empêcher cet étirement en précisant une hauteur maximale sur l'élément ou
+mieux, sur la boîte elle-même. Si une boîte a une hauteur maximale, les éléments qu'elle contient
+sont contraints en hauteur par celle-ci. Cependant, le problème est que vous devez connaître au préalable
+la taille d'un élément pour pouvoir le spécifier à la boîte. L'exemple suivant montre l'utilisation d'un
+d'attribut <code class="attribut">align</code>.
+</p>
+
+<p>
+Exemple 3.3.2&nbsp;:
+<a href="exemples/ex_boxdet_2.xul.txt">Source</a>
+<a href="exemples/ex_boxdet_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+
+<pre><code>&lt;hbox flex="1" align="top"&gt;
+  &lt;button label="Gauche" style="min-width: 100px;" flex="1"/&gt;
+  &lt;spacer flex="1"/&gt;
+  &lt;button label="Droite" style="min-width: 100px;" flex="1"/&gt;
+&lt;/hbox&gt;
+</code></pre>
+
+<p>
+Pour parfaire une mise en page complexe, vous devrez généralement ajouter des boîtes imbriquées,
+spécifier une taille minimale et maximale pour quelques éléments, et rendre certains éléments flexibles.
+La meilleure interface est celle qui peut être affichée sans problème dans différentes tailles.
+Le modèle de boîte peut être difficile à appréhender si vous n'essayez pas différentes choses
+par vous-même.
+</p>
+
+ <p>
+Voici une courte description des deux types de boîtes&nbsp;:
+</p>
+
+<dl>
+  <dt>Boîtes horizontales</dt>
+  <dd>
+    <ol>
+      <li>Affichent chacun de leurs éléments les uns à coté des autres horizontalement.</li>
+      <li>Les éléments flexibles le sont horizontalement.</li>
+      <li>Le groupement (NdT&nbsp;: attribut <code class="attribut">pack</code>) contrôle le placement
+         horizontal des éléments fils.</li>
+      <li>L'alignement contrôle la manière dont les lignes d'éléments seront alignées verticalement.</li>
+    </ol>
+  </dd>
+
+  <dt>Boîtes verticales</dt>
+    <dd>
+      <ol>
+        <li>Affichent chacun de leurs éléments verticalement en colonnes.</li>
+        <li>Les éléments flexibles le sont verticalement.</li>
+        <li>Le groupement contrôle le placement vertical des éléments fils.</li>
+        <li>L'alignement contrôle la manière dont les colonnes d'éléments seront alignées horizontalement.</li>
+      </ol>
+  </dd>
+</dl>
+
+<p>
+Vous pouvez mettre des boîtes n'importe où dans un fichier XUL, même dans un élément HTML comme une table.
+Cependant, l'affichage sera en partie dépendant de l'élément HTML. Cela signifie que
+l'attribut <code class="attribut">flex</code> risque de
+ne pas réagir exactement comme vous le voudriez. Rappelez-vous que la flexibilité n'a de sens que pour
+les éléments qui sont directement à l'intérieur d'une boîte, ou d'un élément qui est assimilé à une boîte.
+</p>
+
+<h2>Exemples</h2>
+
+<h3>1. Utiliser les spacers</h3>
+
+<p>
+Exemple 3.3.3&nbsp;:
+<a href="exemples/ex_boxdet_3.xul.txt">Source</a>
+<a href="exemples/ex_boxdet_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+<pre><code>&lt;hbox&gt;
+  &lt;button label="Un"/&gt;
+  &lt;spacer style="width: 5px"/&gt;
+  &lt;button label="Deux"/&gt;
+&lt;/hbox&gt;
+</code></pre>
+
+
+<p>
+Ici, un espacement est utilisé comme séparateur entre deux boutons, en précisant
+une largeur de 5 pixels. Vous pourriez aussi utiliser les marges (avec la propriété CSS
+<code class="attribut">margin</code>).
+</p>
+
+<h3>2. Centrer des boutons</h3>
+
+<p>Exemple 3.3.4&nbsp;:
+<a href="exemples/ex_boxdet_4.xul.txt">Source</a>
+<a href="exemples/ex_boxdet_4.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+<pre><code>&lt;hbox pack="center" align="center" flex="1"&gt;
+  &lt;button label="Regardez Moi!"/&gt;
+  &lt;button label="Cliquez Moi!"/&gt;
+&lt;/hbox&gt;
+</code></pre>
+
+<p>
+Cet exemple propose une boîte horizontale flexible contenant deux boutons.
+La boîte possède l'attribut <code class="attribut">pack</code> qui est utilisé pour centrer les
+boutons horizontalement.
+L'attribut <code class="attribut">align</code>, quant à lui, aligne verticalement les boutons. Le résultat
+est que les boutons seront centrés dans la boîte dans les deux directions. Cet exemple
+fonctionnera aussi avec une boîte verticale, le second bouton sera alors sous le premier, au lieu
+d'être à coté de lui.
+</p>
+
+<h3>3. Une fenêtre de recherche dans le texte</h3>
+
+<p>Exemple 3.3.5&nbsp;:
+<a href="exemples/ex_boxdet_5.xul.txt">Source</a>
+<a href="exemples/ex_boxdet_5.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
+</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="iso-8859-1" ?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+
+&lt;window id="findtext" title="Recherche dans un texte" orient="horizontal"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+
+  &lt;vbox flex="3"&gt;
+    &lt;label control="t1" value="Mots clés :"/&gt;
+    &lt;textbox id="t1" style="min-width: 100px;" flex="1"/&gt;
+  &lt;/vbox&gt;
+
+  &lt;vbox style="min-width: 150px;" flex="1" align="start"&gt;
+    &lt;checkbox id="c1" label="Ignorer la casse"/&gt;
+    &lt;spacer flex="1" style="max-height: 30px;"/&gt;
+    &lt;button label="Rechercher"/&gt;
+  &lt;/vbox&gt;
+
+&lt;/window&gt;
+</code></pre>
+
+<p>
+Ici, deux boîtes verticales sont créées, une pour le champ texte et l'autre
+pour la case à cocher et le bouton de recherche. La boîte de gauche a une flexibilité 3 fois
+plus grande que celle de droite donc elle prendra toujours 3 fois plus de place quand la taille
+de la fenêtre augmentera. La boîte de droite force une largeur minimum de 150 pixels.
+</p>
+
+<p>
+Le champ de saisie est flexible donc il s'ajustera à la taille de la fenêtre.
+Il impose aussi une largeur minimum de 100 pixels. La case à cocher
+apparaît dans la boîte de droite avec son libellé. Juste en dessous de la case à cocher, il y a
+un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code> (espacement).
+L'espacement grandira ou rétrécira mais n'excédera pas 30 pixels. Le résultat est que
+la case à cocher et le bouton de recherche seront séparés par un espace qui ne fera pas plus de 30 pixels.
+</p>
+
+<p>
+La seconde boîte a un alignement de valeur <var>start</var>. Les trois éléments fils seront par conséquent alignés sur le bord gauche. Si l'alignement n'était pas précisé, sa valeur par
+défaut serait <var>stretch</var>, ce qui aurait pour effet de positionner les éléments fils les
+uns à coté des autres horizontalement.
+Puisque nous ne voulons pas que le bouton de recherche change de taille, nous devons préciser un
+alignement.
+</p>
+
+<p><img src="images/boxdet-ex3.png" alt="" class="screenshot" /></p>
+<hr />
+
+<p>Dans la prochaine section, nous allons en apprendre un peu plus sur un type de boîte plus spécifique,
+le groupe de boîte.</p>
+
