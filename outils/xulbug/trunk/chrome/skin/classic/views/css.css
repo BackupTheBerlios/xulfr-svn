@@ -1,0 +1,30 @@
+
+.cssHref {
+    font-family: Lucida Grande, Tahoma, sans-serif;
+}
+
+.nodeSelector {
+    -moz-user-select: none;
+}
+
+.nodeSelector:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.nodeOpenBrace {
+    visibility: collapse;
+}
+
+.nodeBox.highlight.open > .nodeItem > .nodeLabel > .nodeOpenBrace {
+    visibility: visible;
+}
+
+.ruleBox {
+    display: none;
+}
+
+.ruleBox.highlight {
+    display: block;
+}
+

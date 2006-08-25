@@ -1,0 +1,53 @@
+<!ENTITY  firebug.FireBug               "FireBug">
+
+<!ENTITY  firebug.Clear                 "Clear">
+<!ENTITY  firebug.Inspect               "Inspect">
+<!ENTITY  firebug.Options               "Options">
+
+<!ENTITY  firebug.Console               "Console">
+<!ENTITY  firebug.Debugger              "Debugger">
+<!ENTITY  firebug.Inspector             "Inspector">
+
+<!ENTITY  firebug.Source                "Source">
+<!ENTITY  firebug.CSS                   "CSS">
+<!ENTITY  firebug.Style                 "Style">
+<!ENTITY  firebug.Layout                "Layout">
+<!ENTITY  firebug.Events                "Events">
+<!ENTITY  firebug.JS                    "JS">
+<!ENTITY  firebug.DOM                   "DOM">
+
+<!ENTITY  firebug.ClearConsole          "Clear Console">
+<!ENTITY  firebug.CommandLine           "Command Line">
+<!ENTITY  firebug.Search                "Search">
+<!ENTITY  firebug.InspectElement        "Inspect Element">
+<!ENTITY  firebug.Back                  "Back">
+<!ENTITY  firebug.Forward               "Forward">
+<!ENTITY  firebug.ShowFireBug           "Show FireBug">
+<!ENTITY  firebug.CloseFireBug          "Close FireBug">
+<!ENTITY  firebug.DisableFireBug        "Disable FireBug">
+<!ENTITY  firebug.ClosedByDefault       "Closed By Default">
+
+<!ENTITY  firebug.ShowJavaScriptErrors      "Show JavaScript Errors">
+<!ENTITY  firebug.ShowJavaScriptWarnings    "Show JavaScript Warnings">
+<!ENTITY  firebug.ShowCSSErrors             "Show CSS Errors">
+<!ENTITY  firebug.ShowXMLErrors             "Show XML Errors">
+<!ENTITY  firebug.ShowStackTraces           "Show Stack Trace For Errors">
+<!ENTITY  firebug.ShowErrorsFromWebsites    "Show Errors From Websites">
+<!ENTITY  firebug.ShowErrorsFromChrome      "Show Errors From Chrome">
+<!ENTITY  firebug.ShowErrorsFromOtherDomains    "Show Errors From Other Domains">
+<!ENTITY  firebug.ShowConsoleMessages       "Show Console Messages">
+<!ENTITY  firebug.ShowXMLHttpRequests       "Show XMLHttpRequests">
+
+<!ENTITY  firebug.ShowAllStyles             "Show All Styles">
+
+<!ENTITY  firebug.ShowFunctions             "Show Functions">
+<!ENTITY  firebug.ShowConstants             "Show Constants">
+
+<!ENTITY  firebug.EnableDebugger            "Enable Debugger">
+<!ENTITY  firebug.BreakOnErrors             "Break On Errors">
+<!ENTITY  firebug.ClearAllBreakpoints       "Clear All Breakpoints">
+
+<!ENTITY  firebug.Pause                      "Pause/Continue">
+<!ENTITY  firebug.StepOver                   "Step Over">
+<!ENTITY  firebug.StepInto                   "Step Into">
+<!ENTITY  firebug.StepOut                    "Step Out">

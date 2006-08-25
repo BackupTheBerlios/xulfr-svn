@@ -1,0 +1,88 @@
+
+.styleTable {
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.styleRow.leaf > .styleCell-name {
+    padding-top: 0;
+}
+
+.styleCell {
+    padding-right: 8px;
+}
+
+.styleCell-name {
+    padding: 2px 0 2px 5px;
+    width: 180px;
+    font-weight: bold;
+}
+
+.styleCell-selector {
+    width: 200px;
+}
+
+.styleCell-selector > .objectLink {
+    color: darkblue;
+    font-family: Monaco, monospace;
+}
+
+.styleSwatch { 
+    margin-left: 8px;
+    width: 50px;
+    height: 11px;
+    border: 1px solid #888888;
+    vertical-align: top;
+}
+
+.styleCell-file {
+    width: 200px;
+    font-weight: bold;
+}
+
+.styleRow.level1 > .styleCell-name {
+    padding-left: 16px;
+}
+
+.styleRow.level2 > .styleCell-name {
+    padding-left: 32px;
+}
+
+.styleRow.level3 > .styleCell-name {
+    padding-left: 48px;
+}
+
+.styleRow {
+    display: none;
+}
+
+.rowCollapsed {
+    display: none !important;
+}
+
+.styleInherited {
+    display: table-row;
+}
+
+.styleRow.odd {
+    background-color: #EEEEEE;
+}
+
+.styleRow.container > td {
+    border-top: 1px solid #CCCCCC;
+}
+
+.rowTwisty {
+    width: 12px;
+    height: 14px;
+    background: url(chrome://firebug/skin/twistyClosed.png) no-repeat bottom;
+    margin: 2px 3px 0 0;
+}
+
+.styleRow.empty > .styleCell-name > .rowTwisty {
+    visibility: hidden;
+}
+
+.styleRow.opened > .styleCell-name > .rowTwisty {
+    background-image: url(chrome://firebug/skin/twistyOpen.png);    
+}

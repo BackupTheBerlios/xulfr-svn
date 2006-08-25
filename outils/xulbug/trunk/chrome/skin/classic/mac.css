@@ -1,0 +1,191 @@
+
+#fbContentSplitter {
+    border-top: 1px solid #A3A3A3;
+    border-bottom: none;
+    background: #F5F5F5 !important;
+    min-height: 4px;
+    max-height: 4px;
+}
+
+#fbDebugSplitter {
+    border-left: 1px solid #A3A3A3;
+    border-right: 1px solid #A3A3A3;
+    background: #F5F5F5 !important;
+    min-width: 8px;
+    max-width: 8px;
+}
+
+#fbToolbar {
+    padding-left: 4px;
+    background-image: url("chrome://browser/skin/bookmark_toolbar_background.gif");
+    background-repeat: repeat-x;
+    background-position: bottom right;
+    background-color: rgb(246, 246, 246);
+}
+
+#fbSearchBar {
+    -moz-appearance: none;
+    -moz-box-align: center;
+    padding: 0 0 0 5px;
+    background: url(chrome://firebug/skin/searchBox.png) no-repeat;
+    border: none !important;
+    font: icon;
+}
+
+#fbSearchBar[disabled] {
+    opacity: 0.5;
+}
+
+#fbSearchBar .autocomplete-icon {
+    margin: 3px 0 3px 1px;
+}
+
+#fbPathBox,
+#fbDebugToolbar 
+{
+    border-top: 1px solid #A3A3A3;
+    background: url("chrome://firebug/skin/bookmark_toolbar_background.gif");
+    background-repeat: repeat-x;
+    background-position: bottom right;
+    background-color: rgb(246, 246, 246);
+}
+
+.fbViewTab,
+.fbObjectTab {
+   color: #565656;
+}
+
+.fbViewTab:hover > .toolbarbutton-text,
+.fbObjectTab:hover > .tab-image-middle > .tab-text {
+   color: #000000;
+}
+
+/********************************************************************************************/
+
+.toolbar-text-button,
+.toolbar-text-menubutton {
+    -moz-appearance: none;    
+    margin: 1px;
+    padding: 1px 0px 1px 7px;
+    min-width: 0;
+    max-width: 13em;
+    font-weight: bold;
+    color: #565656;
+    border: none !important;
+}
+
+.toolbar-text-button > label {
+  margin-left: 7px;
+}
+
+.toolbar-text-button > .toolbarbutton-text {
+  padding-right: 7px;
+}
+
+.toolbar-text-button > .toolbarbutton-icon {
+  margin: 0px;
+  display: none !important;
+}
+
+.toolbar-text-button:hover:not([disabled="true"]),
+.toolbar-text-menubutton:hover:not([disabled="true"]) {
+  background: url("chrome://browser/skin/bookmark-hover-left.png") no-repeat left center;
+}
+
+.toolbar-text-button:hover:not([disabled="true"]) > .toolbarbutton-text,
+.toolbar-text-menubutton:hover:not([disabled="true"]) > .toolbarbutton-menu-dropmarker {
+  background: url("chrome://browser/skin/bookmark-hover-right.png") no-repeat right center;
+  color: #fff;
+}
+
+.toolbar-text-menubutton:hover:not([disabled="true"]) > .toolbarbutton-text {
+  background: url("chrome://browser/skin/bookmark-hover-mid.png") repeat-x;
+  color: #fff;
+}
+
+.toolbar-text-button:hover:active:not([disabled="true"]),
+.toolbar-text-button[checked="true"]:not([disabled="true"]),
+.toolbar-text-menubutton:hover:active:not([disabled="true"]),
+.toolbar-text-menubutton[open="true"]:not([disabled="true"]) {
+  background: url("chrome://browser/skin/bookmark-open-left.png") no-repeat left center;
+}
+
+.toolbar-text-menubutton:hover:active:not([disabled="true"]) > .toolbarbutton-text,
+.toolbar-text-menubutton[open="true"]:not([disabled="true"]) > .toolbarbutton-text {
+  background: url("chrome://browser/skin/bookmark-open-mid.png") repeat-x !important;
+  color: #fff;
+}
+
+.toolbar-text-button:hover:active:not([disabled="true"]) > .toolbarbutton-text,
+.toolbar-text-button[checked="true"]:not([disabled="true"]) > .toolbarbutton-text,
+.toolbar-text-menubutton:hover:active:not([disabled="true"]) > .toolbarbutton-menu-dropmarker,
+.toolbar-text-menubutton[open="true"]:not([disabled="true"]) > .toolbarbutton-menu-dropmarker {
+  background: url("chrome://browser/skin/bookmark-open-right.png") no-repeat right center;
+}
+
+.toolbar-text-button[checked="true"] {
+    background-color: transparent;
+}
+
+.toolbar-text-button[checked="true"] > .toolbarbutton-text {
+    color: #FFFFFF;
+}
+
+.toolbar-text-button .toolbarbutton-text,
+.toolbar-text-menubutton .toolbarbutton-text {
+  font-size: 100% !important; 
+  margin: 0px !important;
+}
+
+.toolbar-text-button > .toolbarbutton-text,
+.toolbar-text-menubutton > .toolbarbutton-text {
+  display: -moz-box !important;
+  height: 16px !important;
+  padding-top: 1px;
+}
+
+.toolbar-text-button > .toolbarbutton-menu-dropmarker,
+.toolbar-text-menubutton > .toolbarbutton-menu-dropmarker {
+    list-style-image: url("chrome://browser/skin/bookmarks/folderarrow.png");
+    height: 16px !important;
+    padding: 5px 5px 4px 3px;
+}
+
+.toolbar-text-menubutton:hover:not([disabled="true"]) > .toolbarbutton-menu-dropmarker,
+.toolbar-text-menubutton[open="true"]:not([disabled="true"]) > .toolbarbutton-menu-dropmarker  {
+    list-style-image: url("chrome://browser/skin/bookmarks/folderarrow-hover.png");
+}
+
+.toolbar-text-button[disabled="true"] > .toolbarbutton-menu-dropmarker,
+.toolbar-text-menubutton[disabled="true"] > .toolbarbutton-menu-dropmarker {
+    list-style-image: none;
+}
+
+/********************************************************************************************/
+
+.toolbar-text-menulist {
+    margin-top: 0;
+    margin-bottom: 0;
+    -moz-appearance: none;
+    color: #565656;
+}
+
+.toolbar-text-menulist > .menulist-label-box {
+    -moz-appearance: none;
+    border: none;
+    padding-left: 8px;
+    background: url(chrome://firebug/skin/menulistLeft.png) no-repeat left center;
+}
+
+.toolbar-text-menulist > .menulist-dropmarker {
+    -moz-appearance: none;
+    width: 20px;
+    background: url(chrome://firebug/skin/menulistRight.png) no-repeat left center;
+}
+
+.toolbar-text-menulist > .menulist-dropmarker > .dropmarker-icon {
+}
+
+.toolbar-label {
+    color: #565656;
+}

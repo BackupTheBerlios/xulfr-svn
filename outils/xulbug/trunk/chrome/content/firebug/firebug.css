@@ -1,0 +1,35 @@
+
+@import "chrome://firebug/skin/firebug.css";
+
+#fbContentBox {
+    -moz-binding: url("chrome://firebug/content/firebugBindings.xml#content");
+    height: 250px;
+}
+
+#fbStatusText {
+    visibility: collapse;
+}
+
+#fbStatusBar[errors] #fbStatusText {
+    visibility: visible;
+}
+
+#fbStackList {
+    width: 300px;
+}
+
+#fbStackLabel {
+    visibility: collapse;
+}
+
+#fbStackList {
+    visibility: collapse;
+}
+
+#fbDebugToolbar[debugging="true"] #fbStackLabel {
+    visibility: visible;
+}
+
+#fbDebugToolbar[debugging="true"] #fbStackList {
+    visibility: visible;
+}

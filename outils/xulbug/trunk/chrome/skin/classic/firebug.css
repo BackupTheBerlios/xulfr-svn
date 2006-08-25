@@ -1,0 +1,267 @@
+
+#inspector-button {
+  list-style-image: url(chrome://firebug/skin/inspect.png);
+}
+
+#inspector-button[disabled="true"] {
+  list-style-image: url(chrome://firebug/skin/inspectDisabled.png);
+}
+
+/********************************************************************************************/
+
+#fbCommandArow {
+    margin: 2px 0 0px 7px;
+    font-family: Monaco, monospace;
+    color: #0000FF;
+}
+
+#fbCommandLine {
+    -moz-appearance: none;
+    margin: 0;
+    padding: 2px 4px;
+    border: none;
+    font-family: Monaco, monospace;
+}
+
+/********************************************************************************************/
+
+#fbStatusBar {
+    cursor: pointer;
+}
+
+#fbStatusIcon {
+    list-style-image: url(chrome://firebug/skin/okIcon-sm.png);
+}
+
+#fbStatusText {
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+}
+
+#fbStatusBar[errors] #fbStatusIcon {
+    list-style-image: url(chrome://firebug/skin/errorIcon-sm.png);
+}
+
+#fbStatusBar[disabled="true"] #fbStatusIcon {
+    list-style-image: url(chrome://firebug/skin/disabledIcon.png);
+}
+
+/********************************************************************************************/
+
+#fbToolbar {
+    padding-left: 4px;
+}
+
+#fbSearchBar {
+    margin-left: 0;
+    margin-right: 6px;
+    width: 182px;
+}
+
+#fbSearchBar .autocomplete-icon {
+    list-style-image: url(chrome://browser/skin/Search-bar.png);
+    margin-left: 3px;
+    width: 16px;
+    height: 16px;
+}
+
+#fbPathBox {
+    background-color: -moz-Dialog;
+    border-top: 1px solid ThreeDShadow;
+    padding: 0 4px 0 2px;
+}
+
+#fbPath {
+    margin-top: 4px;
+}
+
+#fbPath:hover {
+    cursor: pointer;
+    color: #0000FF;
+    text-decoration: underline;
+}
+
+#fbCenterSpacer {
+    min-width: 0 !important;
+    max-width: 53px;
+}
+
+#fbCommandBox {
+    border-top: 1px solid #CCCCCC;
+    background-color: #FFFFFF;
+}
+
+/********************************************************************************************/
+
+.fbViewTab {
+    -moz-appearance: none;
+    margin: 4px 2px 0 2px;
+    border: none;
+    padding: 3px 4px;
+    min-width: 77px;
+    height: 27px;
+    background: url(chrome://firebug/skin/majorTab.png) no-repeat;
+    font-weight: bold;
+    color: -moz-DialogText;
+}
+
+.fbViewTab[selected] {
+    background-image: url(chrome://firebug/skin/majorTabSel.png);
+    color: #000000;
+}
+
+/********************************************************************************************/
+
+.fbObjectTab {
+    -moz-appearance: none;
+    -moz-binding: url(chrome://firebug/skin/bindings.xml#tab);
+    margin: 0;
+    border: none;
+    padding: 0;
+    min-width: 0;
+    height: 21px;
+    color: -moz-DialogText;
+}
+
+.fbObjectTab[selected] {
+    color: #000000;
+}
+
+.fbObjectTab > .tab-image-left {
+    width: 9px;
+    height: 21px;
+    background: url(chrome://firebug/skin/viewTabLeft.png) no-repeat left;
+}
+
+.fbObjectTab > .tab-image-middle {
+    padding: 1px 0 3px 0;
+    background: url(chrome://firebug/skin/viewTabMid.png) repeat-x bottom;
+}
+
+.fbObjectTab > .tab-image-middle > .tab-text {
+    font-size: 11px;
+    font-weight: bold !important;
+}
+
+.fbObjectTab > .tab-image-right {
+    width: 8px;
+    height: 21px;
+    background: url(chrome://firebug/skin/viewTabRight.png) no-repeat left;
+}
+
+.fbObjectTab[selected] > .tab-image-left {
+    background-image: url(chrome://firebug/skin/viewTabLeftSel.png);
+}
+
+.fbObjectTab[selected] > .tab-image-middle {
+    background-image: url(chrome://firebug/skin/viewTabMidSel.png);
+}
+
+.fbObjectTab[selected] > .tab-image-right {
+    background-image: url(chrome://firebug/skin/viewTabRightSel.png);
+}
+
+/********************************************************************************************/
+
+#fbBackButton,
+#fbForwardButton,
+#fbHomeButton,
+#fbPauseButton,
+#fbStepOverButton,
+#fbStepIntoButton,
+#fbStepOutButton {
+    padding: 0;
+    -moz-image-region: none !important;
+}
+
+#fbBackButton {
+    list-style-image: url(chrome://firebug/skin/back.png);
+}
+
+#fbBackButton:hover:active {
+    list-style-image: url(chrome://firebug/skin/backActive.png);
+}
+
+#fbBackButton[disabled="true"] {
+    list-style-image: url(chrome://firebug/skin/backDisabled.png) !important;
+}
+
+#fbForwardButton {
+    list-style-image: url(chrome://firebug/skin/forward.png);
+}
+
+#fbForwardButton:hover:active {
+    list-style-image: url(chrome://firebug/skin/forwardActive.png);
+}
+
+#fbForwardButton[disabled="true"] {
+    list-style-image: url(chrome://firebug/skin/forwardDisabled.png) !important;
+}
+
+#fbPauseButton {
+    list-style-image: url(chrome://firebug/skin/pause.png);
+}
+
+#fbPauseButton:hover:active {
+    list-style-image: url(chrome://firebug/skin/pauseActive.png);
+}
+
+#fbPauseButton[disabled="true"] {
+    list-style-image: url(chrome://firebug/skin/pauseDisabled.png) !important;
+}
+
+#fbPauseButton[state="on"],
+#fbPauseButton[state="paused"] {
+    list-style-image: url(chrome://firebug/skin/continue.png);
+}
+
+#fbPauseButton[state="on"]:hover:active,
+#fbPauseButton[state="paused"]:hover:active {
+    list-style-image: url(chrome://firebug/skin/continueActive.png);
+}
+
+#fbPauseButton[state="on"][disabled="true"],
+#fbPauseButton[state="paused"][disabled="true"] {
+    list-style-image: url(chrome://firebug/skin/continueDisabled.png) !important;
+}
+
+#fbStepOverButton {
+    list-style-image: url(chrome://firebug/skin/stepOver.png);
+}
+
+#fbStepOverButton:hover:active {
+    list-style-image: url(chrome://firebug/skin/stepOverActive.png);
+}
+
+#fbStepOverButton[disabled="true"] {
+    list-style-image: url(chrome://firebug/skin/stepOverDisabled.png) !important;
+}
+
+#fbStepIntoButton {
+    list-style-image: url(chrome://firebug/skin/stepInto.png);
+}
+
+#fbStepIntoButton:hover:active {
+    list-style-image: url(chrome://firebug/skin/stepIntoActive.png);
+}
+
+#fbStepIntoButton[disabled="true"] {
+    list-style-image: url(chrome://firebug/skin/stepIntoDisabled.png) !important;
+}
+
+#fbStepOutButton {
+    list-style-image: url(chrome://firebug/skin/stepOut.png);
+}
+
+#fbStepOutButton:hover:active {
+    list-style-image: url(chrome://firebug/skin/stepOutActive.png);
+}
+
+#fbStepOutButton[disabled="true"] {
+    list-style-image: url(chrome://firebug/skin/stepOutDisabled.png) !important;
+}
+
+.toolbar-label {
+    margin: 4px 0 0 12px;
+}

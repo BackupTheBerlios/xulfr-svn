@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+    xmlns:xbl="http://www.mozilla.org/xbl"
+    xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<binding id="content">
+    <implementation>
+        <constructor><![CDATA[
+            // We initialize FireBug from here instead of from the onload event because
+            // we need to make sure it is initialized before the browser starts loading
+            // the home page
+           FireBug.initialize(); 
+        ]]></constructor>
+
+        <destructor><![CDATA[
+           FireBug.shutdown(); 
+        ]]></destructor>
+    </implementation>
+</binding>
+
+</bindings>

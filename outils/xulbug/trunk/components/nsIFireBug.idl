@@ -1,0 +1,42 @@
+
+#include "nsISupports.idl"
+
+interface jsdIStackFrame;
+interface jsdIValue;
+interface nsIDOMWindow;
+
+[scriptable, uuid(c329fbb0-cb7d-11da-a94d-0800200c9a66)]
+interface nsIFireBugDebugger : nsISupports
+{
+  boolean supportsWindow(in nsIDOMWindow window);
+
+  void onLock(in boolean state);
+
+  unsigned long onExecution(in nsIDOMWindow window, in jsdIStackFrame frame,
+    in unsigned long type, inout jsdIValue val);
+
+  void onError(in jsdIStackFrame frame);
+};
+
+[scriptable, uuid(35acfa60-d2a0-11da-a94d-0800200c9a66)]
+interface nsIFireBugBreakpointCallback : nsISupports
+{
+    void call(in unsigned long line);
+};
+
+[scriptable, uuid(F71F61B2-CB37-11DA-9B41-B622A1EF5492)]
+interface nsIFireBug : nsISupports
+{    
+    boolean getLocked();
+    void lockDebugger();
+    void unlockDebugger();
+
+    void registerDebugger(in nsIFireBugDebugger debugger);
+    void unregisterDebugger(in nsIFireBugDebugger debugger);
+    
+    void setBreakpoint(in string href, in unsigned long line);
+    void clearBreakpoint(in string href, in unsigned long line);
+    void clearAllBreakpoints();
+    void enumerateBreakpoints(in string href, in nsIFireBugBreakpointCallback cb);
+};
+

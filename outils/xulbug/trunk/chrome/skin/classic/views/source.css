@@ -1,0 +1,132 @@
+
+.nodeBox {
+    font-family: Monaco, monospace;
+    border-left: 1px solid transparent;
+}
+
+.nodeBox.hoverOpen > .nodeItem > .nodeLabel {
+    background-color: #EEEEEE;
+}
+
+.nodeBox.hoverOpen > .nodeChildBox,
+.nodeBox.open > .nodeChildBox {
+    display: block;
+}
+
+.nodeChildBox {
+    margin-left: 16px;
+    display: none;
+}
+
+.nodeItem {
+    margin: 2px 0 0 0;
+    white-space: nowrap;
+}
+
+.nodeTwisty {
+    margin: 2px 3px 0 2px;
+    width: 12px;
+    height: 14px;
+    background: url(chrome://firebug/skin/twistyClosed.png) no-repeat bottom;
+}
+
+.nodeBox.hoverOpen > .nodeItem > .nodeTwisty,
+.nodeBox.open > .nodeItem > .nodeTwisty {
+    background-image: url(chrome://firebug/skin/twistyOpen.png);    
+}
+
+.nodeBox.empty > .nodeItem > .nodeTwisty {
+    background: transparent; 
+}
+
+.nodeLabel {
+    margin: 1px 0;
+    border: 2px solid transparent;
+    -moz-border-radius: 2px 2px 4px 4px;
+    padding: 1px;
+    vertical-align: top;
+}
+
+.nodeLabel,
+.nodeCloseLabel {
+    font-family: Monaco, monospace;
+    color: #000088;
+}
+
+.nodeBox.selected > .nodeItem > .nodeLabel {
+    border-color: #3063b0;
+    color: #FFFFFF;
+    background-color: #3063b0;
+}
+
+.nodeBox.hovered > .nodeItem > .nodeLabel {
+    border-color: #4444FF !important;
+    background-color: cyan !important;
+    color: inherit !important;
+}
+
+.nodeBox.selected > .nodeItem > .nodeLabel > .nodeTag,
+.nodeBox.selected > .nodeItem > .nodeLabel > .nodeAttr,
+.nodeBox.selected > .nodeItem > .nodeLabel > .nodeText {
+    color: inherit;
+}
+
+.nodeCloseLabel {
+    margin: 3px 3px 3px 18px;
+    padding: 1px;
+    display: none;
+}
+
+.nodeBox.hoverOpen > .nodeCloseLabel,
+.nodeBox.open > .nodeCloseLabel {
+    display: block;
+}
+
+.nodeBox.hidden,
+.nodeBox.hidden > .nodeItem > .nodeCaption {
+    color: #AAAAAA;
+}
+
+.nodeTag {
+    -moz-user-select:none;
+    color: blue;
+}
+
+.nodeAttr {
+    color: red;
+    font-weight: normal;
+}
+
+.nodeBox .nodeTag:hover,
+.nodeBox .nodeAttr:hover,
+.nodeBox .nodeText:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.nodeText {
+    margin: 0 2px;
+    color: #666666;
+    vertical-align: top;
+}
+
+/*****************************************************************************************/
+
+.contextNode.searching .nodeBox > .nodeItem,
+.contextNode.searching .nodeBox > .nodeCloseLabel {
+    display: none;
+}
+
+.nodeBox.matched .nodeItem,
+.nodeBox.matched.hoverOpen > .nodeCloseLabel,
+.nodeBox.matched.open > .nodeCloseLabel {
+    display: block !important;
+}
+
+.contextNode.searching .nodeChildBox {
+    margin-left: 0;
+}
+
+.nodeBox.matched .nodeChildBox {
+    margin-left: 16px;
+}

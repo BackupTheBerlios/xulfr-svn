@@ -1,0 +1,327 @@
+<?xml version="1.0"?> 
+
+<?xml-stylesheet href="chrome://firebug/content/firebug.css"?>
+
+<!DOCTYPE window [
+<!ENTITY % firebugDTD SYSTEM "chrome://firebug/locale/firebug.dtd">
+%firebugDTD;
+]>
+
+<overlay id="FireBugOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="chrome://firebug/content/utils.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/commandLineAPI.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/consoleAPI.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/sourceBox.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/treeBox.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/loggers.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/commandLine.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/view.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/console.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/source.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/dom.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/css.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/style.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/layout.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/events.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/views/js.js"/>
+    <script type="application/x-javascript" src="chrome://firebug/content/firebug.js"/>
+    
+    <stringbundleset id="stringbundleset"> 
+        <stringbundle id="strings_firebug" src="chrome://firebug/locale/firebug.properties"/>
+    </stringbundleset>
+    
+    <commandset id="mainCommandSet">
+        <command id="cmd_togglePanel" oncommand="FireBug.togglePanel()"/>
+        <command id="cmd_clearConsole" oncommand="FireBug.clearConsole()"/>
+        <command id="cmd_focusCommandLine" oncommand="FireBug.focusCommandLine()"/>
+        <command id="cmd_focusFireBugSearch" oncommand="FireBug.focusSearch()"/>
+        <command id="cmd_inspectElement" oncommand="FireBug.toggleInspecting()" checked="false"/>
+        <command id="cmd_inspectBack" oncommand="FireBug.inspectBack()" disabled="true"/>
+        <command id="cmd_inspectForward" oncommand="FireBug.inspectForward()" disabled="true"/>
+        <command id="cmd_toggleDebugger" oncommand="FireBug.toggleDebugging()" state="off"/>
+        <command id="cmd_stepDebugger" oncommand="FireBug.stepDebugger()" 
+                 disabled="true"/>
+        <command id="cmd_stepIntoDebugger" oncommand="FireBug.stepIntoDebugger()"
+                 disabled="true"/>
+        <command id="cmd_stepOutDebugger" oncommand="FireBug.stepOutDebugger()"
+                 disabled="true"/>
+        <command id="cmd_clearAllBreakpoints" oncommand="FireBug.clearAllBreakpoints()"/>
+    </commandset>
+    
+    <keyset id="mainKeyset">
+        <key id="key_inspectElement" key="c" modifiers="accel,shift"
+                command="cmd_inspectElement"/>
+
+        <key id="key_clearConsole" key="~" modifiers="accel"
+                command="cmd_clearConsole"/>
+
+        <key id="key_focusCommandLine" key="l" modifiers="accel,shift"
+                command="cmd_focusCommandLine"/>
+        <key id="key_focusFireBugSearch" key="k" modifiers="accel,shift"
+                command="cmd_focusFireBugSearch"/>
+
+        <key id="key_togglePanel" keycode="VK_F12"
+                command="cmd_togglePanel"/>
+
+        <key id="key_inspectBack" keycode="VK_LEFT" modifiers="control"
+                command="cmd_inspectBack"/>
+        <key id="key_inspectForward" keycode="VK_RIGHT" modifiers="control"
+                command="cmd_inspectForward"/>
+
+        <key id="key_toggleDebugger" keycode="VK_LEFT" modifiers="accel,alt,shift"
+                command="cmd_toggleDebugger"/>
+        <key id="key_stepDebugger" keycode="VK_RIGHT" modifiers="accel,alt,shift"
+                command="cmd_stepDebugger"/>
+        <key id="key_stepIntoDebugger" keycode="VK_DOWN" modifiers="accel,alt,shift"
+                command="cmd_stepIntoDebugger"/>
+        <key id="key_stepOutDebugger" keycode="VK_UP" modifiers="accel,alt,shift"
+                command="cmd_stepOutDebugger"/>
+    </keyset>
+    
+    <menupopup id="menu_viewPopup">
+        <menuitem id="menu_togglePanel" insertbefore="toggle_taskbar"
+            label="FireBug" type="checkbox"
+            key="key_togglePanel" command="cmd_togglePanel"/>
+    </menupopup>
+
+    <menupopup id="menu_ToolsPopup">
+        <menu id="menu_fireBug" label="&firebug.FireBug;" insertbefore="javascriptConsole">
+            <menupopup onpopupshowing="FireBug.onOptionsPopup(this)">
+                <menuitem label="&firebug.DisableFireBug;" type="checkbox" option="disabled"
+                    oncommand="FireBug.toggleOption(this)"/>
+                <menuitem label="&firebug.ClosedByDefault;" type="checkbox" option="closedByDefault"
+                    oncommand="FireBug.toggleOption(this)"/>
+                <menuseparator/>
+
+                <menuitem id="menu_focusCommandLine" label="&firebug.CommandLine;"
+                          command="cmd_focusCommandLine" key="key_focusCommandLine"/>
+                <menuitem id="menu_focusFireBugSearch" label="&firebug.Search;"
+                          command="cmd_focusFireBugSearch" key="key_focusFireBugSearch"/>
+                <menuseparator/>
+
+                <menuitem label="&firebug.ClearConsole;"
+                          command="cmd_clearConsole" key="key_clearConsole"/>
+                <menuseparator/>
+
+                <menuitem id="menu_inspectElement" label="&firebug.InspectElement;"
+                          command="cmd_inspectElement" key="key_inspectElement"/>
+                <menuitem id="menu_inspectBack" label="&firebug.Back;"
+                          command="cmd_inspectBack" key="key_inspectBack"/>
+                <menuitem id="menu_inspectForward" label="&firebug.Forward;"
+                          command="cmd_inspectForward" key="key_inspectForward"/>
+                <menuseparator/>
+
+                <menuitem id="menu_toggleDebugger" label="&firebug.Pause;"
+                          command="cmd_toggleDebugger" key="key_toggleDebugger"/>
+                <menuitem id="menu_stepDebugger" label="&firebug.StepOver;"
+                          command="cmd_stepDebugger" key="key_stepDebugger"/>
+                <menuitem id="menu_stepIntoDebugger" label="&firebug.StepInto;"
+                          command="cmd_stepIntoDebugger" key="key_stepIntoDebugger"/>
+                <menuitem id="menu_stepOutDebugger" label="&firebug.StepOut;"
+                          command="cmd_stepOutDebugger" key="key_stepOutDebugger"/>
+            </menupopup>
+        </menu>
+    </menupopup>
+
+    <vbox id="appcontent">
+        <splitter id="fbContentSplitter" collapsed="true"/>
+        <vbox id="fbContentBox" collapsed="true" persist="height">
+            <toolbox id="fbToolbox">
+                <toolbar id="fbToolbar">
+                    <toolbarbutton id="fbClearButton" label="&firebug.Clear;"
+                                   class="toolbar-text-button" command="cmd_clearConsole"/>
+                    <toolbarbutton label="&firebug.Inspect;"
+                                   class="toolbar-text-button" command="cmd_inspectElement"/>
+
+                    <toolbarbutton id="fbOptionsButton" type="menu" label="&firebug.Options;"
+                                   class="toolbar-text-menubutton"/>
+
+                    <toolbarspacer flex="1"/>
+
+                    <toolbarbutton id="fbTab-console" class="fbViewTab" view="console"
+                                   label="&firebug.Console;" selected="true"
+                                   oncommand="FireBug.onSwitchTab(this)"/>
+                    <toolbarbutton id="fbTab-js" class="fbViewTab" view="js"
+                                   label="&firebug.Debugger;"
+                                   oncommand="FireBug.onSwitchTab(this)"/>
+                    <toolbarbutton id="fbTab-inspector" class="fbViewTab" view="inspector"
+                                   label="&firebug.Inspector;"
+                                   oncommand="FireBug.onSwitchTab(this)"/>
+
+                    <toolbarspacer flex="1"/>
+
+                    <textbox id="fbSearchBar" type="autocomplete" 
+                             oninput="FireBug.updateSearch()"
+                             onkeydown="FireBug.onSearchKeyDown(event)"/>
+                    
+                    <toolbarbutton id="fbCloseButton" class="tabs-closebutton"
+                                   tooltiptext="&firebug.CloseFireBug;" command="cmd_togglePanel"/>
+                </toolbar>
+            </toolbox>
+
+            <hbox id="fbBrowserBox" flex="1">
+                <browser id="fbBrowser" flex="1"
+                         tooltip="aHTMLTooltip" contextmenu="contentAreaContextMenu"
+                         onclick="return contentAreaClick(event, false);"/>
+            </hbox>
+            
+            <hbox id="fbCommandBox" hidden="true">
+                <label id="fbCommandArow" value=">>>"/>
+                <textbox id="fbCommandLine" flex="1"
+                         onkeypress="FireBugCommandLine.onKeyPress(event)"/>
+            </hbox>
+            
+            <hbox id="fbPathBox" hidden="true">
+                <toolbarbutton id="fbBackButton" command="cmd_inspectBack"/>
+                <toolbarbutton id="fbForwardButton" command="cmd_inspectForward"/>
+
+                <label id="fbPath" context="fbShortcutMenu" flex="1" crop="end"
+                                   onmouseover="FireBug.highlightSelected(true)"
+                                   onmouseout="FireBug.highlightSelected(false)"
+                                   onclick="FireBug.showSelected()"/>
+
+                <menupopup id="fbShortcutMenu">
+                    <menuitem label="window"
+                              oncommand="FireBug.inspectEval('window')"/>
+                    <menuitem label="document"
+                              oncommand="FireBug.inspectEval('document')"/>
+                    <menuitem label="document.documentElement"
+                        oncommand="FireBug.inspectEval('document.documentElement')"/>
+                    <menuitem label="document.body"
+                              oncommand="FireBug.inspectEval('document.body')"/>
+                </menupopup>
+               
+                <toolbarbutton id="fbTab-source" class="fbObjectTab"
+                            label="&firebug.Source;"
+                            oncommand="FireBug.onSwitchView(this)" view="source"/>
+                <toolbarbutton id="fbTab-css" class="fbObjectTab" label="&firebug.CSS;"
+                            oncommand="FireBug.onSwitchView(this)" view="css"/>
+                <toolbarbutton id="fbTab-style" class="fbObjectTab"
+                            label="&firebug.Style;"
+                            oncommand="FireBug.onSwitchView(this)" view="style"/>
+                <toolbarbutton id="fbTab-layout" class="fbObjectTab"
+                            label="&firebug.Layout;"
+                            oncommand="FireBug.onSwitchView(this)" view="layout"/>
+                <toolbarbutton id="fbTab-events" class="fbObjectTab"
+                            label="&firebug.Events;"
+                            oncommand="FireBug.onSwitchView(this)" view="events"/>
+                <toolbarbutton id="fbTab-dom" class="fbObjectTab" label="&firebug.DOM;"
+                            oncommand="FireBug.onSwitchView(this)" view="dom"/>
+            </hbox>
+
+            <hbox id="fbDebugToolbar" hidden="true">
+                <toolbarbutton id="fbPauseButton" tooltiptext="&firebug.Pause;"
+                               command="cmd_toggleDebugger"/>
+                <toolbarbutton id="fbStepOverButton" tooltiptext="&firebug.StepOver;"
+                               command="cmd_stepDebugger"/>
+                <toolbarbutton id="fbStepIntoButton" tooltiptext="&firebug.StepInto;"
+                               command="cmd_stepIntoDebugger"/>
+                <toolbarbutton id="fbStepOutButton" tooltiptext="&firebug.StepOut;"
+                               command="cmd_stepOutDebugger"/>
+
+                <label value="Scripts:" class="toolbar-label"/>
+                <menulist id="fbScriptList" class="toolbar-text-menulist" flex="1"
+                          onpopupshowing="FireBug.updateScriptList()"
+                          oncommand="FireBug.showScriptItem(this.selectedItem)">
+                    <menupopup id="fbScriptMenu"/>
+                </menulist>
+                
+                <label id="fbStackLabel" value="Call Stack:" class="toolbar-label"/>
+                <menulist id="fbStackList" class="toolbar-text-menulist"
+                          oncommand="FireBug.showStackItem(this.selectedItem)">
+                    <menupopup id="fbStackMenu"/>
+                </menulist>
+            </hbox>
+        </vbox>
+
+        <menupopup id="fbOptionsMenu_console"
+                   onpopupshowing="FireBug.onOptionsPopup(this)">
+            <menuitem label="&firebug.ShowJavaScriptErrors;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showJSErrors"/>
+            <menuitem label="&firebug.ShowJavaScriptWarnings;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showJSWarnings"/>
+            <menuitem label="&firebug.ShowCSSErrors;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showCSSErrors"/>
+            <menuitem label="&firebug.ShowXMLErrors;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showXMLErrors"/>
+            <menuseparator/>
+
+            <menuitem label="&firebug.ShowErrorsFromChrome;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showChromeErrors"/>
+            <menuitem label="&firebug.ShowConsoleMessages;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showMessages"/>                    
+            <menuseparator/>
+    
+            <menuitem label="&firebug.ShowStackTraces;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showStackTrace"/>
+            <menuseparator/>
+    
+            <menuitem label="&firebug.ShowXMLHttpRequests;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showXMLHttpRequests"/>
+        </menupopup>
+        
+        <menupopup id="fbOptionsMenu_style"
+                   onpopupshowing="FireBug.onOptionsPopup(this)">
+            <menuitem label="&firebug.ShowAllStyles;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showAllStyles"/>
+        </menupopup>
+    
+        <menupopup id="fbOptionsMenu_dom" onpopupshowing="FireBug.onOptionsPopup(this)">
+            <menuitem label="&firebug.ShowFunctions;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showFunctions"/>
+            <menuitem label="&firebug.ShowConstants;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="showConstants"/>
+        </menupopup>
+        
+        <menupopup id="fbOptionsMenu_js" onpopupshowing="FireBug.onOptionsPopup(this)">
+            <menuitem label="&firebug.EnableDebugger;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="enableDebugger"/>
+            <menuitem label="&firebug.BreakOnErrors;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)"
+                option="breakOnErrors"/>
+
+            <!--
+            <menuseparator/>
+            <menuitem label="&firebug.ClearAllBreakpoints;" command="cmd_clearAllBreakpoints"/>
+            -->
+        </menupopup>
+    
+    </vbox>
+    
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="inspector-button" label="&firebug.Inspect;"
+                       class="toolbarbutton-1 chromeclass-toolbar-additional"
+                       observes="cmd_inspectElement" tooltiptext="&firebug.InspectElement;"/>
+    </toolbarpalette>
+    
+    <statusbar id="status-bar">
+        <statusbarpanel id="fbStatusBar"
+                        context="fbStatusContextMenu"
+                        onmousedown="if (event.button == 0) FireBug.togglePanel()">
+            <image id="fbStatusIcon"/>
+            <label id="fbStatusText" value=""/>
+        </statusbarpanel>
+    
+        <menupopup id="fbStatusContextMenu" onpopupshowing="FireBug.onOptionsPopup(this)">
+            <menuitem label="&firebug.DisableFireBug;" type="checkbox"
+                oncommand="FireBug.toggleOption(this)" option="disabled"/>
+            <menuseparator/>
+            <menuitem label="&firebug.ClearConsole;" command="cmd_clearConsole"/>
+        </menupopup>
+    </statusbar>
+    
+</overlay>
