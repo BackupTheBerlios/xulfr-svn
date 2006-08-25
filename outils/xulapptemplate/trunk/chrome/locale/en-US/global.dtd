@@ -1,0 +1,127 @@
+
+<!ENTITY  fileMenu.label     "File">
+<!ENTITY  fileMenu.accesskey "f">
+
+<!ENTITY  cmd_New.label       "New">
+<!ENTITY  cmd_New.accesskey   "n">
+<!ENTITY  cmd_New.keybinding  "n">
+
+<!ENTITY  cmd_Open.label         "Open...">
+<!ENTITY  cmd_Open.accesskey     "o">
+<!ENTITY  cmd_Open.keybinding    "o">
+
+<!ENTITY  cmd_Save.label         "Save">
+<!ENTITY  cmd_Save.accesskey     "s">
+<!ENTITY  cmd_Save.keybinding    "s">
+<!ENTITY  cmd_SaveAs.label       "Save As...">
+<!ENTITY  cmd_SaveAs.accesskey   "A">
+
+<!ENTITY  cmd_Print.label            "Print...">
+<!ENTITY  cmd_Print.accesskey        "p">
+<!ENTITY  cmd_Print.keybinding       "p">
+<!ENTITY  cmd_PrintPreview.label     "Print Preview">
+<!ENTITY  cmd_PrintPreview.accesskey "v">
+<!ENTITY  cmd_PrintSetup.label       "Print Setup...">
+<!ENTITY  cmd_PrintSetup.accesskey   "u">
+
+<!ENTITY  cmd_Exit.label             "Exit">
+<!ENTITY  cmd_Exit.accesskey         "x">
+<!ENTITY  cmd_Exit.keybinding        "q">
+
+<!ENTITY  editMenu.label             "Edit">
+<!ENTITY  editMenu.accesskey         "e">
+
+<!ENTITY  cmd_EditDelete.label       "Delete">
+<!ENTITY  cmd_EditDelete.accesskey   "d">
+<!ENTITY  cmd_Editelete.keybinding   "d">
+
+<!ENTITY  cmd_SelectAll.label       "Select All">
+<!ENTITY  cmd_SelectAll.accesskey   "a">
+<!ENTITY  cmd_SelectAll.keybinding  "a">
+
+<!ENTITY  cmd_Mvforward.label      "Move Forward">
+<!ENTITY  cmd_Mvbackward.label     "Move Backward">
+<!ENTITY  cmd_Mvback.label         "Move Back">
+<!ENTITY  cmd_Mvfront.label        "Move Front">
+<!ENTITY  cmd_Hcenteralign.label   "Align Horizontal Centers">
+<!ENTITY  cmd_Vcenteralign.label   "Align Vertical Centers">
+<!ENTITY  cmd_Leftalign.label      "Align Left">
+<!ENTITY  cmd_Topalign.label       "Align Top">
+<!ENTITY  cmd_Rightalign.label     "Align Right">
+<!ENTITY  cmd_Bottomalign.label    "Align Bottom">
+
+<!ENTITY  cmd_EditCopy.label       "Copy">
+<!ENTITY  cmd_EditCopy.accesskey   "c">
+<!ENTITY  cmd_EditCopy.keybinding  "c">
+<!ENTITY  cmd_EditCopy.tooltip     "Copy (Ctrl+C)">
+
+<!ENTITY  cmd_EditCut.label         "Cut">
+<!ENTITY  cmd_EditCut.accesskey     "t">
+<!ENTITY  cmd_EditCut.keybinding    "x">
+<!ENTITY  cmd_EditCut.tooltip       "Cut (Ctrl+X)">
+
+<!ENTITY  cmd_EditPaste.label       "Paste">
+<!ENTITY  cmd_EditPaste.accesskey   "p">
+<!ENTITY  cmd_EditPaste.keybinding  "v">
+<!ENTITY  cmd_EditPaste.tooltip     "Paste (Ctrl+V)">
+
+<!ENTITY  cmd_EditUndo.label        "Undo">
+<!ENTITY  cmd_EditUndo.accesskey    "u">
+<!ENTITY  cmd_EditUndo.keybinding   "z">
+
+<!ENTITY  cmd_RevertToSaved.label      "Revert to Saved">
+<!ENTITY  cmd_RevertToSaved.accesskey  "r">
+<!ENTITY  cmd_RevertToSaved.keybinding "r">
+
+<!ENTITY  viewsMenu.label     "Views">
+<!ENTITY  viewsMenu.accesskey "v">
+
+<!ENTITY  toolsMenu.label     "Tools">
+<!ENTITY  toolsMenu.accesskey "t">
+
+<!ENTITY  javaScriptConsole.label  "JavaScript Console">
+<!ENTITY  javaScriptConsole.accesskey "S">
+
+<!ENTITY  toolBars.label     "Tool Bars">
+<!ENTITY  menuBar.label      "Menu Bar">
+<!ENTITY  mainToolBar.label  "&brandShortName; Toolbar">
+<!ENTITY  imageToolBar.label "Image Toolbar">
+<!ENTITY  statusBar.label    "Status Bar">
+
+<!ENTITY  customizeToolbars.label     "Customize...">
+<!ENTITY  customizeToolbars.accesskey "C">
+
+<!ENTITY  helpMenu.label        "Help">
+<!ENTITY  helpMenu.accesskey    "h">
+<!ENTITY  helpContent.label     "Help Contents">
+<!ENTITY  helpContent.accesskey "h">
+
+<!ENTITY  windowsMenu.label      "Windows">
+<!ENTITY  windowsMenu.accesskey  "w">
+
+<!ENTITY  aboutApp.label      "About &brandShortName;">
+<!ENTITY  aboutOthers.label   "About...">
+<!ENTITY  aboutConfig.label   "Configuration...">
+<!ENTITY  aboutPlugins.label  "Plugins...">
+
+<!ENTITY  fullScreen.label      "FullScreen">
+<!ENTITY  fullScreen.accesskey  "u">
+
+<!ENTITY  extensions.label "Extensions">
+
+<!ENTITY  welcomePage.label "Welcome Page">
+
+<!ENTITY  cmd_Update.label       "Update" >
+<!ENTITY  cmd_Update.accesskey   "u" >
+<!ENTITY  cmd_Update.keybinding  "u" >
+<!ENTITY  cmd_Update.tooltip     "Update Image Document (Ctrl+U)">
+
+<!ENTITY  colorsMenu.label "Colors">
+
+<!ENTITY  preferences.label      "Preferences">
+<!ENTITY  preferences.accesskey  "p">
+
+<!ENTITY  customize.label  "Customize...">
+
+<!ENTITY  checkForUpdates.label     "Check for updates">
+<!ENTITY  checkForUpdates.accesskey "u">

@@ -1,0 +1,25 @@
+
+<!ENTITY generalTab.label               "Général">
+<!ENTITY accessibility.label            "Accessibilité">
+
+<!ENTITY updateTab.label                "Mises à  jour">
+<!ENTITY autoCheck.label                "Rechercher automatiquement des mises à jour pour :">
+<!ENTITY enableAppUpdate.label          "&brandShortName;">
+<!ENTITY enableAppUpdate.accesskey      "F">
+<!ENTITY enableExtensionUpdate.label    "Thèmes et extensions installés">
+<!ENTITY enableExtensionUpdate.accesskey "x">
+<!ENTITY enableSearchUpdate.label       "Moteurs de recherche">
+<!ENTITY enableSearchUpdate.accesskey   "o">
+<!ENTITY checkNow.label                 "Rechercher maintenant">
+<!ENTITY appCheckNow.accesskey          "m">
+<!ENTITY whenUpdatesFound.label         "Quand des mises à jour pour &brandShortName; sont disponibles :">
+<!ENTITY modeAskMe.label                "demander ce qu'il faut faire">
+<!ENTITY modeAskMe.accesskey            "a">
+<!ENTITY modeAutomatic.label            "télécharger et installer automatiquement les mises à jour">
+<!ENTITY modeAutomatic.accesskey        "n">
+<!ENTITY modeAutoWarn.label             "avertir si cela désactive des extensions ou des thèmes">
+<!ENTITY modeAutoWarn.accesskey         "h">
+<!ENTITY showUpdates.label              "Afficher l'historique des mises à jour">
+<!ENTITY showUpdates.accesskey          "j">
+
+

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://app/content/main.css" type="text/css"?>
+
+<!DOCTYPE window 
+[
+  <!ENTITY % brandDTD    SYSTEM "chrome://branding/locale/brand.dtd"   > %brandDTD;
+  <!ENTITY % marqueeDTD  SYSTEM "chrome://branding/locale/marquee.dtd" > %marqueeDTD;
+  <!ENTITY % globalDTD   SYSTEM "chrome://app/locale/global.dtd"     > %globalDTD;
+]>
+
+<?xul-overlay href="chrome://app/content/overlay.xul"?>
+
+<window
+   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+   xmlns:html="http://www.w3.org/1999/xhtml"
+
+   id="main-window"
+   title="&mainWindow.windowtitle;"
+   titlemodifier="&mainWindow.titlemodifier;"
+   titlepreface="&mainWindow.titlepreface;"
+   titlemenuseparator ="&mainWindow.titlemodifierseparator;"
+   onload="goStartup()"
+   onunload="goShutdown()"
+   onclose="return goCloseWindow();"
+   sizemode="maximized"
+   persist="screenX screenY width height sizemode"
+   windowtype="liz:mainwindow"
+>
+ <script type="application/x-javascript" src="chrome://app/content/main.js"/>
+
+ <keyset id="globalCommandKeys"/>
+ 
+ <commandset id="globalCommandSet">
+   <commandset id="editcommandset" />
+ </commandset>
+   
+ <broadcasterset id="globalBroadcasterset"/>
+
+ <stringbundleset id="globalStringBundleSet">
+   <stringbundle id="app:strings"  src="chrome://app/locale/app.properties"/>
+ </stringbundleset>
+
+ <popupset id="globalPopupSet"> 
+   <popup id="toolbar-context-menu"
+           onpopupshowing="goToolbarsPopupShowing(event);">
+      <menuseparator/>
+      <menuitem id="customizeToolbarItem"/>
+   </popup>
+ </popupset>
+
+ <toolbarset id="globalToolbarSet"/>
+  
+ <toolbox id="toolbox">
+   <!--  menu -->
+   <toolbarpalette id="globalToolbarPalette"/> 
+   
+    <toolbar type="menubar" id="toolbar-menubar" 
+             customizable="true"
+             defaultset="menubar-items,spring" class="hidechrome-fullscreen"
+             mode="icons" iconsize="small" context="toolbar-context-menu">
+     <toolbaritem id="menubar-items" align="center">
+       <menubar id="mainMenuBar" class="plain-menubar">
+         <menu id="fileMenu"   />
+         <menu id="editMenu"   />
+         <menu id="viewsMenu"  />
+         <menu id="toolsMenu"  />
+         <menu id="helpMenu"   />
+       </menubar>
+     </toolbaritem>
+   </toolbar>
+   <toolbar id="main-toolbar" toolbarname="&mainToolBar.label;" customizable="true"
+            mode="icons" iconsize="small" context="toolbar-context-menu"  class="hidechrome-fullscreen"/>
+
+   <toolbarset id="customToolbars" context="toolbar-context-menu"/>
+ </toolbox>
+
+ <vbox flex="1" id="app-content-box">
+ 
+   <!-- 
+     Mettez le contenu de votre fenêtre ici
+     Conseil: utilisez un overlay :-)
+    -->
+ 
+ </vbox>
+ 
+ <statusbar id="status-bar" class="hidechrome-fullscreen">
+   <statusbarpanel id="component-bar"/>
+   <statusbarpanel id="statusbar-display" flex="1"/>
+ </statusbar>
+ 
+</window>

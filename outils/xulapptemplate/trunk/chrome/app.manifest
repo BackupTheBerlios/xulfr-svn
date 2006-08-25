@@ -1,0 +1,19 @@
+
+locale  branding en-US  locale/en-US/branding/
+locale  branding fr-FR  locale/fr-FR/branding/
+
+locale browser-region en-US locale/en-US/browser-region/
+locale browser-region fr-FR locale/fr-FR/browser-region/
+
+content  browser              content/browser/
+skin     browser classic/1.0  skin/browser/
+
+content app              content/
+locale  app en-US        locale/en-US/
+locale  app fr-FR        locale/fr-FR/
+skin    app classic/1.0  skin/
+
+content  apps                content/apps/
+locale   apps    en-US       locale/en-US/apps/
+locale   apps    fr-FR       locale/fr-FR/apps/
+skin     apps    classic/1.0 skin/apps/

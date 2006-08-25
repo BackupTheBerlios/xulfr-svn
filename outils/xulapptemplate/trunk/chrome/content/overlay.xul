@@ -1,0 +1,176 @@
+<?xml version="1.0"?> 
+
+<!DOCTYPE overlay 
+[
+  <!ENTITY % brandDTD   SYSTEM "chrome://branding/locale/brand.dtd"> %brandDTD;
+  <!ENTITY % globalDTD  SYSTEM "chrome://app/locale/global.dtd"  > %globalDTD;
+  <!ENTITY % appDTD     SYSTEM "chrome://app/locale/app.dtd"       > %appDTD;
+]>
+
+<?xul-overlay href="chrome://app/content/globalOverlay.xul"?>
+
+<!-- 
+   Menus et commandes
+ -->
+
+<overlay id="app:globalOverlay"
+   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+ <script type="application/x-javascript" src="chrome://apps/content/updates.js"/>
+ <script type="application/x-javascript" src="chrome://apps/content/customize.js"/>
+
+ <script type="application/x-javascript" src="chrome://app/content/commands.js"/>
+  
+ <keyset id="globalCommandKeys">
+   <key id="cmd_NewKey"           key="&cmd_New.keybinding;"           observes="cmd_New"           modifiers="accel"/>
+   <key id="cmd_OpenKey"          key="&cmd_Open.keybinding;"          observes="cmd_Open"          modifiers="accel"/>
+   <key id="cmd_SaveKey"          key="&cmd_Save.keybinding;"          observes="cmd_Save"          modifiers="accel"/>
+
+   <key id="cmd_PrintKey"         key="&cmd_Print.keybinding;"         observes="cmd_Print"         modifiers="accel"/>
+
+   <key id="cmd_EditUndoKey"      key="&cmd_EditUndo.keybinding;"      observes="cmd_EditUndo"   modifiers="accel"/>
+   <key id="cmd_EditCopyKey"      key="&cmd_EditCopy.keybinding;"      observes="cmd_EditCopy"   modifiers="accel"/>
+   <key id="cmd_EditCutKey"       key="&cmd_EditCut.keybinding;"       observes="cmd_EditCut"    modifiers="accel"/>
+   <key id="cmd_EditPasteKey"     key="&cmd_EditPaste.keybinding;"     observes="cmd_EditPaste"  modifiers="accel"/>
+   <key id="cmd_EditDeleteKey"    keycode="VK_DELETE"                  observes="cmd_EditDelete" />
+
+   <key id="cmd_ExitKey"          key="&cmd_Exit.keybinding;"          observes="cmd_Exit" modifiers="accel"/>
+
+   <key id="cmd_HelpKey"          keycode="VK_F1"  command="cmd_showHelp"/>
+   <key id="cmd_FullScreenKey"    keycode="VK_F7"  command="cmd_fullScreen"/>
+
+   <key id="cmd_UpdateKey" key="&cmd_Update.keybinding;" observes="cmd_Update" modifiers="accel"/>
+   
+ </keyset>
+
+ <commandset id="editcommandset"
+    commandupdater="true"
+    events="focus"
+    oncommandupdate="goUpdateCommandset(this)">
+    
+   <command id="cmd_EditCopy"   oncommand="goDoCommand('cmd_EditCopy'  )"/>
+   <command id="cmd_EditCut"    oncommand="goDoCommand('cmd_EditCut'   )"/>
+   <command id="cmd_EditPaste"  oncommand="goDoCommand('cmd_EditPaste' )"/>
+
+   <command id="cmd_EditUndo"   label="&cmd_EditUndo.label;"   oncommand="goDoCommand('cmd_EditUndo'  )"/>
+   <command id="cmd_EditDelete" label="&cmd_EditDelete.label;" oncommand="goDoCommand('cmd_EditDelete')"/>   
+   <command id="cmd_SelectAll"  label="&cmd_SelectAll.label;"  oncommand="goDoCommand('cmd_SelectAll' )"/>    
+ </commandset>
+
+ <commandset id="globalCommandSet"    
+    commandupdater="true"
+    events="focus"
+    oncommandupdate="goUpdateCommandset(this)">
+
+   <command id="cmd_New"  oncommand="goDoCommand('cmd_New')"/>
+   
+   <command id="cmd_Exit" label="&cmd_Exit.label;"  oncommand="goDoCommand('cmd_Exit')"/>
+
+   <command id="cmd_Open"   oncommand="goDoCommand('cmd_Open')"  />
+   <command id="cmd_Save"   oncommand="goDoCommand('cmd_Save')"  />
+   <command id="cmd_SaveAs" oncommand="goDoCommand('cmd_SaveAs')"/>
+   
+   <command id="cmd_NewTab" oncommand="goDoCommand('cmd_NewTab')"/>
+   
+   <command id="cmd_Print"         label="&cmd_Print.label;"         oncommand="goDoCommand('cmd_Print')"        />
+   <command id="cmd_PrintPreview"  label="&cmd_PrintPreview.label;"  oncommand="goDoCommand('cmd_PrintPreview')" />
+   <command id="cmd_PrintSetup"    label="&cmd_PrintSetup.label;"    oncommand="goDoCommand('cmd_PrintSetup')"   />
+ 
+   <command id="cmd_Update" label="&cmd_Update.label;" oncommand="goDoCommand('cmd_Update')" />
+
+   <command id="cmd_RevertToSaved" label="&cmd_RevertToSaved.label;" oncommand="goDoCommand('cmd_RevertToSaved')"/>
+
+ </commandset>
+ 
+ <broadcasterset id="globalBroadcasterset">
+   <broadcaster id="customizeToolbars"/>
+   <command id="cmd_fullScreen"         oncommand="goToggleFullScreen();"/>
+   <command id="cmd_viewStatusBar"      oncommand="goToggleToolbar('status-bar','cmd_viewStatusBar');"  checked="true"/>
+   <command id="cmd_CustomizeToolbars"  oncommand="goCustomizeToolbar('toolbox')" observes="customizeToolbars"/>
+   <command id="cmd_showHelp"           oncommand="goShowHelp();"/>
+   <command id="cmd_about"              oncommand="goOpenAbout()" />
+   <command id="cmd_about:config"       oncommand="goOpenAbout('config');"/>
+   <command id="cmd_prefs"              oncommand="goOpenPreferences();"  />
+ </broadcasterset>
+
+  
+ <menu id="fileMenu" label="&fileMenu.label;"  accesskey="&fileMenu.accesskey;">
+  <menupopup id="filePopupMenu">
+    <menuitem class="file_new menuitem-iconic" observes="cmd_New"    label="&cmd_New.label;"     key="cmd_NewKey"     accesskey="&cmd_New.accesskey;"/>
+    <menuseparator/>
+    <menuitem class="file_open   menuitem-iconic" observes="cmd_Open"   label="&cmd_Open.label;"   key="cmd_OpenKey"  accesskey="&cmd_Open.accesskey;"/>
+    <menuitem class="file_save   menuitem-iconic" observes="cmd_Save"   label="&cmd_Save.label;"   key="cmd_SaveKey"  accesskey="&cmd_Save.accesskey;"/>
+    <menuitem class="file_saveas menuitem-iconic" observes="cmd_SaveAs" label="&cmd_SaveAs.label;" accesskey="&cmd_SaveAs.accesskey;"/>
+     <menuseparator/>
+    <menuitem observes="cmd_RevertToSaved" key="cmd_RevertToSavedKey" accesskey="&cmd_RevertToSaved.accesskey;"/>
+    <menuseparator id="fileMenuOverlay"/>
+    <menuitem observes="cmd_Print" key="cmd_PrintKey" accesskey="&cmd_Print.accesskey;"/>
+    <menuitem observes="cmd_PrintPreview"             accesskey="&cmd_PrintPreview.accesskey;"/>
+    <menuitem observes="cmd_PrintSetup"               accesskey="&cmd_PrintSetup.accesskey;"/>
+    <menuseparator id="file-menu-separator"/>
+    <menuitem observes="cmd_Exit" key="cmd_ExitKey"  accesskey="&cmd_Exit.accesskey;"/>
+  </menupopup>
+ </menu>
+
+
+ <menu id="editMenu" label="&editMenu.label;" accesskey="&editMenu.accesskey;">
+   <menupopup id="editPopupMenu">
+     <menuitem label="&cmd_EditUndo.label;" observes="cmd_EditUndo" key="cmd_EditUndoKey" accesskey="&cmd_EditUndo.accesskey;"/>
+     <menuseparator  id="edit-menu-separator"/>
+     <menuitem observes="cmd_EditCopy"  label="&cmd_EditCopy.label;"   key="cmd_EditCopyKey"   accesskey="&cmd_EditCopy.accesskey;"/>
+     <menuitem observes="cmd_EditCut"   label="&cmd_EditCut.label;"    key="cmd_EditCutKey"    accesskey="&cmd_EditCut.accesskey;"/>
+     <menuitem observes="cmd_EditPaste" label="&cmd_EditPaste.label;"  key="cmd_EditPasteKey"  accesskey="&cmd_EditPaste.accesskey;"/>
+     <menuitem observes="cmd_EditDelete"                               key="cmd_EditDeleteKey" accesskey="&cmd_EditDelete.accesskey;"/>
+   </menupopup>
+ </menu>
+
+ <menu id="viewsMenu" label="&viewsMenu.label;" accesskey="&viewsMenu.accesskey;">
+    <menupopup id="viewsPopupMenu">
+      <menu id="toolBarMenu" label="&toolBars.label;"
+          onpopupshowing="goToolbarsPopupShowing(event);">
+        <menupopup id="toolBarsPopupMenu">      
+          <menuitem observes="cmd_viewStatusBar"    label="&statusBar.label;"    type="checkbox"/>
+          <menuseparator/>
+          <menuitem command="cmd_CustomizeToolbars" label="&customizeToolbars.label;" accesskey="&customizeToolbars.accesskey;"/>
+        </menupopup>
+      </menu>
+      <menu id="daim-sidebar-menu"/>
+      <menuseparator/>
+      <menuitem label="&fullScreen.label;" key="cmd_FullScreenKey" accesskey="&fullScreen.accesskey;" 
+                command="cmd_fullScreen" class="fullscreen-btn menuitem-iconic"/>
+    </menupopup>
+ </menu>
+
+ <menu id="toolsMenu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
+    <menupopup id="toolsPopupMenu">
+      <menuitem id="toolsmenu-placeholder" label="&extensions.label;" oncommand="goOpenExtensionManager();"/>
+      <menuseparator id="devel-menu-separator" class="hidechrome-devel"/>
+      <menuitem id="jsconsole-menuitem"        class="hidechrome-devel" label="&javaScriptConsole.label;" accesskey="&javaScriptConsole.accesskey;" oncommand="toJavaScriptConsole();"/>
+      <menuitem  command="cmd_about:config" label="&aboutConfig.label;"  class="hidechrome-about"/>
+      <menuseparator id="options-menu-seperator"/>
+      <menuitem id="options-menuitem"  label="&preferences.label;" accesskey="&preferences.accesskey;" command="cmd_prefs"/>
+    </menupopup>
+ </menu>
+
+ <menu id="helpMenu" label="&helpMenu.label;" accesskey="&helpMenu.accesskey;">
+   <menupopup id="helpPopupMenu" onpopupshowing="goBuildHelpMenu()">
+    <!--      
+     <menuitem command="cmd_showHelp" accesskey="&helpContent.accesskey;" label="&helpContent.label;"/>
+     <menuseparator/>
+    -->
+     <menuitem id="checkForUpdates"
+               accesskey="&checkForUpdates.accesskey;"
+               label="&checkForUpdates.label;"
+               class="menuitem-iconic"
+               oncommand="goCheckForUpdates();"/>
+     <menuseparator id="aboutSeparator"/>
+     <menuitem id="aboutMenuItem" command="cmd_about" label="&aboutApplication.label;"/>
+   </menupopup>
+ </menu>
+
+ <menuitem id="customizeToolbarItem" 
+            command="cmd_CustomizeToolbars"
+            label="&customizeToolbars.label;"
+            accesskey="&customizeToolbars.accesskey;"/>
+
+</overlay>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay [ 
+  <!ENTITY % generaDTD SYSTEM   "chrome://apps/locale/preferences/general.dtd"> %generaDTD;
+]>
+
+<overlay id="GeneralPaneOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <prefpane id="generalPane"
+            helpURI="chrome://browser/locale/help/help.rdf"
+            xmlns:xhtml2="http://www.w3.org/TR/xhtml2"
+            xmlns:wairole="http://www.w3.org/2005/01/wai-rdf/GUIRoleTaxonomy#"
+            xmlns:aaa="http://www.w3.org/2005/07/aaa">
+
+
+      <description>
+        mettez vos préférences ici
+      </description>
+   
+  </prefpane>
+
+</overlay>

@@ -1,0 +1,139 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * Version: NPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ * The contents of this file are subject to the Netscape Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/NPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * The Original Code is the Preferences UI System.
+ *
+ * The Initial Developer of the Original Code is Ben Goodger.
+ * Portions created by the Initial Developer are Copyright (C) 2005
+ * the Initial Developer. All Rights Reserved.
+ *
+ * Contributor(s):
+ *  Ben Goodger   <ben@mozilla.org> Original author
+ *  David Marteau <daim.project@free.fr>
+ *
+ * Alternatively, the contents of this file may be used under the terms of
+ * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * in which case the provisions of the GPL or the LGPL are applicable instead
+ * of those above. If you wish to allow use of your version of this file only
+ * under the terms of either the GPL or the LGPL, and not to allow others to
+ * use your version of this file under the terms of the NPL, indicate your
+ * decision by deleting the provisions above and replace them with the notice
+ * and other provisions required by the GPL or the LGPL. If you do not delete
+ * the provisions above, a recipient may use your version of this file under
+ * the terms of any one of the NPL, the GPL or the LGPL.
+ *
+ * ***** END LICENSE BLOCK ***** */
+
+/* ===== preferences.css =====================================================
+  == Styles used by the XUL prefwindow element.
+  ======================================================================= */
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* ::::: dialog ::::: */
+
+prefwindow {
+  padding: 8px;
+}
+
+prefpane {
+  padding-top   : 0px  !important ; 
+  padding-bottom: 10px ;
+}
+
+prefwindow > .paneDeckContainer {
+  overflow: hidden;
+}
+
+prefpane > .content-box {
+  overflow: hidden;
+}
+
+prefwindow[type="child"] > prefpane > .content-box {
+  -moz-box-flex: 1;
+  overflow: -moz-hidden-unscrollable;
+}
+
+
+prefwindow[type="child"] {
+  padding-top: 8px;
+  padding-bottom: 10px;
+  -moz-padding-start: 8px;
+  -moz-padding-end: 10px;
+}
+
+prefwindow[type="child"] > prefpane {
+  padding: 0px;
+}
+
+.prefWindow-dlgbuttons {
+  padding-bottom: 10px;
+  -moz-padding-end: 10px;
+}
+
+prefwindow[type="child"] .prefWindow-dlgbuttons {
+  padding: 0px;
+}
+
+
+.paneSelector {
+  border: 2px groove ThreeDFace;
+  margin: 0px;
+  margin-right:4px; 
+  color : -moz-FieldText;
+  background-color: -moz-Field;
+}
+
+.paneButtonIcon {
+  width: 32px;
+  height: 32px;
+}
+
+
+
+radio[pane] {
+  border       : 1px solid transparent;
+  margin-bottom: 3px;
+  padding      : 1px 3px 1px 3px;
+  min-width    : 4.5em;
+
+  /* used as default image */
+  list-style-image: url("chrome://app/skin/icons/optionsDefaults.png");
+  -moz-image-region: rect(0px, 32px,  32px, 0px);
+
+}
+
+
+radio[pane]:hover {
+  border: 1px solid #98B4E2;
+  background-color: #E0E8F6;
+  color: black;
+  -moz-appearance: none;
+}
+
+radio[pane][selected="true"] {
+  border: 1px solid #316AC5;
+  background-color: #C1D2EE;
+  color: black; 
+  -moz-appearance: none;
+}
+
+.prefwindow-content-box > .paneSelector {
+  border-bottom:none;
+}
+
+.prefwindow-content-box {
+  border-bottom : 2px groove ThreeDFace;
+  /*margin-bottom : 0.4em;*/
+}

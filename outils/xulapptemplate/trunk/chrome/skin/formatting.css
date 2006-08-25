@@ -1,0 +1,61 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+  
+/** separator rules **/
+/* standard separators */
+
+/* separator are broken in skin firefox/xulrunner */
+
+  separator:not([orient="vertical"])
+    {
+      height: 1.5em;
+    }
+  
+  separator[orient="vertical"] 
+    {
+      width: 1.5em;
+    }
+
+/* thinner separators (50% size) */
+  separator.thin2:not([orient="vertical"])
+    {
+      height: 0.5em;
+    }
+  
+  separator.thin2[orient="vertical"] 
+    {
+      width: 0.5em;
+    }
+
+/* groove separators (50% size) */
+  separator.groove2:not([orient="vertical"])
+    {
+      border-top: 1px solid ThreeDShadow;
+      border-bottom: 1px solid ThreeDHighlight;
+      height: 0px;
+      margin-top: 0.4em;
+      margin-bottom: 0.4em;
+    }
+  
+  separator.groove2[orient="vertical"] 
+    {
+      border-left: 1px solid ThreeDShadow;
+      border-right: 1px solid ThreeDHighlight;
+      width: 0px;
+      -moz-margin-start: 0.4em;
+      -moz-margin-end: 0.4em;
+    }
+  
+/* groove separators (0 padding, for dividing effects) */  
+  separator.groove-thin2:not([orient="vertical"])
+    {
+      border-top: 1px solid ThreeDShadow;
+      border-bottom: 1px solid ThreeDHighlight;
+      height: 0px;
+    }
+  
+  separator.groove-thin2[orient="vertical"] 
+    {
+      border-left : 1px solid ThreeDShadow;
+      border-right: 1px solid ThreeDHighlight;
+      width: 0px;
+    }

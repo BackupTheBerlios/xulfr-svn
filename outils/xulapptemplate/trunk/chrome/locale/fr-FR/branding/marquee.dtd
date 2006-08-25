@@ -1,0 +1,5 @@
+
+<!ENTITY  mainWindow.windowtitle      "&brandFullName;">
+<!ENTITY  mainWindow.titlemodifier    "&brandShortName;">
+<!ENTITY  mainWindow.titlepreface               "">
+<!ENTITY  mainWindow.titlemodifierseparator  " - "> 

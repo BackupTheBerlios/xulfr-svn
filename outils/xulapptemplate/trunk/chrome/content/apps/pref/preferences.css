@@ -1,0 +1,54 @@
+
+
+prefwindow {
+  -moz-binding: url("chrome://apps/content/pref/preferences.xml#prefwindow");  
+  -moz-box-orient: vertical;
+}
+
+prefpane {
+  -moz-binding: url("chrome://apps/content/pref/preferences.xml#prefpane");  
+  -moz-box-orient: vertical;
+  opacity: 0.0;
+}
+
+prefpane[selected="true"] {
+  opacity: 0.0;
+}
+
+prefwindow > prefpane,
+prefwindow > prefpane[selected="true"]
+{
+  opacity: 1.0;
+}
+
+prefwindow > .paneDeckContainer {
+  overflow: hidden;
+}
+
+prefpane > .content-box {
+  overflow: hidden;
+}
+
+prefwindow[type="child"] > prefpane > .content-box {
+  -moz-box-flex: 1;
+  overflow: -moz-hidden-unscrollable;
+}
+
+preferences {
+  -moz-binding: url("chrome://apps/content/pref/preferences.xml#preferences");
+  visibility: collapse;
+}
+
+preference {
+  -moz-binding: url("chrome://apps/content/pref/preferences.xml#preference");  
+  visibility: collapse;
+}
+
+radio[pane] {
+  -moz-binding: url("chrome://apps/content/pref/preferences.xml#panebutton") !important; 
+  -moz-box-orient: vertical;
+  -moz-appearance: none;
+  -moz-box-align: center;
+}
+
+

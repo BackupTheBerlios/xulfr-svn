@@ -1,0 +1,8 @@
+<!ENTITY  brandVersion          "0.0.1">
+<!ENTITY  brandShortName        "XulApp">
+<!ENTITY  brandFullName         "Xul Template v&brandVersion;">
+<!ENTITY  vendorShortName       "xulfr.org">
+
+<!ENTITY  releaseURL "http://www.xulfr.org/applications">
+<!ENTITY  vendorURL  "http://www.xulfr.org/">
+

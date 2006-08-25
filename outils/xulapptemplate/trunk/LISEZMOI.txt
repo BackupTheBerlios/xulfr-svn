@@ -1,0 +1,19 @@
+
+Xul template est un squelette d'application XUL qui implémente 
+les fonctionnalités suivantes:
+
+- Console JS
+- Gestion des extensions
+- Préférences
+
+Fonctionne avec xulrunner 1.8.0.*
+
+Pour exécuter l'application, exécuter la commande suivante :
+xulrunner app-template/application.ini
+
+Par défaut, l'application va créée un profil utilisateur
+sous 'xulfr.org'
+
+Amusez vous bien !
+
+David Marteau

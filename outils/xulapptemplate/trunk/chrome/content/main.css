@@ -1,0 +1,4 @@
+@import url(chrome://app/content/common.css);
+@import url(chrome://app/skin/main.css);
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
