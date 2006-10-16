@@ -9,123 +9,105 @@
  * liste des articles.
  * clé de chaque article = nom du fichier original sans le .html
  * tableau :
- *    1 : index pour http://www.xulplanet.com/ndeakin/article/<index>
- *    2 : titre de l'article
- *    3 : tableau (auteur original=>date, correcteur/mainteneur=>date)
- *    4 : clé de l'article précédent
- *    5 : clé de l'article suivant
+ *    0 : titre original en anglais
+ *    1 : titre de l'article en français
+ *    2 : tableau (auteur original=>date, correcteur/mainteneur=>date)
  */
 
 include("liste_articles.php");
 
-/*Autocomplétion des clés 4 et 5*/
-$ex_sect = '';
-foreach($article_list as $sect=>$tb) {
-  if ($sect!='index' && $sect!='') $article_list[$sect][3] = $ex_sect;
-  if ($ex_sect!='index' && $ex_sect!='')  $article_list[$ex_sect][4] = $sect;
-  $ex_sect = $sect;
-///  echo "      <li><strong>$sect</strong> <a href=\"$sect.html\">".$tb[1]."</a></li>\n";
-}
+
+// génération des titres numérotés pour le sommaire, et des titres/lien pour les articles suivant/precedant
 $c = 0;
-foreach($article_chap as $chapitre=>$s_chap) {
-  if ($chapitre!='index') $c++;
-  $cs = 0;
-  foreach($s_chap as $sect=>$tb)
-    if ($chapitre!='index')
-      $article_chap[$chapitre][$sect]['titre'] = $c.'.'.(++$cs).' - '.$tb[1];    //titre numéroté
-    else
-      $article_chap[$chapitre][$sect]['titre'] = $tb[1];
-}
 $ex_sect = $ex_chap = $ex_titre = '';
-foreach($article_chap as $chapitre=>$s_chap)
-  foreach($s_chap as $sect=>$tb) {
-    if ($chapitre!='index') {
-      $article_chap[$chapitre][$sect]['prev'] = $ex_sect;
-      $article_chap[$chapitre][$sect]['prev_titre'] = $ex_titre;
-      if ($ex_sect != '') {
-        $article_chap[$ex_chap][$ex_sect]['next'] = $sect;
-        $article_chap[$ex_chap][$ex_sect]['next_titre'] = $tb['titre'];
-      }
-      $ex_chap = $chapitre;
-      $ex_sect = $sect;
-      $ex_titre = $tb['titre'];
+foreach($article_chap as $chapitre=>$s_chap){
+    if ($chapitre!='index') $c++;
+    $cs = 0;
+
+    foreach($s_chap as $sect=>$tb) {
+        if ($chapitre!='index') {
+            $article_chap[$chapitre][$sect]['titre'] = $c.'.'.(++$cs).' - '.$tb[1];
+            $article_chap[$chapitre][$sect]['prev'] = $ex_sect;
+            $article_chap[$chapitre][$sect]['prev_titre'] = $ex_titre;
+            $article_chap[$ex_chap][$ex_sect]['next'] = $sect;
+            $article_chap[$ex_chap][$ex_sect]['next_titre'] = $tb[1];
+        }else{
+            $article_chap[$chapitre][$sect]['titre'] = $tb[1];
+            $article_chap[$chapitre][$sect]['prev']='';
+            $article_chap[$chapitre][$sect]['prev_titre'] ='';
+            $article_chap[$chapitre][$sect]['next'] = '';
+            $article_chap[$chapitre][$sect]['next_titre'] = '';
+        }
+        $ex_chap = $chapitre;
+        $ex_sect = $sect;
+        $ex_titre = $tb[1];
     }
-  }
-//////////////print_r($article_chap);
+}
+
+if(!isset($article_chap[$chapitre][$sect]['next'])){
+    $article_chap[$chapitre][$sect]['next'] = '';
+    $article_chap[$chapitre][$sect]['next_titre'] = '';
+}
+
 
 /*Génération automatique du sommaire*/
 $first = true;
 $c = 0;
 $sommaire_html = "<ul>\n";
+$start=$start_titre='';
 foreach($article_chap as $chapitre=>$s_chap) {
-  if ($chapitre!='index') {
-    $sommaire_html.= "<li>".(++$c).". $chapitre <ul>";
-    $cs = 1;
-    foreach($s_chap as $sect=>$tb) {
-      if ($first) { $start = $sect; $start_titre = $tb['titre']; $first = false; }
-      $sommaire_html.= "    <li>$c.".($cs++)." <a href=\"$sect\">$tb[1]</a></li>\n";
+    if ($chapitre!='index') {
+        $sommaire_html.= "<li>".(++$c).". $chapitre <ul>";
+        $cs = 1;
+        foreach($s_chap as $sect=>$tb) {
+            if ($first) {
+                $start = $sect;
+                $start_titre = $tb['titre'];
+                $first = false;
+            }
+            $sommaire_html.= "    <li>$c.".($cs++)." <a href=\"$sect\">".$tb[1]."</a></li>\n";
+        }
+        $sommaire_html.= "  </ul></li>\n";
     }
-    $sommaire_html.= "  </ul></li>\n";
-  }
 }
 $sommaire_html .= "</ul>\n";
 
 $last = $sect;
 $last_titre = $tb['titre'];
-//////////////////////echo $sommaire_html; exit();
-/*
-$sommaire_html = "<ol>\n";;
-foreach($article_list as $sect=>$tb) {
-  if ($sect!='index') $sommaire_html.= "  <li><a href=\"$sect.html\">".$tb[1]."</a>".(is_file("src/$sect.html")?'':' (traduction en cours)')."</li>\n";
-}
-$sommaire_html.= "</ol>\n";
-*/
+
 
 /*Génération de tous les pages*/
 $c = $cs = 0;
 foreach($article_chap as $chapitre => $s_chap) {
-  $c++;
-  foreach($s_chap as $sect => $tb) {
-   $cs++;
-   $num = $c.'.'.$cs.' - ';
-//////////////foreach($article_list as $basename => $article){
+    $c++;
+    foreach($s_chap as $sect => $tb) {
+        $cs++;
+        $num = $c.'.'.$cs.' - ';
 
-   list($mdc, $page_chapitre, $auteurs) = $tb;
-   $page_titre = $tb['titre'];
-   $prev = $tb['prev']; $prev_titre = $tb['prev_titre'];
-   $next = $tb['next']; $next_titre = $tb['next_titre'];
-   $basename = basename($sect,'.html');
-   $mdc_l = ($mdc!='') ? ':'.$mdc : '';
+        list($mdc, $page_chapitre, $auteurs) = $tb;
+        $page_titre = $tb['titre'];
+        $prev = $tb['prev']; $prev_titre = $tb['prev_titre'];
+        $next = $tb['next']; $next_titre = $tb['next_titre'];
+        $basename = basename($sect,'.html');
+        $mdc_l = ($mdc!='') ? ':'.$mdc : '';
+echo "page $basename ";
+        if($basename != 'index'){
+            $header_links='
+            <link rel="up"   href="index.html" title="Sommaire" />
+            <link rel="chapter" href="index.html" title="Comment réussir vos gabarits ?" />
+            ';
 
-    if($basename != 'index'){
-        $header_links='
-        <link rel="up"   href="index.html" title="Sommaire" />
-        <link rel="chapter" href="index.html" title="Comment réussir vos gabarits ?" />
-        ';
+            if($prev != '') $header_links.='<link rel="prev" href="'.$prev.'" title="'.$prev_titre.'" />'."\n";
+            if($next != '') $header_links.='<link rel="next" href="'.$next.'" title="'.$next_titre.'" />'."\n";
+            if($sect != $start) $header_links.= '<link rel="first" href="'.$start.'" title="'.$start_titre.'" />'."\n";
+            if($sect != $last)  $header_links.= '<link rel="last"  href="'.$last. '" title="'.$last_titre. '" />'."\n";
 
-
-
-        if($prev != '') $header_links.='<link rel="prev" href="'.$prev.'" title="'.$prev_titre.'" />'."\n";
-        if($next != '') $header_links.='<link rel="next" href="'.$next.'" title="'.$next_titre.'" />'."\n";
-         if ($sect != $start) $header_links.= '<link rel="first" href="'.$start.'" title="'.$start_titre.'" />'."\n";
-         if ($sect != $last)  $header_links.= '<link rel="last"  href="'.$last. '" title="'.$last_titre. '" />'."\n";
-/* ?? c'est quoi ?
-        reset($article_list);
-        $first=current($article_list);
-        if($basename !=key($article_list))
-            $header_links.='<link rel="first" href="'.key($article_list).'.html" title="'.$first[1].'" />'."\n";
-
-        $last=end($article_list);
-        if($basename !=key($article_list))
-            $header_links.='<link rel="last" href="'.key($article_list).'.html" title="'.$last[1].'" />'."\n";
-*/
-   }
-   $page_traduction_auteur='';
-   foreach($auteurs as $auteur=>$datetraduc){
-      $page_traduction_auteur.=', '.$auteur;
-
-   }
-   $page_traduction_auteur=substr($page_traduction_auteur,2);
+        }
+        $page_traduction_auteur='';
+        foreach($auteurs as $auteur=>$datetraduc){
+            $page_traduction_auteur.=', '.$auteur;
+        }
+        $page_traduction_auteur=substr($page_traduction_auteur,2);
 
  ob_start();
 
@@ -141,10 +123,11 @@ foreach($article_chap as $chapitre => $s_chap) {
 
 
 <!--*headinfo*-->
-<?php  if($basename != 'index'){ ?>
+<?php
+if($basename != 'index'){ ?>
    <title>Comment réussir vos gabarits > <?php echo $chapitre.' > '.$page_chapitre?> - xulfr.org/xulplanet.com</title>
    <link rel="up"   href="index.html" title="Sommaire" />
-<?php
+    <?php
     echo $header_links;
 }else{
     echo '<title>', $page_chapitre, '</title> ';
@@ -281,7 +264,7 @@ ob_clean();
     fwrite($fp,$file);
     fclose($fp);
     chmod($page_url_to, 0666);
-echo "page $basename créée<br />\n";
+    echo " créée<br />\n";
 }
 }
 
