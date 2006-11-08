@@ -20,7 +20,7 @@ le contrôleur demandé et d'appeler la commande. Une manière simple de le faire e
 </p>
 
 <pre><code>var controller = document.commandDispatcher.getControllerForCommand("cmd_paste");
-if (controller && controller.isCommandEnabled("cmd_paste"))
+if (controller &amp;&amp; controller.isCommandEnabled("cmd_paste"))
   controller.doCommand(command);
 }
 </code></pre>
