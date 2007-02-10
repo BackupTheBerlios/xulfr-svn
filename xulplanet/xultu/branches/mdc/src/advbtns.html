@@ -18,6 +18,8 @@ Vous pouvez changer cette position en utilisant deux autres attributs. Ils seron
 
 <pre><code>&lt;button label="Aide" image="happy.png"/&gt;</code></pre>
 
+<h3>Bouton avec une image CSS</h3>
+
 <p>Une autre façon de procéder consiste à spécifier une image en utilisant la
 propriété de <code class="attribut">style</code> CSS <var>list-style-image</var>
 appliquée au bouton. Cette méthode permet de changer l'apparence (dans
@@ -34,8 +36,8 @@ style="list-style-image: url('happy.png')"/&gt;</code></pre>
 <p>Dans ce cas, l'image 'happy.png' est affichée sur le bouton. L'attribut
 <code class="attribut">style</code> fonctionne de façon similaire
 à son homologue HTML. En général, il peut être
-utilisé sur tous les éléments XUL. Notez qu'il serait plus judicieux de placer toutes les déclarations de styles dans une feuille de style
-séparée.</p>
+utilisé sur tous les éléments XUL. Notez qu'il serait plus judicieux de placer toutes 
+les déclarations de styles dans une feuille de style séparée.</p>
 
 <h2>Le positionnement des images</h2>
 
@@ -49,8 +51,7 @@ de l'image et du texte. En définissant cet attribut avec la valeur
 la valeur <var>normal</var>, ou en omettant cet attribut, l'image sera placée
 à gauche du texte.</p>
 
-<p class="note"><acronym title="Note du Traducteur">NdT</acronym>&nbsp;: Sur de vieilles versions de Mozilla, les valeurs à utiliser
-sont respectivement <var>rtl</var> (right-to-left) et <var>ltr</var> (left-to-right).</p>
+<p class="note"><acronym title="Note du Traducteur">NdT</acronym>&nbsp;: Sur de vieilles versions de Mozilla, les valeurs à utiliser sont respectivement <var>rtl</var> (right-to-left) et <var>ltr</var> (left-to-right).</p>
 
 <p>L'attribut <code class="attribut">orient</code> peut être utilisé
 pour placer l'image au-dessus ou en dessous du texte. Sa valeur par défaut
@@ -101,6 +102,8 @@ Si vous spécifiez un attribut <code class="attribut">label</code>
 sur un bouton, il supplantera n'importe quel autre contenu placé
 dans la définition du bouton.</p>
 
+<h3>Bouton avec un menu surgissant</h3>
+
 <p>Vous pouvez mettre un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>
 dans un bouton pour générer une liste déroulante lorsque
 le bouton est enfoncé, à l'instar de l'élément
@@ -120,7 +123,8 @@ avec la valeur <var>menu</var>.</p>
   &lt;/menupopup&gt;
 &lt;/button&gt;</code></pre>
 
-<p>Dans cet exemple, l'utilisateur doit cliquer sur le bouton pour faire apparaître
+<p><img src="images/advbtns2.png" class="screenshot-right" alt="" /> 
+Dans cet exemple, l'utilisateur doit cliquer sur le bouton pour faire apparaître
 un menu contenant trois items de menu. Notez que la sélection d'un des items
 ne change pas le libellé du bouton, contrairement à l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code>.
@@ -128,8 +132,7 @@ Ce type de bouton est destiné à être utilisé
 comme un menu, avec des scripts associés à chaque item, exécutant une tâche précise.
 Nous en verrons plus sur les menus plus tard.</p>
 
-<p><img src="images/advbtns2.png" class="screenshot-right" alt="" />Vous pouvez
-également affecter la valeur <var>menu-button</var> à l'attribut
+<p>Vous pouvez également affecter la valeur <var>menu-button</var> à l'attribut
 <code class="attribut">type</code> (<acronym title="Note du Traducteur">NdT</acronym>&nbsp;:
 <a href="exemples/ex_advbtns_5bis.xul.txt">Source</a>
 <a href="exemples/ex_advbtns_5bis.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>). 

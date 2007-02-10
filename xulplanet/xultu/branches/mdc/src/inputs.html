@@ -1,5 +1,5 @@
 
-<p>XUL possède des éléments qui sont similaires aux champs de formulaires du HTML.</p>
+<p>XUL possède des éléments qui sont similaires aux champs des formulaires HTML.</p>
 
 <h2>Les champs de saisie de texte</h2>
 
@@ -56,6 +56,8 @@ chaque type de champs en XUL.</p>
 &lt;textbox id="some-password" type="password" maxlength="8"/&gt;
 </code></pre>
 
+<h3>Boîte de texte multiligne</h3>
+
 <p>Les exemples de boîtes de texte ci-dessus créent des champs de saisie qui ne
 peuvent être utilisés que pour la saisie d'une seule ligne de texte. Le HTML possède aussi
 un élément <code class="tag">textarea</code> pour créer une zone de saisie plus grande.
@@ -81,6 +83,8 @@ utiliser les attributs <code class="attribut">rows</code> et
 le nombre de lignes et de colonnes de caractères à afficher.</p>
 
 <div class="task">
+<h3>Notre exemple de recherche de fichiers</h3>
+
 <p>Maintenant, ajoutons un champ de saisie de recherche à la boîte de
 dialogue de recherche de fichiers. Nous allons utiliser l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>.</p>
@@ -93,12 +97,12 @@ dialogue de recherche de fichiers. Nous allons utiliser l'élément
 
 &lt;button id="find-button" label="Rechercher"/&gt;</code></pre>
 
-<p>Ajoutez ces lignes avant les boutons que nous avons créés dans la section précédente.
+<p><img alt="" src="images/inputs1.png" class="screenshot-right" />
+Ajoutez ces lignes avant les boutons que nous avons créés dans la section précédente.
 Si vous ouvrez cette fenêtre, vous verrez quelque chose ressemblant à
 l'image ci-dessous.</p>
 
-<p><img alt="" src="images/inputs1.png" class="screenshot-right" />
-Notez que l'étiquette et le champ de saisie de texte sont maintenant apparus dans
+<p>Notez que le libellé et le champ de saisie de texte sont maintenant apparus dans
 la fenêtre. La boîte de texte est complètement fonctionnelle et vous pouvez taper
 et sélectionner du texte dedans. Notez aussi que l'attribut
 <code class="attribut">control</code> a été utilisé. Ainsi, le champ de saisie est
@@ -107,16 +111,15 @@ sélectionnée lorsque l'on clique sur son libellé.</p>
 
 <h2>Les cases à cocher et les boutons radio</h2>
 
-<p> Deux éléments supplémentaires sont utilisés pour la création de cases à cocher
-et de boutons radio. Ce sont des variantes de boutons simples. La case à cocher
-est utilisée pour les options qui peuvent être activées ou désactivées. Les boutons
+<p>Deux éléments supplémentaires sont utilisés pour la création des cases à cocher
+et des boutons radio. Ce sont des variantes de boutons. La case à cocher
+est utilisée pour des options qui peuvent être activées ou désactivées. Les boutons
 radio peuvent être utilisés dans un but similaire quand il y a un ensemble de
 boutons où un seul d'entre eux peut-être sélectionné à la fois.</p>
 
 <p>Vous pouvez employer la plupart des attributs des boutons avec les cases à
 cocher et les boutons radio. L'exemple ci-dessous montre des cases à cocher et
 boutons radio simples.</p>
-
 
 <pre><code>&lt;checkbox id="case-sensitive" checked="true" label="Sensible à la casse"/&gt;
 &lt;radio id="orange" label="Orange"/&gt;
@@ -130,17 +133,19 @@ boutons radio simples.</p>
   vous faudra l'initialiser soit à <var>true</var>, soit
   à <var>false</var>. L'attribut <code class="attribut">label</code>
   peut être utilisé pour ajouter un libellé qui apparaitra
-  à côté de la boîte à cocher. Pour les boutons
+  à côté de la case à cocher. Pour les boutons
   radio, vous utiliserez l'attribut <code class="attribut">selected</code> à la
   place de l'attribut <code class="attribut">checked</code>. Initialisez
   le à <var>true</var> pour avoir un bouton radio sélectionné
   par défaut, ou ne le mettez pas pour les autres boutons radio.</p>
 
-<p>Pour grouper des boutons radio, vous avez besoin d'utiliser l'élément
+<h3>Élement <code>radiogroup</code></h3>
+
+<p>Pour grouper des boutons radio ensemble, vous devez utiliser l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>.
 Un seul bouton radio peut-être
 sélectionné dans un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code>.
-Cliquer sur l'un deux désélectionnera tous les autres du même groupe. C'est ce que démontre
+Cliquez sur l'un deux désélectionnera tous les autres du même groupe. C'est ce que démontre
 l'exemple suivant.</p>
 
 <p>Exemple 2.4.3&nbsp;:
@@ -153,6 +158,8 @@ href="exemples/ex_inputs_3.xul">Voir</a></p>
   &lt;radio id="violet" selected="true" label="Violet"/&gt;
   &lt;radio id="Jaune" label="Jaune"/&gt;
 &lt;/radiogroup&gt;</code></pre>
+
+<h3>Attributs</h3>
 
 <p>
 Comme pour les boutons, les cases à cocher et les boutons radio sont constitués
