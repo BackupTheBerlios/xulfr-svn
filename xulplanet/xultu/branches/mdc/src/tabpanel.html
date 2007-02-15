@@ -1,108 +1,106 @@
 
+<p>Il est courant de voir apparaître des pages à onglets dans les boîtes
+de dialogues de préférences. Nous allons voir ici comment les créer.</p>
 
-    <p>Il est courant de voir apparaître des pages d'onglets dans les boîtes
-      de dialogues de préférences. Nous allons trouver ici comment
-      les créer.</p>
+<h2>Boîtes d'onglets</h2>
 
-    <h2>Boîtes d'onglets</h2>
+<p>Les boîtes d'onglets sont typiquement utilisées dans une application
+de fenêtre de préférences. Une série d'onglets
+apparaît en travers du bord supérieur de la fenêtre.
+L'utilisateur peut cliquer sur chaque onglet pour voir la sélection
+des options. L'emploi d'onglets est très utile lorsque vous avez plus d'options
+qu'il ne peut en tenir sur l'écran.</p>
 
-    <p>Les boîtes d'onglets sont typiquement utilisées dans une application
-      de fenêtre de préférences. Une série d'onglets
-      apparaît en travers du bord supérieur de la fenêtre.
-      L'utilisateur peut cliquer sur chaque onglet pour voir la sélection
-      des options. L'emploi d'onglets est très utile lorsque vous avez plus d'options
-      qu'il ne peut en tenir sur l'écran.</p>
+<p>XUL offre une méthode pour créer de telles boîtes de
+dialogues. Elles nécessitent cinq nouveaux éléments
+qui sont décrits brièvement ici et plus en détail par
+la suite.</p>
 
-    <p>XUL offre une méthode pour créer de telles boîtes de
-      dialogues. Elles nécessitent cinq nouveaux éléments
-      qui sont décrits brièvement ici et plus en détail par
-      la suite.</p>
+<dl>
+  <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code></dt>
+  <dd>La boîte externe qui contient les onglets sur le haut et les
+      pages correspondantes elles mêmes.</dd>
+  <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code></dt>
+  <dd>La boîte interne qui contient les onglets individuellement. En
+      d'autres termes, il s'agit d'un groupement d'onglets.</dd>
+  <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code></dt>
+  <dd>Un onglet spécifique. Cliquer sur un onglet remonte la page de
+      l'onglet au premier plan.</dd>
+  <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code></dt>
+  <dd>Le container des pages.</dd>
+  <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code></dt>
+  <dd>Le corps d'une page seule. Vous allez placer le contenu d'une page
+    dans cette élément. Le premier <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
+    correspond au premier onglet, le second
+    <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
+    correspond au second onglet, et ainsi de suite.</dd>
+</dl>
 
-    <dl>
-      <dt> <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code></dt>
-      <dd> La boîte externe qui contient les onglets sur le haut et les
-        pages correspondantes elles mêmes.</dd>
-      <dt> <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code></dt>
-      <dd> La boîte interne qui contient les onglets individuellement. En
-        d'autres termes, il s'agit d'un groupement d'onglets.</dd>
-      <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code></dt>
-      <dd>Un onglet spécifique. Cliquer sur un onglet remonte la page de
-        l'onglet au premier plan.</dd>
-      <dt> <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code></dt>
-      <dd> Le container des pages.</dd>
-      <dt> <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code></dt>
-      <dd> Le corps d'une page seule. Vous allez placer le contenu d'une page
-        dans cette élément. Le premier <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
-        correspond au premier onglet, le second
-        <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
-        correspond au second onglet, et ainsi de suite.</dd>
-    </dl>
+<p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>
+est l'élément externe. Il est constitué de deux enfants,
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
+qui contient les en-têtes des onglets, et l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code>
+qui contient les pages d'onglets.</p>
 
-    <p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>
-      est l'élément externe. Il est constitué de deux enfants,
-      l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
-      qui contient les en-têtes des onglets, et l'élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code>
-      qui contient les pages d'onglets.</p>
-
-    <p>La syntaxe typique d'une boîte d'onglets est décrite ci dessous&nbsp;:</p>
+<p>La syntaxe typique d'une boîte d'onglets est décrite ci dessous&nbsp;:</p>
 
 <pre><code>&lt;tabbox id=&quot;tablist&quot;&gt;
    &lt;tabs&gt;
-     -- les éléments tab viennent ici --
+     &lt;!-- les éléments tab viennent ici --&gt;
    &lt;/tabs&gt;
    &lt;tabpanels&gt;
-     -- les éléments tabpanel viennent ici --
+     &lt;!-- les éléments tabpanel viennent ici --&gt;
    &lt;/tabpanels&gt;
 &lt;/tabbox&gt;</code></pre>
 
-    <p>Les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>
-      sont placés à l'intérieur d'un élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
-      qui se comporte comme une boîte normale.
-      L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
-      lui même a été placé à l'intérieur d'un élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>.
-      Cet élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>
-      contient aussi l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code>
-      qui apparaît en dessous de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
-      à cause de la disposition verticale de la boîte d'onglets.</p>
+<p>Les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>
+sont placés à l'intérieur d'un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
+qui se comporte comme une boîte normale.
+L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
+lui même a été placé à l'intérieur d'un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>.
+Cet élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>
+contient aussi l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code>
+qui apparaît en dessous de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
+à cause de la disposition verticale de la boîte d'onglets.</p>
 
-    <p>Il n'y a réellement rien de spécial au sujet des éléments
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code> qui
-      fassent d'eux quelque chose de différent des boîtes.
-      La différence est que les onglets ont un rendu sensiblement différent
-      et seulement le contenu de la page d'un seul onglet sera visible à
-      la fois, comme peut le faire l'élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/deck">deck</a></code>.</p>
+<p>Il n'y a réellement rien de spécial au sujet des éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code> qui
+les rendent différents des boîtes. Comme pour les boîtes, les onglets peuvent contenir n'importe quels éléments.
+La différence est que les onglets ont un rendu sensiblement différent
+et seulement le contenu de la page d'un seul onglet sera visible à
+la fois, comme peut le faire l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/deck">deck</a></code>.</p>
 
-    <p>Le contenu des pages correspondant à chaque onglet doit être
-      placé dans chaque élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
-      correspondant. Il ne doit pas être mis dans un élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code> qui contient,
-      lui, le contenu descriptif de l'onglet sur le bord supérieur (et
-      qui peut contenir n'importe quels éléments lui même).</p>
+<p>Le contenu des pages correspondant à chaque onglet doit être
+placé dans chaque élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
+correspondant. Il ne doit pas être mis dans un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code> qui contient,
+lui, le contenu descriptif de l'onglet sur le bord supérieur.</p>
 
-    <p>Chaque élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
-      devient une page de l'onglet affiché. La première page correspond
-      au premier onglet, la seconde page correspond au second onglet, et ainsi
-      de suite. Il y a une relation de un-à-un entre chaque élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code> et chaque
-      élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>.</p>
+<p>Chaque élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>
+devient une page de l'onglet affiché. La première page correspond
+au premier onglet, la seconde page correspond au second onglet, et ainsi
+de suite. Il y a une relation de un-à-un entre chaque élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code> et chaque
+élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanel">tabpanel</a></code>.</p>
 
-    <p>Pour déterminer la dimension d'une boîte d'onglets, la taille
-      de la plus grande page est utilisée. Ainsi, si vous avez
-      dix champs de saisie sur une page et seulement un sur une autre page,
-      cette seconde page sera dimensionnée pour s'ajuster à celle
-      qui contient les dix champs de saisie en occupant plus d'espace. La
-      surface occupée par la page d'un onglet ne change pas lorsque l'utilisateur
-      bascule vers une page d'un autre onglet.</p>
+<p>Pour déterminer la dimension d'une boîte d'onglets, la taille
+de la plus grande page est utilisée. Ainsi, si vous avez
+dix champs de saisie sur une page et seulement un sur une autre page,
+cette autre page sera dimensionnée pour s'ajuster à celle
+qui contient les dix champs de saisie en occupant plus d'espace. La
+surface occupée par la page d'un onglet ne change pas lorsque l'utilisateur
+bascule vers une page d'un autre onglet.</p>
 
-    <p>Regardons un exemple contenant deux onglets&nbsp;:</p>
+<h3>Exemple de boîte d'onglets</h3>
 
-    <p>Exemple 4.3.1&nbsp;: <a href="exemples/ex_tabpanel_1.xul.txt">Source</a>
-    <a href="exemples/ex_tabpanel_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<p>Exemple 4.3.1&nbsp;: 
+<a href="exemples/ex_tabpanel_1.xul.txt">Source</a>
+<a href="exemples/ex_tabpanel_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;tabbox&gt;
    &lt;tabs&gt;
@@ -119,63 +117,70 @@
    &lt;/tabpanels&gt;
 &lt;/tabbox&gt;</code></pre>
 
-    <p><img src="images/tabpanel1.png" class="screenshot-left" alt="" />Ici, deux
-      onglets ont été ajoutés. Le premier est intitulé
-      'Courrier' et l'autre est intitulé 'Forum'. Lorsque l'utilisateur
-      clique sur l'onglet 'Courrier', le contenu de la première page
-      est affiché. Dans ce cas, la boîte avec la case à
-      cocher intitulé 'Vérifier automatiquement le courrier'
-      apparaîtra sous cet onglet. Le second onglet, lorsqu'il est cliqué,
-      affichera la boîte contenant le bouton intitulé 'Effacer le
-      cache des forums'. Dans ce code, les deux pages d'onglet ont été
-      nommées 'Courrier' et 'Forum'.</p>
+<p><img src="images/tabpanel1.png" class="screenshot-left" alt="" />
+Ici, deux onglets ont été ajoutés. Le premier est intitulé
+'Courrier' et l'autre est intitulé 'Forum'. Lorsque l'utilisateur
+clique sur l'onglet 'Courrier', le contenu de la première page
+est affiché. Dans ce cas, la boîte avec la case à
+cocher intitulé 'Vérifier automatiquement le courrier'
+apparaîtra sous cet onglet. Le second onglet, lorsqu'il est cliqué,
+affichera la boîte contenant le bouton intitulé 'Effacer le
+cache des forums'.</p>
 
-    <p>L'onglet courant sélectionné est donné par un attribut
-      supplémentaire <code class="attribut">selected</code> initialisé
-      à <var>true</var> sur un élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>.
-      Il sert à donner à l'onglet par défaut un aspect
-      différent de telle fa&ccedil;on qu'il apparaisse sélectionné.
-      Un seul onglet peut avoir cet attribut avec une valeur <var>true</var>.</p>
+<p>L'onglet courant sélectionné est donné par un attribut
+supplémentaire <code class="attribut">selected</code> initialisé
+à <var>true</var> sur un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>.
+Il sert à donner à l'onglet par défaut un aspect
+différent de telle façon qu'il apparaisse sélectionné.
+Un seul onglet peut avoir cet attribut avec une valeur <var>true</var>.</p>
 
-    <p>Finalement, vous pouvez changer la position des onglets pour qu'ils apparaissent
-      sur n'importe quel c&ocirc;té des pages d'onglets. Il n'y a pas de
-      syntaxe spéciale pour faire cela. Vous n'avez qu'à simplement
-      arranger la position des onglets et de spécifier l'attribut
-      <code class="attribut">orient</code>
-      si nécessaire. Souvenez vous que les éléments
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>
-      sont des boîtes normales en terme de mise en page. Toutefois, vous
-      devriez laisser les onglets sur le bord supérieur, autrement ils
-      risquent de ne pas avoir une belle apparence avec certains thèmes
-      graphiques.</p>
+<h3>Positionnement des onglets</h3>
 
-    <p><img src="images/tabpanel_extra.png" class="screenshot-right" alt="" />Par exemple,
-      pour mettre les onglets le long du bord gauche, changez l'orientation de
-      l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
-      pour qu'elle soit verticale. Faites ceci si vous voulez voir apparaître
-      les onglets empilés les uns sur les autres. De plus, ajustez l'élément
-      <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>
-      pour qu'il ait une orientation horizontale. Cet ajustement est nécessaire car
-      vous voulez que les onglets apparaissent à c&ocirc;té de leurs
-      pages. (NdT&nbsp;: <a href="exemples/ex_tabs.xul.txt">Source</a>
-      <a href="exemples/ex_tabs.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>)</p>
+<p>Finalement, vous pouvez changer la position des onglets pour qu'ils apparaissent
+sur n'importe quel côté des pages d'onglets. Il suffit de définir les attributs 
+<code class="attribut">orient</code> et <code class="attribut">dir</code> comme nécessaire. 
+Souvenez vous que les éléments
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>
+sont des boîtes normales en terme de mise en page. D'ailleurs, l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code> 
+se comporte comme une boîte normale ayant une orientation verticale par défaut, 
+dans laquelle l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code> 
+est une boîte ayant une orientation horizontale.</p>
 
-    <p>Vous pouvez placer les onglets le long du bord droit en dépla&ccedil;ant
-      l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code> en dessous de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code>.</p>
+<p><img src="images/tabpanel_extra.png" class="screenshot-right" alt="" />
+Par exemple, pour mettre les onglets le long du bord gauche, changez l'orientation de
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code>
+pour qu'elle soit verticale. Ils seront
+empilés les uns sur les autres. Ensuite, mettez une orientation horizontale sur le 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>. 
+Les onglets appaîtront à gauche, et pas au dessus des pages d'onglets. 
+Notez que la modification de l'orientation de l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code> 
+n'aura aucun effet puisque les pages d'onglets sont empilées les unes sur les autres. 
+(NdT&nbsp;: <a href="exemples/ex_tabs.xul.txt">Source</a>
+<a href="exemples/ex_tabs.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>)</p>
 
-    <h2>Ajout d'onglets à la boîte de dialogue de recherche de fichiers</h2>
+<p>Vous pouvez placer les onglets le long du bord droit ou en bas en déplaçant
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabs">tabs</a></code> 
+après l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code>.
+De plus, vous devrez définir l'attribut <code class="attribute">dir</code> à <var>reverse</var> 
+sur <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabbox">tabbox</a></code>. 
+Cependant, vous devriez laisser les onglets en haut car leur rendu graphique risque d'être 
+mauvais avec certains thèmes graphiques particuliers.</p>
 
 <div class="task">
-    <p>Ajoutons une seconde page à notre boîte de dialogue de recherche
-      de fichiers. Nous allons créer un onglet 'Options' qui contiendra
-      quelques options de recherche. Ce n'est peut être pas la meilleure interface pour
-      faire cela, mais nous l'utiliserons pour la démonstration des onglets.
-      Le libellé d'en-tête et la boîte de critères de
-      recherche iront dans la première page d'onglet. Nous allons ajouter
-      quelques options dans une seconde page d'onglet. La barre de progression
-      et les boutons peuvent rester sur la boîte de dialogue principale,
-      en dehors des onglets.</p>
+<h2>Ajout d'onglets à la boîte de dialogue de recherche de fichiers</h2>
+
+<p>Ajoutons une seconde page à notre boîte de dialogue de recherche
+de fichiers. Nous allons créer un onglet 'Options' (en le sélectionnant par défaut) qui contiendra
+quelques options de recherche. Ce n'est peut être pas la meilleure interface pour
+faire cela, mais nous l'utiliserons pour la démonstration des onglets.
+Le libellé d'en-tête et la boîte de critères de
+recherche iront dans la première page d'onglet. Nous allons ajouter
+quelques options dans la seconde page d'onglet. La barre de progression
+et les boutons restent sur la boîte de dialogue principale,
+en dehors des onglets.</p>
 
 <pre><code>&lt;vbox flex=&quot;1&quot;&gt;
 
@@ -227,26 +232,22 @@
 &lt;/tabbox&gt;</strong>
 &lt;/vbox&gt;</code></pre>
 
-      <p><img src="images/tabpanel2.png" class="screenshot" alt="" /></p>
-      <p>Les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>
-        ont été placés autour du contenu principal de la
-        fenêtre. Vous pouvez voir les deux onglets, 'Recherche' et 'Options'.
-        En cliquant sur chacun d'eux, vous faites apparaître les pages correspondantes.
-        Comme montré sur l'image ci-dessus, les deux options de recherche
-        apparaissent sur le deuxième onglet. La première page ressemble
-        beaucoup à ce qu'elle était avant, exceptée la présence
-        des onglets sur le bord supérieur.</p>
+<p><img src="images/tabpanel2.png" class="screenshot-right" alt="" />
+Les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>
+ont été placés autour du contenu principal de la
+fenêtre. Vous pouvez voir les deux onglets, 'Recherche' et 'Options'.
+En cliquant sur chacun d'eux, vous faites apparaître les pages correspondantes.
+Comme montré sur l'image ci-dessus, les deux options de recherche
+apparaissent sur le deuxième onglet. La première page ressemble
+beaucoup à ce qu'elle était avant, exceptée la présence
+des onglets sur le bord supérieur.</p>
 
-      <p>Exemple de recherche de fichiers&nbsp;: <a href="exemples/findfile/findfiles-tabpanel.xul.txt">Source</a>
-        <a href="exemples/findfile/findfiles-tabpanel.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+<p>Exemple de recherche de fichiers&nbsp;: 
+<a href="exemples/findfile/findfiles-tabpanel.xul.txt">Source</a>
+<a href="exemples/findfile/findfiles-tabpanel.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 </div>
 
 <hr />
 
-    <p>Dans la section suivante, nous allons voir comment créer des grilles pour le placement 
-    de contenus.</p>
-
-
-
-
-
+<p>Dans la section suivante, nous allons voir comment créer des grilles pour le placement 
+de contenus.</p>
