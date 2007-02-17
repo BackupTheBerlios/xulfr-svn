@@ -8,8 +8,7 @@
 <button id="okbutton" label="OK"/>
 
 <script>
-function buttonPressed(event)
-{
+function buttonPressed(event) {
   alert('Le bouton a été pressé !');
 }
 

@@ -8,8 +8,7 @@
 
 <script>
 
-function updateMouseCoordinates(event)
-{
+function updateMouseCoordinates(event) {
   var text = "X:" + event.clientX + " Y:" + event.clientY;
   document.getElementById("xy").value = text;
 }
