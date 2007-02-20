@@ -1,11 +1,12 @@
+
 <p>Le <acronym title="Document Object Model">DOM</acronym> fournit de nombreuses fonctions pour modifier un document.</p>
 
 <h2>Création de nouveaux éléments</h2>
 
-<p>Vous pouvez créer de nouveaux éléments en utilisant la fonction <code>createElement</code> 
+<p>Vous pouvez créer de nouveaux éléments en utilisant la fonction <code>createElement()</code> 
 du document. Elle ne prend qu'un argument, le nom de la balise de l'élément à créer. Vous pouvez 
-ensuite lui affecter des attributs en utilisant la fonction <code>setAttribute</code> et ajouter 
-cet élément au document XUL grâce à la fonction <code>appendChild</code>. L'exemple suivant ajoute 
+ensuite lui affecter des attributs en utilisant la fonction <code>setAttribute()</code> et ajouter 
+cet élément au document XUL grâce à la fonction <code>appendChild()</code>. L'exemple suivant ajoute 
 un bouton à une fenêtre XUL&nbsp;:</p>
 
 <p>Exemple 7.2.1&nbsp;:
@@ -13,8 +14,7 @@ un bouton à une fenêtre XUL&nbsp;:</p>
 <a href="exemples/ex_dommodify_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;script&gt;
-function addButton()
-{
+function addButton() {
   var aBox = document.getElementById("aBox");
 
   var button = document.createElement("button");
@@ -27,21 +27,22 @@ function addButton()
   &lt;button label="Ajouter" oncommand="addButton();"/&gt;
 &lt;/box&gt;</code></pre>
 
-<p>Le script récupère d'abord une référence à la boîte qui est le container 
-dans lequel le nouveau bouton sera ajouté. La fonction <code>createElement</code> 
-crée un nouveau bouton. Nous assignons un libellé <var>Un bouton</var> à ce bouton 
-avec la fonction <code>setAttribute</code>. La fonction <code>appendChild</code> 
-de la boîte est appelée pour lui ajouter le bouton.</p>
+<ul>
+  <li>Le script récupère d'abord avec <code>getElementById()</code> une référence à la boîte qui est le container dans lequel le nouveau bouton sera ajouté.</li>
+  <li>La fonction <code>createElement</code> crée un nouveau bouton.</li>
+  <li>Nous assignons un libellé <var>Un bouton</var> à ce bouton avec la fonction <code>setAttribute</code>.</li>
+  <li>La fonction <code>appendChild</code> de la boîte est appelée pour lui ajouter le bouton.</li>
+</ul>
 
-<p>La fonction <code>createElement</code> va créer l'élément type par défaut du 
+<p>La fonction <code>createElement()</code> va créer l'élément type par défaut du 
 document. Pour des documents XUL, il sera généralement question de création d'éléments 
 XUL. Pour un document HTML, un élément HTML sera créé, et donc, il aura les fonctionnalités 
-et les fonctions d'un élément HTML. La fonction <code>createElementNS</code> 
+et les fonctions d'un élément HTML. La fonction <code>createElementNS()</code> 
 peut être utilisée pour créer des éléments dans un espace de nommage différent.</p>
 
-<p>La fonction <code>appendChild</code> est utilisée pour ajouter un élément en tant 
+<p>La fonction <code>appendChild()</code> est utilisée pour ajouter un élément en tant 
 qu'enfant d'un autre élément. Il existe trois fonctions associées qui sont les fonctions 
-<code>insertBefore</code>, <code>replaceChild</code> et <code>removeChild</code>. 
+<code>insertBefore()</code>, <code>replaceChild()</code> et <code>removeChild()</code>. 
 Leur syntaxe est la suivante&nbsp;:</p>
 
 <pre><code>parent.appendChild(elementEnfant);
@@ -49,12 +50,13 @@ parent.insertBefore(elementEnfant, referenceChild);
 parent.replaceChild(nouvelElementEnfant, ancienElementEnfant);
 parent.removeChild(elementEnfant);</code></pre>
 
-<p>Le nom de ces fonctions suffit à comprendre ce qu'elles font. La fonction <code>insertBefore</code> 
-insère un nouveau n½ud enfant avant un autre existant. Elle est utilisée pour réaliser 
-une insertion à l'intérieur d'une série d'enfants plutôt qu'à la fin comme le fait la fonction 
-<code>appendChild</code>. La fonction <code>replaceChild</code> efface un enfant existant 
-et en ajoute un nouveau à sa place, à la même position. Pour finir, la fonction 
-<code>removeChild</code> supprime un n½ud.</p>
+<p>Le nom de ces fonctions suffit à comprendre ce qu'elles font.</p>
+
+<ul>
+  <li>La fonction <code>insertBefore()</code> insère un nouveau n½ud enfant avant un autre existant. Elle est utilisée pour réaliser une insertion à l'intérieur d'une série d'enfants plutôt qu'à la fin comme le fait la fonction <code>appendChild</code>.</li>
+  <li>La fonction <code>replaceChild()</code> efface un enfant existant et en ajoute un nouveau à sa place, à la même position.</li>
+  <li>Pour finir, la fonction <code>removeChild()</code> supprime un n½ud.</li>
+</ul>
 
 <p class="note">Notez que pour toutes ces fonctions, l'enfant de référence ou l'enfant à supprimer 
 doit exister sinon une erreur sera générée.</p>
@@ -65,14 +67,16 @@ Puisqu'un n½ud ne peut exister qu'à un seul emplacement à la fois, le mécanisme 
 se chargera toujours d'effacer d'abord le n½ud de son emplacement initial. C'est une méthode 
 pratique pour déplacer un n½ud dans un document.</p>
 
-<p>Toutefois, pour copier un n½ud, vous devrez appeler la fonction <code>cloneNode</code>. 
+<h3>Copie de n½uds</h3>
+
+<p>Toutefois, pour copier un n½ud, vous devrez appeler la fonction <code>cloneNode()</code>. 
 Cette fonction réalise une copie d'un n½ud existant, ce qui vous permet ensuite de l'ajouter 
 autre part. Le n½ud original restera à sa place. Elle prend un argument booléen indiquant si 
 elle doit copier tous les n½uds enfants ou non. Si la valeur est <var>false</var>, seul le 
 n½ud est copié, comme s'il n'avait jamais eu aucun enfant. Si la valeur est <var>true</var>, 
 tous les enfants sont également copiés. La copie est faite récursivement, donc pour de larges 
 structures d'arbres, assurez-vous de vouloir réellement passer cette valeur <var>true</var> à 
-la fonction <code>cloneNode</code>. Voici un exemple&nbsp;:</p>
+la fonction <code>cloneNode()</code>. Voici un exemple&nbsp;:</p>
 
 <p>Exemple 7.2.2&nbsp;:
 <a href="exemples/ex_dommodify_2.xul.txt">Source</a>
@@ -88,10 +92,14 @@ la fonction <code>cloneNode</code>. Voici un exemple&nbsp;:</p>
   &lt;/vbox&gt;
 &lt;/hbox&gt;</code></pre>
 
-<p>Lorsque le bouton <var>Copier</var> est appuyé, nous récupérons l'élément voisin suivant de 
-même niveau que le bouton, qui est dans ce cas l'élément 
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>. Une copie 
-de cet élément est effectuée en utilisant la fonction <code>cloneNode</code> et la copie est ajoutée à la fin.</p>
+<p>Lorsque le bouton <var>Copier</var> est appuyé&nbsp;:</p>
+
+<ul>
+  <li>nous récupérons l'élément voisin suivant de même niveau que le bouton, qui est dans 
+  ce cas l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/vbox">vbox</a></code>.</li>
+  <li>une copie de cet élément est effectuée en utilisant la fonction <code>cloneNode()</code></li>
+  <li>et la copie est ajoutée à la fin grâce à <code>appendChild()</code>.</li>
+</ul>
 
 <p class="note">Vous noterez que certains éléments, tels que 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code> 
@@ -106,8 +114,11 @@ peuvent être manipulés grâce à de nombreuses propriétés de script. Les propriété
 sont listées sur la page <a href="http://www.xulplanet.com/references/elemref/">référence des éléments</a> 
 car celles disponibles varient selon les éléments. Les propriétés communes que vous pouvez 
 manipuler sont <code>label</code>, <code>value</code>, <code>checked</code> et <code>disabled</code>. 
-Elles affectent ou effacent les attributs correspondants si nécessaire. Voici un exemple 
-simple de changement d'un libellé de bouton&nbsp;:</p>
+Elles affectent ou effacent les attributs correspondants si nécessaire.</p>
+
+<h3>Exemples de propriétés <code class="attribute">label</code> et <code class="attribute">value</code></h3>
+
+<p>Voici un exemple simple de changement d'un libellé de bouton&nbsp;:</p>
 
 <p>Exemple 7.2.3&nbsp;:
 <a href="exemples/ex_dommodify_3.xul.txt">Source</a>
@@ -129,7 +140,7 @@ vous pouvez faire quelque chose de similaire pour sa propriété <code class="attr
 <p>Cet exemple ajoute un <var>1</var> dans le champ de saisie chaque fois que le bouton 
 est pressé. La propriété <code>nextSibling</code> permet d'atteindre l'élément suivant le 
 bouton (this), le champ de saisie <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>. 
-L'opérateur += sert à ajouter un <var>1</var> à la fin du texte de la valeur courante. 
+L'opérateur <code>+=</code> sert à ajouter un <var>1</var> à la fin du texte de la valeur courante. 
 Notez que vous pouvez encore ajouter du texte dans ce champ de saisie. Vous pouvez récupérer 
 le libellé courant ou la valeur en utilisant ses propriétés, comme dans l'exemple suivant&nbsp;:</p>
 
@@ -138,6 +149,8 @@ le libellé courant ou la valeur en utilisant ses propriétés, comme dans l'exempl
 <a href="exemples/ex_dommodify_5.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;button label="Bonjour" oncommand="alert(this.label);"/&gt;</code></pre>
+
+<h3>Changement d'état d'une case à cocher</h3>
 
 <p>Les cases à cocher disposent d'une propriété <code class="attribut">checked</code> qui 
 sert à les cocher ou à les décocher. Il est facile de comprendre son usage. Dans l'exemple 
@@ -153,12 +166,14 @@ est un booléen qui prend une valeur <var>true</var> ou <var>false</var>.</p>
 <pre><code>&lt;button label="Changer" oncommand="this.nextSibling.checked = !this.nextSibling.checked;"/&gt;
 &lt;checkbox label="Cochez pour les messages"/&gt;</code></pre>
 
-<p>Les boutons radios peuvent également être sélectionnés en utilisant les propriétés, 
+<p>Les boutons radios peuvent également être sélectionnés en utilisant des propriétés, 
 toutefois, un seul est sélectionné à la fois dans un groupe, tous les autres étant décochés. 
 Vous n'avez pas à réaliser cette gestion manuellement. La propriété <code>selectedIndex</code> 
 du <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code> 
 peut être utilisée pour cela. La propriété <code>selectedIndex</code> sert à récupérer 
 l'index du bouton radio sélectionné dans le groupe. Il sert également à le modifier.</p>
+
+<h3>Modification de l'état activé ou désactivé d'un élément</h3>
 
 <p>Il est habituel de désactiver des champs particuliers qui ne servent pas dans une 
 situation donnée. Par exemple, dans la boîte de dialogue des préférences, vous avez 
@@ -170,8 +185,7 @@ Voici un exemple de création de ce type d'interface&nbsp;:</p>
 <a href="exemples/ex_dommodify_7.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;script&gt;
-function updateState()
-{
+function updateState() {
   var name = document.getElementById("name");
   var sindex = document.getElementById("group").selectedIndex;
   if (sindex == 0) name.disabled = true;
@@ -187,7 +201,7 @@ function updateState()
   &lt;/hbox&gt;
 &lt;/radiogroup&gt;</code></pre>
 
-<p>Dans cet exemple, une fonction <code>updateState</code> est appelée chaque fois qu'un 
+<p>Dans cet exemple, une fonction <code>updateState()</code> est appelée chaque fois qu'un 
 événement de sélection est déclenché depuis le groupe de boutons radios. Elle est exécutée 
 lorsque qu'un bouton radio est sélectionné. La fonction retournera l'indice de l'élément 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radio">radio</a></code> 
