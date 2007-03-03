@@ -1,29 +1,25 @@
+
 <p>Nous allons voir ici des caractéristiques supplémentaires sur les arbres.</p>
 
 <h2>Arbres hiérarchiques</h2>
 
-<p>
-L'élement <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> est aussi
+<p>L'élement <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> est aussi
 utilisé pour créer des listes hiérarchiques, comme on en trouve dans
-un gestionnaire de fichiers ou dans les listes de marque-pages d'un navigateur. La vue arborescente
+un gestionnaire de fichiers ou dans les listes de marque-pages d'un navigateur. La vue d'arbre
 a plusieurs fonctions qui spécifient la hiérarchie des éléments dans un arbre. Chaque élément dans
 l'arbre possède un niveau commençant à 0. Les éléments les plus élevés dans l'arbre auront
 un niveau à 0, Les fils de ces éléments auront un niveau à 1, les fils
 en dessous auront un niveau à 2, et ainsi de suite. L'arbre demandera l'affichage pour
-le niveau de chaque élément afin de déterminer comment dessiner les rangées.
-</p>
+le niveau de chaque élément afin de déterminer comment dessiner les rangées.</p>
 
-<p>
-L'arbre dessinera les flèches d'ouverture et de fermeture pour ouvrir et fermer un élément parent
+<p>L'arbre dessinera les flèches d'ouverture et de fermeture pour ouvrir et fermer un élément parent
 ainsi que les lignes reliant les fils à leurs parents. L'arbre se chargera aussi
 de dessiner les rangées avec le niveau correct d'indentation. Cependant, la vue
 devra s'assurer de conserver l'état des niveaux de chaque ligne si nécessaire.
 Ce travail peut parfois être un peu délicat, mais heureusement, le module natif de vue d'arbre
-réalise tout le travail difficile pour nous.
-</p>
+réalise tout le travail difficile pour nous.</p>
 
-<p>
-Pour créer un ensemble de rangées imbriquées, tout ce que nous devons faire est d'ajouter un second
+<p>Pour créer un ensemble de rangées imbriquées, tout ce que nous devons faire est d'ajouter un second
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
 élément à l'intérieur du parent
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code>.
@@ -32,23 +28,18 @@ pour spécifier les rangées filles d'un élément. Ne mettez pas d'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>
 à l'intérieur de
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code> car
-ceci ne marchera pas.
-</p>
+ceci ne marchera pas.</p>
 
-<p>
-Vous pouvez répéter ce processus pour créer les arbres profondément imbriqués. Essentiellement,
+<p>Vous pouvez répéter ce processus pour créer les arbres profondément imbriqués. Essentiellement,
 un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code>
 peut contenir soit une simple ligne déclarée avec l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treerow">treerow</a></code>,
 soit un ensemble de lignes déclarées avec l'élément 
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>.
-</p>
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>.</p>
 
-<p>
-Il y a deux autres choses à faire pour vous assurer que la hiérarchie fonctionne correctement.
+<p>Il y a deux autres choses à faire pour vous assurer que la hiérarchie fonctionne correctement.
 Premièrement, vous devez marquer l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treeitem">treeitem</a></code> 
-possédant des fils comme conteneur. Il vous suffit d'ajouter l'attribut <code class="attribut">container</code> comme ceci&nbsp;:
-</p>
+possédant des fils comme conteneur. Il vous suffit d'ajouter l'attribut <code class="attribut">container</code> comme ceci&nbsp;:</p>
 
 <pre><code>&lt;treeitem container="true"/&gt;</code></pre>
 
@@ -65,6 +56,8 @@ sur la première colonne. Il fait apparaître un petit triangle ou un signe + deva
 dans cette colonne pour indiquer les cellules pouvant être dépliées. De plus, les lignes
 filles sont indentées. Notez aussi que l'utilisateur ne peut pas cacher cette colonne
 via le petit menu déroulant à droite des colonnes.</p>
+
+<h3>Exemple d'arbre hiérarchique</h3>
 
 <p>Voici un exemple simple&nbsp;:</p>
 
@@ -90,22 +83,21 @@ via le petit menu déroulant à droite des colonnes.</p>
             &lt;treecell label="Bob"/&gt;
             &lt;treecell label="Carpenter"/&gt;
           &lt;/treerow&gt;
-
         &lt;/treeitem&gt;
         &lt;treeitem&gt;
           &lt;treerow&gt;
             &lt;treecell label="Jerry"/&gt;
             &lt;treecell label="Hodge"/&gt;
           &lt;/treerow&gt;
-
         &lt;/treeitem&gt;
       &lt;/treechildren&gt;
     &lt;/treeitem&gt;
   &lt;/treechildren&gt;
 &lt;/tree&gt;</code></pre>
 
-<p><img src="images/advtrees1.png" class="screenshot-right" alt="" />Cet exemple crée un arbre
-hiérarchique. Comme on peut le voir sur l'image, un petit signe plus ou moins (souvent appelé «&nbsp;twisty&nbsp;») est
+<p><img src="images/advtrees1.png" class="screenshot-right" alt="" />
+Cet exemple crée un arbre hiérarchique. Comme on peut le voir sur l'image, un petit signe plus 
+ou moins (souvent appelé «&nbsp;twisty&nbsp;») est
 apparu sur la première ligne, indiquant qu'elle contient des lignes filles. En double-cliquant
 sur la ligne, l'utilisateur ouvre ou ferme la liste. Les lignes filles sont indentées.
 Notez comment la ligne «&nbsp;Personnes&nbsp;» n'a besoin que d'une colonne.</p>
@@ -129,7 +121,7 @@ qui devrait quand même être traité comme un conteneur. Par exemple, un répertoir
 vous pouvez ajouter à l'arbre. S'il est mis à <var>true</var>, l'utilisateur peut
 alors déplacer les en-têtes de colonne afin de réarranger l'ordre des colonnes.</p>
 
-<p>Un utilisateur voudra également pouvoir changer la largeur des colonnes. Il vous suffit de placer
+<p>Un utilisateur peut également vouloir modifier la largeur des colonnes. Il vous suffit de placer
 un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/splitter">splitter</a></code>
 entre chaque élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>. 
 Une petite encoche apparaissant entre chaque en-tête de colonne pourra être déplacée par
@@ -142,6 +134,8 @@ puisse encore être retaillée.</p>
 
 <p>Vous pouvez mettre l'attribut <code class="attribut">hidden</code> à <var>true</var> pour cacher par défaut une colonne. L'utilisateur pourra afficher la colonne en la sélectionnant dans la liste
 déroulante au bout de la ligne des en-têtes de colonne.</p>
+
+<h3>mémorisation de l'état des colonnes</h3>
 
 <p>Comme avec tous les éléments XUL, l'attribut <code class="attribut">persist</code> peut être utilisé pour sauvegarder
 l'état des colonnes entre chaque session. Ainsi, la façon dont l'utilisateur aura choisi l'affichage des colonnes 
@@ -182,13 +176,15 @@ indiqué dans l'exemple ci-dessous&nbsp;:</p>
       &lt;/treerow&gt;
     &lt;/treeitem&gt;
   &lt;/treechildren&gt;
-&lt;/tree&gt;
-</code></pre>
+&lt;/tree&gt;</code></pre>
 
-<p>Trois attributs des colonnes doivent être persistants, l'attribut <code class="attribut">width</code>
-pour sauver les largeurs de colonnes, l'attribut <code class="attribut">ordinal</code> contenant la
-position de la colonne, et l'attribut <code class="attribut">hidden</code> indiquant si la colonne
-est visible ou invisible.</p>
+<p>Trois attributs des colonnes doivent être persistants,</p>
+
+<ul>
+  <li>l'attribut <code class="attribut">width</code> pour sauver les largeurs de colonnes,</li>
+  <li>l'attribut <code class="attribut">ordinal</code> contenant la position de la colonne,</li>
+  <li>et l'attribut <code class="attribut">hidden</code> indiquant si la colonne est visible ou invisible.</li>
+</ul>
 
 <hr />
 

@@ -1,9 +1,9 @@
 
 <p>Nous allons voir maintenant comment utiliser un gabarit avec un arbre.</p>
 
-<h2>Ajouter des sources de données aux arbres</h2>
+<h2>Ajout de sources de données aux arbres</h2>
 
-<p>Quand vous utilisez un arbre, vous utilisez souvent un gabarit pour construire son contenu,
+<p>Avec un arbre, vous utiliserez souvent un gabarit pour construire son contenu,
 pour manipuler un grand volume de données hiérarchisées. L'utilisation d'un gabarit avec un
 arbre est très proche au niveau de la syntaxe aux autres éléments. Vous avez besoin d'ajouter
 un attribut <code class="attribut">datasources</code> et <code class="attribut">ref</code> à
@@ -14,8 +14,8 @@ différents types de données.</p>
 
 <p>L'exemple suivant utilise l'historique comme source de données&nbsp;:</p>
 
-<pre><code>&lt;tree datasources="rdf:history" ref="NC:HistoryByDate" flags="dont-build-content"&gt;
-</code></pre>
+<pre><code>&lt;tree datasources="rdf:history" ref="NC:HistoryByDate"
+          flags="dont-build-content"&gt;</code></pre>
 
 <p>Comme il est décrit dans la section précédente, l'arbre peut utiliser un <em>constructeur</em> d'arbre
 pour la génération du gabarit à la place du constructeur normal de contenu.
@@ -28,7 +28,7 @@ Mozilla sur un arbre avec, puis sans l'attribut.</p>
 
 <p>Si vous utilisez le constructeur normal à la place, notez que le contenu ne sera pas construit
 avant qu'il soit nécessaire. Avec les arbres hiérarchiques, les enfants ne sont pas générés avant
-que le noeud parent ne soit ouvert par l'utilisateur.</p>
+que le n½ud parent ne soit ouvert par l'utilisateur.</p>
 
 <p>Dans le gabarit, il n'y aura qu'une cellule 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecell">treecell</a></code>
@@ -36,13 +36,15 @@ pour chaque colonne dans l'arbre. Les cellules devront avoir un attribut <code c
 afin de mettre un libellé à la cellule. Normalement, une propriété RDF se charge de récupérer 
 le libellé à partir de la source de données.</p>
 
+<h3>Exemple d'arbre construit par un gabarit</h3>
+
 <p>L'exemple suivant montre un arbre construit à partir d'un gabarit, dans ce cas le système
 de fichier.</p>
 
-<p>Exemple 9.3.1&nbsp;: <a href="exemples/ex_treetempl_1.xul.txt">Source</a></p>
+<p>Exemple 9.3.1&nbsp;: 
+<a href="exemples/ex_treetempl_1.xul.txt">Source</a></p>
 
-<pre><code>
-&lt;tree id="my-tree" flex="1"
+<pre><code>&lt;tree id="my-tree" flex="1"
        datasources="rdf:files" ref="file:///" flags="dont-build-content"&gt;
   &lt;treecols&gt;
     &lt;treecol id="Name" label="Nom" primary="true" flex="1"/&gt;
@@ -62,8 +64,7 @@ de fichier.</p>
         &lt;/treechildren&gt;
       &lt;/rule&gt;
     &lt;/template&gt;
-&lt;/tree&gt;
-</code></pre>
+&lt;/tree&gt;</code></pre>
 
 <p>Ici, un arbre est créé avec deux colonnes, pour le nom et la date d'un fichier. L'arbre
 doit afficher une liste de fichiers situés dans le répertoire racine. Une seule règle est
@@ -85,8 +86,13 @@ En fait, les éléments à l'extérieur (ou au-dessus) de l'élément qui a l'attribut
 <code class="attribut">uri</code> ne sont pas dupliqués tandis que les éléments avec 
 l'attribut <code class="attribut">uri</code> et les éléments à l'intérieur sont répétés pour chaque ressource.</p>
 
-<p><img src="images/rdfoutl1.jpg" alt="" class="screenshot" />
-</p>
+<p><img src="images/rdfoutl1.jpg" alt="" class="screenshot-right" />
+Comme un constructeur d'arbre est utilisé et non un constructeur de contenu, la structure 
+des éléments dans l'exemple ci-dessus doit être comme indiqué, avec l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code> 
+à l'intérieur de <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code>. 
+Bien que le constructeur d'arbres ne génère pas ces éléments, cette structure est nécessaire 
+pour déterminer comment les générer correctement.</p>
 
 <p>Notez dans l'image que des éléments fils additionnels ont été ajoutés automatiquement sous
 les éléments du niveau supérieur. XUL sait comment ajouter des éléments fils quand les modèles
@@ -108,9 +114,9 @@ L'utilisateur peut changer la colonne de tri et la direction de tri en cliquant 
 colonne. Ce dispositif de tri n'est pas disponible pour des arbres dont le contenu est statique,
 bien que vous puissiez écrire un script pour trier ces données.</p>
 
-<p>Trier implique trois attributs, qui doivent être placés sur les colonnes. Le premier attribut,
+<p>Le tri implique trois attributs, qui doivent être placés sur les colonnes. Le premier attribut,
 <code class="attribut">sort</code>, doit être placé sur une propriété de RDF qui est employée alors
-comme critère de tri. Habituellement, c'est la même que celle utilisée dans l'étiquette de la
+comme critère de tri. Habituellement, c'est la même que celle utilisée pour le libellé de la
 cellule de cette colonne. Si vous le placez sur une colonne, les données seront triées dans cette
 colonne. L'utilisateur peut changer la direction de tri en cliquant sur l'en-tête de colonne. Si vous
 ne placez pas l'attribut <code class="attribut">sort</code> sur une colonne, les données ne pourront
@@ -163,6 +169,9 @@ L'exemple suivant montre une simple colonne&nbsp;:</p>
              persist="width ordinal hidden sortActive sortDirection"
              sort="rdf:http://home.netscape.com/WEB-rdf#LastModifiedDate"/&gt;</code></pre>
 
+<p>D'autres détails sur l'attribut <code class="attribut">persist</code> seront décrits dans 
+<a href="persist.html">une section ultérieure</a>.</p>
+
 <h2>Attributs supplémentaires pour les règles</h2>
 
 <p>Deux attributs supplémentaires peuvent être ajoutés sur l'élément
@@ -182,7 +191,7 @@ d'appliquer des correspondances dans certaines circonstances. Les deux sont des 
   </dd>
 </dl>
 
-<p>Les deux attributs du dessus sont vraiment l'opposé l'un de l'autre. Une ressource pourrait
+<p>Une ressource pourrait
 être un conteneur et être vide en même temps. Toutefois, c'est différent pour une ressource
 qui n'est pas un conteneur. Par exemple, un dossier de marque-pages est un conteneur mait il peut avoir
 ou ne pas avoir d'enfants. Cependant, un simple marque-page ou un séparateur n'est pas un conteneur.</p>
@@ -191,6 +200,5 @@ ou ne pas avoir d'enfants. Cependant, un simple marque-page ou un séparateur n'e
 règles plus spécifiques.</p>
 
 <hr />
+
 <p>Dans la section suivante, nous verrons quelques unes des sources de données fournies par Mozilla.</p>
-
-
