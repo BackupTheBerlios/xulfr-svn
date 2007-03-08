@@ -1,35 +1,29 @@
-<p>
-Nous nous intéresserons ici aux sources de données additionnelles,
+
+<p>Nous nous intéresserons ici aux sources de données additionnelles,
 ainsi qu'à la manière d'utiliser vos propres fichiers <acronym title="Resource Description Framework">RDF</acronym> comme
-sources de données.
-</p>
+sources de données.</p>
 
 <h2>Autres sources de données pour Mozilla</h2>
 
-<p>
-Mozilla fournit nativement plusieurs sources de données. Certaines
+<p>Mozilla fournit nativement plusieurs sources de données. Certaines
 sont indiquées ici, avec quelques exemples. Leur fonctionnement est
 très similaire à celui des marque-pages, bien que les champs soient
-différents à chaque fois.
-</p>
+différents à chaque fois.</p>
 
 <p class="note"><acronym title="Note du traducteur">Ndt</acronym>&nbsp;:
 Les ressources RDF fournies par mozilla ne sont utilisables que par les
 applications qui sont enregistrées dans le chrome. Vous ne verrez donc pas
-les données dans certains des exemples proposés.
-</p>
+les données dans certains des exemples proposés.</p>
 
 <h2>La liste d'historique de navigation</h2>
 
-<p>
-Cette source de données fournit l'accès à la liste d'historique de
+<p>Cette source de données fournit l'accès à la liste d'historique de
 l'utilisateur, qui est une liste d'<acronym title="Uniform Resource Locator">URL</acronym>s
 que l'utilisateur a consulté récemment. On peut se référer à cette ressource en utilisant 
 <code class="attribut">rdf:history</code> comme source de données. La table
 ci-dessous montre les ressources (ou champs) que vous pouvez récupérer
 depuis la source de donnée "history". Utilisez les <acronym title="Uniform Resource Locator">URL</acronym>s ci-dessous là
-où vous souhaitez que la valeur de la ressource soit utilisée.
-</p>
+où vous souhaitez que la valeur de la ressource soit utilisée.</p>
 
 <table class="donneestuto">
  <tr>
@@ -59,27 +53,23 @@ où vous souhaitez que la valeur de la ressource soit utilisée.
  </tr>
 </table>
 
-<p>
-Une liste d'historique typique affichera un arbre doté d'une
+<p>Une liste d'historique typique affichera un arbre doté d'une
 sélection de ces champs. Pour les utiliser, placez les URL ci-dessus
 dans l'attribut <code class="attribut">label</code> des boutons ou des
 cellules d'un arbre. Vous pouvez utiliser <var>NC:HistoryRoot</var>
 comme valeur de l'attribut <code class="attribut">ref</code>. Vous
 pouvez également utiliser la valeur <var>NC:HistoryByDate</var> pour
-obtenir la liste d'historique triée par jour.
-</p>
+obtenir la liste d'historique triée par jour.</p>
 
-<p>
-Voyons un exemple d'affichage de la liste d'historique. Nous
+<h3>Exemple d'utilisation de la liste historique</h3>
+
+<p>Voyons un exemple d'affichage de la liste d'historique. Nous
 afficherons l'historique dans un arbre avec les trois colonnes Nom, URL
-et Date.
-</p>
+et Date.</p>
 
-<p>
-Exemple 9.4.1&nbsp;:
+<p>Exemple 9.4.1&nbsp;:
 <a href="exemples/ex_datasrc_1.xul.txt">Source</a>
-<a href="exemples/ex_datasrc_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
-</p>
+<a href="exemples/ex_datasrc_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;tree flex="1" datasources="rdf:history" ref="NC:HistoryRoot"&gt;
 
@@ -104,24 +94,19 @@ Exemple 9.4.1&nbsp;:
     &lt;/rule&gt;
 
   &lt;/template&gt;
-&lt;/tree&gt;
-</code></pre>
+&lt;/tree&gt;</code></pre>
 
 <h2>Autres sources de données</h2>
 
-<p>
-Les tableaux ci-dessous listent quelques-unes des autres sources de
-données disponibles avec Mozilla. Vous pouvez les utiliser comme vous voulez.
-</p>
+<p>Les tableaux ci-dessous listent quelques-unes des autres sources de
+données disponibles avec Mozilla. Vous pouvez les utiliser comme vous voulez.</p>
 
-<h3>Marque-pages (<var>rdf:bookmarks</var>)&nbsp;:</h3>
+<p><strong>Marque-pages (<var>rdf:bookmarks</var>)&nbsp;:</strong></p>
 
-<p>
-Les marque-pages sont générés depuis la liste de marque-pages de
-l'utilisateur.
-</p>
+<p>Les marque-pages sont générés depuis la liste de marque-pages de
+l'utilisateur.</p>
 
-<h4>Ressources</h4>
+<p><strong>Ressources</strong></p>
 
 <table class="donneestuto">
 <tr>
@@ -155,7 +140,7 @@ l'utilisateur.
 </tr>
 </table>
 
-<h4>Racines possibles pour les marque-pages</h4>
+<p><strong>Racines possibles pour les marque-pages</strong></p>
 
 <dl>
   <dt><var>NC:BookmarksRoot</var></dt>
@@ -168,13 +153,11 @@ l'utilisateur.
   <dd>Le dossier de marque-pages correspondant au dossier de la barre d'outils personnelle</dd>
 </dl>
 
-<h3>Fichiers(<var>rdf:files</var>)&nbsp;:</h3>
+<p><strong>Fichiers(<var>rdf:files</var>)&nbsp;:</strong></p>
 
-<p>
-Une vue des fichiers de l'utilisateur.
-</p>
+<p>Une vue des fichiers de l'utilisateur.</p>
 
-<h4>Ressources</h4>
+<p><strong>Ressources</strong></p>
 
 <table class="donneestuto">
 <tr>
@@ -188,7 +171,7 @@ Une vue des fichiers de l'utilisateur.
 </tr>
 </table>
 
-<h4>Racine possible des fichiers</h4>
+<p><strong>Racine possible des fichiers</strong></p>
 
 <dl>
   <dt><var>NC:FilesRoot</var></dt>
@@ -200,79 +183,63 @@ Une vue des fichiers de l'utilisateur.
     retourner. Par exemple, vous pouvez utiliser file:///windows ou file:///usr/local</dd>
 </dl>
 
-<p>
-La source de données de fichiers est un exemple de source de données qui
+<p>La source de données de fichiers est un exemple de source de données qui
 ne détermine ses ressources que lorsque cela est nécessaire. Nous ne
 voulons pas que tous les fichiers du système de fichiers soient évalués
 avant d'afficher les données. Seuls nous intéressent les fichiers et
 répertoires que l'arbre (ou tout autre élément) doit afficher à un
-instant donné.
-</p>
+instant donné.</p>
 
 <h2>Sources de données composites</h2>
 
-<p>
-Vous pouvez spécifier plusieurs sources de données dans l'attribut
+<p>Vous pouvez spécifier plusieurs sources de données dans l'attribut
 <code class="attribut">datasources</code> en les séparant par des
-espaces, comme dans l'exemple ci-dessous. Les données seront ainsi lues dans toutes les sources de données mentionnées.
-</p>
+espaces, comme dans l'exemple ci-dessous. Les données seront ainsi lues dans toutes les sources de données mentionnées.</p>
 
 <pre><code>&lt;tree datasources="rdf:bookmarks rdf:history animals.rdf" ref="NC:BookmarksRoot"&gt;</code></pre>
 
-<p>
-Cet exemple lit les ressources des marque-pages, de l'historique et
+<p>Cet exemple lit les ressources des marque-pages, de l'historique et
 d'un fichier nommé <var>animals.rdf</var>. Celles-ci sont combinées en une source
-de données composite et peuvent être utilisées comme une unique source de données.
-</p>
+de données composite et peuvent être utilisées comme une unique source de données.</p>
 
-<p>
-La source de donnée spéciale <code class="attribut">rdf:null</code> 
+<p>La source de donnée spéciale <code class="attribut">rdf:null</code> 
 correspond à une source vide. Vous
 pouvez utiliser cette source de données si vous voulez gérer
 dynamiquement la source via un script, sans avoir à l'initialiser tout de suite 
-ou parce que vous ne connaissez pas son URL exacte.
-</p>
+ou parce que vous ne connaissez pas son URL exacte.</p>
 
 <h2>Sources de données RDF personnalisées</h2>
 
-<p>
-Vous pouvez utiliser chacune des sources de données internes
+<p>Vous pouvez utiliser chacune des sources de données internes
 ci-dessus si vous le désirez. Il en existe plusieurs autres, pour le
 courrier électronique, les carnets d'adresses, les recherches...
 Cependant, vous pouvez utiliser votre propre source de données RDF,
 enregistrée dans un fichier RDF. Le fichier peut être local ou
 distant. Il suffit d'indiquer l'URL du fichier RDF dans l'attribut
-<code class="attribut">datasources</code>.
-</p>
+<code class="attribut">datasources</code>.</p>
 
-<p>
-L'utilisation des fichiers RDF apporte les mêmes fonctionnalités que
+<p>L'utilisation des fichiers RDF apporte les mêmes fonctionnalités que
 n'importe quelle source de données interne. Vous pouvez
 utiliser des règles pour retrouver un type spécifique de contenu. Les
 attributs de l'élément <code class="tag"><a
-href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code> correspondront s'ils
+href="http://xulfr.org/wiki/Reference/Xul/rule">rule</a></code> seront respectés s'ils
 correspondent aux attributs d'un élément RDF <code
 class="tag">Description</code>. Vous pouvez également créer des
-fichiers RDF hiérarchiques.
-</p>
+fichiers RDF hiérarchiques.</p>
 
-<p>
-Ce qui suit est un exemple d'utilisation d'un fichier RDF comme source
+<h3>Exemple d'utilisation d'un fichier RDF</h3>
+
+<p>Ce qui suit est un exemple d'utilisation d'un fichier RDF comme source
 de données. Le fichier RDF est relativement gros et peut être consulté
 séparément&nbsp;:
 <a href="exemples/animals.txt">Source</a> 
-<a href="exemples/animals.rdf">RDF</a>
-</p>
+<a href="exemples/animals.rdf">RDF</a></p>
 
-<p>
-Exemple 9.4.2&nbsp;:
+<p>Exemple 9.4.2&nbsp;:
 <a href="exemples/ex_datasrc_2.xul.txt">Source</a> 
-<a href="exemples/ex_datasrc_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
-</p>
+<a href="exemples/ex_datasrc_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
-<pre>
-<code>
-&lt;tree flex="1" width="200" height="200" datasources="animals.rdf"
+<pre><code>&lt;tree flex="1" width="200" height="200" datasources="animals.rdf"
 ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
 
   &lt;treecols&gt;
@@ -293,36 +260,28 @@ ref="http://www.some-fictitious-zoo.com/all-animals"&gt;
     &lt;/rule&gt;
 
   &lt;/template&gt;
-&lt;/tree&gt;
-</code>
-</pre>
+&lt;/tree&gt;</code></pre>
 
+<p><img src="images/datasrc1.png" alt="résultat de l'exemple 9.4.2" class="screenshot"/></p>
 
-<p>
-<img src="images/datasrc1.png" alt="résultat de l'exemple 9.4.2"
-class="screenshot"/>
-
-Ici, les données sont générées depuis le fichier RDF. L'attribut <code
+<p>Ici, les données sont générées depuis le fichier RDF. L'attribut <code
 class="attribut">ref</code> a été positionné sur l'élément racine de ce
 fichier, qui est la balise de premier niveau <code
 class="tag">Seq</code>. Nous obtenons une liste complète
 d'animaux. Si nous avions voulu, nous aurions pu positionner
 l'attribut <code class="attribut">ref</code> sur n'importe quelle
 valeur de l'attribut <code class="attribut">about</code> afin de
-filtrer la quantité de données retournées. Par exemple, pour afficher
-seulement les reptiles, nous pouvons utiliser la valeur <var>http://www.some-fictitious-zoo.com/reptiles</var>.
-</p>
+limiter la quantité de données retournées. Par exemple, pour afficher
+seulement les reptiles, nous pouvons utiliser la valeur <var>http://www.some-fictitious-zoo.com/reptiles</var>.</p>
 
-<p>
-L'exemple ci-dessous montre comment afficher des éléments particuliers
-d'une source de données RDF en positionnant l'attribut <code class="attribut">ref</code>.
-</p>
+<h3>Exemple de définition de l'attribut <code class="attribute">ref</code></h3>
 
-<p>
-Exemple 9.4.3&nbsp;:
+<p>L'exemple ci-dessous montre comment afficher des éléments particuliers
+d'une source de données RDF en définissant l'attribut <code class="attribut">ref</code>.</p>
+
+<p>Exemple 9.4.3&nbsp;:
 <a href="exemples/ex_datasrc_3.xul.txt">Source</a>
-<a href="exemples/ex_datasrc_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
-</p>
+<a href="exemples/ex_datasrc_3.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;window
   id="example-window"
@@ -342,22 +301,17 @@ Exemple 9.4.3&nbsp;:
   &lt;/template&gt;
 &lt;/button&gt;
 
-&lt;/window&gt;
-</code>
-</pre>
+&lt;/window&gt;</code></pre>
 
-<p>
-Dans le cas présent, nous voulons seulement la liste des
+<p>Dans le cas présent, nous voulons seulement la liste des
 mammifères, nous sélectionnons donc l'URI de la liste des
 mammifères. Vous remarquerez que la valeur de l'attribut <code
 class="attribut">ref</code> de notre exemple est
 <var>http://www.some-fictitious-zoo.com/mammals</var>, ce qui
 correspond à l'un des éléments <code class="tag">Seq</code> du <a
-href="exemples/animals.txt">fichier RDF</a>. Seuls les descendants de cette liste seront retournés.
-</p>
+href="exemples/animals.txt">fichier RDF</a>. Seuls les descendants de cette liste seront retournés.</p>
 
-<p>
-Nous avons utilisé deux règles ici. La première filtre toutes les
+<p>Nous avons utilisé deux règles ici. La première filtre toutes les
 ressources dont l'attribut <code
 class="attribut">ANIMALS:specimen</code> est positionné à
 <var>0</var>. Vous pouvez voir cet attribut dans le fichier RDF pour
@@ -365,18 +319,12 @@ chacun des éléments <code class="tag">Description</code>. Certains
 d'entre eux ont une valeur de <var>0</var>. Dans ce cas, la première règle
 s'applique. Puisque cette règle n'a pas de contenu, rien ne sera
 affiché pour les éléments concernés. Ainsi, nous pouvons cacher les 
-données que nous ne voulons pas afficher.
-</p>
+données que nous ne voulons pas afficher.</p>
 
-<p>
-La seconde règle s'applique aux autres ressources et crée une rangée
+<p>La seconde règle s'applique aux autres ressources et crée une rangée
 dans un menu surgissant. Le résultat final est un menu surgissant
-contenant tous les mammifères dont le spécimen n'est pas positionné à <var>0</var>.
-</p>
+contenant tous les mammifères dont le spécimen n'est pas positionné à <var>0</var>.</p>
 
 <hr />
 
-<p>
-Dans la prochaine section, nous examinerons la syntaxe des règles.
-</p>
-
+<p>Dans la prochaine section, nous examinerons la syntaxe des règles complètes.</p>
