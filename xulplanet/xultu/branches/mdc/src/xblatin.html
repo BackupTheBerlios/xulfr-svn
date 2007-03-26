@@ -4,7 +4,7 @@
 <h2>l'héritage d'attributs</h2>
 
 <p>XBL nous permet de construire des éléments graphiques composites tout en cachant leur implémentation réelle.
-Cependant, avec les fonctionnalités mentionnées jusque là, le contenu anonyme est toujours créé de la même façon.
+Cependant, avec les fonctionnalités mentionnées jusque présent, le contenu anonyme est toujours créé de la même façon.
 Il serait utile de pouvoir ajouter des attributs aux éléments extérieurs pour modifier les éléments intérieurs.
 Par exemple&nbsp;:</p>
 
@@ -26,7 +26,7 @@ Par exemple&nbsp;:</p>
 Le problème avec cette technique est que le libellé sera le même à chaque fois que la liaison sera utilisée.
 Dans ce cas, il serait préférable que l'attribut soit plutôt défini sur la balise
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/searchbox">searchbox</a></code>.
-XBL fournit un attribut <code class="attribut">inherits</code> pouvant être utilisé pour hériter des
+XBL fournit un attribut <code class="attribut">inherits</code> permettant l'héritage des
 attributs de l'élément extérieur.
 Il devra être placé sur l'élément qui héritera de ces attributs, dans notre cas sur
 le bouton. Sa valeur devra être initialisée par une liste des noms des attributs à hériter,
@@ -41,8 +41,8 @@ class="attribut">flex</code> à partir de <code class="tag">searchbox</code> et <
 href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code> obtient l'attribut
 <code class="attribut">label</code> à partir de <code class="tag">searchbox</code>. Ils permettent
 à la flexibilité du champ de saisie et au libellé du bouton
-d'être différents à chaque utilisation de la liaison. En plus,
-changer la valeur des attributs de la balise 
+d'être différents à chaque utilisation de la liaison. De plus,
+le changement de la valeur des attributs de la balise 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/searchbox">searchbox</a></code> 
 avec un script mettra aussi à jour la balise 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code>
@@ -149,6 +149,6 @@ Vous avez probablement aussi remarqué que nous avons créé nos propres noms d'att
 valide en XUL.</p>
 
 <hr />
-<p> Dans la section suivante, nous regarderons l'ajout de propriétés, méthodes et événements
-à une liaison.</p>
 
+<p>Dans la section suivante, nous regarderons l'ajout de propriétés, méthodes et événements
+à une liaison.</p>
