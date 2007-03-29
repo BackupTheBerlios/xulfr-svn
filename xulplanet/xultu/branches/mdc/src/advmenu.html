@@ -21,8 +21,7 @@ même quand il n'est pas placé directement dans une barre de menu.</p>
 <a href="exemples/ex_advmenu_1.xul.txt">Source</a>
 <a href="exemples/ex_advmenu_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
-<pre><code>
-&lt;toolbox flex="1"&gt;
+<pre><code>&lt;toolbox flex="1"&gt;
   &lt;menubar id="sample-menubar"&gt;
     &lt;menu id="file-menu" label="Fichier"&gt;
       &lt;menupopup id="file-popup"&gt;
@@ -115,6 +114,7 @@ regrouper les commandes. L'exemple ci-dessous crée un menu avec un
     &lt;menu id="options_menu" label="Options"&gt;
       &lt;menupopup&gt;
         &lt;menuitem id="backups" label="Faire des sauvegardes" type="checkbox"/&gt;
+        &lt;menuitem id="backups" label="Mail de l'administrateur" type="checkbox" checked="true"/&gt;
       &lt;/menupopup&gt;
     &lt;/menu&gt;
   &lt;/menubar&gt;
@@ -147,9 +147,11 @@ comme valeur. L'exemple ci-dessous vous en donne l'illustration&nbsp;:</p>
     &lt;menu id="planet-menu" label="Planète"&gt;
       &lt;menupopup&gt;
         &lt;menuitem id="jupiter" label="Jupiter" type="radio" name="ringed"/&gt;
-        &lt;menuitem id="saturn" label="Saturne" type="radio" name="ringed"/&gt;
+        &lt;menuitem id="saturn" label="Saturne" type="radio" name="ringed" checked="true"/&gt;
         &lt;menuitem id="uranus" label="Uranus" type="radio" name="ringed"/&gt;
-        &lt;menuitem id="earth" label="Terre" type="radio" name="inhabited"/&gt;
+        &lt;menuseparator/&gt;
+        &lt;menuitem id="earth" label="Terre" type="radio" name="inhabited" checked="true"/&gt;
+        &lt;menuitem id="lune" label="Lune" type="radio" name="inhabited"/&gt;
       &lt;/menupopup&gt;
     &lt;/menu&gt;
   &lt;/menubar&gt;

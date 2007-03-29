@@ -118,7 +118,7 @@ script dans un fichier de script externe.</p>
 <a href="exemples/ex_treeview_1.xul.txt">Source</a>
 <a href="exemples/ex_treeview_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
-<pre><code>&lt;?xml version="1.0"?&gt;
+<pre><code>&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
 
 &lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
 
@@ -172,8 +172,8 @@ mais vous pouvez aussi changer la vue plus tard si vous le souhaitez. Vous pouve
 <p>Il faut noter que la fonction <code>getCellText()</code> est seulement appelée quand cela est
 nécessaire pour afficher le contenu. Dans l'exemple de 10000 lignes ci-dessus,
 <code>getCellText()</code> est seulement appelée pour les cellules qui sont actuellement
-affichées. Sur cette image, seules quatre lignes sont affichées, donc la fonction 
-<code>getCellText()</code> a été appelée 8 fois. Elle sera appelée pour les autres lignes 
+affichées. Sur cette image, seules sept lignes sont affichées, donc la fonction 
+<code>getCellText()</code> a été appelée 14 fois. Elle sera appelée pour les autres lignes 
 lorsque l'utilisateur les fera défiler. Cette méthode rend l'arbre beaucoup plus efficace.</p>
 
 <p class="note">Notez que l'objet de vue est aussi disponible pour des arbres prédéfinis dans votre installation. 
