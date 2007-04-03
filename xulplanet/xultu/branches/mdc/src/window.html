@@ -1,13 +1,11 @@
 
 <p>Nous allons créer un simple outil de recherche de fichiers tout au long de ce tutoriel.
-Avant tout, cependant, nous devons étudier la syntaxe de base d'un fichier XUL.
-</p>
+Avant tout, cependant, nous devons étudier la syntaxe de base d'un fichier XUL.</p>
 
 <h2>Création d'un fichier XUL</h2>
 
 <p>Un fichier XUL peut avoir n'importe quel nom mais il doit avoir
-l'extension <code>.xul</code>. Le fichier XUL le plus simple a la structure suivante&nbsp;:
-</p>
+l'extension <code>.xul</code>. Le fichier XUL le plus simple a la structure suivante&nbsp;:</p>
 
 <pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
 &lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
@@ -20,11 +18,9 @@ l'extension <code>.xul</code>. Le fichier XUL le plus simple a la structure suiv
  ...
 &lt;/window&gt;</code></pre>
 
-
 <p>Cette fenêtre ne sert à rien puisqu'elle ne comporte pas d'élements d'interface
 utilisateur. Ceux ci seront ajoutés dans la section suivante.
-Voici l'analyse ligne par ligne du code ci-dessus&nbsp;:
-</p>
+Voici l'analyse ligne par ligne du code ci-dessus&nbsp;:</p>
 
 <ol>
   <li><code>&lt;?xml version=&quot;1.0&quot;?&gt;</code><br />
@@ -34,8 +30,7 @@ Voici l'analyse ligne par ligne du code ci-dessus&nbsp;:
       au début d'un fichier HTML.
   </li>
 
-<li><code>&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;</code>
-      <br />
+<li><code>&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;</code><br />
       Cette ligne est utilisée pour spécifier la feuille de style à utiliser pour
       le fichier. C'est la syntaxe que les fichiers XML emploient pour importer
       des feuilles de style. Dans ce cas, nous importons les styles trouvés dans
@@ -65,13 +60,11 @@ Voici l'analyse ligne par ligne du code ci-dessus&nbsp;:
       <code class="attribut">id</code> sur tous les éléments. Vous êtes libre de choisir n'importe 
       quel nom, toutefois, il est préférable qu'il soit pertinent.
   </li>
-
 <li><code>title="Recherche de fichiers"</code><br />
       L'attribut <code class="attribut">title</code> décrit le texte qui apparaîtra dans la
       barre de titre de la fenêtre quand elle sera affichée. Dans le cas présent, le texte
       <samp>Recherche de fichiers</samp> sera affiché.
 </li>
-
   <li><code>orient="horizontal"</code><br />
       L'attribut <code class="attribut">orient</code> spécifie l'arrangement des éléments de la
       fenêtre. La valeur <var>horizontal</var> indique que les éléments
@@ -86,13 +79,11 @@ Voici l'analyse ligne par ligne du code ci-dessus&nbsp;:
       pour indiquer que tous ses enfants sont du XUL. Notez que cette URL n'est jamais
       téléchargée réellement. Mozilla reconnaîtra cette URL en interne.
   </li>
-
   <li><code>...</code><br />
       Mettez ici les éléments (les boutons, les menus et les autres composants de l'interface
       utilisateur) à afficher dans la fenêtre. Nous en ajouterons quelques uns dans les prochaines
       sections.
   </li>
-
   <li><code>&lt;/window&gt;</code><br />
       Et enfin, nous devons fermer la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>
       à la fin du fichier.
@@ -101,26 +92,22 @@ Voici l'analyse ligne par ligne du code ci-dessus&nbsp;:
 
 <h2>Ouverture d'une fenêtre</h2>
 
-<p>
-Afin d'ouvrir une fenêtre XUL, plusieurs méthodes peuvent être employées.
+<p>Afin d'ouvrir une fenêtre XUL, plusieurs méthodes peuvent être employées.
 Si vous n'êtes qu'à l'étape de développement, vous pouvez juste taper l'URL
 (commencant par chrome:, file: ou d'autre type d'URL) dans la barre d'adresses
 du navigateur Mozilla.
 Vous pouvez également double-cliquer sur le fichier dans votre gestionnaire de fichiers,
 en supposant que les fichiers XUL soient associés à Mozilla.
- La fenêtre XUL apparaîtra cependant dans la fenêtre de navigateur et non dans une nouvelle,
- mais c'est souvent suffisant durant les premières étapes de développement.
-</p>
+La fenêtre XUL apparaîtra cependant dans la fenêtre de navigateur et non dans une nouvelle,
+mais c'est souvent suffisant durant les premières étapes de développement.</p>
 
-<p>
-La manière correcte, naturellement, est d'ouvrir la fenêtre en utilisant JavaScript.
+<p>La manière correcte, naturellement, est d'ouvrir la fenêtre en utilisant JavaScript.
 Aucune nouvelle syntaxe n'est nécessaire, vous pouvez employer la fonction
 <code>window.open()</code>
 comme pour tout document HTML. Cependant, une option additionnelle, appelée <var>chrome</var>
 est nécessaire pour indiquer au navigateur que le document à ouvrir est un chrome.
 Celle-ci s'ouvrira sans barre d'outils, sans menu et sans aucun élément qu'une
-fenêtre de navigateur dispose normalement. La syntaxe est décrite ci-dessous&nbsp;:
-</p>
+fenêtre de navigateur dispose normalement. La syntaxe est décrite ci-dessous&nbsp;:</p>
 
 <pre><code>window.open(url,windowname,flags);</code>
 
@@ -132,35 +119,29 @@ où l'argument flags contient "chrome" comme dans cet exemple&nbsp;:
 <div class="task">
 <h2>L'exemple findfile.xul</h2>
 
-<p>
-Commençons par créer le fichier de base pour la boîte de dialogue de recherche de fichiers.
-Créez un fichier appelé <code>findfile.xul</code> et mettez le dans le répertoire content spécifié dans le fichier <code>findfile.manifest</code> (nous l'avons créé dans la section précédente). Ajoutez au fichier le squelette XUL montré au debut de cette page et sauvegardez le.
-</p>
+<p>Commençons par créer le fichier de base pour la boîte de dialogue de recherche de fichiers.
+Créez un fichier appelé <code>findfile.xul</code> et mettez le dans le répertoire content spécifié dans le fichier <code>findfile.manifest</code> (nous l'avons créé dans la section précédente). Ajoutez au fichier le squelette XUL montré au debut de cette page et sauvegardez le.</p>
 
-<p>
-Vous pouvez utiliser le paramètre en ligne de commande <var>-chrome</var> pour indiquer le
+<p>Vous pouvez utiliser le paramètre en ligne de commande <var>-chrome</var> pour indiquer le
 fichier XUL à ouvrir au démarrage de mozilla. S'il n'est pas spécifié, la fenêtre par défaut
 s'ouvrira (habituellement la fenêtre de navigateur). Par exemple, nous pourrions ouvrir
-la boite de dialogue de recherche de fichiers avec l'une des commandes suivantes&nbsp;:
-</p>
+la boite de dialogue de recherche de fichiers avec l'une des commandes suivantes&nbsp;:</p>
 
 <pre><code>mozilla -chrome chrome://findfile/content/findfile.xul
 mozilla -chrome resource:/chrome/findfile/content/findfile/findfile.xul</code></pre>
 
-<p>
-Si vous utilisez cette commande en ligne (dans l'hypothèse que cela soit possible 
-sur votre plate-forme), la boite de dialogue de recherche de fichiers s'ouvrira par défaut au 
+<p>Si vous utilisez cette commande en ligne (dans l'hypothèse que cela soit possible 
+sur votre plateforme), la boite de dialogue de recherche de fichiers s'ouvrira par défaut au 
 lieu de la fenêtre de navigateur de Mozilla. Naturellement, puisque nous n'avons pas mis 
 d'éléments graphiques dans la fenêtre, vous ne verrez rien. Dans la section suivante, 
-quelques éléments y seront ajoutés.
-</p>
+quelques éléments y seront ajoutés.</p>
 </div>
 
 <p>Pour en voir quand même l'effet, la commande en ligne suivante ouvrira la fenêtre des marque-pages&nbsp;:</p>
 
 <pre><code>mozilla -chrome chrome://communicator/content/bookmarks/bookmarksManager.xul
 
-<strong>Si vous utilisez Firefox, essayez&nbsp;:
+<strong>Si vous utilisez Firefox, essayez&nbsp;:</strong>
 firefox -chrome chrome://browser/content/bookmarks/bookmarksManager.xul</code></pre>
 
 <p>L'option <var>-chrome</var> ne donne aucuns privilèges supplémentaires au fichier. Au lieu de cela, il entraine l'ouverture du fichier spécifié dans une fenêtre racine sans aucune interface chrome de navigation, comme la barre d'adresses ou le menu. Seules les URLs chrome ont des privilèges supplémentaires.</p>
@@ -175,8 +156,4 @@ firefox -chrome chrome://browser/content/bookmarks/bookmarksManager.xul</code></
 
 <hr />
 
-<p>
-Dans la section suivante, nous ajouterons des boutons dans la fenêtre.
-</p>
-
-
+<p>Dans la section suivante, nous ajouterons des boutons dans la fenêtre.</p>

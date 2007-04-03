@@ -32,7 +32,7 @@ une archive JAR.</p>
 
 <pre>'content &lt;nom_du_paquetage&gt; &lt;chemin_vers&gt;'</pre>
 
-<p>Le premier mot 'content' indique qu'il s'agit d'un paquetage de contenu. Pour les thèmes graphiques, le mot serait 'skin' et pour les fichiers de langue, il serait 'locale'. Le nom du paquetage dans l'exemple ci-dessus est <var>tests</var>, donc le premier champ dans l'URL chrome est 'tests' comme dans <code>chrome://tests/content/exemple.xul</code>. Si le nom du paquetage était <var>browser</var>, l'URL chrome serait <code>chrome://browser/content</var>. Le dernier champ <chemin_vers> correspond à l'emplacement des fichiers. Il peut être soit un une URL file vers un répertoire local, soit une URL jar vers une archive JAR qui sera décrit plus tard. Vous pouvez déclarer plusieurs paquetages dan le même fichier manifest en ajoutant des lignes.</p>
+<p>Le premier mot 'content' indique qu'il s'agit d'un paquetage de contenu. Pour les thèmes graphiques, le mot serait 'skin' et pour les fichiers de langue, il serait 'locale'. Le nom du paquetage dans l'exemple ci-dessus est <var>tests</var>, donc le premier champ dans l'URL chrome est 'tests' comme dans <code>chrome://tests/content/exemple.xul</code>. Si le nom du paquetage était <var>browser</var>, l'URL chrome serait <code>chrome://browser/content</code>. Le dernier champ &lt;chemin_vers&gt; correspond à l'emplacement des fichiers. Il peut être soit un une URL file vers un répertoire local, soit une URL jar vers une archive JAR qui sera décrit plus tard. Vous pouvez déclarer plusieurs paquetages dan le même fichier manifest en ajoutant des lignes.</p>
 
 <p>Le fichier browser.manifest utilisé par Firefox ressemble à ceci :</p>
 
@@ -130,7 +130,7 @@ locale findfile en-US file:///findfile/locale/</code></pre>
 
 <h2>Problèmes</h2>
 
-<p>La création de paquetage chrome peut parfois s'avérer difficle et il est difficile de diagnostiquer les problèmes. Voici quelques astuces au cas où vous bloquez.
+<p>La création de paquetage chrome peut parfois s'avérer difficle et il est difficile de diagnostiquer les problèmes. Voici quelques astuces au cas où vous bloquez.</p>
 
 <ul>
   <li>Ouvrez le fichier &lt;mozilla-directory>/chrome/chrome.rdf. Vous devriez y trouver des références à l'ID de votre application. S'il n'y en a pas, un problème a eu lieu avec l'enregistrement chrome. S'il y en a, vous avez probablement utilisé une mauvaise URL chrome pour charger le fichier.</li>
@@ -145,4 +145,3 @@ locale findfile en-US file:///findfile/locale/</code></pre>
 <p>Pour plus d'information concernant les fichiers manifest, consultez la page <a href="http://developer.mozilla.org/fr/docs/Enregistrement_chrome">Enregistrement chrome</a>.</p>
 
 <p>Dans la section suivante, nous aborderons le langage XUL.</p>
-
