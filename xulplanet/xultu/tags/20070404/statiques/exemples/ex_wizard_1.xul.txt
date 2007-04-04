@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<wizard id="example-window" title="Assistant de sélection de chien"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <wizardpage>
+
+    <description>
+      Cet assistant vous aidera à séléctionner le type de chien qui sera le mieux pour vous.
+    </description>
+    <label value="Pourquoi voulez vous un chien ?"/>
+    <menulist>
+      <menupopup>
+        <menuitem label="Pour faire peur aux gens"/>
+        <menuitem label="Pour se débarrasser d'un chat"/>
+        <menuitem label="J'ai besoin d'un meilleur ami"/>
+      </menupopup>
+    </menulist>
+  </wizardpage>
+
+  <wizardpage description="Détails sur le chien">
+
+    <label value="Fournissez plus de détails sur le chien que vous désirez:"/>
+    <radiogroup>
+      <caption label="Taille"/>
+      <radio value="small" label="Petit"/>
+      <radio value="large" label="Grand"/>
+    </radiogroup>
+
+    <radiogroup>
+      <caption label="Sexe"/>
+      <radio value="male" label="Male"/>
+      <radio value="female" label="Femelle"/>
+    </radiogroup>
+  </wizardpage>
+
+</wizard>

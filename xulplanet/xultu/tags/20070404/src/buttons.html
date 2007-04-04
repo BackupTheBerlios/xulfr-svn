@@ -1,0 +1,165 @@
+<p>
+Dans cette section, nous regarderons comment ajouter quelques boutons simples dans une fenêtre.
+</p>
+
+<h2>Ajouter des boutons dans une fenêtre</h2>
+
+<p>
+La fenêtre que nous avons créée jusqu'ici était vide, aussi n'est-elle pas encore très
+intéressante. Dans cette section, nous y ajouterons deux boutons, un bouton de recherche et un
+bouton d'annulation. Nous apprendrons également une manière simple de les positionner dans la fenêtre.
+</p>
+
+<p>
+Comme pour HTML, XUL dispose d'un certain nombre de balises qui peuvent être utilisées pour créer des éléments
+d'interface utilisateur. Le plus basique d'entre eux est l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code>.
+Cet élément sert à créer de simples boutons.
+</p>
+
+<p>
+L'élément bouton a deux propriétés principales&nbsp;: un libellé <code class="attribut">label</code> et une image <code class="attribut">image</code>. Vous avez besoin
+soit de l'un, soit de l'autre, soit des deux en même temps. Ainsi, un bouton peut avoir
+seulement un libellé, seulement une image ou un libellé et une image à la fois. Les boutons sont
+souvent utilisés dans une boîte de dialogue pour valider ou annuler, par exemple.
+</p>
+
+<h2>Syntaxe des boutons</h2>
+
+<p>
+L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/button">button</a></code> a
+la syntaxe suivante&nbsp;:
+</p>
+
+<pre><code>&lt;button
+    id="identifier"
+    class="dialog"
+    label="OK"
+    image="images/image.jpg"
+    disabled="true"
+    accesskey="t"/&gt;</code></pre>
+
+<p>Les attributs sont définis comme suit, et ils sont tous optionnels&nbsp;:</p>
+
+<dl>
+  <dt><code class="attribut">id</code></dt>
+  <dd>Identifiant unique vous permettant d'identifier le bouton. Vous verrez
+      cet attribut sur tous les éléments XUL. Vous pouvez l'utiliser pour
+      vous référer au bouton dans une feuille de style ou dans un script. Cependant, vous
+      devriez ajouter cet attribut à presque tous les éléments. Notez que pour des raisons de simplicité, il n'est pas toujours spécifié dans les exemples de ce tutoriel.
+  </dd>
+  <dt><code class="attribut">class</code></dt>
+   <dd>La classe de style du bouton. Elle fonctionne de la même manière qu'en HTML. Elle 
+      indique l'aspect du bouton dans la fenêtre. Dans le cas présent, la
+      valeur <var>dialog</var> est utilisée. Dans la plupart des cas, vous
+      n'emploierez pas de classe pour un bouton.
+  </dd>
+  <dt><code class="attribut">label</code></dt>
+  <dd>Le libellé qui apparaîtra sur le bouton. Par exemple&nbsp;: <var>OK</var> ou
+      <var>Annuler</var>. S'il est omis, aucun texte n'apparaît.
+  </dd>
+  <dt><code class="attribut">image</code></dt>
+  <dd>L'URL de l'image qui apparaît sur le bouton. Si cet attribut est omis, aucune image
+      n'apparaîtra. Vous pouvez également indiquer l'image dans une feuille de style en
+      utilisant la propriété <code>list-style-image</code>.
+  </dd>
+  <dt><code class="attribut">disabled</code></dt>
+  <dd>Si cet attribut prend la valeur <var>true</var>, le bouton est désactivé.
+      Celui-ci est habituellement dessiné avec le texte écrit en gris. Si le bouton est
+      désactivé, la fonction du bouton ne peut pas être exécutée. Si cet attribut est omis, le bouton
+      est activé. Vous pouvez commuter l'état d'activation du bouton en utilisant
+      Javascript.
+  </dd>
+  <dt><code class="attribut">accesskey</code></dt>
+   <dd>Cet attribut doit spécifier une lettre qui est employée comme raccourci clavier. Cette
+      lettre doit apparaître, généralement soulignée, dans le libellé. Quand
+      l'utilisateur presse la touche <kbd>alt</kbd> (ou une touche équivalente,
+      qui varie en fonction de la plate-forme) et la touche de raccourci, à partir de
+      n'importe où dans la fenêtre, le focus sera mis sur le bouton.
+  </dd>
+</dl>
+
+<p class="note">
+Notez qu'un bouton supporte plus d'attributs que ceux énumérés ci-dessus. Les autres
+seront abordés plus tard.
+</p>
+
+<h2>Quelques exemples de boutons&nbsp;:</h2>
+
+<p>Exemple 2.2.1&nbsp;:
+<a href="exemples/ex_buttons_1.xul.txt">Source</a>
+<a href="exemples/ex_buttons_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+
+<pre><code>&lt;button label="Normal"/&gt;
+&lt;button label="Désactivé" disabled="true"/&gt;
+</code></pre>
+
+<p><img src="images/buttons1.png" alt="" class="screenshot-left" />
+Les exemples ci-dessus produiront des boutons comme dans la capture.
+Le premier bouton est un bouton normal. Le second bouton est désactivé,
+aussi apparaît-il grisé.</p>
+
+<p>Nous commencerons par créer un bouton simple de recherche qui permettra de
+lancer la recherche de fichiers. Le code de l'exemple ci-dessous nous montre
+comment faire&nbsp;:</p>
+
+<pre><code>&lt;button id="find-button" label="Rechercher"/&gt;</code></pre>
+
+<p class="note">
+Notez que Firefox ne vous permet pas d'ouvrir des fenêtres
+chrome à partir de pages Web. Aussi les liens «&nbsp;voir&nbsp;» dans le tutoriel s'ouvriront dans
+une fenêtre normale de navigation. À cause de cela, les boutons apparaîtront agrandis le long
+de la fenêtre. Vous pouvez ajouter <code>align="start"</code> sur l'élément
+<code class="tag">window</code> pour éviter cette déformation.</p>
+
+<div class="task">
+<h2>L'exemple findfile.xul</h2>
+
+<p>
+Ajoutons ce code au fichier <code>findfile.xul</code> que nous avons créé dans la section précédente.
+Le code doit être inséré entre les balises
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>. Le code à
+ajouter est mis en rouge ci-dessous&nbsp;:
+</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/" type="text/css"?&gt;
+&lt;window
+    id="findfile-window"
+    title="Recherche de fichiers"
+    orient="horizontal"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;
+<strong>
+  &lt;button id="find-button" label="Rechercher"/&gt;
+  &lt;button id="cancel-button" label="Annuler"/&gt;
+</strong>
+&lt;/window&gt;</code></pre>
+
+<p><img src="images/buttons2.png" alt="" class="screenshot-right" />
+Vous noterez que le bouton <var>Annuler</var> a été également ajouté. La fenêtre a
+une orientation horizontale de sorte que les deux boutons apparaissent
+l'un à côté de l'autre. Si vous ouvrez le fichier dans Mozilla, vous devriez obtenir quelque chose
+de similaire à l'image montrée ici.
+</p>
+</div>
+
+<p class="note">
+Notez que nous ne devrions pas mettre le texte des libellés directement
+dans le fichier XUL. Nous devrions plutôt employer des entités de sorte
+que le texte puisse être facilement traduit.
+</p>
+
+<!-- PAS SUR MDC
+<p>L'exemple de la boîte de recherche&nbsp;:
+<a href='exemples/findfile/findfile-buttons.xul.txt'>Source</a>
+<a href="exemples/findfile/findfile-buttons.xul" onclick="window.open(this.href,'xulff','chrome,resizable'); return false;">Voir</a>
+</p>
+-->
+
+<hr />
+<p>
+Dans la section suivante, nous découvrirons comment ajouter des libellés
+et des images dans une fenêtre XUL.
+</p>
+

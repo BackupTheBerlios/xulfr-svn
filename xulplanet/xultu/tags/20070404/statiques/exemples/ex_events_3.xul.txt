@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 6.1.3"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<button id="okbutton" label="OK"/>
+
+<script>
+function buttonPressed(event) {
+  alert('Le bouton a été pressé !');
+}
+
+var button = document.getElementById("okbutton");
+button.addEventListener('command', buttonPressed, true);
+</script>
+
+</window>

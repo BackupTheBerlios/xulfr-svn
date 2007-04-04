@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 8.6.1"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script>
+function doScroll()
+{
+  var value = document.getElementById("tbox").value;
+  var tree = document.getElementById("thetree");
+
+  var boxobject = tree.boxObject;
+  boxobject.QueryInterface(Components.interfaces.nsITreeBoxObject);
+  boxobject.scrollToRow(value);
+}
+</script>
+
+<tree id="thetree" rows="4">
+  <treecols>
+    <treecol id="row" label="Ligne" primary="true" flex="1"/>
+  </treecols>
+  <treechildren>
+    <treeitem label="Ligne 0"/>
+    <treeitem label="Ligne 1"/>
+    <treeitem label="Ligne 2"/>
+    <treeitem label="Ligne 3"/>
+    <treeitem label="Ligne 4"/>
+    <treeitem label="Ligne 5"/>
+    <treeitem label="Ligne 6"/>
+    <treeitem label="Ligne 7"/>
+    <treeitem label="Ligne 8"/>
+    <treeitem label="Ligne 9"/>
+  </treechildren>
+</tree>
+
+<hbox align="center">
+  <label value="Défile jusqu'à la ligne :"/>
+  <textbox id="tbox"/>
+  <button label="Défile" oncommand="doScroll();"/>
+</hbox>
+
+</window>
+

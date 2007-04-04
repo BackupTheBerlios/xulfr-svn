@@ -1,0 +1,415 @@
+
+<p>Pour réagir aux touches pressées, vous pouvez utiliser des gestionnaires d'événements clavier, 
+mais il serait fastidieux de le faire pour chaque bouton ou chaque item de menu.</p>
+
+<h2>Cration d'un raccourci clavier</h2>
+
+<p>XUL fournit des méthodes par lesquelles vous pouvez définir des raccourcis clavier. Nous avons déjà
+vu dans la section sur les menus que nous pouvions définir un attribut appelé
+<code class="attribut">accesskey</code> qui spécifie la touche à presser par l'utilisateur pour
+activer le menu ou l'item de menu. Dans l'exemple ci-dessous, le menu Fichier peut être sélectionné
+en pressant <kbd>Alt</kbd> et <kbd>F</kbd> (ou une autre combinaison de touches spécifique à une
+plate-forme). Une fois le menu Fichier ouvert, l'item de menu Fermer peut être
+sélectionné en pressant <kbd>F</kbd>.</p>
+
+<p>Exemple 6.3.1&nbsp;:
+<a href="exemples/ex_keyshort_1.xul.txt">Source</a>
+<a href="exemples/ex_keyshort_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+
+<pre><code>&lt;menubar id="sample-menubar"&gt;
+  &lt;menu id="file-menu" label="Fichier" accesskey="f"&gt;
+    &lt;menupopup id="file-popup"&gt;
+      &lt;menuitem id="close-command" label="Fermer" accesskey="f"/&gt;
+    &lt;/menupopup&gt;
+  &lt;/menu&gt;
+&lt;/menubar&gt;</code></pre>
+
+<p>Vous pouvez aussi utiliser l'attribut <code class="attribut">accesskey</code> sur les
+boutons. Dans ce cas, quand la touche est pressée, le bouton est sélectionné.</p>
+
+<p>Cependant, vous pourriez vouloir mettre en place des raccourcis clavier plus généraux, comme par
+exemple, la combinaison <kbd>Ctrl</kbd>+<kbd>C</kbd> pour copier du texte dans le presse-papiers.
+Bien que de tels raccourcis puissent ne pas être toujours valides, ils fonctionneront habituellement
+dès qu'une fenêtre est ouverte. Normalement, un raccourci sera
+autorisé à n'importe quel moment et vous pourrez vérifier via un script s'il doit faire
+quelque chose. Par exemple, copier du texte dans le presse-papiers ne devrait fonctionner
+seulement quand du texte est sélectionné.</p>
+
+<h3>Élément <code tag="tag">key</code></h3>
+
+<p>XUL fournit un élément, <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>,
+qui vous permet de définir un raccourci clavier pour une fenêtre. Il comprend des attributs pour
+définir la touche qui doit être pressée et quels modificateurs de touches (tels que shift pour <kbd>Maj</kbd> ou
+control pour <kbd>Ctrl</kbd>) doivent l'accompagner. Un exemple&nbsp;:</p>
+
+<pre><code>&lt;keyset&gt;
+  &lt;key id="sample-key" modifiers="shift" key="R"/&gt;
+&lt;/keyset&gt;</code></pre>
+
+<p>Cet exemple définit un raccourci clavier qui s'active lorsque l'utilisateur presse
+les touches <kbd>Maj</kbd> et <kbd>R</kbd>. L'attribut <code class="attribut">key</code>
+(notez qu'il a le même nom que l'élément lui-même) est utilisé pour indiquer
+quelle touche doit être pressée, dans ce cas <kbd>R</kbd>. Vous pouvez ajouter n'importe
+quels caractères à cet attribut selon les combinaisons de touches devant être pressées. 
+Les modificateurs de touches devant être pressés sont indiqués par l'attribut
+<code class="attribut">modifiers</code>. Il s'agit d'une liste de modificateurs séparée par 
+des espaces, et ils sont décrits ci-dessous&nbsp;:</p>
+
+<dl>
+    <dt><var>alt</var></dt>
+    <dd>L'utilisateur doit presser la touche <kbd>Alt</kbd>. Sous Macintosh, il s'agit de la touche <kbd>Option</kbd>.</dd>
+    <dt><var>control</var></dt>
+    <dd>L'utilisateur doit presser la touche <kbd>Ctrl</kbd></dd>
+    <dt><var>meta</var></dt>
+    <dd>L'utilisateur doit presser la touche <kbd>Meta</kbd>. Il s'agit de la touche
+        <kbd>Command</kbd> sous Macintosh.</dd>
+    <dt><var>shift</var></dt>
+    <dd>L'utilisateur doit presser la touche <kbd>Shift</kbd> (<kbd>Maj</kbd>)</dd>
+    <dt><var>accel</var></dt>
+    <dd>L'utilisateur doit presser la touche spéciale d'accélérateur. L'utilisateur doit presser 
+        la touche de raccourci spécifique à sa plate-forme. Il s'agit de la valeur que vous utiliserez habituellement.</dd>
+</dl>
+
+<p>Votre clavier n'a pas forcément toutes ces touches, dans ce cas, elles seront
+actives par d'autres touches de modification que vous possédez.</p>
+
+<p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> doit être
+placé à l'intérieur d'un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/keyset">keyset</a></code>.
+Cet élément est destiné à contenir un ensemble d'éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>
+servant à grouper toutes les définitions de raccourcis dans un seul emplacement du fichier. Tout élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> à l'extérieur d'un élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/keyset">keyset</a></code> ne sera pas pris en compte.</p>
+
+<p>Généralement, chaque plate-forme utilise une touche différente pour les raccourcis clavier. Par exemple,
+Windows utilise la touche <kbd>Ctrl</kbd> tandis que Macintosh utilise la touche <kbd>Command</kbd>. Il
+serait peu commode de définir un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>
+propre à chaque plate-forme. Heureusement, il y a une solution, le modificateur de touches <var>accel</var> se
+réfère à la touche de raccourci spécifique à la plate-forme. Il fonctionne exactement comme les autres
+modificateurs de touches excepté qu'il change selon la plate-forme.</p>
+
+<p>Voici quelques exemples supplémentaires&nbsp;:</p>
+
+<pre><code>&lt;keyset&gt;
+  &lt;key id="copy-key" modifiers="control" key="C"/&gt;
+  &lt;key id="explore-key" modifiers="control alt" key="E"/&gt;
+  &lt;key id="paste-key" modifiers="accel" key="V"/&gt;
+&lt;/keyset&gt;</code></pre>
+
+<h3>Attribut <code class="attribute">keycode</code></h3>
+
+<p>L'attribut <code class="attribut">key</code> est utilisé pour spécifier quelles touches doivent
+être pressées. Toutefois, il y aura aussi des cas où vous voudrez spécifier des touches qui ne
+peuvent être décrites par un simple caractère (telle que la touche <kbd>Enter</kbd> ou les
+touches de fonctions). L'attribut <code class="attribut">key</code> peut seulement être utilisé
+pour des caractères imprimables. Un autre attribut, <code class="attribut">keycode</code> peut
+être utilisé pour les caractères non imprimables.</p>
+
+<p>La valeur de l'attribut <code class="attribut">keycode</code> doit être un code spécial qui
+représente la touche souhaitée. Une liste de touches est disponible ci-dessous.
+Toutes les touches ne sont pas disponibles sur toutes les plate-formes.</p>
+
+<table class="listetouches">
+   <tbody>
+      <tr>
+         <td>
+            <ul>
+               <li><var>VK_CANCEL</var></li>
+               <li><var>VK_BACK</var></li>
+               <li><var>VK_TAB</var></li>
+               <li><var>VK_CLEAR</var></li>
+               <li><var>VK_RETURN</var></li>
+               <li><var>VK_ENTER</var></li>
+               <li><var>VK_SHIFT</var></li>
+               <li><var>VK_CONTROL</var></li>
+               <li><var>VK_ALT</var></li>
+               <li><var>VK_PAUSE</var></li>
+               <li><var>VK_CAPS_LOCK</var></li>
+               <li><var>VK_ESCAPE</var></li>
+               <li><var>VK_SPACE</var></li>
+               <li><var>VK_PAGE_UP</var></li>
+               <li><var>VK_PAGE_DOWN</var></li>
+               <li><var>VK_END</var></li>
+               <li><var>VK_HOME</var></li>
+               <li><var>VK_LEFT</var></li>
+               <li><var>VK_UP</var></li>
+               <li><var>VK_RIGHT</var></li>
+               <li><var>VK_DOWN</var></li>
+               <li><var>VK_PRINTSCREEN</var></li>
+               <li><var>VK_INSERT</var></li>
+               <li><var>VK_DELETE</var></li>
+            </ul>
+         </td>
+         <td>
+            <ul>
+               <li><var>VK_0</var></li>
+               <li><var>VK_1</var></li>
+               <li><var>VK_2</var></li>
+               <li><var>VK_3</var></li>
+               <li><var>VK_4</var></li>
+               <li><var>VK_5</var></li>
+               <li><var>VK_6</var></li>
+               <li><var>VK_7</var></li>
+               <li><var>VK_8</var></li>
+               <li><var>VK_9</var></li>
+               <li><var>VK_A</var></li>
+               <li><var>VK_B</var></li>
+               <li><var>VK_C</var></li>
+               <li><var>VK_D</var></li>
+               <li><var>VK_E</var></li>
+               <li><var>VK_F</var></li>
+               <li><var>VK_G</var></li>
+               <li><var>VK_H</var></li>
+               <li><var>VK_I</var></li>
+               <li><var>VK_J</var></li>
+               <li><var>VK_K</var></li>
+               <li><var>VK_L</var></li>
+               <li><var>VK_M</var></li>
+               <li><var>VK_N</var></li>
+               <li><var>VK_O</var></li>
+               <li><var>VK_P</var></li>
+               <li><var>VK_Q</var></li>
+               <li><var>VK_R</var></li>
+               <li><var>VK_S</var></li>
+               <li><var>VK_T</var></li>
+               <li><var>VK_U</var></li>
+               <li><var>VK_V</var></li>
+               <li><var>VK_W</var></li>
+               <li><var>VK_X</var></li>
+               <li><var>VK_Y</var></li>
+               <li><var>VK_Z</var></li>
+            </ul>
+         </td>
+         <td>
+            <ul>
+               <li><var>VK_NUMPAD0</var></li>
+               <li><var>VK_NUMPAD1</var></li>
+               <li><var>VK_NUMPAD2</var></li>
+               <li><var>VK_NUMPAD3</var></li>
+               <li><var>VK_NUMPAD4</var></li>
+               <li><var>VK_NUMPAD5</var></li>
+               <li><var>VK_NUMPAD6</var></li>
+               <li><var>VK_NUMPAD7</var></li>
+               <li><var>VK_NUMPAD8</var></li>
+               <li><var>VK_NUMPAD9</var></li>
+               <li><var>VK_MULTIPLY</var></li>
+               <li><var>VK_ADD</var></li>
+               <li><var>VK_SEPARATOR</var></li>
+               <li><var>VK_SUBTRACT</var></li>
+               <li><var>VK_DECIMAL</var></li>
+               <li><var>VK_DIVIDE</var></li>
+               <li><var>VK_COMMA</var></li>
+               <li><var>VK_PERIOD</var></li>
+               <li><var>VK_SLASH</var></li>
+               <li><var>VK_BACK_QUOTE</var></li>
+               <li><var>VK_OPEN_BRACKET</var></li>
+               <li><var>VK_BACK_SLASH</var></li>
+               <li><var>VK_CLOSE_BRACKET</var></li>
+               <li><var>VK_QUOTE</var></li>
+               <li><var>VK_SEMICOLON</var></li>
+               <li><var>VK_EQUALS</var></li>
+            </ul>
+         </td>
+         <td>
+            <ul>
+               <li><var>VK_F1</var></li>
+               <li><var>VK_F2</var></li>
+               <li><var>VK_F3</var></li>
+               <li><var>VK_F4</var></li>
+               <li><var>VK_F5</var></li>
+               <li><var>VK_F6</var></li>
+               <li><var>VK_F7</var></li>
+               <li><var>VK_F8</var></li>
+               <li><var>VK_F9</var></li>
+               <li><var>VK_F10</var></li>
+               <li><var>VK_F11</var></li>
+               <li><var>VK_F12</var></li>
+               <li><var>VK_F13</var></li>
+               <li><var>VK_F14</var></li>
+               <li><var>VK_F15</var></li>
+               <li><var>VK_F16</var></li>
+               <li><var>VK_F17</var></li>
+               <li><var>VK_F18</var></li>
+               <li><var>VK_F19</var></li>
+               <li><var>VK_F20</var></li>
+               <li><var>VK_F21</var></li>
+               <li><var>VK_F22</var></li>
+               <li><var>VK_F23</var></li>
+               <li><var>VK_F24</var></li>
+               <li><var>VK_NUM_LOCK</var></li>
+               <li><var>VK_SCROLL_LOCK</var></li>
+               <li><var>VK_HELP</var></li>
+            </ul>
+         </td>
+      </tr>
+   </tbody>
+</table>
+
+<p>Par exemple, pour créer un raccourci qui est activé quand l'utilisateur presse les touches
+<kbd>Alt</kbd> et <kbd>F5</kbd>, faites ainsi&nbsp;:</p>
+
+<pre><code>&lt;keyset&gt;
+  &lt;key id="test-key" modifiers="alt" keycode="VK_F5"/&gt;
+&lt;/keyset&gt;</code></pre>
+
+<p>L'exemple ci-dessous montre quelques raccourcis clavier supplémentaires&nbsp;:</p>
+
+<pre><code>&lt;keyset&gt;
+  &lt;key id="copy-key" modifiers="accel" key="C"/&gt;
+  &lt;key id="find-key" keycode="VK_F3"/&gt;
+  &lt;key id="switch-key" modifiers="control alt" key="1"/&gt;
+&lt;/keyset&gt;</code></pre>
+
+<p>Le premier raccourci est déclenché lorsque l'utilisateur presse la touche de raccourci
+spécifique à sa plate-forme et <kbd>C</kbd>. Le deuxième est invoqué quand l'utilisateur
+presse <kbd>F3</kbd>. Le troisième se déclenche sur une pression des touches
+<kbd>Ctrl</kbd>, <kbd>Alt</kbd> et <kbd>1</kbd>. Si vous voulez distinguer les touches
+de la partie centrale du clavier et les touches du pavé numérique, utilisez les touches
+VK_NUMPAD (telles que <var>VK_NUMPAD1</var>).</p>
+
+<p class="note">Consultez la page anglaise <a href="http://www.mozilla.org/access/keyboard/">Mozilla Keyboard Planning FAQ and Cross Reference</a> pour de plus amples informations sur les raccourcis clavier dans les applications.</p>
+
+<h2>Utilisation des raccourcis clavier</h2>
+
+<p>Maintenant que nous savons comment définir les raccourcis clavier, nous allons découvrir
+comment les utiliser. Il y a deux manières. La première est la plus simple et requiert seulement
+que vous utilisiez le gestionnaire d'événements clavier sur l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>. Quand l'utilisateur
+presse la (ou les) touche(s), le script est invoqué. Voici un exemple&nbsp;:</p>
+
+<pre><code>&lt;keyset&gt;
+  &lt;key id="copy-key" modifiers="accel" key="C" oncommand="DoCopy();"/&gt;
+&lt;/keyset&gt;</code></pre>
+
+<p>La fonction <code>DoCopy</code> sera appelée quand l'utilisateur pressera les
+touches spécifiées par l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>
+qui sont, dans cet exemple, les touches pour copier vers le presse-papiers (telles que
+<kbd>Ctrl</kbd>+<kbd>C</kbd>). Ceci fonctionnera tant que la fenêtre sera ouverte.
+La fonction <code>DoCopy</code> devrait vérifier si du texte est sélectionné et le copier
+dans le presse-papiers si tel est le cas. Notez que les champs de saisie intègrent déjà des
+raccourcis pour utiliser le presse-papiers, de sorte que vous n'avez pas besoin de les
+implémenter vous-même.</p>
+
+<h3>Assignation d'un raccourci clavier à un menu</h3>
+
+<p>Si vous assignez un raccourci clavier à une commande qui existe déjà dans un menu, vous pouvez associer
+directement l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> avec
+la commande du menu. Pour cela, ajoutez un attribut <code class="attribut">key</code> à
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>.
+Donnez lui comme valeur l'<code class="attribut">id</code> du raccourci que vous voulez lui
+associer.
+L'exemple ci-dessous explique cette méthode.</p>
+
+<p>Exemple 6.3.2&nbsp;:
+<a href="exemples/ex_keyshort_2.xul.txt">Source</a>
+<a href="exemples/ex_keyshort_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+
+<pre><code>&lt;keyset&gt;
+  &lt;key id="paste-key" modifiers="accel" key="V"
+          oncommand="alert('invoque Coller')"/&gt;
+&lt;/keyset&gt;
+&lt;menubar id="sample-menubar"&gt;
+  &lt;menu id="edit-menu" label="Editer" accesskey="e"&gt;
+    &lt;menupopup id="edit-popup"&gt;
+      &lt;menuitem id="paste-command" accesskey="c" key="paste-key" label="Coller"
+                   oncommand="alert('invoque Coller')"/&gt;
+    &lt;/menupopup&gt;
+  &lt;/menu&gt;
+&lt;/menubar&gt;</code></pre>
+
+<p>L'attribut <code class="attribut">key</code> de l'item du menu, qui est ici <var>paste-key</var>,
+est égal à l'<code class="attribut">id</code> du raccourci défini. Vous pouvez utilisez cette méthode
+pour définir des raccourcis supplémentaires à plusieurs items de menu.</p>
+
+<p><img src="images/keyshort1.jpg" alt="capture d'écran de l'exemple 6.3.2" class="screenshot-left" />
+Vous noterez également dans cette image que du texte a été placé à côté de la commande <var>Coller</var>
+du menu pour indiquer le raccourci <kbd>Ctrl</kbd>+<kbd>V</kbd> pouvant être pressé pour invoquer
+la commande du menu. Cette indication est ajoutée automatiquement pour vous sur la base des touches de modification de
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code>. Les raccourcis
+associés aux menus fonctionneront même si le menu n'est pas ouvert.</p>
+
+<p>Une fonctionnalité supplémentaire des définitions de raccourcis est que vous pouvez les
+désactivez facilement. Il vous suffit d'ajouter un attribut <code class="attribut">disabled</code>
+à l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> et lui affecter
+la valeur <var>true</var>. Cet attribut désactive le raccourci clavier de façon à ce qu'il ne puisse pas
+être invoqué. Il est facile de modifier l'attribut <code class="attribut">disabled</code> par
+le biais d'un script.</p>
+
+<div class="task">
+<h2>Notre exemple de recherche de fichiers</h2>
+
+<p>Ajoutons des raccourcis clavier à la boîte de dialogue de recherche de fichiers.
+Nous en ajouterons quatre, un pour chacune des commandes Couper, Copier et Coller, et
+aussi un pour la commande Fermer quand l'utilisateur presse <kbd>Esc</kbd></p>
+
+<p><a href="exemples/findfile/findfile-keyshort.xul.txt">Source</a>
+<a href="exemples/findfile/findfile-keyshort.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+
+<pre><code><strong>&lt;keyset&gt;
+  &lt;key id="cut_cmd" modifiers="accel" key="X"/&gt;
+  &lt;key id="copy_cmd" modifiers="accel" key="C"/&gt;
+  &lt;key id="paste_cmd" modifiers="accel" key="V"/&gt;
+  &lt;key id="close_cmd" keycode="VK_ESCAPE" oncommand="window.close();"/&gt;
+&lt;/keyset&gt;
+</strong>
+&lt;vbox flex="1"&gt;
+ &lt;toolbox&gt;
+  &lt;menubar id="findfiles-menubar"&gt;
+   &lt;menu id="file-menu" label="Fichier" accesskey="f"&gt;
+     &lt;menupopup id="file-popup"&gt;
+       &lt;menuitem label="Ouvrir une recherche..." accesskey="o"/&gt;
+       &lt;menuitem label="Sauver une recherche..." accesskey="s"/&gt;
+       &lt;menuseparator/&gt;
+       &lt;menuitem label="Fermer" accesskey="c" <strong>key="close_cmd"</strong>
+         oncommand="window.close();"/&gt;
+     &lt;/menupopup&gt;
+   &lt;/menu&gt;
+   &lt;menu id="edit-menu" label="Editer" accesskey="e"&gt;
+     &lt;menupopup id="edit-popup"&gt;
+       &lt;menuitem label="Couper" accesskey="c" <strong>key="cut_cmd"</strong>/&gt;
+       &lt;menuitem label="Copier" accesskey="p" <strong>key="copy_cmd"</strong>/&gt;
+       &lt;menuitem label="Coller" accesskey="l" <strong>key="paste_cmd"</strong> disabled="true"/&gt;
+     &lt;/menupopup&gt;
+   &lt;/menu&gt;</code></pre>
+
+<p>Maintenant nous pouvons utiliser ces raccourcis pour activer les commandes. Évidemment les
+commandes du presse-papiers restent inactives puisque nous n'avons pas encore
+écrit leurs scripts.</p>
+</div>
+
+<h2>Événements Clavier</h2>
+
+<p>Il y a trois types d'événements clavier qui peuvent être utilisés si les dispositifs principaux décrits
+ci-dessus ne sont pas appropriés.</p>
+
+<dl>
+    <dt><code>keypress</code></dt>
+    <dd>Appelé quand une touche est pressée puis relachée avec l'élement qui a le focus (élément actif).
+        Vous pouvez l'utiliser pour controller les caractères saisis dans un champ.
+    </dd>
+    <dt><code>keydown</code></dt>
+    <dd>Appelé quand une touche est pressée avec l'élément qui a le focus (élément actif). Remarquez
+        que l'évènement sera appelé aussitôt la touche enfoncée, même si elle n'a pas été encore
+        relachée.
+    </dd>
+    <dt><code>keyup</code></dt>
+    <dd>Appelé quand une touche est relachée avec l'élément qui a le focus (élément actif).
+    </dd>
+</dl>
+
+<p>Les évènements clavier sont envoyés seulement à l'élément qui a le focus.
+Typiquement, ils incluent les champs de saisie, les boutons, les cases à cocher, et d'autres encore.
+Si aucun des éléments n'est actif, l'événement sera dirigé vers le document XUL lui-même.
+Dans ce cas, vous pouvez associer un scrutateur d'événements à la balise
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>.
+Cependant, si vous voulez réagir aux événements de manière globale, vous devriez utiliser un
+raccourci clavier comme décrit plus haut.</p>
+
+<p>L'objet <code>event</code> a deux propriétés qui contiennent la touche pressée. La propriété <code>keyCode</code>
+contient le code de la touche qui peut être comparé
+à une des constantes de la table des codes de touche vue plus tôt dans cette section.
+La propriété <code>charCode</code> est utilisée pour les caractères imprimables
+et contient le caractère de la touche pressée.</p>
+
+<hr />
+
+<p>Dans la prochaine section, nous allons découvrir comment gérer le focus et la sélection.</p>

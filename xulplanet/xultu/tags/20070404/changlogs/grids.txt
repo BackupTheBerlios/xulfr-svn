@@ -1,0 +1,47 @@
+@@ -279,28 +279,73 @@
+ otherwise it would only grow in one direction.
+ </P>
+
++<H3>Column Spanning</H3>
++
++<P>
++There is no means of making a cell span a particular number of multiple columns
++or rows. However, it is possible to make a row or column that spans the entire
++width or height of the grid. To do this, just add an element inside the
++<A CLASS="tag" HREF="/references/elemref/ref_rows.html">rows</A> element that inside a
++<A CLASS="tag" HREF="/references/elemref/ref_row.html">row</A> element. You can use a box type for example, and put
++other elements inside it if you want to use several elements. Here is a simple
++example:
++</P>
++
++
++Example 4.4.5:
++<A HREF='examples/ex_grids_5.xul.txt'>Source</A>
++<A HREF="examples/ex_grids_5.xul" ONCLICK="window.open('examples/ex_grids_5.xul','xulex','chrome,resizable'); return false;">View</A>
++<DIV CLASS="example"><PRE>&lt;grid&gt;
++  &lt;columns&gt;
++    &lt;column flex="1"/&gt;
++    &lt;column flex="1"/&gt;
++  &lt;/columns&gt;
++
++  &lt;rows&gt;
++    &lt;row&gt;
++      &lt;label value="Northwest"/&gt;
++      &lt;label value="Northeast"/&gt;
++    &lt;/row&gt;
++    &lt;button label="Equator"/&gt;
++    &lt;row&gt;
++      &lt;label value="Southeast"/&gt;
++      &lt;label value="Northeast"/&gt;
++    &lt;/row&gt;
++  &lt;/rows&gt;
++&lt;/grid&gt;</PRE></DIV>
++
++
++
++<P>
++The button will stretch to fit the entire width of the grid as it is not inside a
++grid row. You can use a similar technique to add an element in-between two columns.
++It would stretch to fit the height of the grid. You could also do both if that is
++desired.
++</P> 

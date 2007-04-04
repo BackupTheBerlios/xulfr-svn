@@ -1,0 +1,186 @@
+
+<p>Une application XUL requiert souvent l'affichage de boîtes de dialogue. Cette
+section décrit comment les construire.</p>
+
+<h2>Création d'une boîte de dialogue</h2>
+
+<p>La fonction <code>open()</code> est utilisée pour ouvrir une fenêtre. Une fonction
+apparentée est <code>openDialog()</code>. Cette fonction a plusieurs différences importantes. 
+Au lieu d'une fenêtre (window), elle affiche une boîte de dialogue (dialog), ce qui
+implique qu'elle demande quelque chose à l'utilisateur. Elle peut avoir des
+différences subtiles dans sa manière de fonctionner et d'apparaître à
+l'utilisateur suivant les différentes plateformes.</p>
+
+<p>De plus, la fonction <code>openDialog()</code> peut prendre des arguments
+additionnels en plus des trois premiers habituels. Ces arguments sont passés à la nouvelle
+boîte de dialogue et placés dans un tableau stocké dans la propriété <code
+class="attribut">arguments</code> de la nouvelle fenêtre. Vous pouvez passer
+autant d'arguments que nécessaire. C'est un moyen pratique de fournir des
+valeurs par défaut aux champs de la boîte de dialogue.</p>
+
+<pre><code>var somefile=document.getElementById('enterfile').value;
+
+window.openDialog("chrome://findfile/content/showdetails.xul","showmore",
+                  "chrome",somefile);</code></pre>
+
+<p>Dans cet exemple, la boîte de dialogue <var>showdetails.xul</var> sera
+affichée. L'argument <var>somefile</var> provenant d'un élément d'id <var>enterfile</var> 
+lui est transmis. Dans un script utilisé par la boîte de
+dialogue, nous pouvons alors faire référence à l'argument en utilisant la
+propriété <code class="attribut">arguments</code> de la fenêtre. Par exemple&nbsp;:</p>
+
+<pre><code>var fl=window.arguments[0];
+
+document.getElementById('thefile').value=fl;</code></pre>
+
+<p>C'est un moyen efficace de passer des valeurs à la nouvelle fenêtre. Vous
+pouvez renvoyer des valeurs de la fenêtre ouverte vers la fenêtre originelle de
+deux manières. Première méthode&nbsp;: vous pouvez utiliser la propriété <code
+class="attribut">window.opener</code> qui contient une référence à la fenêtre qui a ouvert la
+boîte de dialogue. Seconde méthode&nbsp;: vous pouvez passer une fonction ou un objet en
+argument, puis appeler la fonction ou modifier l'objet dans la boîte de dialogue
+ouverte.</p>
+
+<p class="note">Note&nbsp;: <code>openDialog()</code> nécessite un privilège UniversalBrowserWrite. 
+Cela signifie que cette méthode ne fonctionnera pas sur des sites distants&nbsp;; pour ces sites, 
+utilisez la méthode <code>window.open()</code> à la place.</p>
+
+<h2>L'élément <code class="tag"><a href="http://www.xulfr.org/wiki/Reference/Xul/dialog">dialog</a></code></h2>
+
+<p>L'élément <code class="tag"><a
+href="http://www.xulfr.org/wiki/Reference/Xul/dialog">dialog</a></code> doit
+être utilisé à la place de l'élément <code class="tag"><a
+href="http://www.xulfr.org/wiki/Reference/Xul/window">window</a></code> lors de la
+création d'une boîte de dialogue. Il offre la possibilité de construire
+jusqu'à quatre boutons au bas de la boîte de dialogue, pour «&nbsp;OK&nbsp;», «&nbsp;Annuler&nbsp;», etc.
+Vous n'avez pas besoin d'inclure le code XUL pour chaque bouton mais vous devez
+fournir le code à exécuter quand l'utilisateur les presse. Ce
+mécanisme est nécessaire car les différentes plateformes ont un ordre d'affichage spécifique
+de ces boutons.</p>
+
+<h3>Exemple de boîte de dialogue</h3>
+
+<p>Exemple 11.2.1&nbsp;:
+<a href="exemples/ex_dialogs_1.xul.txt">Source</a>
+<a href="exemples/ex_dialogs_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+
+<pre><code>&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
+
+&lt;?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?&gt;
+
+&lt;dialog id="donothing" title="Ne fait rien"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept,cancel"
+        ondialogaccept="return doOK();"
+        ondialogcancel="return doCancel();"&gt;
+
+&lt;script&gt;
+function doOK()
+{
+  alert("Vous avez appuyé sur OK !");
+  return true;
+}
+
+function doCancel()
+{
+  alert("Vous avez appuyé sur Annuler !");
+  return true;
+}
+&lt;/script&gt;
+
+&lt;description value="Veuillez sélectionner un bouton"/&gt;
+
+&lt;/dialog&gt;</code></pre>
+
+<p>Vous pouvez placer tous les éléments que vous souhaitez dans une boîte de
+dialogue. L'élément <code class="tag"><a
+href="http://www.xulfr.org/wiki/Reference/Xul/dialog">dialog</a></code> a des
+attributs que les fenêtres n'ont pas. L'attribut <code
+class="attribut">buttons</code>, par exemple, est
+utilisé pour spécifier quels boutons doivent apparaître dans la boîte de
+dialogue. Les valeurs suivantes peuvent être utilisées en les séparant par des
+virgules&nbsp;:</p>
+
+<ul>
+  <li><var>accept</var> - un bouton OK</li>
+  <li><var>cancel</var> - un bouton Annuler</li>
+  <li><var>help</var> - un bouton Aide</li>
+  <li><var>disclosure</var> - un bouton d'information, utilisé pour montrer plus
+  d'informations.</li>
+</ul>
+
+<p>Vous pouvez exécuter du code lors de l'appui des boutons en utilisant les
+attributs <code class="attribut">ondialogaccept</code>, <code
+class="attribut">ondialogcancel</code>, <code class="attribut">ondialoghelp
+</code> et <code class="attribut">ondialogdisclosure</code>. Si vous essayez
+l'exemple ci-dessus, vous remarquerez que la fonction <code>doOK</code> est
+appelée quand le bouton <var>OK</var> est pressé et que la fonction <code>doCancel</code> est appelée quand
+le bouton <var>Annuler</var> est pressé.</p>
+
+<p>Les deux fonctions <code>doOK</code> et <code>doCancel</code> renvoient
+<var>true</var>, ce qui indique que la boîte de dialogue doit être fermée. Si
+la valeur <var>false</var> était renvoyée, la boîte de dialogue resterait ouverte. Ce fonctionnement
+pourrait être utilisé dans le cas où une valeur invalide serait entrée dans un
+champ de la boîte de dialogue.</p>
+
+<p>Voici d'autres attributs utiles&nbsp;:</p>
+
+<ul>
+  <li>buttonlabelaccept - libellé devant apparaître sur le bouton d'acceptation (par ex. Sauvegarder)</li>
+  <li>buttonaccesskeyaccept - touche de raccourci pour le bouton d'acceptation (par ex. S)</li>
+  <li>defaultButton - le bouton activé lorsque la touche <kbd>Entrée</kbd> est appuyée</li>
+</ul>
+
+<p class="note">Note&nbsp;: Les attributs <code class="attribut">label</code> sont nécessaires 
+pour les sites distants et ont probablement été omis dans les exemples précédents à cause du 
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=224996">bug 224996</a>.</p>
+
+<h3>Exemple de dialogue avec plus de fonctionnalités</h3>
+
+<pre><code>&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
+&lt;?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?&gt;
+
+&lt;dialog id="myDialog" title="Mon dialogue"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        onload="window.sizeToContent();"
+        buttons="accept,cancel"
+        buttonlabelaccept="Choix favori"
+        buttonaccesskeyaccept="S"
+        ondialogaccept="return doSave();"
+        buttonlabelcancel="Annuler"
+        buttonaccesskeycancel="n"
+        ondialogcancel="return doCancel();"&gt;
+
+&lt;script&gt;
+function doSave(){
+ //faireTraitement()
+ return true;
+}
+function doCancel(){
+  return true;
+}
+&lt;/script&gt;
+
+&lt;dialogheader title="Mon dialogue" description="Exemple de dialogue"/&gt;
+&lt;groupbox flex="1"&gt;
+  &lt;caption label="Sélectionnez votre fruit préféré"/&gt;
+  &lt;radio id="orange" label="Des oranges car elles sont juteuses"/&gt;
+  &lt;radio id="violet" selected="true" label="Des frises à cause de leur couleur"/&gt;
+  &lt;radio id="yellow" label="Des bananes car elles sont déjà emballées"/&gt;
+&lt;/groupbox&gt;
+
+&lt;/dialog&gt;</code></pre>
+
+<p>Les éléments correspondants aux boutons sont accessibles en JavaScript par le script suivants&nbsp;:</p>
+
+<pre><code>// le bouton d'acceptation
+var acceptButt = document.documentElement.getButton("accept")</code></pre>
+
+<h3>Autres exemples</h3>
+
+<p>D'autres exemples sont disponibles dans <a href="http://developer.mozilla.org/fr/docs/Extraits_de_code:Dialogues_et_invites">Dialogues et invites</a>.</p>
+
+<hr />
+
+<p>Dans la prochaine section, nous allons voir comment ouvrir des boîtes de
+dialogue de sélection de fichiers.</p>

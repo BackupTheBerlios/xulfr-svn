@@ -1,0 +1,86 @@
+
+<p>Cete section décrit comment sauvegarder l'état d'une fenêtre XUL.</p>
+
+<h2>Mémorisation d'un état</h2>
+
+<p>Lors de la création d'une application importante, il est fréquent
+de vouloir sauvegarder l'état d'une fenêtre tout au long des
+sessions. Par exemple, la fenêtre doit se souvenir quelles étaient
+les barres d'outils masquées après que l'utilisateur l'ait
+quitté.</p>
+
+<p>Une possibilité serait d'écrire un script chargé de
+collecter l'information que vous voulez sauvegarder et de l'enregistrer
+dans un fichier. Toutefois, cette opération deviendrait pénible à chaque
+application. Heureusement, XUL propose un mécanisme pour sauvegarder
+les états d'une fenêtre.</p>
+
+<p>L'information est collectée et stockée dans un fichier RDF
+(localstore.rdf) dans le même répertoire que les autres préférences
+de l'utilisateur. Ce fichier retient les états de chaque fenêtre.
+Cette méthode a l'avantage de fonctionner avec les profils utilisateurs
+de Mozilla, ainsi chaque utilisateur a ses propres paramètres.</p>
+
+<p>XUL vous permet de sauvegarder l'état de n'importe quel élément.
+Typiquement, vous pouvez sauvegarder les états des barres d'outils, les
+positions des fenêtres et si certains panneaux sont affichés
+ou non, mais vous pouvez sauvegarder presque tout.</p>
+
+<h3>Attribut <code class="attribute">persist</code></h3>
+
+<p>Pour permettre la sauvegarde d'états, vous devez simplement ajouter
+l'attribut <code class="attribut">persist</code> à l'élément
+qui contient la valeur que vous voulez sauvegarder. L'attribut <code class="attribut">persist</code>
+doit être affecté par une liste d'éléments séparés
+par des espaces. L'élément concerné doit également
+avoir un attribut <code class="attribut">id</code> pour permettre de l'identifier.</p>
+
+<p>Par exemple, pour sauvegarder la position d'une fenêtre, vous devrez
+procéder comme ceci&nbsp;:</p>
+
+<pre><code>&lt;window
+   id=&quot;someWindow&quot;
+   width=&quot;200&quot;
+   height=&quot;300&quot;
+   persist=&quot;width height&quot;
+   .
+   .
+   .</code></pre>
+
+<p>Les deux attributs de l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>,
+<code class="attribut">width</code> et <code class="attribut">height</code>,
+seront sauvegardés. Vous pourriez ajouter à l'attribut <code class="attribut">persist</code>
+des attributs supplémentaires à mémoriser tout en les
+séparant par un espace. Vous pouvez ajouter l'attribut <code class="attribut">persist</code>
+à n'importe quel élément et mémoriser n'importe
+quel attribut. Vous pouvez utiliser des valeurs inhabituelles si vous ajustez
+les attributs par un script.</p>
+
+<div class="task">
+<h3>Exemple de recherche de fichiers</h3>
+
+<p>Ajoutons un attribut <code class="attribut">persist</code> à quelques
+éléments de notre boîte de dialogue de recherche de
+fichiers. Pour sauvegarder la position de la fenêtre, nous devons
+modifier l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>&nbsp;:</p>
+
+<pre><code>&lt;window
+   id=&quot;findfile-window&quot;
+   title=&quot;Recherche de fichiers&quot;
+   <strong>persist=&quot;screenX screenY width height&quot;</strong>
+   orient=&quot;horizontal&quot;
+   xmlns=&quot;http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul&quot;&gt;</code></pre>
+
+<p>Cette modification va sauvegarder la position x et y de la fenêtre, sa largeur
+et sa hauteur. Nous poursuivrons plus tard la mémorisation de l'état
+du séparateur. La mémorisation de l'onglet sélectionné n'aurait aucun sens.</p>
+
+<p>Exemple de recherche de fichiers&nbsp;:
+<a href="exemples/findfile/findfile-persist.xul.txt">Source</a>
+<a href="exemples/findfile/findfile-persist.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
+</div>
+
+<hr />
+
+<p>Dans la section suivante, nous verrons comment appliquer des feuilles de styles à 
+des fichiers XUL.</p>

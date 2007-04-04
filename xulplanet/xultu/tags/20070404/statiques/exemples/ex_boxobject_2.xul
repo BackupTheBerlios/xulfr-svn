@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Example 7.4.2"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+function showPositionAndSize()
+{
+  var labelbox = document.getElementById('thelabel').boxObject;
+
+  alert("La position est (" + labelbox.x + "," + labelbox.y +
+        ") et les dimensions sont (" + labelbox.width + "," +
+        labelbox.height + ")");
+}
+</script>
+
+<button label="Caché"
+        oncommand="document.getElementById('thelabel').hidden = true;"/>
+<button label="Montré"
+        oncommand="document.getElementById('thelabel').hidden = false;"/>
+<button label="Réduit"
+        oncommand="document.getElementById('thelabel').collapsed = true;"/>
+<button label="Non réduit"
+        oncommand="document.getElementById('thelabel').collapsed = false;"/>
+<button label="Montrer la position et les dimensions"
+        oncommand="showPositionAndSize();"/>
+
+<label id="thelabel" value="Je suis un libellé"/>
+
+</window>

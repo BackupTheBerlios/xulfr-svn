@@ -1,0 +1,178 @@
+
+<p>Cette section donne quelques exemples d'utilisation de la technologie XPCOM avec de nouvelles interfaces.</p>
+
+<h2>Gestion de Fenêtres</h2>
+
+<p class="note">Cet exemple contient une source de données RDF qui sera décrite dans 
+<a href="templates.html">une prochaine section</a>. Vous devriez passer cet exemple pour 
+l'instant, à moins d'en savoir suffisamment sur le sujet.</p>
+
+<h3>Création d'un menu de fenêtre</h3>
+
+<p>La liste des fenêtres Mozilla ouvertes peut être utilisée comme une source de données RDF.
+Elle vous permer de créer dans votre application un menu donnant la liste des fenêtres courantes ouvertes.
+La source de données correspondante est <var>rdf:window-mediator</var> dont voici un exemple
+d'utilisation&nbsp;:</p>
+
+<p>Exemple 7.6.1&nbsp;:
+<a href="exemples/ex_xpcomex_1.xul.txt">Source</a></p>
+
+<pre><code>&lt;menubar id="windowlist-menubar"&gt;
+  &lt;menu label="Fenêtres"&gt;
+   &lt;menupopup id="window-menu" datasources="rdf:window-mediator" ref="NC:WindowMediatorRoot"&gt;
+    &lt;template&gt;
+     &lt;rule&gt;
+      &lt;menuitem uri="rdf:*" label="rdf:http://home.netscape.com/NC-rdf#Name"/&gt;
+     &lt;/rule&gt;
+    &lt;/template&gt;
+   &lt;/menupopup&gt;
+  &lt;/menu&gt;
+ &lt;/menubar&gt;
+&lt;/toolbox&gt;</code></pre>
+
+<p>Un menu contenant la liste de toutes les fenêtres ouvertes sera créé.
+Essayez cet exemple en ouvrant plusieurs fenêtres, et vous les verrez toutes dans le menu.</p>
+
+<h3>Composant mediator</h3>
+
+<p>Cet exemple peut être amélioré de telle façon que lorsque l'on clique sur un élément 
+du menu, la fenêtre correspondante soit affichée.
+Cette tâche sera rendue possible grâce au composant "window mediator" qui implémente
+l'interface <code>nsIWindowDataSource</code>. Le code suivant montre comment il fonctionne&nbsp;:</p>
+
+<pre><code>var wmdata = Components.classes["@mozilla.org/rdf/datasource;1?name=window-mediator"].getService();
+wmdata.QueryInterface(Components.interfaces.nsIWindowDataSource);</code></pre>
+
+<p>Ce code récupère le composant "window mediator". Le composant utilisé ici est le même que celui 
+qui gère la source de données RDF "Window-mediator". Vous pouvez également récupérer ce composant 
+au travers du service RDF qui est un autre service de gestion des sources de données RDF.</p>
+
+<p>L'interface <code>nsIWindowDataSource</code> possède une fonction
+<code>getWindowForResource</code> qui nous donne une fenêtre
+à partir d'une ressource. Dans un exemple précédent, nous avons généré une liste
+de fenêtres que nous avons ajoutée à un menu via une balise
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/template">template</a></code>.
+Celle-ci génère  un attribut <code class="attribut">id</code> pour chaque élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menuitem">menuitem</a></code>.
+La valeur de cet attribut peut être utilisée comme ressource.
+Ainsi pour donner le focus à la fenêtre sélectionnée, nous pouvons procéder
+de la manière suivante&nbsp;:</p>
+
+<ul>
+  <li>Déterminer l'élément que l'utilisateur a sélectionné.</li>
+  <li>Récupérer la valeur de l'attribut <code class="attrib">id</code>
+      de cet élément.</li>
+  <li>Passer cette valeur à <code class="attrib">getWindowForResource()</code>
+     pour avoir l'objet "window".</li>
+  <li>Mettre le focus sur celle-ci.</li>
+</ul>
+
+<p>L'exemple ci-dessous nous montre comment procéder&nbsp;:</p>
+
+<pre><code>&lt;toolbox&gt;
+ &lt;menubar id="windowlist-menubar"&gt;
+  &lt;menu label="Fenêtre" oncommand="switchFocus(event.target);"&gt;
+   &lt;menupopup id="window-menu" datasources="rdf:window-mediator" ref="NC:WindowMediatorRoot"&gt;
+    &lt;template&gt;
+     &lt;rule&gt;
+      &lt;menuitem uri="rdf:*" label="rdf:http://home.netscape.com/NC-rdf#Name"/&gt;
+     &lt;/rule&gt;
+    &lt;/template&gt;
+   &lt;/menupopup&gt;
+  &lt;/menu&gt;
+ &lt;/menubar&gt;
+&lt;/toolbox&gt;
+
+&lt;script&gt;
+function switchFocus(elem)
+{
+  var mediator = Components.classes["@mozilla.org/rdf/datasource;1?name=window-mediator"].getService();
+  mediator.QueryInterface(Components.interfaces.nsIWindowDataSource);
+
+  var resource = elem.getAttribute('id');
+  switchwindow = mediator.getWindowForResource(resource);
+
+  if (switchwindow){
+    switchwindow.focus();
+  }
+}
+&lt;/script&gt;</code></pre>
+
+<p>Un gestionnaire de commande a été ajouté à l'élément menu. Ce gestionnaire appelle
+la fonction <code>switchFocus()</code> avec comme paramètre l'élément du menu que nous avons sélectionné.
+La fonction <code>switchFocus()</code>&nbsp;:</p>
+
+<ul>
+  <li>récupère d'abord une référence du composant qui implémente l'interface du "window mediator" (<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: plus exactement <code>nsIWindowDataSource</code> ).</li>
+  <li>Puis nous récupérons l'attribut <code class="attribut">id</code> de l'élément. Nous utilisons cette valeur comme ressource.</li>
+  <li>La ressource est passée en paramètre à la fonction <code>getWindowForResource()</code> qui renvoie la fenêtre correspondante. Cette fenêtre est stockée dans la variable <code>switchwindow</code> comme objet javascript window.</li>
+  <li>Par conséquent, toutes les fonctions de cet objet sont utilisables, comme la fonction <code>focus()</code>.</li>
+</ul>
+
+<h2>Cookies</h2>
+
+<p>Maintenant, nous allons récupérer la liste des cookies sauvegardés par le
+navigateur. Nous allons utiliser le service "Cookie" qui implémente
+l'interface <code>nsICookieManager</code> utilisée pour énumérer tous les cookies.
+Voici un exemple qui alimente la liste d'un menu avec le nom de tous les
+cookies provenant du site MozillaZine.</p>
+
+<pre><code>&lt;script&gt;
+
+function getCookies()
+{
+  var menu = document.getElementById("cookieMenu");
+  menu.removeAllItems();
+
+  var cookieManager = Components.classes["@mozilla.org/cookiemanager;1"]
+                        .getService(Components.interfaces.nsICookieManager);
+
+  var iter = cookieManager.enumerator;
+  while (iter.hasMoreElements()){
+    var cookie = iter.getNext();
+    if (cookie instanceof Components.interfaces.nsICookie){
+      if (cookie.host == "www.mozillazine.org")
+        menu.appendItem(cookie.name,cookie.value);
+    }
+  }
+}
+&lt;/script&gt;
+
+&lt;hbox&gt;
+  &lt;menulist id="cookieMenu" onpopupshowing="getCookies();"/&gt;
+&lt;/hbox&gt;</code></pre>
+
+<p>La fonction <code>getCookies()</code> sera appelée à chaque ouverture du menu, comme
+indiqué par l'attribut <code class="attribut">onpopupshowing</code> de
+l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code>.
+Les deux premières lignes de <code>getCookies()</code> récupèrent l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menulist">menulist</a></code> et
+suppriment tous les items existants. En effet comme cette fonction est appelée
+à chaque fois que nous l'ouvrons, nous ne voulons pas garder les anciens éléments.</p>
+
+<p>Ensuite, le gestionnaire de cookie est récupéré. Celui-ci a une méthode qui
+renvoie un objet énumérateur implémentant <code>nsISimpleEnumerator</code>. Il nous permet de
+parcourir tous les cookies. Un énumérateur dispose d'une méthode <code>hasMoreElements()</code>
+retournant <var>true</var> jusqu'à ce que le dernier cookie soit récupéré.
+La méthode <code>getNext()</code> renvoie un cookie et incrémente l'index de l'énumérateur.
+Comme l'énumérateur ne renvoie qu'un objet générique, nous devons lui indiquer
+que nous voulons utiliser l'interface <code>nsICookie</code>.
+Dans ce cas, l'opérateur <code>instanceof</code> permet d'accomplir cette vérification.</p>
+
+<p>Finalement, un élément est ajouté au menu pour chaque cookie (
+<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: dont le site
+hôte est "www.mozillazine.org"). Les propriétés hôte, nom et valeur du cookie sont alors utilisées.
+Les menus ont une fonction <code>appendItem()</code> qui ajoute un élément avec un libellé et une valeur.</p>
+
+<h2>Voir aussi</h2>
+
+<p>D'autres exemples sont disponibles ici&nbsp;:</p>
+
+<ul>
+  <li><a href="http://developer.mozilla.org/fr/docs/Extraits_de_code">Extraits de code</a></li>
+  <li><a href="http://kb.mozillazine.org/Category:XPCOM_example_code">Exemples de code XPCOM sur Mozillazine</a></li>
+</ul>
+
+<hr />
+
+<p>Dans la section suivante, nous allons voir comment utiliser le presse papier.</p>

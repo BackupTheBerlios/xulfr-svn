@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 5.2.1"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<toolbox flex="1" orient="horizontal">
+  <menubar id="sample-menubar">
+    <menu id="file-menu" label="Fichier">
+      <menupopup id="file-popup">
+        <menuitem label="Nouveau"/>
+        <menuitem label="Ouvrir"/>
+        <menuitem label="Enregistrer"/>
+        <menuseparator/>
+        <menuitem label="Quitter"/>
+      </menupopup>
+    </menu>
+    <menu id="edit-menu" label="Edition">
+      <menupopup id="edit-popup">
+        <menuitem label="Annuler"/>
+        <menuitem label="Refaire"/>
+      </menupopup>
+    </menu>
+  </menubar>
+</toolbox>
+
+
+</window>

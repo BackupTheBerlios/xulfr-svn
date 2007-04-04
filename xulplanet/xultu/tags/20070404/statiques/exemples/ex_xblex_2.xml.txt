@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:xbl="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<binding id="slideshow">
+  <content>
+    <xul:vbox flex="1">
+      <xul:deck xbl:inherits="selectedIndex" selectedIndex="0" flex="1">
+        <children/>
+      </xul:deck>
+      <xul:hbox>
+        <xul:button xbl:inherits="label=previoustext"
+                    oncommand="parentNode.parentNode.parentNode.page--;"/>
+        <xul:description flex="1"/>
+        <xul:button xbl:inherits="label=nexttext"
+                    oncommand="parentNode.parentNode.parentNode.page++;"/>
+      </xul:hbox>
+    </xul:vbox>
+  </content>
+
+  <implementation>
+
+    <constructor>
+      var totalpages=this.childNodes.length;
+      document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1]
+              .setAttribute("value",(this.page+1)+" sur "+totalpages);
+    </constructor>
+
+    <property name="page"
+          onget="return parseInt(document.getAnonymousNodes(this)[0].childNodes[0].getAttribute('selectedIndex'));"
+          onset="return this.setPage(val);"/>
+
+    <method name="setPage">
+      <parameter name="newidx"/>
+      <body>
+        <![CDATA[
+          var thedeck=document.getAnonymousNodes(this)[0].childNodes[0];
+          var totalpages=this.childNodes.length;
+
+          if (newidx<0) return 0;
+          if (newidx>=totalpages) return totalpages;
+          thedeck.setAttribute("selectedIndex",newidx);
+          document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1]
+                  .setAttribute("value",(newidx+1)+" sur "+totalpages);
+          return newidx;
+        ]]>
+      </body>
+    </method>
+  </implementation>
+
+</binding>
+
+
+</bindings>

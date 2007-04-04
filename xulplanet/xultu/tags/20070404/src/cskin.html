@@ -1,0 +1,283 @@
+
+<p>Cette section décrit comment créer un thème simple. Nous
+ne l'appliquerons qu'à la fenêtre de recherche de fichiers.</p>
+
+<h2>Un thème simple</h2>
+
+<p>L'image ci-dessous montre la boîte de dialogue de recherche de fichiers actuelle. Créons
+un thème que nous pourrons lui appliquer. Normalement, un thème doit
+s'appliquer à l'application entière, mais, pour plus de facilité, nous allons
+nous concentrer sur la boîte de dialogue de recherche de fichiers. Pour cette raison,
+nous n'allons modifier que le fichier 'findfile.css' plutôt que le fichier
+'global.css'. Cette section suppose que vous démarriez avec le thème Classic.
+Si vous le souhaitez, faites une copie des fichiers utilisés par la boîte de dialogue de
+recherche de fichiers avant de les modifier.</p>
+
+<p><img class="screenshot" alt="" src="images/cskin1.jpg" /></p>
+
+<div class="note">
+<p>Note du traducteur&nbsp;: Pour les versions récentes de mozilla (> 1.6) et de
+firefox (>0.8), avec le fichier findfile.css tel qu'il est, il se peut que vous n'obteniez pas un design identique à ce que montre l'image. En effet, dans le thème classic, des styles
+<code>-moz-appearance</code> ont été ajoutés depuis aux différents éléments, leur permettant d'avoir
+le même aspect que les éléments natifs de l'interface graphique utilisée (windows ou kde, macos, etc.).
+Ce style empêche certains styles d'être appliqués correctement.</p>
+<p>Pour pouvoir modifier complètement l'apparence des éléments utilisés dans notre exemple et
+afin de suivre le tutoriel, il a été rajouté le code suivant dans la feuille de styles de l'exemple&nbsp;:</p>
+<pre><code>tab, button, menulist, menubar,menupopup,toolbar,tabpanels {
+ -moz-appearance:none;
+}
+</code></pre>
+</div>
+
+<p>Vous devez créer un fichier 'findfile.css' dans un thème personnalisé, ou
+vous pouvez placer ce fichier temporairement dans le répertoire "content" et y faire
+référence en utilisant une directive de la feuille de styles. Vous pouvez
+modifier le fichier 'findfile.css' existant directement pour voir à quoi cela ressemble,
+ou vous pouvez créer un thème personnalisé et y faire un lien.</p>
+
+<h3>Création d'un paquetage de thème personnalisé</h3>
+
+<p>Pour créer un thème, faites ce qui suit&nbsp;:(si vous utilisez Firefox 1.5 ou supérieur, 
+consultez plutôt <a href="packaging.html">les fichiers manifest</a>)</p>
+
+<ol>
+  <li>Créez un répertoire quelque part où vous placerez les fichiers du thème.</li>
+  <li>Copiez un fichier manifeste (contents.rdf) du thème Classic ou Modern dans ce nouveau répertoire.</li>
+  <li>Modifiez les références dans le fichier manifeste à un nom personnalisé pour votre thème. Par exemple, 
+  changez les références de <var>classic/1.0</var> vers <var>blueswayedshoes/1.0</var>.</li>
+  <li>Ajoutez une ligne de la forme suivante au fichier <var>chrome/installed-chrome.txt</var>&nbsp;:<br/> <code>skin,install,url,file:///stuff/blueswayedshoes/</code><br/> où la dernière partie pointe 
+  vers le répertoire que vous avez créé. Vérifiez bien que vous avez mis un slash à la fin.</li>
+</ol>
+
+<p>Copiez le fichier 'findfile.css' original dans le nouveau répertoire. Nous
+l'utiliserons comme base pour le nouveau thème. Nous pourrons y faire référence
+par la suite en utilisant l'URL <var>chrome://findfile/skin/findfile.css</var>.</p>
+
+<h3>Ajout de règles de styles</h3>
+
+<p>Décidons d'abord quels types de changements nous voulons effectuer. Nous allons faire de
+simples changements de couleurs, modifier les styles des boutons et modifier un
+peu l'espacement. Commençons par les menus, les barres d'outils et le panneau
+global des onglets.</p>
+
+<p>L'ajout des règles de styles suivantes à 'findfile.css' provoquera les
+changements montrés dans l'image qui suit.</p>
+
+<pre><code>window  > vbox {
+  background-color: #0088CC;
+}
+
+menubar,menupopup,toolbar,tabpanels {
+  background-color: lightblue;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #666666;
+  border-left: 1px solid white;
+  border-right: 1px solid #666666;
+}
+
+caption {
+  background-color: lightblue;
+}</code></pre>
+
+<p><img class="screenshot" alt="" src="images/cskin2.jpg" /></p>
+
+<ul>
+  <li>La boîte intérieure de la fenêtre (qui entoure en fait tout le contenu de la
+  fenêtre) a été changée pour avoir une couleur bleue.</li>
+  <li>Vous pouvez voir ce bleu
+  derrière la bande des onglets et le long du bas de la fenêtre.</li>
+  <li>Les quatre éléments
+  <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menubar">menubar</a></code>, 
+  <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menupopup">menupopup</a></code>,
+  <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/toolbar">toolbar</a></code> et 
+  <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tabpanels">tabpanels</a></code>
+  apparaissent en bleu clair.</li>
+  <li>La bordure autour de ces quatre éléments a été
+  modifiée pour donner une apparence 3D plus forte. Vous pouvez le voir si vous
+  regardez attentivement.</li>
+  <li>La couleur de fond du <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/caption">caption</a></code> a aussi
+  été modifiée pour correspondre avec le fond.</li>
+</ul>
+
+<p>La première règle au-dessus (pour <code>window > vbox</code>) spécifie que la boîte
+enfant de la fenêtre principale a une couleur différente. Ce n'est probablement pas la
+meilleure façon de procéder. Nous devrions plutôt modifier la fenêtre et plutôt utiliser une classe
+de style. C'est ce que nous allons faire. De cette manière, nous
+pourrons modifier le code XUL sans avoir besoin de conserver la boîte comme premier
+élément enfant de la fenêtre.</p>
+
+<pre><code><b>CSS:</b>
+.findfilesbox {
+  background-color: #0088CC;
+}
+
+<b>XUL:</b>
+&lt;vbox <strong>class="findfilesbox"</strong> orient="vertical" flex="100%"&gt;
+&lt;toolbox&gt;</code></pre>
+
+<h3>Arrondis sur les onglets</h3>
+
+<p>Ensuite, modifions les onglets. Nous allons rendre l'onglet sélectionné en gras
+et changer les arrondis sur les onglets.</p>
+
+<pre><code>tab:first-child {
+  -moz-border-radius: 4px 0px 0px 0px;
+}
+
+tab:last-child {
+  -moz-border-radius: 0px 4px 0px 0px;
+}
+
+tab[selected="true"] {
+  color: #000066;
+  font-weight: bold;
+  text-decoration: underline;
+}</code></pre>
+
+<p>Deux règles changent l'apparence normale de l'élément <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/tab">tab</a></code>. La première met un
+arrondi sur le premier onglet et la seconde met un arrondi sur le dernier. On
+utilise ici une règle de styles propre à Mozilla, <code>-moz-border-radius</code>,
+qui crée des coins arrondis.
+La bordure supérieure gauche du premier onglet et la bordure
+supérieure droite du second onglet sont arrondies de quatre pixels et les
+autres coins sont arrondis de zéro pixels, ce qui équivaut à aucun
+arrondi. Augmentez ces valeurs pour un arrondi plus prononcé et diminuez-les pour une
+apparence plus rectangulaire.</p>
+
+<p><img class="screenshot-left" alt="" src="images/cskin3.jpg" />
+La dernière règle ne s'applique qu'aux onglets qui ont leur attribut <code
+class="attribut">selected</code> à la valeur <var>true</var>. Elle met le texte
+d'un onglet sélectionné en gras, souligné et bleu foncé. Notez dans l'image que ce
+style n'est appliqué qu'au premier onglet, puisqu'il est sélectionné.</p>
+
+<h3>Ajout des icônes de barres d'outils</h3>
+
+<p>Il est assez difficile de distinguer les boutons de la barre d'outils des
+commandes du menu. Nous pourrions ajouter des icônes aux boutons pour les rendre
+plus clairs. L'éditeur Mozilla Composer fournit des icônes pour les boutons ouvrir et
+sauvegarder que nous utilisons pour gagner du temps. Nous pouvons choisir
+l'image d'un bouton en utilisant la propriété CSS <code>list-style-image</code>.</p>
+
+<pre><code>#opensearch {
+  list-style-image: url("chrome://editor/skin/icons/btn1.gif");
+  -moz-image-region: rect(48px 16px 64px 0);
+  -moz-box-orient: vertical;
+}
+
+#savesearch {
+  list-style-image: url("chrome://editor/skin/icons/btn1.gif");
+  -moz-image-region: rect(80px 16px 96px 0);
+  -moz-box-orient: vertical;
+}</code></pre>
+
+<p>Mozilla met à disposition une propriété de style spécifique, <code>-moz-image-region</code>,
+qui permet à un élément d'utiliser
+une partie d'une image. Vous pouvez vous la représenter comme un découpage de
+l'image. Vous mettez comme valeur de la propriété une position et une taille
+comprise dans une image et le bouton n'affichera que cette section de l'image.
+Cette technique vous permet d'utiliser la même image pour plusieurs boutons et de mettre
+une portion différente pour chacun d'entre eux. Quand vous avez beaucoup de boutons, avec
+chacun d'eux des états pour hover, active et disabled, elle fait gagner de l'espace qui
+serait sinon occupé par plusieurs images. Dans le code ci-dessus, nous
+utilisons la même image pour tous les boutons, mais nous mettons une portion
+différente de l'image pour chacun. Si vous regardez cette image (btn1.gif), vous
+remarquerez qu'elle contient une grille d'images plus petites, de 16 fois 16
+pixels chacune.</p>
+
+<p class="note">Note du traducteur&nbsp;: étant donné que l'image en question fait partie
+de Mozilla Composer, si vous ouvrez l'exemple avec Firefox,
+vous ne verrez pas les images des boutons, car Mozilla Composer n'est livré qu'avec la suite Mozilla.</p>
+
+<p><img class="screenshot-left" alt="" src="images/cskin4.jpg" />
+La propriété <code>-moz-box-orient</code> est utilisée pour orienter le
+bouton verticalement, pour que l'image apparaisse au-dessus de son libellé. Cette
+propriété a la même signification que l'attribut <code
+class="attribut">orient</code>. Elle est pratique puisque le thème ne peut pas
+modifier le code XUL. La plupart des attributs de l'élément <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/box">box</a></code> ont des propriétés CSS
+qui leur correspondent.</p>
+
+<h3>Autres modifications</h3>
+
+<p>Nous allons maintenant faire quelques changements aux boutons situés en bas
+de la boîte de dialogue, en réutilisant des icônes de Mozilla pour gagner du
+temps. Si vous créez votre propre thème, vous aurez besoin de créer de nouvelles
+icônes ou de copier les icônes dans de nouveaux fichiers. Si vous suivez
+l'exemple de cette section, copiez juste les fichiers vers votre nouveau thème
+et modifiez les URL en conséquence.</p>
+
+<pre><code>#find-button {
+  list-style-image: url("chrome://global/skin/checkbox/images/cbox-check.jpg");
+  font-weight: bold;
+}
+
+#cancel-button {
+  list-style-image: url("chrome://global/skin/icons/images/close-button.jpg");
+}
+
+button:hover {
+  color: #000066;
+}</code></pre>
+
+<p><img class="screenshot-right" alt="" src="images/cskin5.jpg" />
+Nous ajoutons des images aux boutons et mettons le texte du bouton «&nbsp;Rechercher&nbsp;» en gras pour
+indiquer que c'est le bouton par défaut. La dernière règle s'applique aux
+boutons quand la souris les survole (état hover). Nous mettons une
+couleur de texte bleu foncé dans ce cas. Finalement, quelques changements
+mineurs de l'espacement autour des éléments, par l'utilisation de marges&nbsp;:</p>
+
+<pre><code>tabbox {
+  margin: 4px;
+}
+
+toolbarbutton {
+  margin-left: 3px;
+  margin-right: 3px;
+}</code></pre>
+
+<p>Après ces changements, la boîte de dialogue de recherche de fichiers apparaît
+maintenant comme ceci&nbsp;:</p>
+
+<p><img class="screenshot" alt="" src="images/cskin-fin.jpg" /></p>
+
+<p>Comme vous pouvez le voir, de simples changements des règles de styles apportent
+une apparence assez différente à la fenêtre de recherche de fichiers. Nous
+pourrions continuer en modifiant les menus, les poignées sur la barre d'outils
+et les éléments <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code> et <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/checkbox">checkbox</a></code>.</p>
+
+<h2>Création d'un thème global</h2>
+
+<p>Le thème créé ci-dessus est simple et ne s'applique qu'à la boîte de dialogue de
+recherche de fichiers. Certaines des modifications du thème pourraient être
+placées dans les feuilles de styles globales (situées dans le répertoire global du
+thème) pour s'appliquer à toutes les applications. Par exemple, il serait peu cohérent d'avoir des images
+différentes entre les cases à cocher de la fenêtre de recherche de fichiers et
+celles d'autres fenêtres. Ce changement devrait vraiment
+être intégré dans la feuille de styles globale.</p>
+
+<p>Essayez de déplacer les styles CSS de 'findfile.css' dans 'global.css' puis
+regardez les fenêtres de dialogue de Mozilla (Le visualisateur de cookie est un
+bon exemple). Vous remarquerez qu'elles ont adopté les règles que nous avons
+ajoutées. Certaines des règles entrent en conflit avec celles déjà dans les
+feuilles de styles globales. Par exemple, des règles sont déjà définies pour les
+boutons, les onglets, etc., et nous avons défini des règles additionnelles pour
+ces éléments. Quand vous modifiez le thème global, vous devez fusionner les
+changements avec les règles existantes.</p>
+
+<p>Pour une meilleure adaptation du thème graphique, il vaut mieux déclarer les règles de styles
+liées à l'apparence dans le répertoire global plutôt que dans des fichiers de
+styles séparés. Les couleurs, les polices de caractère et
+l'apparence générale des composants graphiques doivent y être inclus. Si vous modifiez la couleur d'un élément dans
+un fichier de thème local (comme 'findfile.css'), la fenêtre de dialogue peut
+paraître bizarre si l'utilisateur change son style global. N'espérez pas
+que l'utilisateur utilise le thème par défaut.</p>
+
+<p>L'exemple du dialogue de recherche de fichier avec ce thème&nbsp;: 
+<a href="exemples/findfile/findfile-cskin.xul.txt">Source</a>
+<a href="exemples/findfile/findfile-cskin.xul" onclick="window.open('exemples/findfile/findfile-cskin.xul','xulff','chrome,resizable');return false;">Voir</a>
+<a href="exemples/findfile/findfile-cskin.css">Feuille de style</a></p>
+
+<hr/>
+
+<p>La section suivante explique comment rendre une application XUL localisable.</p>

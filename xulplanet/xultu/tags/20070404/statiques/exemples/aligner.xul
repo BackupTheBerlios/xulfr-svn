@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<!--
+     This example is used so that people can test the various box properties.
+  -->
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window
+  id="aligner-window" title="Box Alignment Example" orient="horizontal"
+  onload="init();"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script>
+<![CDATA[
+
+var theItem;
+
+function init()
+{
+  changeEditingItem("thebox");
+}
+
+function changeEditingItem(elemid)
+{
+  theItem=document.getElementById(elemid);
+  document.getElementById("flexval").value=theItem.getAttribute("flex");
+  document.getElementById("flexgroupval").value=theItem.getAttribute("flexgroup");
+  document.getElementById("ordinalval").value=theItem.getAttribute("ordinal");
+
+  setMenuItemSelection("alignval",theItem.getAttribute("align"));
+  setMenuItemSelection("packval",theItem.getAttribute("pack"));
+  setMenuItemSelection("orientval",theItem.getAttribute("orient"));
+  setMenuItemSelection("dirval",theItem.getAttribute("dir"));
+
+  var styl=theItem.getAttribute("style");
+
+  setStyleValue(styl,"width","widthval");
+  setStyleValue(styl,"min-width","minwidthval");
+  setStyleValue(styl,"max-width","maxwidthval");
+  setStyleValue(styl,"height","heightval");
+  setStyleValue(styl,"min-height","minheightval");
+  setStyleValue(styl,"max-height","maxheightval");
+}
+
+function setMenuItemSelection(menuid,val)
+{
+  var menu=document.getElementById(menuid);
+  var items=menu.firstChild.childNodes;
+  for (var t=0;t<items.length;t++){
+    if (items[t].value==val){
+      menu.selectedItem=items[t];
+      return;
+    }
+  }
+  menu.selectedItem=items[0];
+}
+
+function setStyleValue(styl,prop,elemid)
+{
+  var val;
+  var len=prop.length+2;
+  var idx=styl.indexOf(" "+prop+":");
+  if (idx==-1) val="";
+  else val=styl.substring(idx+len,styl.indexOf("px",idx+len));
+  document.getElementById(elemid).value=val;
+}
+
+function changeItem(event,attr)
+{
+  if (event.target.value=="---" || event.target.value==""){
+    theItem.removeAttribute(attr);
+  }
+  else {
+    theItem.setAttribute(attr,event.target.value);
+  }
+}
+
+function changeStyle(event,attr)
+{
+  var styl=theItem.getAttribute("style");
+  if (styl.indexOf(" "+attr)>=0){
+    var stylexp=new RegExp(" "+attr+":\s*[0-9]*px;");
+    if (event.target.value=="") styl=styl.replace(stylexp,"");
+    else styl=styl.replace(stylexp," "+attr+":"+event.target.value+"px;");
+    theItem.setAttribute("style", styl);
+  }
+  else {
+    theItem.setAttribute("style", " "+styl+" "+attr+":"+event.target.value+"px;");
+  }
+}
+
+]]>
+</script>
+
+<box id="thebox" orient="horizontal" flex="1" align="start"
+     style="border: 1px solid black; margin: 1em; padding: 1em;">
+  <button id="b1" label="Cat"/>
+  <button id="b2" label="Parrot"/>
+  <button id="b3" label="Porcupine"/>
+</box>
+
+<groupbox>
+  <caption>
+    <label for="edititem" value="Edit:"/>
+    <menulist id="edititem" label="Box"
+              oncommand="changeEditingItem(event.target.value);">
+      <menupopup>
+        <menuitem value="thebox" label="Box" selected="true"/>
+        <menuitem value="b1" label="Cat"/>
+        <menuitem value="b2" label="Parrot"/>
+        <menuitem value="b3" label="Porcupine"/>
+      </menupopup>
+    </menulist>
+  </caption>
+
+<grid>
+  <columns>
+    <column/>
+    <column flex="1"/>
+  </columns>
+  <rows>
+    <row>
+      <label for="flexval" value="flex:"/>
+      <textbox id="flexval" value="1" onchange="changeItem(event,'flex');"/>
+    </row>
+    <row>
+      <label for="flexgroupval" value="flexgroup:"/>
+      <textbox id="flexgroupval" onchange="changeItem(event,'flexgroup');"/>
+    </row>
+    <row>
+      <label for="alignval" value="align:"/>
+      <menulist id="alignval" label="Stretch"
+                oncommand="changeItem(event,'align');">
+        <menupopup>
+          <menuitem value="---" label="(None)"/>
+          <menuitem value="start" label="Start"/>
+          <menuitem value="center" label="Center"/>
+          <menuitem value="end" label="End"/>
+          <menuitem value="baseline" label="Baseline"/>
+          <menuitem value="stretch" label="Stretch" selected="true"/>
+        </menupopup>
+      </menulist>
+    </row>
+    <row>
+      <label for="packval" value="pack:"/>
+      <menulist id="packval" label="Start"
+                oncommand="changeItem(event,'pack');">
+        <menupopup>
+          <menuitem value="---" label="(None)"/>
+          <menuitem value="start" label="Start" selected="true"/>
+          <menuitem value="center" label="Center"/>
+          <menuitem value="end" label="End"/>
+        </menupopup>
+      </menulist>
+    </row>
+    <row>
+      <label for="orientval" value="orient:"/>
+      <menulist id="orientval" label="Horizontal"
+                oncommand="changeItem(event,'orient');">
+        <menupopup>
+          <menuitem value="---" label="(None)"/>
+          <menuitem value="horizontal" label="Horizontal" selected="true"/>
+          <menuitem value="vertical" label="Vertical"/>
+        </menupopup>
+      </menulist>
+    </row>
+    <row>
+      <label for="dirval" value="dir:"/>
+      <menulist id="dirval" label="Dir"
+                oncommand="changeItem(event,'dir');">
+        <menupopup>
+          <menuitem value="---" label="(None)"/>
+          <menuitem value="ltr" label="ltr" selected="true"/>
+          <menuitem value="rtl" label="rtl"/>
+        </menupopup>
+      </menulist>
+    </row>
+    <row>
+      <label for="ordinalval" value="ordinal:"/>
+      <textbox id="ordinalval" value="0" onchange="changeItem(event,'ordinal');"/>
+    </row>
+    <row>
+      <label for="widthval" value="width:"/>
+      <textbox id="widthval" value="0" onchange="changeStyle(event,'width');"/>
+    </row>
+    <row>
+      <label for="minwidthval" value="minwidth:"/>
+      <textbox id="minwidthval" value="0" onchange="changeStyle(event,'min-width');"/>
+    </row>
+    <row>
+      <label for="maxwidthval" value="maxwidth:"/>
+      <textbox id="maxwidthval" value="0" onchange="changeStyle(event,'max-width');"/>
+    </row>
+    <row>
+      <label for="heightval" value="height:"/>
+      <textbox id="heightval" value="0" onchange="changeStyle(event,'height');"/>
+    </row>
+    <row>
+      <label for="minheightval" value="minheight:"/>
+      <textbox id="minheightval" value="0" onchange="changeStyle(event,'min-height');"/>
+    </row>
+    <row>
+      <label for="maxheightval" value="maxheight:"/>
+      <textbox id="maxheightval" value="0" onchange="changeStyle(event,'max-height');"/>
+    </row>
+  </rows>
+</grid>
+
+</groupbox>
+
+</window>
+

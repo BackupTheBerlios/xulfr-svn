@@ -1,0 +1,264 @@
+
+<p>Cette section va décrire un exemple d'élément XBL.</p>
+
+<h2>Un élément de diaporama</h2>
+
+<p>Construisons un exemple complet d'un élément XBL. Il s'agira de créer un élément graphique qui stocke un
+paquet d'objets, en les affichant un par un. Des boutons de navigation
+situés sur le bas permettront à l'utilisateur d'afficher les objets les uns aprés les autres
+(<acronym title="Note du traducteur">NdT</acronym>&nbsp;: comme si c'était des pages)
+tandis qu'un élément graphique textuel entre les boutons affichera le numéro de la page courante.
+Vous pourriez mettre n'importe quoi dans les pages, cependant, cet élément graphique pourrait être utile
+pour afficher une série d'images.
+Nous l'appellerons <em>élément de diaporama</em> (<acronym title="Note du traducteur">NdT</acronym>&nbsp;:
+'slideshow').</p>
+
+<h3>Contenu du diaporama</h3>
+
+<p>Tout d'abord, déterminons quels sont les éléments qui ont besoin d'aller dans le contenu XBL.
+Puisque nous voulons un changement de page, un élément <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/deck">deck</a></code> sera le plus approprié pour contenir les pages.
+Le contenu des pages sera spécifié dans le fichier XUL, et non dans XBL, mais
+nous aurons besoin de l'ajouter au sein du paquet (deck). La balise <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xbl/children">children</a></code> devra être utilisée. En
+bas, nous aurons besoin d'un bouton pour aller à la page précédente, d'un élément graphique pour
+afficher la numéro de la page courante, et d'un bouton pour aller à la page suivante.</p>
+
+<p> Exemple 11.8.1&nbsp;:
+<a href="exemples/ex_xblex_1.xml.txt">Source</a></p>
+
+<pre><code>&lt;binding id="slideshow"&gt;
+  &lt;content&gt;
+    &lt;xul:vbox flex="1"&gt;
+      &lt;xul:deck xbl:inherits="selectedIndex" selectedIndex="0" flex="1"&gt;
+        &lt;children/&gt;
+      &lt;/xul:deck&gt;
+      &lt;xul:hbox&gt;
+        &lt;xul:button xbl:inherits="label=previoustext"/&gt;
+        &lt;xul:label flex="1"/&gt;
+        &lt;xul:button xbl:inherits="label=nexttext"/&gt;
+      &lt;/xul:hbox&gt;
+    &lt;/xul:vbox&gt;
+  &lt;/content&gt;
+&lt;/binding&gt;</code></pre>
+
+<p>Cette liaison crée la stucture de la présentation que nous souhaitons. L'attribut <code
+class="attribut">flex</code> a été ajouté à plusieurs éléments pour qu'ils s'étendent de
+la bonne manière. Les attributs <code class="attribut">label</code> sur les deux boutons héritent
+des valeurs de l'élément qui leur est attaché. Ici, ils héritent de deux attributs personnalisés,
+<code class="attribut">previoustext</code> et <code class="attribut">nexttext</code>. Ils rendent
+le changement des libellés des boutons simple. Les fils de l'élément auquel l'élément
+XBL est relié seront placés au sein de l'élément <code class="tag"><a
+href="http://xulfr.org/wiki/Reference/Xul/deck">deck</a></code>. L'attribut <code
+class="attribut">selectedIndex</code> est hérité par le paquet, ainsi nous pouvons déclarer
+la page initiale dans XUL.</p>
+
+<p>Le fichier XUL suivant produit le résultat affiché dans l'image.</p>
+
+<pre><code>&lt;box class="slideshow" previoustext="Précédent" nexttext="Suivant"
+flex="1"&gt;
+  &lt;button label="Bouton 1"/&gt;
+  &lt;checkbox label="Case à cocher 2"/&gt;
+  &lt;textbox/&gt;
+&lt;/box&gt;</code></pre>
+
+<p>Le style CSS utilisé ici est&nbsp;:</p>
+
+<pre><code>.slideshow {
+  -moz-binding: url("slideshow.xml#slideshow");
+}</code></pre>
+
+<p><img src="images/xblex1.jpg" alt="" class="screenshot-right" />
+Le premier bouton, <var>Bouton 1</var> a été utilisé comme première page du paquet. L'élément
+graphique <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code>
+(<acronym title="Note du traducteur">NdT</acronym>&nbsp;: celui du XBL) n'est pas apparu
+puisqu'aucun attribut <code class="attribut">value</code> ne lui a été spécifié. Nous pourrions
+déclarer une valeur, mais elle sera plutôt calculée plus tard.</p>
+
+<h3>Propriété <code>page</code></h3>
+
+<p>Ensuite, une propriété contenant le numéro de la page courante est ajoutée.
+Pour lire cette propriété personnalisée, il est nécessaire de rechercher la valeur de l'attribut 
+<code class="attribut">selectedIndex</code> du paquet qui contient le numéro de la page
+affichée. De même, lorsqu'on modifiera cette propriété, il sera nécessaire de changer
+l'attribut <code class="attribut">selectedIndex</code> du paquet. De plus, l'élément graphique
+textuel devra être mis à jour pour afficher le numéro de la page courante.</p>
+
+<pre><code>&lt;property name="page"
+    onget="return
+parseInt(document.getAnonymousNodes(this)[0].childNodes[0].getAttribute('selectedIndex'));"
+    onset="return this.setPage(val);"/&gt;</code></pre>
+
+<p>La propriété <code>page</code> obtient sa valeur en observant le premier élément du tableau anonyme. Elle
+renvoie la boîte verticale, donc, pour obtenir le paquet, nous devons obtenir le premier n½ud
+fils de la boîte. Le tableau anonyme n'est pas utilisé puisque le paquet n'est pas anonyme à
+partir de la boîte. Finalement, la valeur de l'attribut <code class="attribut">selectedIndex</code>
+est récupérée. Pour spécifier la page, une méthode <code>setPage</code> qui sera définie plus tard est appelée.</p>
+
+<p>Un gestionnaire <code class="attribut">oncommand</code> devra être ajouté aux boutons <var>Précédent</var> et
+<var>Suivant</var> pour que la page soit changée lorsque les boutons sont pressés. Nous pouvons
+changer facilement la page en utilisant la propriété personnalisée <code>page</code> qui vient d'être ajoutée&nbsp;:</p>
+
+<pre><code>&lt;xul:button xbl:inherits="label=previoustext"
+               oncommand="parentNode.parentNode.parentNode.page--;"/&gt;
+&lt;xul:description flex="1"/&gt;
+&lt;xul:button xbl:inherits="label=nexttext"
+               oncommand="parentNode.parentNode.parentNode.page++;"/&gt;</code></pre>
+
+<p>Etant donné que la propriété <code>page</code> est dans l'élément XUL externe, nous devons utiliser
+la propriété <code>parentNode</code> pour l'obtenir. La première propriété <code>parentNode</code> retourne
+l'élément parent du bouton qui est la boîte horizontale, la seconde son parent, la boîte verticale, et la
+dernière son parent qui est la boîte externe. La propriété <code>page</code> est incrémentée ou décrémentée.
+Elle va appeler le script <code class="attribut">onget</code> pour obtenir la valeur, incrémentera ou décrémentera
+la valeur, et enfin appelera le gestionnaire <code class="attribut">onset</code> pour enregistrer la
+valeur.</p>
+
+<h3>Méthode <code>setPage</code></h3>
+
+<p>Définissons à présent la méthode <code>setPage</code>. Elle prendra un paramètre, le numéro de page qui sert
+à spécifier la page. Il sera nécessaire de vérifier que le numéro de page n'est pas en dehors des limites
+et ensuite modifier les attributs <code class="attribut">selectedIndex</code> du paquet et l'attribut <code
+class="attribut">label</code> de l'élément graphique textuel.</p>
+
+<pre><code>&lt;method name="setPage"&gt;
+  &lt;parameter name="newidx"/&gt;
+  &lt;body&gt;
+    &lt;![CDATA[
+      var thedeck=document.getAnonymousNodes(this)[0].childNodes[0];
+      var totalpages=this.childNodes.length;
+
+      if (newidx&lt;0) return 0;
+      if (newidx>=totalpages) return totalpages;
+      thedeck.setAttribute("selectedIndex",newidx);
+      document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1]
+              .setAttribute("value",(newidx+1)+" sur "+totalpages);
+      return newidx;
+    ]]&gt;
+  &lt;/body&gt;
+&lt;/method&gt;</code></pre>
+
+<p>Cette fonction est appelée <code>setPage</code> et prend un paramètre <code>newidx</code>.
+Le corps de la méthode a été encapsulé entre <var>&lt;![CDATA[</var> et <var>]]&gt;</var>.
+C'est le mécanisme général dans tous les fichiers XML qui peut être utilisé pour échapper tout
+le texte à l'intérieur. De cette manière, vous n'avez pas besoin d'échapper tous les signes "inférieur" et
+"supérieur" à l'intérieur.</p>
+
+<p>Décomposons le code morceau par morceau.</p>
+
+<dl>
+  <dt><code>var thedeck=document.getAnonymousNodes(this)[0].childNodes[0];</code></dt>
+    <dd>Récupère le premier élément du tableau de contenu anonyme qui sera la boîte verticale,
+    puis obtient son premier fils qui sera le paquet 
+    <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/deck">deck</a></code>.</dd>
+  <dt><code>var totalpages=this.childNodes.length;</code></dt>
+    <dd>Récupère le nombre de fils que détient la boîte qui est liée. Cela donnera le nombre total de
+    pages qui s'y trouve.</dd>
+  <dt><code>if (newidx&lt;0) return 0;</code></dt>
+    <dd>Si le nouvel index est avant la première page, ne pas changer la page et retourner <var>0</var>. La
+    page ne devrait pas donner une valeur plus petite que la première page.</dd>
+  <dt><code>if (newidx&gt;=totalpages) return totalpages;</code></dt>
+    <dd>Si le nouvel index est après la dernière page, ne pas changer la page et retourner le dernier index
+    de page. La page ne devrait pas devenir celle qui est après la dernière.</dd>
+  <dt><code>thedeck.setAttribute("selectedIndex",newidx);</code></dt>
+    <dd>Changer l'attribut <code class="attribut">selectedIndex</code> du paquet. Cela entraîne
+    l'affichage de la page demandée.</dd>
+  <dt><code>document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1].setAttribute("value",
+  (newidx+1)+" sur "+totalpages);</code></dt>
+    <dd>Cette ligne modifie l'élément <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> 
+    pour qu'il affiche l'index de la page courante. L'élément 
+    <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> 
+    peut être récupéré en obtenant le premier élément du contenu anonyme (la boîte verticale), 
+    le second fils de cet élément (la boîte horizontale), et enfin le second élément de cette 
+    boîte. L'attribut <code class="attribut">value</code> est modifié pour indiquer <var>1 sur 3</var> 
+    ou quelque chose de similaire. Notez que l'index est incrémenté de un parce que les indices commence à <var>0</var>.
+  </dd>
+</dl>
+
+<h3>Constructeur</h3>
+
+<p>Nous allons aussi avoir besoin d'un constructeur pour initialiser l'élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> afin qu'il
+s'affiche correctement la première fois que la présentation est affichée. Nous utilisons un code
+similaire à la méthode ci-dessus pour déclarer le numéro de page. La référence à 'this.page' va
+appeler le script <code>onget</code> de la propriété <code>page</code> qui à son tour va recupérer la page
+initiale à partir de l'attribut <code class="attribut">selectedIndex</code>.</p>
+
+<pre><code>&lt;constructor&gt;
+  var totalpages=this.childNodes.length;
+  document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1]
+          .setAttribute("value",(this.page+1)+" sur "+totalpages);
+&lt;/constructor&gt;</code></pre>
+
+<h3>Fonctionnalités supplémentaires</h3>
+
+<p>Nous pouvons aussi ajouter quelques caractéristiques supplémentaires. Certains raccourcis claviers
+peuvent être utilisés pour les boutons <var>Précédent</var> et <var>Suivant</var>, (disons l'effacement arrière et la touche
+Entrée). Des boutons <var>Premier</var> et <var>Dernier</var> peuvent être ajoutés pour aller à la première et à la
+dernière page. L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/label">label</a></code> 
+pourrait être transformé en un champ de saisie où
+l'utilisateur pourrait entrer la page à afficher, ou une fenêtre surgissante pourrait être ajoutée
+pour permettre la sélection de la page à partir d'un menu. Nous pourrions aussi ajouter une bordure
+autour de la boîte avec un style CSS pour la rendre plus jolie.</p>
+
+<h3>Le code final</h3>
+
+<p>Le code final est le suivant&nbsp;:</p>
+
+<p>Exemple 11.8.2&nbsp;:
+<a href="exemples/ex_xblex_2.xml.txt">Source</a></p>
+
+<pre><code>&lt;binding id="slideshow"&gt;
+  &lt;content&gt;
+    &lt;xul:vbox flex="1"&gt;
+      &lt;xul:deck xbl:inherits="selectedIndex" selectedIndex="0" flex="1"&gt;
+        &lt;children/&gt;
+      &lt;/xul:deck&gt;
+      &lt;xul:hbox&gt;
+        &lt;xul:button xbl:inherits="label=previoustext"
+                    oncommand="parentNode.parentNode.parentNode.page--;"/&gt;
+        &lt;xul:description flex="1"/&gt;
+        &lt;xul:button xbl:inherits="label=nexttext"
+                    oncommand="parentNode.parentNode.parentNode.page++;"/&gt;
+      &lt;/xul:hbox&gt;
+    &lt;/xul:vbox&gt;
+  &lt;/content&gt;
+
+  &lt;implementation&gt;
+
+    &lt;constructor&gt;
+      var totalpages=this.childNodes.length;
+      document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1]
+              .setAttribute("value",(this.page+1)+" sur "+totalpages);
+    &lt;/constructor&gt;
+
+    &lt;property name="page"
+          onget="return
+parseInt(document.getAnonymousNodes(this)[0].childNodes[0].getAttribute('selectedIndex'));"
+          onset="return this.setPage(val);"/&gt;
+
+    &lt;method name="setPage"&gt;
+      &lt;parameter name="newidx"/&gt;
+      &lt;body&gt;
+        &lt;![CDATA[
+          var thedeck=document.getAnonymousNodes(this)[0].childNodes[0];
+          var totalpages=this.childNodes.length;
+
+          if (newidx&lt;0) return 0;
+          if (newidx&gt;=totalpages) return totalpages;
+          thedeck.setAttribute("selectedIndex",newidx);
+          document.getAnonymousNodes(this)[0].childNodes[1].childNodes[1]
+                  .setAttribute("value",(newidx+1)+" sur "+totalpages);
+          return newidx;
+        ]]&gt;
+      &lt;/body&gt;
+    &lt;/method&gt;
+  &lt;/implementation&gt;
+
+&lt;/binding&gt;</code></pre>
+
+<p>Tester dans une fenêtre&nbsp;:
+<a href="exemples/slideshow.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>.</p>
+
+<hr />
+
+<p>Nous allons voir ensuite quelques propriétés additionnelles d'une fenêtre.</p>

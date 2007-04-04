@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="stack orient"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+		orient="vertical">
+		
+<stack orient="horizontal">
+	<button label="Aide"/>
+	<label value="toto"/>
+	<button label="Annuler" style="margin-top: 50px;"/>
+</stack>
+<html:hr/>
+<stack orient="vertical">
+	<button label="Aide"/>
+	<label value="toto"/>
+	<button label="Annuler" style="margin-top: 50px;"/>
+</stack>
+
+</window>

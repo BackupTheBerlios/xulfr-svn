@@ -1,0 +1,26 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="example-window" title="Exemple 5.3.3"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+
+<toolbox>
+  <menubar id="planets-menubar">
+    <menu id="planet-menu" label="Planète">
+      <menupopup>
+        <menuitem id="jupiter" label="Jupiter" type="radio" name="ringed"/>
+        <menuitem id="saturn" label="Saturne" type="radio" name="ringed" checked="true"/>
+        <menuitem id="uranus" label="Uranus" type="radio" name="ringed"/>
+        <menuseparator/>
+        <menuitem id="earth" label="Terre" type="radio" name="inhabited" checked="true"/>
+        <menuitem id="lune" label="Lune" type="radio" name="inhabited"/>
+      </menupopup>
+    </menu>
+  </menubar>
+</toolbox>
+
+
+</window>

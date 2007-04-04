@@ -1,0 +1,101 @@
+
+<p>Dans un script, les entités ne peuvent être utilisées. On utilise alors plutôt les fichiers de propriétés.</p>
+
+<h2>Propriétés</h2>
+
+<p>Les fichiers DTD sont adaptés à du texte dans un fichier XUL. 
+Néanmoins, dans un script, les entités ne sont pas analysées pour être remplacer. 
+De plus, vous pourriez souhaiter afficher un message généré par un script, sans par 
+exemple connaître à l'avance son contenu. Les fichiers de propriétés peuvent être utilisés dans ce but.</p>
+
+<p>Un fichier de propriétés contient une suite de chaînes de caractères. Vous trouverez 
+les fichiers de propriétés aux côtés des fichiers DTD avec l'extension <code>.properties</code>. 
+Les propriétés dans un de ces fichiers sont déclarées selon une structure <code>nom=valeur</code>. 
+Un exemple est décrit ci-dessous&nbsp;:</p>
+
+<pre><code>notFoundAlert=Aucun fichier trouvé correspondant aux critères.
+deleteAlert=Cliquez sur OK pour effacer tous vos fichiers.
+resultMessage=%2$S fichiers trouvés dans le répertoire %1$S.</code></pre>
+
+<p>Ici, le fichier de propriétés contient deux propriétés. Elles pourront être lues 
+par un script et affichées.</p>
+
+<h2>Stringbundles</h2>
+
+<p>Vous pouvez écrire le code de lecture des propriétés 
+vous même, néanmoins XUL fournit l'élément
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stringbundle">stringbundle</a></code> 
+qui le fait pour vous. Cet élément dispose de plusieurs fonctions pouvant être 
+utilisées pour récupérer les chaînes de caractères des fichiers de propriétés et 
+d'autres informations de localisation. Cet élément lit le contenu des fichiers de 
+propriétés et construit une liste de ces propriétés pour vous. Vous pouvez donc 
+ensuite y accéder par leur nom.</p>
+
+<pre><code>&lt;stringbundleset id="strbundles"&gt;
+&lt;stringbundle id="chaines" src="chaines.properties"/&gt;
+&lt;/stringbundleset&gt;</code></pre>
+
+<p>L'inclusion de cet élément permettra de lire les propriétés via le fichier 
+<var>chaines.properties</var> dans le même répertoire que le fichier XUL. Utilisez 
+une URL chrome pour lire un fichier de localisation. Comme pour d'autres éléments 
+non affichables, vous devriez déclarer tous les stringbundles à l'intérieur d'un élément 
+<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stringbundleset">stringbundleset</a></code> 
+pour les regrouper.</p>
+
+<h3>Obtention d'une chaîne d'une collection</h3>
+
+<p>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/stringbundle">stringbundle</a></code> 
+a plusieurs propriétés. La première est <code class="attribut">getString</code> 
+pouvant être utilisée dans un script pour lire une chaîne de caractères de la collection.</p>
+
+<pre><code>var strbundle=document.getElementById("chaines");
+var nofilesfound=strbundle.getString("notFoundAlert");
+
+alert(nofilesfound);</code></pre>
+
+<ul>
+  <li>Cet exemple récupère tout d'abord une référence sur la collection en utilisant son id.</li>
+  <li>Puis il recherche la chaîne de caractères <var>notFoundAlert</var> dans 
+  le fichier de propriétés. La fonction <code>getString()</code> retourne la valeur 
+  de la chaîne ou <var>null</var> si la chaîne n'existe pas.</li>
+  <li>Enfin, la chaîne de caractères est affichée dans une boîte d'alerte.</li>
+</ul>
+
+<h3>Formatage de texte</h3>
+
+<p>La méthode suivante est <code>getFormattedString()</code>. Elle permet également d'obtenir 
+avec une clef donnée une chaîne de la collection. Mais en plus, chaque occurence de code de 
+formatage (par ex. %S) est remplacée par chaque élément successif dans le tableau transmis.</p>
+
+<pre><code>var dir = "/usr/local/document";
+var count = 10;
+
+var strbundle = document.getElementById("strings");
+var result = strbundle.getFormattedString("resultMessage", [ dir, count ]);
+
+alert(result);</code></pre>
+
+<p>Cet exemple affichera le message suivant dans une boîte d'alerte.</p>
+
+<pre><code>10 fichiers trouvés dans le répertoire /usr/local/document.</code></pre>
+
+<p>Vous noterez que les codes de formatage <code>%1$S</code> et <code>%2$S</code> sont 
+utilisés, et sont remplacés par les différents membres dans le tableau. Un code de formatage 
+%n$S spécifie directement la position du paramètre correspondant. Bien que l'ordre des mots 
+soit différent dans tous les langages, l'utilisation de <code>getFormattedString()</code> 
+permet de préciser l'ordre dans les fichiers de propriétés.</p>
+
+<h2>Échappement de caractères non-ASCII</h2>
+
+<p>Bien que la plupart des langages nécessitent des caractères non-ASCII, les fichiers de 
+propriétés doivent être écrits en utilisant que des caractères ASCII. Cependant, les 
+fichiers de propriétés supportent d'autres caractères grâce à des séquences échappées de 
+la forme&nbsp;: \uXXXX où XXXX est le code du caractère. Ainsi, si votre fichier de 
+propriété contient des caractères non-ASCII, vous devrez le convertir au format 
+'échappement-unicode'. Pour faire cela, vous pouvez utiliser l'utilitaire en ligne de 
+commande native2ascii fourni avec le kit de développement Java de Sun (JDK).</p>
+
+<hr />
+
+<p>Dans la prochaine section, nous découvrirons XBL qui peut être utilisé pour 
+définir le comportement d'un élément.</p>
