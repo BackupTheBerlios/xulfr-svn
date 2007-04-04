@@ -33,7 +33,7 @@ ob_start();
    <meta name="author" content="Neil Deakin, traduit par les contributeurs au projet de traduction de Xulfr.org" />
    <meta name="description" content="tutoriel XUL de Xulplanet" />
 
-   <title>tutoriel XUL - xulfr.org/xulplanet.com</title>
+   <title>tutoriel XUL - xulfr.org/xulplanet.com/MDC</title>
    <link rel="stylesheet" type="text/css" href="main.css" media="screen" />
    <link rel="stylesheet" type="text/css" href="print.css" media="print" />
 </head>
@@ -70,7 +70,8 @@ boucle sur chaque articles
 
 foreach($article_list as $basename => $article){
 
-   list($page_chapitre, $auteurs, $prev, $next) = $article_list[$basename];
+    list($page_chapitre, $auteurs, $prev, $next, $urlMDCen,$urlMDCfr)
+    = $article_list[$basename];
 
     if($basename != 'index'){
 
@@ -88,7 +89,9 @@ ob_start();
 <?php echo '<div class="box"><h1 id="'.$basename.'.html">'.$page_chapitre?></h1>
 <div class="contenuinfo">
 <?php  if($basename != 'index'){ ?>
-    <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>.
+    <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a><?php if($urlMDCen !=''){?>,
+    mise à jour par les contributeurs à <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">MDC</a>
+    <?php }?>.<br/>
     <?php
     $firstaut=true;
     $secondaut=true;
@@ -98,22 +101,28 @@ ob_start();
             $firstaut=false;
         }else{
             if($secondaut){
+                $secondaut=false
                 echo ', mise à jour par ', $auteur,' (',$dateaut,') ';
             }else
               echo ', ',$auteur ,' (',$dateaut,') ';
        }
    }
    ?>.
+      <?php
+   if($urlMDCen !=''){
+   ?>
    <br />
     Page originale&nbsp;:
-    <a href="http://www.xulplanet.com/tutorials/xultu/<?php echo $basename?>.html">http://www.xulplanet.com/tutorials/xultu/<?php echo $basename?>.html</a>
+    <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial:<?php echo $urlMDCen?>">http://developer.mozilla.org/en/docs/XUL_Tutorial:<?php echo $urlMDCen?></a>
+    <?php }?>
     </p>
 
 <?php }else{ ?>
-    <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>.
+    <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>
+    et mise à jour par les contributeurs à <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">MDC</a>.
 
     Traduit par différents <a href="#contributeurs">contributeurs de xulfr.org</a>.</p>
-    <p>Original&nbsp;: <a href="http://www.xulplanet.com/tutorials/xultu/">http://www.xulplanet.com/tutorials/xultu/</a>.</p>
+    <p>Original&nbsp;: <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">http://developer.mozilla.org/en/docs/XUL_Tutorial</a>.</p>
 <?php }?>
 
 </div><!-- contenuinfo -->
