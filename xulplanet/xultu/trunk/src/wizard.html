@@ -1,21 +1,16 @@
 
-<p>
-Beaucoup d'applications utilisent des assistants pour aider l'utilisateur dans des tâches complexes.
-XUL fournit un moyen de créer des assistants facilement.
-</p>
+<p>Beaucoup d'applications utilisent des assistants pour aider l'utilisateur dans des tâches complexes.
+XUL fournit un moyen de créer des assistants facilement.</p>
 
 <h2>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizard">wizard</a></code></h2>
 
-<p>
-Un assistant est un type spécial de boîte de dialogue, contenant un certain nombre de pages.
+<p>Un assistant est un type spécial de boîte de dialogue, contenant un certain nombre de pages.
 Des boutons de navigation apparaissent en bas de la boîte de dialogue pour passer d'une
-page à l'autre. Les assitants sont habituellement utilisés pour aider l'utilisateur à
-effectuer des tâches complexes. Chaque page contient une seule question ou un ensemble de question
-associées. À la dernière page, l'opération est effectuée.
-</p>
+page à l'autre. Les assistants sont habituellement utilisés pour aider l'utilisateur à
+effectuer des tâches complexes. Chaque page contient une seule question ou un ensemble de questions
+associées. À la dernière page, l'opération est effectuée.</p>
 
-<p>
-XUL fournit un élément
+<p>XUL fournit un élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizard">wizard</a></code>
 qui peut être utilisé pour créer des assistants. Le contenu à l'intérieur de l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizard">wizard</a></code>
@@ -23,26 +18,23 @@ inclut tout le contenu de chaque page. Les attributs placés sur l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizard">wizard</a></code>
 sont utilisés pour contrôler la navigation. Quand vous
 créez un assistant, utilisez la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizard">wizard</a></code> 
-à la place de la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>.
-</p>
+à la place de la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>.</p>
 
 <p class="note">Notez que pour le moment les assistants ne fonctionnent correctement qu'à partir d'URLs chrome.</p>
 
-<p>
-Un assistant consiste en un ensemble de sections, bien que la mise en page exacte
-variera pour chaque plate-forme. L'aspect visuel de l'assistant s'adaptera à la
-plate-forme de l'utilisateur. Une mise en page type inclura
+<p>Un assistant consiste en un ensemble de sections, bien que la mise en page exacte
+variera pour chaque plateforme. L'aspect visuel de l'assistant s'adaptera à la
+plateforme de l'utilisateur. Une mise en page type inclura
 un titre en haut, un ensemble de boutons de navigations en bas, et le contenu de la page
-entre les deux.
-</p>
+entre les deux.</p>
 
-<p>
-Le titre du haut est créé en utilisant l'attribut <code class="attribut">title</code>
+<p>Le titre du haut est créé en utilisant l'attribut <code class="attribut">title</code>
 comme on le ferait pour les fenêtres normales. Les boutons de navigation sont créés
 automatiquement. Les pages de l'assistant sont créées en utilisant l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizardpage">wizardpage</a></code>.
-Vous pouvez y placer tout contenu que vous voulez.
-Voici un exemple d'assistant&nbsp;:</p>
+Vous pouvez y placer tout contenu que vous voulez.</p>
+
+<h3>Exemple d'assistant</h3>
 
 <p>Exemple 12.4.1&nbsp;:
 <a href="exemples/ex_wizard_1.xul.txt">Source</a>
@@ -87,68 +79,54 @@ Voici un exemple d'assistant&nbsp;:</p>
 
 <p><img class="screenshot" src="images/wizard1.jpg" alt="capture d'écran de l'exemple" /></p>
 
-<p>
-L'assistant a deux pages, une qui a une liste déroulante et une autre qui a un ensemble de
+<p>L'assistant a deux pages, une qui a une liste déroulante et une autre qui a un ensemble de
 boutons radios. L'assistant sera formaté automatiquement, avec un titre en haut et un ensemble
 de boutons le long du bas de la fenêtre. L'utilisateur peut naviguer entre les pages
-de l'assistant avec les boutons <var>Précédent</var> et <var>Suivant</var> 
-(<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: "Back" et "Next" avec une
-version anglaise). Ces boutons s'activeront ou se desactiveront eux-mêmes aux moments
+de l'assistant avec les boutons <var>Précédent</var> et <var>Suivant</var>. 
+<!-- (<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: "Back" et "Next" avec une
+version anglaise)--> Ces boutons s'activeront ou se desactiveront eux-mêmes aux moments
 appropriés. De plus, sur la dernière page, le bouton <var>Terminer</var> apparaîtra. Tout ceci
-est automatique, aussi, vous n'avez rien à faire pour manipuler les pages.
-</p>
+est automatique, aussi, vous n'avez rien à faire pour manipuler les pages.</p>
 
-<p>
-L'attribut <code class="attribut">description</code> peut être éventuellement placé sur l'élément
+<p>L'attribut <code class="attribut">description</code> peut être éventuellement placé sur l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizardpage">wizardpage</a></code>
 pour fournir un sous-titre pour la page concernée. Dans l'exemple du dessus, il est placé sur
-la seconde page, mais pas sur la première.
-</p>
+la seconde page, mais pas sur la première.</p>
 
-<h2>Gérer les changements de page</h2>
+<h2>Gestion des changements de page</h2>
 
-<p>
-Généralement, vous souhaitez réaliser une action après que le bouton <var>Terminer</var> ait été pressé.
+<p>Généralement, vous souhaitez réaliser une action après que le bouton <var>Terminer</var> ait été pressé.
 Vous pouvez mettre un attribut <code class="attribut">onwizardfinish</code> sur l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizard">wizard</a></code>
 pour accomplir cette tâche. Spécifiez-y un script qui exécutera ce que vous voulez et qui
 renverra <var>true</var>. Le script peut être utilisé pour sauvegarder les informations que
-l'utilisateur a saisi dans l'assistant.
-</p>
-
-<p>Par exemple&nbsp;:</p>
+l'utilisateur a saisi dans l'assistant. Par exemple&nbsp;:</p>
 
 <pre><code>&lt;wizard id="example-window" title="Assistant de sélection de chien"
   onwizardfinish="return saveDogInfo();"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"&gt;</code></pre>
 
-<p>
-Quand l'utilisateur clique sur le bouton <var>Terminer</var>, la fonction <code>saveDogInfo</code>
+<p>Quand l'utilisateur clique sur le bouton <var>Terminer</var>, la fonction <code>saveDogInfo</code>
 définie dans un script sera appelée pour sauvegarder les informations saisies.
 Si la fonction renvoie <var>true</var>, l'assistant se fermera. Si elle
 renvoie <var>false</var>, alors l'assistant ne se fermera pas, ce qui pourrait
-signifier par exemple que la fonction <code>saveDogInfo</code> a rencontré une saisie invalide.
-</p>
+signifier par exemple que la fonction <code>saveDogInfo</code> a rencontré une saisie invalide.</p>
 
-<p>
-Il existe également les attributs similaires
+<p>Il existe également les attributs similaires
 <code class="attribut">onwizardback</code>,
 <code class="attribut">onwizardnext</code> et
 <code class="attribut">onwizardcancel</code>
 qui sont appelés quand les boutons <var>Précédent</var>, <var>Suivant</var> et <var>Annuler</var> sont
 respectivement pressés.
-Ces fonctions sont appelées quelque soit la page en cours affichée.
-</p>
+Ces fonctions sont appelées quelque soit la page en cours affichée.</p>
 
-<p>
-Pour appeler un code différent en fonction de la page où vous êtes, utilisez les attributs
+<p>Pour appeler un code différent en fonction de la page où vous êtes, utilisez les attributs
 <code class="attribut">onpagerewound</code> ou
 <code class="attribut">onpageadvanced</code> sur un élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizardpage">wizardpage</a></code>.
 Ils fonctionnent de manière similaire aux autres fonctions, excepté que vous pouvez utiliser
 un script différent pour chaque page. Cette méthode vous permet de valider les informations saisies
-sur chaque page avant que l'utilisateur ne continue.
-</p>
+sur chaque page avant que l'utilisateur ne continue.</p>
 
 <p>Une troisième méthode est l'utilisation des attributs
 <code class="attribut">onpagehide</code> et
@@ -156,19 +134,17 @@ sur chaque page avant que l'utilisateur ne continue.
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/wizardpage">wizardpage</a></code>.
 Ils sont appelés lorsque la page est cachée ou affichée, indifféremment du bouton pressé (excepté
 quand le bouton <var>Annuler</var> est pressé&nbsp;; vous devez utiliser
-<code class="attribut">onwizardcancel</code> pour le vérifier).
-</p>
+<code class="attribut">onwizardcancel</code> pour le vérifier).</p>
 
 <p>Ces trois méthodes devraient fournir suffisamment de souplesse pour gérer la
 navigation comme vous le souhaitez. Ce qui suit est un résumé des fonctions d'attributs
 appelées quand l'utilisateur presse <var>Suivant</var>, dans l'ordre dans lequel elles sont
-vérifiées. Dés que l'une renvoie <var>false</var>, la navigation est annulée.
-</p>
+vérifiées. Dés que l'une renvoie <var>false</var>, la navigation est annulée.</p>
 
 <table border="1">
   <thead>
     <tr>
-      <th>Attribut</th><th>Placé sur la balise</th><th>Quand est-il appelé</th>
+      <th>Attribut</th><th>Placé sur la balise</th><th>Quand est-il appelé&nbsp;?</th>
     </tr>
   </thead>
 
@@ -192,10 +168,13 @@ vérifiées. Dés que l'une renvoie <var>false</var>, la navigation est annulée.
   </tbody>
 </table>
 
-<p>Un processus similaire existe pour le bouton <var>Précédent</var>.
-</p>
+<p>Un processus similaire existe pour le bouton <var>Précédent</var>.</p>
+
+<p class="note">À chaque fois que vous utiliserez une fonction dans un des événements ci-dessus, 
+tel que pageadvanced, vous devrez utiliser <code>return NomFonct()</code> au lieu de simplement 
+appeler <code>NomFonct()</code>.
+<pre><code>&lt;wizardpage pageadvanced='return NomFonct()'&gt;&lt;/wizardpage&gt;</code></pre></p>
 
 <hr />
 
 <p>Dans la prochaine section, nous verrons des fonctionnalités supplémentaires sur les assistants.</p>
-

@@ -12,9 +12,11 @@
     <menu id="planet-menu" label="Planète">
       <menupopup>
         <menuitem id="jupiter" label="Jupiter" type="radio" name="ringed"/>
-        <menuitem id="saturn" label="Saturne" type="radio" name="ringed"/>
+        <menuitem id="saturn" label="Saturne" type="radio" name="ringed" checked="true"/>
         <menuitem id="uranus" label="Uranus" type="radio" name="ringed"/>
-        <menuitem id="earth" label="Terre" type="radio" name="inhabited"/>
+        <menuseparator/>
+        <menuitem id="earth" label="Terre" type="radio" name="inhabited" checked="true"/>
+        <menuitem id="lune" label="Lune" type="radio" name="inhabited"/>
       </menupopup>
     </menu>
   </menubar>

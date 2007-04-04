@@ -11,13 +11,11 @@
 </hbox>
 
 <script>
-function buttonPressed(event)
-{
+function buttonPressed(event) {
   alert('Le bouton a été pressé !');
 }
 
-function boxPressed(event)
-{
+function boxPressed(event) {
   alert('La boîte a été pressée !');
   event.stopPropagation();
 }

@@ -2,9 +2,9 @@
 <p>Nous allons conclure ce chapitre en ajoutant des boîtes sur notre fenêtre de
 recherche de fichiers.</p>
 
-<h2>Ajout d'éléments à notre exemple de recherche de fichiers</h2>
-
 <div class="task">
+
+<h2>Ajout d'éléments à notre exemple de recherche de fichiers</h2>
 
 <p>Nous allons ajouter maintenant des éléments à notre boîte de dialogue
 de recherche de fichiers. Premièrement, nous allons ajouter la possiblité de faire une
@@ -27,16 +27,14 @@ recherche sur d'autres informations, comme la taille et la date du fichier.</p>
   &lt;/menulist>
   &lt;spacer style="width: 10px;"/></strong>
   &lt;textbox id="find-text" flex="1" style="min-width: 15em;"/>
-&lt;/hbox>
-</code></pre>
+&lt;/hbox></code></pre>
 
-<p>Deux listes déroulantes ont été ajoutées à la boîte de dialogue. Un espacement
+<p><img src="images/boxfinal1.png" class="screenshot-right" alt="" />
+Deux listes déroulantes ont été ajoutées à la boîte de dialogue. Un espacement
 (<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/spacer">spacer</a></code>)
 a été inséré entre chaque élément pour les séparer. Ces espacements ont une taille explicite de
-10 pixels chacun. Vous noterez que si la fenêtre est redimensionnée, le champs de saisie s'agrandit
+10 pixels chacun. Vous noterez que si la fenêtre est redimensionnée, le champ de saisie s'agrandit
 mais pas les autres composants. Vous noterez également que le libellé a été enlevé.</p>
-
-<p><img src="images/boxfinal1.png" class="screenshot" alt="" /></p>
 
 <p>Si vous redimensionnez la fenêtre verticalement, les éléments ne changeront pas de taille. C'est
 parce qu'ils sont à l'intérieur de boîtes horizontales. Ce serait mieux si les boutons
@@ -65,8 +63,7 @@ en ajoutant un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/sp
 
 <strong>&lt;spacer style="height: 10px" flex="1"/></strong>
 
-&lt;hbox>
-</code></pre>
+&lt;hbox></code></pre>
 
 <p>Maintenant, quand la boîte de dialogue est redimensionnée, les deux boutons resteront en place
 tout en bas de la boîte de dialogue. Le premier
@@ -93,20 +90,20 @@ avec le thème courant.</p>
   .
   &lt;spacer style="width: 10px;"/&gt;
   &lt;textbox id="find-text" flex="1" style="min-width: 15em;"/&gt;
-<strong>&lt;/groupbox&gt;</strong>
-</code></pre>
+<strong>&lt;/groupbox&gt;</strong></code></pre>
 
 <p><a href="exemples/findfile/findfile-boxfinal.xul.txt">Source</a>
    <a href="exemples/findfile/findfile-boxfinal.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a>
 </p>
-<p><img src="images/boxfinal2.png" class="screenshot" alt="" /></p>
 
-<p>Il reste d'autres problèmes cosmétiques. Nous pourrions avoir un
+<p><img src="images/boxfinal2.png" class="screenshot-right" alt="" />
+Il reste d'autres problèmes cosmétiques. Nous pourrions avoir un
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> 
 qui s'étend verticalement vers le bas de la boîte. Mais aussi, nous
 pourrions modifier quelques marges afin de mieux positionner les éléments.</p>
+
 </div>
+
 <hr />
 
 <p>Nous verrons dans la suite comment créer des piles.</p>
-

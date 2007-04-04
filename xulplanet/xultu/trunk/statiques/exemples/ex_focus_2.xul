@@ -7,8 +7,7 @@
 
 <script>
 
-function displayFocus()
-{
+function displayFocus() {
   var elem=document.getElementById('sbar');
   elem.setAttribute('value','Entrez votre numéro de téléphone.');
 }

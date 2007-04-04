@@ -15,6 +15,7 @@ type de boîte. Ce qui signifie que les éléments à l'intérieur
 sont alignés selon l'application des règles des boîtes.
 Il y a deux différences entre les boîtes de groupes et les
 boîtes normales&nbsp;:</p>
+
 <ol>
 <li>Une bordure incrustée est affichée par défaut autour de la boîte. Vous
 pouvez changer ce comportement en changeant le style CSS.</li>
@@ -34,6 +35,8 @@ Il fonctionne comme l'élément HTML <code class="tag">legend</code>.
 Un simple élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/caption">caption</a></code>
 placé en tant que première balise fille est suffisant.</p>
 
+<h3>Un simple exemple groupbox</h3>
+
 <p>L'exemple ci-dessous montre un <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code> simple&nbsp;:</p>
 
 <p>Exemple 3.4.1&nbsp;:
@@ -47,14 +50,15 @@ placé en tant que première balise fille est suffisant.</p>
   &lt;description value="Mandarine"/&gt;
   &lt;description value="Cabine téléphonique"/&gt;
   &lt;description value="Kiwi"/&gt;
-&lt;/groupbox&gt;
-</code></pre>
+&lt;/groupbox&gt;</code></pre>
 
 <p><img src="images/titledbox1.png" alt="" class="screenshot-right" />
 Cet exemple affiche quatre bouts de texte entourés par la boîte
 avec le libellé <var>Réponse</var>. Notez que la boîte de groupe a une
 orientation verticale par défaut nécessaire pour avoir les éléments
 texte empilés en une seule colonne.</p>
+
+<h3>Légendes plus complexes</h3>
 
 <p>Vous pouvez aussi ajouter des éléments fils à l'interieur de l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/caption">caption</a></code> pour créer une légende plus complexe. Par exemple,
@@ -76,8 +80,7 @@ une case à cocher ou une liste déroulante.</p>
     &lt;textbox id="dir" flex="1"/&gt;
   &lt;/hbox&gt;
   &lt;checkbox label="Compresser les fichiers archivés"/&gt;
-&lt;/groupbox&gt;
-</code></pre>
+&lt;/groupbox&gt;</code></pre>
 
 <p><img src="images/groupbox2.png" alt="" class="screenshot-right" />
 Dans cet exemple, une case à cocher a été utilisée comme légende. Nous devons utiliser
@@ -112,8 +115,7 @@ la structure, comme dans l'exemple suivant&nbsp;:</p>
     &lt;radio id="specify" value="specify" label="Nombre spécifique :"/&gt;
     &lt;textbox id="specificnumber"/&gt;
   &lt;/hbox&gt;
-&lt;/radiogroup&gt;
-</code></pre>
+&lt;/radiogroup&gt;</code></pre>
 
 <p class="note">Notez que l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/radiogroup">radiogroup</a></code> n'a pas de bordure.
 Vous devez placer un élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/groupbox">groupbox</a></code>

@@ -6,13 +6,11 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 <script>
-function init()
-{
+function init() {
   addEventListener("focus",setFocusedElement,true);
 }
 
-function setFocusedElement()
-{
+function setFocusedElement() {
   var focused = document.commandDispatcher.focusedElement;
   document.getElementById("focused").value = focused.tagName;
 }

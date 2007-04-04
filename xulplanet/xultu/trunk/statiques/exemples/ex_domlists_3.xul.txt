@@ -6,8 +6,7 @@
         xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <script>
-function doSelect()
-{
+function doSelect() {
   var val = document.getElementById('number').value;
   val = Number(val);
   if (val != null)

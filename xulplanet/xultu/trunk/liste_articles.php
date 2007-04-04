@@ -18,7 +18,7 @@ $article_list=array(
  'intro'    =>array('1.1 Introduction',                                 array('Tristan Rivoallan'=>'25/02/2004', 'Laurent Jouanneau'=>'17/11/2004') ,'','xulfile'),
  'xulfile'  =>array('1.2 La structure XUL',                             array('Gérard L.'=>'22/11/2003', 'Laurent Jouanneau'=>'20/11/2004') ,'intro','chromeurl'),
  'chromeurl'=>array('1.3 L\'URl Chrome',                                array('Romain D.'=>'11/02/2004',  'Laurent Jouanneau'=>'22/11/2004')  ,'xulfile','packaging'),
- 'packaging'=>array('1.4 Les fichiers contents.rdf',                    array('Benoit Salandre'=>'08/02/2004',  'Laurent Jouanneau'=>'23/11/2004'),'chromeurl','window'),
+ 'packaging'=>array('1.4 Les fichiers manifest',                    array('Benoit Salandre'=>'08/02/2004',  'Laurent Jouanneau'=>'23/11/2004'),'chromeurl','window'),
 
  'window'  =>array('2.1 Créer une fenêtre',                             array('Gnunux'=> '14/11/2003' )             ,'packaging','buttons'),
  'buttons' =>array('2.2 Ajouter des boutons',                           array('Gnunux'=> '14/11/2003')            ,'window','textimage'),

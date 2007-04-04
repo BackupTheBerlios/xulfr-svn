@@ -16,6 +16,11 @@ d'en envoyer. Le langage Javascript ne permet pas de faire ce genre de choses.</
 Nous avons aussi besoin d'un moyen pour pouvoir appeler ce code natif aisément à partir de nos scripts.
 Mozilla fournit une telle possibilité en utilisant <acronym title="Cross-platform Component Object Model">XPCOM</acronym>.</p>
 
+<p class="note">Mozilla fournit déjà plusieurs composants et interfaces XPCOM. 
+Donc, dans la plupart des cas, il sera inutile d'écrire votre propre code natif. 
+Après avoir lu cette section, vous pourrez rechercher des interfaces en utilisant 
+<a href="http://xulplanet.com/references/xpcomref/">la référence XPCOM de XULPlanet</a>.</p>
+
 <h2>À propos d'XPCOM</h2>
 
 <p>Mozilla est construit à partir d'une multitude de composants, où chacun d'eux réalise
@@ -44,10 +49,11 @@ Entre les versions Macintosh et Windows, les composants de fichier seront très d
 Cependant ils implémentent la même interface et par conséquent on peut accéder
 au composant en utilisant les fonctions de cette interface.</p>
 
-<p>Dans Mozilla, les interfaces sont préfixées par <var>nsI</var> ainsi elles sont facilement reconnaissables.
+<p>Dans Mozilla, les interfaces sont préfixées par <var>nsI</var> ou <var>mozI</var> ainsi elles sont facilement reconnaissables.
 Par exemple, <code>nsIAddressBook</code> est l'interface qui interagit avec le carnet d'adresses,
 <code>nsISound</code> est celle utilisée pour écouter des fichiers et
-<code>nsILocalFile</code> pour manipuler des fichiers.</p>
+<code>nsILocalFile</code> pour manipuler des fichiers.
+Pour plus de détails, consultez <a href="http://developer.mozilla.org/fr/docs/Interfaces">les interfaces</a> de Mozilla.</p>
 
 <p>Typiquement, les composants XPCOM sont implémentés nativement, ce qui signifie qu'ils font des choses que
 le langage Javascript ne peut pas réaliser. Par contre, on peut les appeler à partir de scripts. C'est ce
@@ -59,9 +65,10 @@ Par exemple, si vous avez un composant à votre disposition, vous vérifiez alors 
 <p>Le processus d'appel de composants XPCOM à partir d'un script se nomme XPConnect&nbsp;:
 une couche qui traduit les objets du script en objets natifs.</p>
 
-<h2>Créer des objets XPCOM</h2>
+<h2>Création d'objets XPCOM</h2>
 
 <p>L'appel d'un composant XPCOM se fait en trois étapes&nbsp;:</p>
+
 <ol>
     <li>Récupérer un composant.</li>
     <li>Récupérer la partie du composant qui implémente l'interface que l'on veut utiliser.</li>
@@ -76,19 +83,21 @@ Puis on interroge ledit composant pour récupérer la portion qui implémente l'int
 Enfin, on appelle les fonctions fournies par l'interface.
 Cette interface est utilisée pour représenter un unique fichier.</p>
 
-<p>Nous avons vu que les noms d'interfaces commencent toujours par <var>nsI</var>.
+<p>Nous avons vu que les noms d'interfaces commencent toujours par <var>nsI</var> ou <var>mozI</var>.
 Par contre, la désignation des composants utilise la syntaxe URI.
 Mozilla stocke une liste de tous les composants disponibles dans son propre registre.
 Un utilisateur peut installer de nouveaux composants si besoin est.
 Ce mécanisme fonctionne comme les plugins.</p>
 
 <p>Mozilla fournit un composant "fichier" c'est-à-dire implémentant <code>nsILocalFile</code>.
-Ce composant est désigné par l'URI <var>@mozilla.org/file/local;1</var>.
-Le schéma URI <code>component:</code> permet de spécifier un composant. D'autres composants peuvent être
-désignés de manière similaire.</p>
+Ce composant est désigné par la chaîne <var>@mozilla.org/file/local;1</var>.
+Cette chaîne est appelée un contractID. La syntaxe d'un contractID est&nbsp;:</p>
 
-<p>L'URI du composant peut être utilisé pour récupérer l'objet composant correspondant.
-Voici en Javascript le code correspondant&nbsp;:</p>
+<pre>@&lt;internetdomain>/module[/submodule[...]];&lt;version>[?&lt;name>=&lt;value>[&amp;&lt;name>=&lt;value>[...]]]</pre>
+
+<p>D'autres composants peuvent être appelés de la même manière.</p>
+
+<p>Le contractID du composant sert à obtenir le composant. Voici en Javascript le code correspondant&nbsp;:</p>
 
 <pre><code>var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance();</code></pre>
 
@@ -98,9 +107,9 @@ référence à un objet global fournissant les fonctions relatives à certains compo
 Ici la classe d'un composant est récupérée en utilisant la propriété <code>classes</code>.
 Cette propriété est un tableau de tous les composants disponibles.
 Pour obtenir un composant différent, il suffit de remplacer l'URI par celui du composant voulu.
-Finalement, une instance est créée avec la fonction <code>createInstance</code>.</p>
+Finalement, une instance est créée avec la fonction <code>createInstance()</code>.</p>
 
-<p>Vous devez vérifier que la valeur de retour de <code>createInstance</code> est différente de <var>null</var>,
+<p>Vous devez vérifier que la valeur de retour de <code>createInstance()</code> est différente de <var>null</var>,
 valeur qui indiquerait que le composant n'existe pas.</p>
 
 <p>Pour l'instant, nous avons seulement une référence sur le composant "fichier". Pour appeler ses fonctions,
@@ -108,31 +117,29 @@ nous avons besoin de récupérer une de ces interfaces, dans notre cas <code>nsILo
 Une seconde ligne est ajoutée à notre code comme suit&nbsp;:</p>
 
 <pre><code> var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance();
- if (aFile)   aFile.QueryInterface(Components.interfaces.nsILocalFile);
-</code></pre>
+ if (aFile)   aFile.QueryInterface(Components.interfaces.nsILocalFile);</code></pre>
 
-<p>La fonction <code>QueryInterface</code> est fournie par tous les composants, elle permet d'obtenir
-une interface précise du composant. Elle prend un seul paramètre, le nom de l'interface souhaité.
+<p>La fonction <code>QueryInterface()</code> est fournie par tous les composants, elle permet d'obtenir
+une interface précise du composant. Elle prend un seul paramètre, le nom de l'interface souhaitée.
 La propriété <code>interfaces</code> de <code>Components</code> contient une liste de toutes les
 interfaces des composants. Ici on utilise l'interface <code>nsILocalFile</code> que l'on passe en paramètre à
-<code>QueryInterface</code>. Ainsi <code>aFile</code> fera référence à la partie du
+<code>QueryInterface()</code>. Ainsi <code>aFile</code> fera référence à la partie du
 composant qui implémente l'interface <code>nsILocalFile</code>.</p>
 
 <p>Ces deux lignes de Javascript peuvent être utilisées pour obtenir n'importe quelle interface de
 n'importe quel composant.
-Il suffit de remplacer le nom du composant et le nom de l'interface que l'on veut utiliser.
-On peut bien sûr choisir n'importe quel nom pour la variable. Par exemple si l'on veut utiliser
+Il suffit de remplacer le nom du composant et le nom de l'interface que vous voulez utiliser.
+Vous pouvez bien sûr choisir n'importe quel nom pour la variable. Par exemple si vous voulez utiliser
 l'interface pour le son, notre code pourrait être comme suit&nbsp;:</p>
 
-<pre><code>         var sound = Components.classes["@mozilla.org/sound;1"].createInstance();
-         if (sound) sound.QueryInterface(Components.interfaces.nsILocalFile);
-</code></pre>
+<pre><code>var sound = Components.classes["@mozilla.org/sound;1"].createInstance();
+if (sound) sound.QueryInterface(Components.interfaces.nsILocalFile);</code></pre>
 
 <p>Les interfaces XPCOM peuvent hériter d'autres interfaces. L'interface héritière possède ses propres fonctions
 mais aussi toutes celles des interfaces parentes.
 Ainsi toute interface hérite de l'interface principale <code>nsISupports</code> qui fournit la fonction
-<code>QueryInterface</code>.
-Comme tout composant doit implémenter <code>nsISupports</code>, la fonction <code>QueryInterface</code>
+<code>QueryInterface()</code>.
+Comme tout composant doit implémenter <code>nsISupports</code>, la fonction <code>QueryInterface()</code>
 est disponible sur tous les composants.</p>
 
 <p>Plusieurs composants peuvent implémenter la même interface. Typiquement ce sont des sous-classes de
@@ -150,7 +157,7 @@ De plus, un composant peut implémenter plusieurs interfaces. C'est pour ces rais
 Il élimine le besoin de créer une instance et ensuite de l'interroger pour obtenir une interface précise,
 en deux étapes séparées.</p>
 
-<p>Un appel à <code>QueryInterface</code> sur un objet qui ne fournit pas l'interface demandée lance
+<p>Un appel à <code>QueryInterface()</code> sur un objet qui ne fournit pas l'interface demandée lance
 une exception.
 Si vous n'êtes pas sûr que le composant supporte une interface, vous pouvez utiliser l'opérateur
 <code>instanceof</code> comme suit&nbsp;:</p>
@@ -164,7 +171,7 @@ if (aFile <strong>instanceof</strong> Components.interfaces.nsILocalFile){
 l'interface <code>nsILocalFile</code>, et il effectue également l'appel de la méthode <code>QueryInterface</code>,
 ce qui fournit par la suite un objet <code>nsILocalFile</code> aFile valide.</p>
 
-<h2>L'emploi des fonctions de l'interface</h2>
+<h2>Appel des fonctions de l'interface</h2>
 
 <p>Maintenant que nous avons un objet qui fait référence à un composant avec l'interface <code>nsILocalFile</code>,
 nous pouvons appeler les fonctions de celle-ci à travers l'objet.
@@ -172,45 +179,38 @@ La liste suivante montre quelques propriétés et méthodes de l'interface <code>ns
 
 <dl>
   <dt><code>initWithPath</code></dt>
-     <dd>
-        Cette méthode est utilisée pour initialiser le chemin et le nom du fichier pour l'interface
-        <code>nsILocalFile</code>. Le premier paramètre doit être le chemin du fichier, comme par exemple
-        <var>/usr/local/mozilla</var>.
-     </dd>
+  <dd>Cette méthode est utilisée pour initialiser le chemin et le nom du fichier pour l'interface
+  <code>nsILocalFile</code>. Le premier paramètre doit être le chemin du fichier, comme par exemple
+  <var>/usr/local/mozilla</var>.</dd>
   
   <dt><code>leafName</code></dt>
-     <dd>Le nom du fichier sans son chemin complet.</dd>
+  <dd>Le nom du fichier sans son chemin complet.</dd>
 
   <dt><code>fileSize</code></dt>
-     <dd>La taille du fichier.</dd>
+  <dd>La taille du fichier.</dd>
 
   <dt><code>isDirectory()</code></dt>
-     <dd>renvoie <var>true</var> si <code>nsILocalFile</code> représente un répertoire.</dd>
+  <dd>Renvoie <var>true</var> si <code>nsILocalFile</code> représente un répertoire.</dd>
 
   <dt><code>remove(recursif)</code></dt>
-     <dd>efface un fichier. Si le paramètre <code>recursif</code> est <var>true</var>, le répertoire et
-        tous ses fichiers et sous-répertoires sont effacés.
-     </dd>
+  <dd>Efface un fichier. Si le paramètre <code>recursif</code> est <var>true</var>, le répertoire et
+  tous ses fichiers et sous-répertoires sont effacés.</dd>
 
   <dt><code>copyTo ( repertoire, nouveauNom )</code></dt>
-     <dd>
-        Copie un fichier dans un autre répertoire, et optionnellement renomme le fichier.
-        La variable <code>repertoire</code> doit être un objet <code>nsILocalFile</code> représentant
-        le répertoire où l'on veut copier le fichier.
-     </dd>
+  <dd>Copie un fichier dans un autre répertoire, et optionnellement renomme le fichier.
+  La variable <code>repertoire</code> doit être un objet <code>nsILocalFile</code> représentant
+  le répertoire où l'on veut copier le fichier.</dd>
 
   <dt><code>moveTo ( repertoire, nouveauNom )</code></dt>
-     <dd>
-        déplace le fichier dans un autre répertoire ou le renomme.
-        La variable <code>repertoire</code> doit être un objet <code>nsILocalFile</code> représentant
-        le répertoire où l'on va mettre le fichier.
-     </dd>
+  <dd>Déplace le fichier dans un autre répertoire ou le renomme.
+  La variable <code>repertoire</code> doit être un objet <code>nsILocalFile</code> représentant
+  le répertoire où l'on va mettre le fichier.</dd>
 </dl>
 
 <p>Pour effacer un fichier, on doit d'abord l'assigner à un objet <code>nsILocalFile</code>.
-Nous appelons la méthode <code>initWithPath</code> pour définir le fichier
+Nous appelons la méthode <code>initWithPath()</code> pour définir le fichier
 en question, en indiquant juste le chemin de celui-ci.
-Puis on appelle la fonction <code>remove</code> avec le paramètre <code>recursif</code> à <var>false</var>.
+Puis nous appelons la fonction <code>remove()</code> avec le paramètre <code>recursif</code> à <var>false</var>.
 Voici le code correspondant&nbsp;:</p>
 
 <pre><code>var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance();
@@ -223,8 +223,8 @@ if (aFile instanceof Components.interfaces.nsILocalFile){
 code à un gestionnaire d'évènements. Vous devez changer le nom du fichier pour qu'il corresponde
 à un fichier existant que vous voulez effacer sur votre poste local.</p>
 
-<p>Dans la liste ci-dessus, nous avons vu deux fonctions <code>copyTo</code> et
-<code>moveTo</code>. Ces fonctions sont utilisées pour respectivement
+<p>Dans la liste ci-dessus, nous avons vu deux fonctions <code>copyTo()</code> et
+<code>moveTo()</code>. Ces fonctions sont utilisées pour respectivement
 copier et déplacer des fichiers.</p>
 
 <p class="note">Notez que ces fonctions ne prennent pas en paramètre une chaîne de caractères pour désigner un répertoire
@@ -261,7 +261,7 @@ copyFile("/mozilla/testfile.txt","/etc");
 Vous ne pouvez pas créer plusieurs instances d'un service parce qu'il doit être unique.
 Les services fournissent des fonctions manipulant des données globales
 ou effectuent des opérations sur d'autres objets.
-Au lieu d'utiliser <code>createInstance</code>, on appelle <code>getService</code>
+Au lieu d'utiliser <code>createInstance()</code>, vous devez appeler <code>getService()</code>
 pour récupérer une référence sur le composant de type "service". À part ça, les services ne diffèrent pas
 des autres composants.</p>
 
@@ -270,13 +270,12 @@ d'ajouter un marque-page à la liste courante des marque-pages de l'utilisateur. 
 
 <pre><code>var bmarks = Components.classes["@mozilla.org/browser/bookmarks-service;1"].getService();
 bmarks.QueryInterface(Components.interfaces.nsIBookmarksService);
-bmarks.addBookmarkImmediately("http://www.mozilla.org","Mozilla",0,null);
-</code></pre>
+bmarks.addBookmarkImmediately("http://www.mozilla.org","Mozilla",0,null);</code></pre>
 
 <p>Tout d'abord, le composant <var>@mozilla.org/browser/bookmarks-service;1</var> est récupéré
-et son service est placé dans la variable <code>bmarks</code>. Nous utilisons <code>QueryInterface</code>
+et son service est placé dans la variable <code>bmarks</code>. Nous utilisons <code>QueryInterface()</code>
 pour récupérer l'interface <var>nsIBookmarksService</var>.
-La fonction <code>addBookmarkImmediately</code> fournie par cette interface peut être utilisée pour
+La fonction <code>addBookmarkImmediately()</code> fournie par cette interface peut être utilisée pour
 ajouter des marque-pages.
 Les deux premiers paramètres de cette fonction sont l'URL et le titre du marque-page. Le troisième paramètre
 est le type de marque-page qui doit normalement être <var>0</var>, et le dernier paramètre est l'encodage
@@ -286,4 +285,3 @@ des caractères du document correspondant au marque-page, qui peut être nul.</p>
 
 <p>Dans la section suivante, nous verrons quelques-unes des interfaces que l'on peut utiliser,
 fournies par Mozilla.</p>
-

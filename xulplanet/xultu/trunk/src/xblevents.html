@@ -1,79 +1,67 @@
 
-<p>
-Nous allons voir comment ajouter des gestionnaires d'évènements aux éléments XBL.
-</p>
+<p>Nous allons voir comment ajouter des gestionnaires d'événements aux éléments XBL.</p>
 
-<h2>Les gestionnaires d'évènements</h2>
+<h2>Les gestionnaires d'événements</h2>
 
-<p>
-Comme vous pourriez le prévoir, des clics de souris, des touches pressées et d'autres évènements
+<p>Comme vous pouvez le prévoir, des clics de souris, des touches pressées et d'autres événements
 sont passés à chacun des éléments à l'intérieur du contenu. Cependant, vous voudrez
-maîtriser les évènements et les gérer à votre façon. Vous pouvez ajouter des gestionnaires
-d'évènements aux éléments au sein du contenu si besoin. Le dernier exemple de la section précédente
+maîtriser les événements et les gérer à votre façon. Vous pouvez ajouter des gestionnaires
+d'événements aux éléments au sein du contenu si besoin. Le dernier exemple de la section précédente
 en faisait une démonstration. Dans cet exemple, des gestionnaires <code class="attribut">oncommand</code> avaient été
-ajoutés sur quelques boutons.
-</p>
+ajoutés sur quelques boutons.</p>
 
-<p>
-Touefois, vous pouvez vouloir ajouter un gestionnaire d'évènement général au contenu, ce qui
+<h3>Gestionnaires d'événements</h3>
+
+<p>Toutefois, vous pouvez vouloir ajouter un gestionnaire d'événement à tout le contenu, ce qui
 représente tous les éléments définis au sein de la balise <code class="tag"><a
 href="http://xulfr.org/wiki/Reference/Xbl/content">content</a></code>. Cela pourrait être utile pour
-maîtriser les évènements de sélection (<acronym title="Note du traducteur">NdT</acronym>&nbsp;: Focus)
-et de désélection. Pour définir un gestionnaire d'évènement,
+maîtriser les événements de sélection (<acronym title="Note du traducteur">NdT</acronym>&nbsp;: Focus)
+et de désélection. Pour définir un gestionnaire d'événement,
 utilisez l'élément <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xbl/handler">handler</a></code>.
-Chacun de ces éléments décrit l'action d'un seul gestionnaire d'évènement. Vous pouvez
-utiliser plus d'un gestionnaire si nécessaire. Si un évènement ne correspond pas à l'un des
-évènements <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xbl/handler">handler</a></code>, il est
-passé simplement dans le contenu comme d'habitude.
-</p>
+Chacun de ces éléments décrit l'action d'un seul gestionnaire d'événement. Vous pouvez
+utiliser plus d'un gestionnaire si nécessaire. Si un événement ne correspond pas à l'un des
+événements <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xbl/handler">handler</a></code>, il est
+passé simplement dans le contenu comme d'habitude.</p>
 
-<p>
-La syntaxe générale du gestionnaire est la suivante&nbsp;:
-</p>
+<p>La syntaxe générale du gestionnaire est la suivante&nbsp;:</p>
 
-<pre><code>&lt;binding id="binding-name"&gt;
+<pre><code>&lt;binding id="nom-liaison"&gt;
   &lt;handlers&gt;
-    &lt;handler event="event-name" action="script"/&gt;
+    &lt;handler event="nom-evenement" action="script"/&gt;
   &lt;/handlers&gt;
 &lt;/binding&gt;</code></pre>
 
-<p>
-Placez tous vos gestionnaires dans l'élément
+<p>Placez tous vos gestionnaires dans l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xbl/handlers">handlers</a></code>. Chaque élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xbl/handler">handler</a></code> définit l'action prise
-pour un évènement particulier grâce à son attribut <code class="attribut">event</code>. Les
-évènements valides sont ceux supportés par XUL et JavaScript, tels que <var>click</var> et
-<var>focus</var>. Utilisez le nom de l'évènement sans son préfixe 'on'.
-</p>
+pour un événement particulier grâce à son attribut <code class="attribut">event</code>. Les
+événements valides sont ceux supportés par XUL et JavaScript, tels que <var>click</var> et
+<var>focus</var>. Utilisez le nom de l'événement sans son préfixe 'on'.</p>
 
-<p>
-La principale raison nécessitant la déclaration de gestionnaires est la modification des propriétés
-personnalisées lorsqu'un évènement se produit. Par exemple, une case à cocher personnalisée pourrait
-avoir une propriété <code>checked</code> qui doit être modifée lorsque l'utilisateur clique dans
-la case à cocher&nbsp;:
-</p>
+<p>La principale raison nécessitant la déclaration de gestionnaires est la modification des propriétés
+personnalisées lorsqu'un événement se produit. Par exemple, une case à cocher personnalisée pourrait
+avoir une propriété <code>checked</code> qui doit être modifée lorsque l'utilisateur clique sur
+la case à cocher&nbsp;:</p>
 
 <pre><code>&lt;handlers&gt;
   &lt;handler event="mouseup" action="this.checked=!this.checked"/&gt;
 &lt;/handlers&gt;</code></pre>
 
-<p>
-Lorsque l'utilisateur clique et relâche le bouton de la souris au dessus de la case à cocher,
-l'évènement <var>mouseup</var> lui est envoyé, et le gestionnaire défini ici est appelé, entraînant
-le renversement de l'état de la propriété <code>checked</code>. De façon similaire, vous pouvez
+<p>Lorsque l'utilisateur clique et relâche le bouton de la souris au dessus de la case à cocher,
+l'événement <var>mouseup</var> lui est envoyé, et le gestionnaire défini ici est appelé, entraînant
+le renversement de l'état de la propriété <code>checked</code>. De même, vous pouvez
 modifier une propriété lorsque l'élément est sélectionné. Vous devrez ajouter des
-gestionnaires pour ajuster les propriétés lors de sollicitations de la souris ou du clavier.
-</p>
+gestionnaires pour ajuster les propriétés lors de sollicitations de la souris ou du clavier.</p>
 
-<p>
-Pour des évènements concernant la souris, vous pouvez utiliser l'attribut <code
-class="attribut">button</code> pour que le gestionnaire n'accepte que les évènements qui
-correspondent à un certain bouton. Sans cet attribut, le gestionnaire intercepterait tous les évènements
+<h3>Gestionnaire d'événements de souris</h3>
+
+<p>Pour des événements concernant la souris, vous pouvez utiliser l'attribut <code
+class="attribut">button</code> pour que le gestionnaire n'accepte que les événements qui
+correspondent à un certain bouton. Sans cet attribut, le gestionnaire intercepterait tous les événements
 concernant la souris sans se soucier du bouton qui a été pressé.
 L'attribut <code class="attribut">button</code> doit être
 défini à <var>0</var> pour le bouton gauche de la souris, <var>1</var> pour le bouton du
-milieu de la souris ou <var>2</var> pour le bouton droit de la souris.
-</p>
+milieu de la souris ou <var>2</var> pour le bouton droit de la souris.</p>
 
 <pre><code>&lt;handlers&gt;
   &lt;handler event="click" button="0" action="alert('Le bouton gauche est pressé');"/&gt;
@@ -81,25 +69,23 @@ milieu de la souris ou <var>2</var> pour le bouton droit de la souris.
   &lt;handler event="click" button="2" action="alert('Le bouton droit est pressé');"/&gt;
 &lt;/handlers&gt;</code></pre>
 
-<p>
-Pour les évènements provenant des touches du clavier, vous pouvez utiliser plusieurs attributs similaires à
+<h3>Gestionnaire d'événements clavier</h3>
+
+<p>Pour les événements provenant des touches du clavier, vous pouvez utiliser plusieurs attributs similaires à
 ceux de l'élément <code class="tag"><a  href="http://xulfr.org/wiki/Reference/Xul/key">key</a></code> pour les
 faire correspondre à une touche spécifique et seulement lorsque certaines
 touches alternatives sont pressées. L'exemple précédent pourrait être complété de telle sorte que
-la propriété <code>checked</code> de la case à cocher soit modifiée lorsque la barre d'espacement est pressée.
-</p>
+la propriété <code>checked</code> de la case à cocher soit modifiée lorsque la barre d'espacement est pressée.</p>
 
 <pre><code>&lt;handlers&gt;
   &lt;handler event="keypress" key=" " action="this.checked=!checked"/&gt;
 &lt;/handlers&gt;</code></pre>
 
-<p>
-Vous pouvez aussi utiliser l'attribut <code class="attribut">keycode</code> pour vérifier les
+<p>Vous pouvez aussi utiliser l'attribut <code class="attribut">keycode</code> pour tester les
 touches non imprimables. La section sur les
 <a href="keyshort.html">raccourcis clavier</a> fournit plus
 d'informations. Les touches alternatives peuvent être vérifiées en ajoutant un attribut <code
-class="attribut">modifiers</code>. Il peut être défini avec l'une des valeurs suivante&nbsp;:
-</p>
+class="attribut">modifiers</code>. Il peut être défini avec l'une des valeurs suivante&nbsp;:</p>
 
 <dl>
   <dt><var>alt</var></dt>
@@ -112,35 +98,27 @@ class="attribut">modifiers</code>. Il peut être défini avec l'une des valeurs su
     <dd>L'utilisateur doit presser la touche <kbd>Maj</kbd>.</dd>
   <dt><var>accel</var></dt>
     <dd>L'utilisateur doit presser la touche alternative spéciale qui est habituellement utilisée 
-    pour les raccourcis clavier sur sa plate-forme.</dd>
+    pour les raccourcis clavier sur sa plateforme.</dd>
 </dl>
 
-<p>
-S'il est déclaré, le gestionnaire est appelé uniquement lorsque la touche alternative est pressée. Vous
-pouvez combiner plusieurs touches modificatrices en les séparant par des espaces.
-</p>
+<p>S'il est déclaré, le gestionnaire est appelé uniquement lorsque la touche alternative est pressée. Vous
+pouvez combiner plusieurs touches modificatrices en les séparant par des espaces.</p>
 
-<p>
-La syntaxe alternative suivante peut être utilisée lorsque le code dans un gestionnaire est plus
-complexe&nbsp;:
-</p>
+<p>La syntaxe alternative suivante peut être utilisée lorsque le code dans un gestionnaire est plus
+complexe&nbsp;:</p>
 
-<pre><code>
-&lt;binding id="binding-name"&gt;
+<pre><code>&lt;binding id="nom-liaison"&gt;
   &lt;handlers&gt;
-    &lt;handler event="event-name"&gt;
+    &lt;handler event="nom-evenement"&gt;
       -- le code du gestionnaire vient ici --
     &lt;/handler&gt;
   &lt;/handlers&gt;
-&lt;/binding&gt;
-</code></pre>
+&lt;/binding&gt;</code></pre>
 
 <h2>Exemple de gestionnaires</h2>
 
-<p>
-L'exemple suivant ajoute des gestionnaires de touches pour créer un presse-papiers local très
-primitif&nbsp;:
-</p>
+<p>L'exemple suivant ajoute des gestionnaires de touches pour créer un presse-papiers local très
+primitif&nbsp;:</p>
 
 <p> Exemple 11.6.1&nbsp;:
 <a href="exemples/ex_xblevents_1.xml.txt">Source</a></p>
@@ -163,21 +141,17 @@ document.getAnonymousNodes(this)[0].value='';"/&gt;
   &lt;/handlers&gt;
 &lt;/binding&gt;</code></pre>
 
-<p>
-Le contenu est un champ de saisie simple. Un champ <code class="attribut">clipboard</code> lui a été
+<p>Le contenu est un champ de saisie simple. Un champ <code class="attribut">clipboard</code> lui a été
 ajouté pour stocker le contenu du presse-papiers. Il signifie que les opérations de
-presse-papiers sont limitées à ce seul champ de saisie. Le tampon sera propre à ce champ.
-</p>
+presse-papiers sont limitées à ce seul champ de saisie. Le tampon sera propre à ce champ.</p>
 
-<p>
-Trois gestionnaires ont été ajoutés, un pour couper, un pour copier et l'autre pour coller. Chacun
+<p>Trois gestionnaires ont été ajoutés, un pour couper, un pour copier et l'autre pour coller. Chacun
 d'eux a sa propre combinaison de touche appellante. Le premier gestionnaire est l'opération
 <em>Couper</em> et est appelé lorsque la touche <kbd>Ctrl</kbd> est pressée suivie de la
 touche <kbd>x</kbd>. Le script à
 l'intérieur de l'attribut <code class="attribut">action</code> est utilisé pour couper le texte du champ de saisie
 et pour le mettre dans le champ du presse-papiers. Pour faire simple, le texte entier est
-coupé et pas seulement le texte sélectionné. Le code fonctionne comme suit&nbsp;:
-</p>
+coupé et pas seulement le texte sélectionné. Le code fonctionne comme suit&nbsp;:</p>
 
 <ol>
   <li><pre>this.clipboard=document.getAnonymousNodes(this)[0].value;</pre>
@@ -191,21 +165,17 @@ spécial.
   </li>
   <li><pre>document.getAnonymousNodes(this)[0].value=''</pre>
   On assigne ainsi au texte de l'élément <code class="tag"><a
-href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code> une valeur de type chaîne, vide.
+href="http://xulfr.org/wiki/Reference/Xul/textbox">textbox</a></code> une chaîne de caractères vide.
 Elle efface le texte dans le champ de saisie.
   </li>
 </ol>
 
-<p>
-Une opération de copie est similaire mais n'efface pas le texte.
+<p>Une opération de copie est similaire mais n'efface pas le texte.
 Le collage est l'opération inverse si ce n'est que la valeur du champ de saisie est assignée à partir de la valeur
 du champ du presse-papiers. Si nous étions en train de créer une réelle implémentation de ces
 raccourcis clavier de presse-papiers, nous utiliserions probablement l'interface réelle du
-presse-papiers et nous gérerions également la sélection courante.
-</p>
+presse-papiers et nous gérerions également la sélection courante.</p>
 
 <hr />
 
 <p>Dans la prochaine section, nous verrons comment étendre les définitions XBL existantes.</p>
-
-

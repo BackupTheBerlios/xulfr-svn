@@ -12,6 +12,7 @@
     <menu id="options_menu" label="Options">
       <menupopup>
         <menuitem id="backups" label="Faire des sauvegardes" type="checkbox"/>
+        <menuitem id="backups" label="Mail de l'administrateur" type="checkbox" checked="true"/>
       </menupopup>
     </menu>
   </menubar>

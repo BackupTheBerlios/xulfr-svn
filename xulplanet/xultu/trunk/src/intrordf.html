@@ -1,5 +1,4 @@
 
-
 <p>Dans cette section, nous allons nous intéresser à RDF (Resource Description Framework).</p>
 
 <h2>Resource Description Framework</h2>
@@ -23,14 +22,17 @@ les arbres <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">
 ou vous pouvez désigner un fichier RDF au format XML contenant les données. Elles sont
 très commodes pour afficher des arbres contenant beaucoup de lignes. RDF peut aussi peupler
 d'autres éléments XUL comme les <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/listbox">listbox</a></code>
-et les <code class="tag"><a href="/wiki/Reference/Xul/menu">menu</a></code>. Nous verrons
+et les <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/menu">menu</a></code>. Nous verrons
 cela dans la prochaine section.</p>
 
 <p>Un très bref aperçu de RDF sera fourni ici. Pour un guide de RDF plus détaillé,
 lisez <a href="http://www.xulplanet.com/tutorials/mozsdk/rdfstart.php">Introduction
 to the RDF Model (en)</a>. Il est recommandé de lire ce guide si vous êtes débutant
-en RDF. Pour voir quelques exemples de fichiers RDF/XML, regardez ceux fournis avec
-Mozilla. Ils ont une extension .rdf.</p>
+en RDF.</p>
+
+<p>Pour plus d'information sur le RDF, consultez <a href="http://www.w3.org/RDF/">les spécifications RDF (en)</a>.</p>
+
+<h3>RDF/XML</h3>
 
 <p>RDF consiste en un modèle, qui est une représentation des données sous forme de graphe. RDF/XML
 est un langage XML utilisé pour représenter des données RDF. Il contient
@@ -41,37 +43,25 @@ gabarit RDF minimal.</p>
 &lt;RDF:RDF
      xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"&gt;
      ...
-&lt;/RDF:RDF&gt;
-</code></pre>
+&lt;/RDF:RDF&gt;</code></pre>
 
 <p>Il a quelques similitudes avec l'en-tête XUL. À la place de l'élément 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/window">window</a></code>,
 l'élément <code class="tag">RDF</code> est utilisé. Vous pouvez voir que l'espace de nommage pour
 RDF a été déclaré pour que les éléments RDF soient reconnus proprement. À l'intérieur de
-l'élément RDF, vous placerez les données.</p>
-<!--
-<div class="note">
-Note du Traducteur ; On peut aussi écrire le fichier plus simplement :
-<pre><code>&lt;?xml version="1.0"?&gt;
-&lt;RDF xmlns="http://www.w3.org//1999/02/22-rdf-syntax-ns#"&gt;
-     ...
-&lt;/RDF&gt;
-</code></pre>
-</div>
--->
+l'élément RDF, vous placerez les données. Pour voir quelques exemples de fichiers RDF/XML, 
+regardez ceux présents avec Mozilla. Ils ont une extension .rdf.</p>
 
-<p>Une brève description de RDF sera donnée ici. Pour plus d'informations à propos
-de RDF, consultez
-<a href="http://www.w3.org/RDF/" hreflang="en" title="sur le site du W3C">les spécifications RDF</a>
-(<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: RDF est une recommandation du W3C). 
-Prenons l'exemple d'une liste de marque-pages
+<h3>Base de données RDF</h3>
+
+<p>Prenons l'exemple d'une liste de marque-pages
 générée à partir de RDF. Une liste de marque-pages contient un ensemble d'enregistrements,
 chacun avec un ensemble de données associées, telles que l'URL, le titre et une
 date de visite.</p>
 
 <p>Pensez aux marque-pages comme une base de données qui est stockée comme une grande
 table avec de nombreux champs. Dans le cas de RDF cependant, les listes peuvent
-être hierarchisées. C'est nécessaire pour que nous puissions avoir des dossiers ou
+être hiérarchisées. C'est nécessaire pour que nous puissions avoir des dossiers ou
 des catégories de marque-pages. Chacun des champs dans la base de données RDF est une
 ressource, avec un nom associé. Le nom est décrit par un URI.</p>
 
@@ -92,9 +82,10 @@ décrite par les URIs ci-dessous&nbsp;:</p>
 <var>http://home.netscape.com/NC-rdf</var>) et en ajoutant
 le nom du champ (<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: exemple&nbsp;: <var>#Name</var>). 
 Dans la prochaine section, nous verrons comment les utiliser
-pour remplir les valeurs des champs automatiquement.</p>
- 
-<p class="note">Notez que la dernière date de visite a un espace de nommage légèrement différent des trois autres.</p>
+pour remplir les valeurs des champs automatiquement. Notez que la dernière date de visite a 
+un espace de nommage légèrement différent des trois autres.</p>
+
+<h3>Exemple de fichier RDF/XML</h3>
 
 <p>Voici maintenant un exemple de fichier RDF/XML listant une table
 avec trois enregistrements et trois champs.</p>
@@ -174,11 +165,11 @@ enregistrements aient les mêmes champs mais cela donne plus de sens.</p>
 
 <p>À chacun des trois champs a été donné un espace de nommage appelé <var>ANIMALS</var>,
 dont l'URL a été déclarée dans la balise <code class="tag">RDF</code>. Ce nom a été
-choix pour sa signification dans ce cas précis, mais nous aurions pu en choisir un autre. 
+choisi pour sa signification dans ce cas précis, mais nous aurions pu en choisir un autre. 
 La fonctionnalité d'espace de nommage est utile car le champ
 <var>class</var> peut entrer en conflit avec celui utilisé pour les styles.</p>
 
-<p>Les éléments <code class="tag">Seq</code> et <code class="tag">Li</code> sont utilisés
+<p>Les éléments <code class="tag">Seq</code> et <code class="tag">li</code> sont utilisés
 pour indiquer que
 les enregistrements sont dans une liste. C'est la même façon dont les listes HTML
 sont déclarées. L'élément <code class="tag">Seq</code> est utilisé pour indiquer que les éléments
@@ -200,4 +191,3 @@ peuvent être utilisés pour référer aux champs spécifiques&nbsp;:</p>
 <hr />
 
 <p>Dans la suite, nous allons voir comment utiliser RDF pour peupler des éléments XUL</p>
-

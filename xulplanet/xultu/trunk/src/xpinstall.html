@@ -62,7 +62,7 @@ Vous pouvez utiliser cet objet dans un contenu local ou à distance, ce qui signi
 qu'il est adapté pour un téléchargement à partir d'un site Web.</p>
 
 <p>Créons un exemple de déclencheur d'installation. Il nécessite
-l'utilisation de la fonction <code>InstallTrigger.install</code>. Cette fonction a
+l'utilisation de la fonction <code>InstallTrigger.install()</code>. Cette fonction a
 deux arguments, le premier est la liste des paquetages à installer,
 et le second est la référence à une fonction de rappel
 qui sera appelée lorsque l'installation est terminée. Voici
@@ -76,7 +76,7 @@ var xpi = new Object();
 xpi[&quot;Calendar&quot;] = &quot;calendar.xpi&quot;;
 InstallTrigger.install(xpi,doneFn);</code></pre>
 
-<p>Premièrement, nous définissons la fonction <code>doneFn</code> qui sera
+<p>Premièrement, nous définissons la fonction <code>doneFn()</code> qui sera
 appelée lorsque l'installation est terminée. Bien entendu,
 vous pouvez nommer cette fonction comme vous le souhaitez. Cette fonction
 a deux arguments. Le premier argument est le nom du paquetage qui vient
@@ -85,7 +85,7 @@ de multiples composants. Le second argument est un code de résultat.
 Un code de valeur <var>0</var> signifie que l'installation s'est terminée
 avec succès. Si le code de résultat n'est pas nul, une erreur
 a eu lieu et la valeur représente un code d'erreur. Ici, la fonction
-<code>doneFn</code> affiche simplement une boîte d'alerte à l'utilisateur.</p>
+<code>doneFn()</code> affiche simplement une boîte d'alerte à l'utilisateur.</p>
 
 <p>Ensuite, nous créons un tableau xpi qui contient le nom (<var>Calendar</var>)
 et l'URL (<var>calendar.xpi</var>) du programme d'installation. Vous pouvez ajouter
@@ -96,6 +96,7 @@ Finalement, nous appelons la fonction d'installation.</p>
 calendar.xpi sera installé.</p>
 
 <div class="task">
+<h3>Notre exemple de recherche de fichiers</h3>
 
 <p>Essayons ce script avec notre exemple de recherche de fichiers.</p>
 
@@ -124,11 +125,12 @@ script d'installation (install.js) et un fichier JAR. Ce fichier JAR contient
 tous les fichiers utilisés par votre application. Les composants
 de Mozilla sont installés de cette manière.</p>
 
-<p>Parce que les fichier XPI ne sont rien d'autres que des fichiers ZIP, vous
+<p>Parce que les fichiers XPI ne sont rien d'autres que des fichiers ZIP, vous
 pouvez les créer en utilisant un utilitaire zip (<acronym title="Note du Traducteur">NdT</acronym>&nbsp;: les fichiers
 JAR sont également des fichiers ZIP).</p>
 
 <div class="task">
+<h3>Notre exemple de recherche de fichiers</h3>
 
 <p>Pour notre exemple de recherche de fichiers, nous créerons une structure
 dans l'archive comme ce qui suit&nbsp;:</p>

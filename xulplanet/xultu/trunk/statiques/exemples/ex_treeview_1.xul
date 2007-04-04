@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
@@ -7,11 +7,12 @@
    onload="setView();">
 
 <script>
+//Moz 1.8
 var treeView = {
     rowCount : 10000,
     getCellText : function(row,column){
-      if (column == "namecol") return "Ligne "+row;
-      else return "20 juillet";
+      if (column.id == "namecol") return "Ligne "+row;
+      else return "18 février";
     },
     setTree: function(treebox){ this.treebox = treebox; },
     isContainer: function(row){ return false; },

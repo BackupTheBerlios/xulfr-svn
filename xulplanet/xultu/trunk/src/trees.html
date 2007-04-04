@@ -1,4 +1,5 @@
-<p>XUL fournit un moyen de créer des listes tabulaires ou hiérarchiques en utilisant les arbres.</p>
+
+<p>XUL fournit un moyen de créer des listes tabulaires ou hiérarchiques en utilisant un arbre.</p>
 
 <h2>L'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code></h2>
 
@@ -12,14 +13,19 @@ des exemples d'utilisation d'arbres.</p>
 deux peuvent être utilisés pour créer des tableaux de données avec des lignes et des colonnes multiples, 
 et ils peuvent contenir des en-têtes de colonnes. Les arbres supportent également les lignes imbriquées, 
 alors que les boîtes de liste ne le peuvent pas. Toutefois, les boîtes de liste peuvent contenir 
-n'importe quel type de contenu, alors que les arbres ne peuvent contenir que du texte et des images.</p>
+n'importe quel type de contenu, alors que les arbres ne peuvent contenir que du texte et des images
+(par le biais de fonctionnalités avancées, des barres de progression et cases à cocher peuvent également être mis dans un arbre).</p>
 
-<p>Un arbre comporte deux parties&nbsp;: un ensemble de colonnes et le corps de l'arbre. L'ensemble de 
-colonnes est défini avec plusieurs éléments XUL 
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>, un pour chaque 
-colonne. Chaque colonne apparaîtra comme un en-tête en haut de l'arbre. La seconde partie, le corps de 
-l'arbre, contient les données apparaissant dans l'arbre. Il est créé grâce à l'élément 
-<code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>.</p>
+<p>Un arbre comporte deux parties&nbsp;: un ensemble de colonnes et le corps de l'arbre.</p>
+
+<ul>
+  <li>L'ensemble de colonnes est défini avec plusieurs éléments XUL 
+  <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code>, un pour chaque 
+  colonne. Chaque colonne apparaîtra comme un en-tête en haut de l'arbre.</li>
+  <li>La seconde partie, le corps de 
+  l'arbre, contient les données apparaissant dans l'arbre. Il est créé grâce à l'élément 
+  <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treechildren">treechildren</a></code>.</li>
+</ul>
 
 <p>L'arbre est un élément XUL particulier dans le sens où son corps est constitué d'un seul composant graphique qui dessine toutes 
 les données dans l'arbre. Cette définition contraste avec la boîte de liste où des balises individuelles 
@@ -39,7 +45,7 @@ ceci est indépendant de la performance de l'objet de vue lui-même.</p>
 <p>L'objet vue d'arbre implémente l'interface <a href="http://xulplanet.com/references/xpcomref/ifaces/nsITreeView.html">nsITreeView</a>. Cette interface 
 contient trente propriétés et fonctions que vous pourrez implémenter. Ces fonctions seront appelées par 
 l'arbre, au besoin, pour récupérer les données et les états de l'arbre. Par exemple, la fonction 
-<code>getCellText</code> sera appelée pour obtenir le libellé d'une cellule particulière dans l'arbre.</p>
+<code>getCellText()</code> sera appelée pour obtenir le libellé d'une cellule particulière dans l'arbre.</p>
 
 <p>L'utilisation d'une vue a l'avantage de vous permettre de stocker vos données d'une façon plus adaptée 
 à l'arbre, ou de charger les données sur demande seulement lorsque les lignes sont affichées. Elle offre 
@@ -69,6 +75,8 @@ des colonnes dans l'arbre.</p>
   <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code></dt>
     <dd>L'élément entourant d'un arbre</dd>
   <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecols">treecols</a></code></dt>
+    <dd>L'élément initialisant une série de <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code></dd>
+  <dt><code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecol">treecol</a></code></dt>
     <dd>Cet élément déclare une colonne d'arbre. Avec l'utilisation de cet élément, vous pouvez spécifier 
     des informations supplémentaires sur le tri des données en colonne ou encore la possibilité ou non pour l'utilisateur de 
     redimensionner les colonnes. Vous devez toujours placer un attribut <code class="attribut">id</code> 
@@ -85,11 +93,14 @@ des colonnes dans l'arbre.</p>
 <a href="exemples/ex_trees_1.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;tree flex="1"&gt;
+
   &lt;treecols&gt;
     &lt;treecol id="nameColumn" label="Nom" flex="1"/&gt;
     &lt;treecol id="addressColumn" label="Adresse" flex="2"/&gt;
   &lt;/treecols&gt;
+
   &lt;treechildren/&gt;
+
 &lt;/tree&gt;</code></pre>
 
 <p>Tout d'abord, l'ensemble du tableau est entouré avec l'élément <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code>. Il déclare un élément qui servira de 
@@ -97,7 +108,7 @@ tableau ou d'arbre. Comme avec les tables HTML, les données d'un arbre sont touj
 Les colonnes sont spécifiées grâce à la balise <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecols">treecols</a></code>.</p>
 
 <p>Vous pouvez mettre dans un arbre autant de colonnes que vous le souhaitez. Comme pour les boîtes de 
-listes, une ligne d'en-tête apparaîtra avec les libellés (label) des colonnes. Un menu déroulant apparaîtra dans 
+listes, une ligne d'en-tête apparaîtra avec les libellés des colonnes. Un menu déroulant apparaîtra dans 
 le coin supérieur droit de l'arbre et permettra à l'utilisateur d'afficher ou de masquer les colonnes 
 individuellement. Chaque colonne est créée avec l'élément 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecols">treecols</a></code>. Vous pouvez 
@@ -147,7 +158,7 @@ imbriquées dans l'ordre mentionné ci-dessus. Ces balises définissent les données
 corps de l'arbre. Dans ce cas, l'arbre utilise la construction interne de la vue d'arbre, appelée le 
 contenu de la vue d'arbre, qui utilise les libellés et les valeurs spécifiés sur ces éléments comme 
 données pour l'arbre. Lorsque l'arbre a besoin d'afficher une ligne, il demande à la vue d'arbre le 
-libellé de la cellule en appelant la fonction <code>getCellText</code> de la vue qui, dans la continuité, 
+libellé de la cellule en appelant la fonction <code>getCellText()</code> de la vue qui, dans la continuité, 
 obtient la donnée de l'élément 
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/treecell">treecell</a></code> correspondant.</p>
 
@@ -178,11 +189,14 @@ données seront fournies par une autre source, et il n'y aura aucun élément
 d'arbre de contenu. Il pourrait servir à créer une liste de messages mél (mails). Il y aura plusieurs colonnes, 
 telles que l'expéditeur et le sujet.</p>
 
+<h3>Exemple avec <code class="tag">treechildren</code></h3>
+
 <p>Exemple 8.1.2&nbsp;:
 <a href="exemples/ex_trees_2.xul.txt">Source</a>
 <a href="exemples/ex_trees_2.xul" onclick="window.open(this.href,'xulex','chrome,resizable'); return false;">Voir</a></p>
 
 <pre><code>&lt;tree flex="1"&gt;
+
   &lt;treecols&gt;
     &lt;treecol id="sender" label="Expéditeur" flex="1"/&gt;
     &lt;treecol id="subject" label="Sujet" flex="2"/&gt;
@@ -247,9 +261,8 @@ placez un attribut <code class="attribut">seltype</code> sur l'élément
 <code class="tag"><a href="http://xulfr.org/wiki/Reference/Xul/tree">tree</a></code> avec la valeur 
 <var>single</var>. Ainsi, l'utilisateur ne pourra sélectionner qu'une seule ligne à la fois.</p>
 
-<h2>Exemple d'arbre</h2>
-
 <div class="task">
+<h2>Ajout d'un arbre sur notre exemple de recherche de fichiers</h2>
 
 <p>Ajoutons un arbre à notre exemple de recherche de fichiers dans lequel les résultats de la recherche 
 seront affichés. L'arbre utilisera une vue de contenu d'arbre. Le code suivant doit être ajouté à la 
