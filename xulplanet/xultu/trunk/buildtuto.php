@@ -100,7 +100,7 @@ foreach($article_list as $basename => $article){
     </ul>
     <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a>
     <?php if($urlMDCen !=''){?>,
-        mise à jour par les contributeurs à <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">MDC</a>
+        mise à jour par les contributeurs à <a href="https://developer.mozilla.org/en/XUL_Tutorial"><acronym title="Mozilla Developer Center">MDC</acronym></a>
     <?php }?>.<br/>
 
     <?php
@@ -119,23 +119,26 @@ foreach($article_list as $basename => $article){
        }
    }
    ?>.
-   <?php
-   if($urlMDCen !=''){
-   ?>
+<?php if($urlMDCen !=''){  ?>
    <br />
     Page originale&nbsp;:
-    <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial:<?php echo $urlMDCen?>">http://developer.mozilla.org/en/docs/XUL_Tutorial:<?php echo $urlMDCen?></a>
+    <a href="https://developer.mozilla.org/en/XUL_Tutorial/<?php echo $urlMDCen?>">http://developer.mozilla.org/en/docs/XUL_Tutorial/<?php echo $urlMDCen?></a>
     <?php }?>
     </p>
 
 <?php }else{ ?>
-    <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a> et mise à jour par les contributeurs à <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">MDC</a>.
+    <p>Écrit par <a href="http://www.xulplanet.com/ndeakin/">Neil Deakin</a> et mise à jour par les contributeurs à
+    <a href="https://developer.mozilla.org/en/XUL_Tutorial"><acronym title="Mozilla Developer Center">MDC</acronym></a>.
 
     Traduit par les différents <a href="#contributeurs">contributeurs de xulfr.org</a>.</p>
-    <p>Original&nbsp;: <a href="http://developer.mozilla.org/en/docs/XUL_Tutorial">http://developer.mozilla.org/en/docs/XUL_Tutorial</a>.</p>
+    <p>Original&nbsp;: <a href="https://developer.mozilla.org/en/XUL_Tutorial">https://developer.mozilla.org/en/XUL_Tutorial</a>.</p>
 <?php }?>
 
 </div><!-- contenuinfo-->
+<p class="note"><strong>Attention :</strong> Ce tutoriel est ancien et n'est pas mis à jour. Bien que beaucoup d'informations soient encore valables
+pour les dernières versions de gecko, beaucoup sont aussi obsolètes. Il est préférable d'aller consulter cette page
+<a href="https://developer.mozilla.org/fr/Tutoriel_XUL">sur la version française de ce tutoriel sur developer.mozilla.org</a>.</p>
+
 <?php
 $header = ob_get_contents();
 ob_clean();

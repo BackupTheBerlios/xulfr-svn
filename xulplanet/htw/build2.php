@@ -205,6 +205,10 @@ if($basename != 'index'){ ?>
 <?php }?>
 
 </div>
+<p class="note"><strong>Attention :</strong> Ce tutoriel est ancien, incomplet, et n'est pas mis à jour. Il ne contient pas toutes les nouveautés
+du système de template de Gecko 1.9 / Firefox 3.0 qui est largement simplifié et permet d'utiliser sqlite ou xml comme source de données.
+Aussi est-il préférable d'aller consulter <a href="https://developer.mozilla.org/En/XUL:Template_Guide">la version anglaise sur developer.mozilla.org</a>.</p>
+
 <?php
 $header = ob_get_contents();
 ob_clean();
